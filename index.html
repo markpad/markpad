@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Markpad</title>
+	<script src="js/lib/angular.min.js" type="text/javascript"></script>
+	<script src="js/base.js" type="text/javascript"></script>
+	<script src="js/dontpadapi.js" type="text/javascript"></script>
+	<script src="js/markpadmodel.js" type="text/javascript"></script>
+	<script src="js/app.js" type="text/javascript"></script>
+</head>
+<body ng-app="markpad" ng-controller="indexController">
+	<input type="text" ng-model="dontpadUri" placeholder="Para qual url do markpad você quer enviar seu texto?">
+	<input type="text" ng-model="contentToPost" placeholder="Digite seu texto">
+	<button ng-click="mpm.postToDontpad(dontpadUri, contentToPost)" ng-disabled="enviandoConteudoDontpad">Enviar para dontpad.com/{[{dontpadUri}]}</button>
+	<p ng-if="mpm.enviadoComSucesso">
+		<span>Vai lá em </span>
+		<a href="http://dontpad.com/{[{mpm.dontpadUri}]}">
+			http://dontpad.com/{[{mpm.dontpadUri}]}</a>		
+		<span>pra ver.</span>
+	</p>
+</body>
+</html>
