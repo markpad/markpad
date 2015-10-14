@@ -1,14 +1,10 @@
-angular.module('dontpad.api', []);
+angular.module('dontpad.api', ['ajax.model']);
 
-angular.module('dontpad.api').factory('DontpadApi', function($http){
+angular.module('dontpad.api').factory('DontpadApi', function(AjaxModel){
     return {
         postToDontpad: function(dontpadUri, contentData){
-        return $http({
-            method: 'POST',
-            url: MARKPAD.DONTPAD_ENDPOINT + dontpadUri,
-            data: "text="+contentData+"",
-            dataType: 'json',
-            });
+            var promise = AjaxModel.post(dontpadUri, contentData);
+            return promise;
         }
     }
 });

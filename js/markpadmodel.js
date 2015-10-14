@@ -10,12 +10,14 @@ angular.module('markpad.model').factory('MarkpadModel', function(DontpadApi){
 	model.postToDontpad = function(){
 		model.enviandoConteudoDontpad = true;
 		model.enviadoComSucesso = false;
-		DontpadApi.postToDontpad(model.dontpadUri, model.contentToPost).then(function(resultado){
-			model.enviadoComSucesso = true;
-			console.log(resultado);
-		}).finally(function(){
-			model.enviandoConteudoDontpad = false;
-		});
+		// DontpadApi.postToDontpad(MARKPAD.DONTPAD_ENDPOINT + model.dontpadUri, model.contentToPost).then(function(resultado){
+		// 	model.enviadoComSucesso = true;
+		// 	console.log(resultado);
+		// }).finally(function(){
+		// 	model.enviandoConteudoDontpad = false;
+		// });
+		var post  = DontpadApi.postToDontpad(MARKPAD.DONTPAD_ENDPOINT + model.dontpadUri, model.contentToPost);
+		console.log(post);
 	}
 
 	function init(){
