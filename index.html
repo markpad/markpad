@@ -3,17 +3,20 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Markpad</title>
+    <base href="/">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 	<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script type="text/javascript">
         let simpleMDE;
+
+        const hash = window.location.hash.toString().replace("#!", "");
 
         const JSONToParams = function params(obj){
             return Object.keys(obj).map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k])).join('&')
         };
 
         const updateDontpad = () => {
-            fetch("http://dontpad.com/markpad/exemplo", {
+            fetch(`http://dontpad.com${hash}` , {
                 body: JSONToParams({"text":simpleMDE.value()}),
                 mode: "no-cors",
                 headers: new Headers({
