@@ -1,0 +1,27 @@
+{
+  "name": "markpad.github.io",
+  "version": "0.1.0",
+  "description": "Collaborative markdown editor.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markpad/markpad.github.io.git"
+  },
+  "keywords": [
+    "markdown",
+    "editor",
+    "collaborative"
+  ],
+  "author": "Teles",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/markpad/markpad.github.io/issues"
+  },
+  "homepage": "https://github.com/markpad/markpad.github.io#readme",
+  "dependencies": {
+    "simplemde": "^1.11.2"
+  }
+}

@@ -3,80 +3,39 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Markpad</title>
-	<script src="js/lib/angular.min.js" type="text/javascript"></script>
-	<script src="js/ajax.model.js" type="text/javascript"></script>
-	<script src="js/base.js" type="text/javascript"></script>
-	<script src="js/dontpadapi.js" type="text/javascript"></script>
-	<script src="js/markpadmodel.js" type="text/javascript"></script>
-	<script src="js/app.js" type="text/javascript"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.js"></script>
-	<script type='text/javascript'>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+	<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script type="text/javascript">
+        let simpleMDE;
 
-		$(document).ready(function(){
+        const JSONToParams = function params(obj){
+            return Object.keys(obj).map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k])).join('&')
+        };
 
-			$.ajaxSetup({
-			   contentType: "application/x-www-form-urlencoded;charset=UTF-8"
-			});			
+        const updateDontpad = () => {
+            fetch("http://dontpad.com/markpad/exemplo", {
+                body: JSONToParams({"text":simpleMDE.value()}),
+                headers: new Headers({
+                    "Accept": "application/json",
+                    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+                }),
+                method: "POST"
+            }).then(function(res){
+                console.log(res);
+            });
+        };
 
-			$("[data-selector='button-jquery']").click(function(){
-				var dontpad_url = 'http://dontpad.com/'+ $('[data-selector="dontpad-url"]').val();
-				var dontpad_text = $('[data-selector="dontpad-text"]').val();
+        var timeout = setTimeout( () => {
+            simpleMDE = new SimpleMDE({ element: document.querySelector("[data-selector='markpad-textarea']") });
+        }, 0);
 
-				console.log(dontpad_url);
-				console.log(dontpad_text);
+        var intervalShowMDEContent = setInterval( () => {
+            updateDontpad();
+        }, 2000);
 
-				$.ajax({
-					// type: "POST",
-					// dataType: 'text',
-					// url: dontpad_url,
-					// crossDomain : true,
-					// xhrFields: {
-					// 	withCredentials: true
-					// },
-					// data: JSON.stringify(dontpad_text)
-					url: dontpad_url,
-					type: 'POST',
-					contentType: 'application/json; charset=utf-8',
-					data: JSON.stringify(dontpad_text),			
-					// crossDomain: false		
-					headers: {'X-Requested-With': 'XMLHttpRequest'}
-				})
-				.done(function( data ) {
-					console.log("done");
-				})
-				.fail( function(xhr, textStatus, errorThrown) {
-					console.log(xhr.responseText);
-				});
-
-			});		
-
-		});
-
-
-	</script>	
+    </script>
 </head>
-<body ng-app="markpad" ng-controller="indexController">
-<!-- 	<input type="text" ng-model="mpm.dontpadUri" placeholder="Para qual url do markpad você quer enviar seu texto?">
-	<input type="text" ng-model="mpm.contentToPost" placeholder="Digite seu texto">
-	<button ng-click="mpm.postToDontpad()" ng-disabled="mpm.enviandoConteudoDontpad === true || mpm.hasDataToPost() === false">Enviar para dontpad.com/{[{mpm.dontpadUri}]}</button>
-	<p ng-if="mpm.enviadoComSucesso">
-		<span>Vai lá em </span>
-		<a href="http://dontpad.com/{[{mpm.dontpadUri}]}">
-			http://dontpad.com/{[{mpm.dontpadUri}]}</a>
-		<span>pra ver.</span>
-	</p> -->
-
-	<div>
-
-		tentando o mesmo request com jquery
-		<input type='text' placeholder="seu texto" data-selector='dontpad-text'>
-		<input type='text' placeholder="url do seu dontpad" data-selector='dontpad-url'>
-		<button data-selector='button-jquery'>
-			enviar
-		</button>
-	</div>
-
-
-
+<body data-selector="markpad">
+	<textarea data-selector="markpad-textarea"></textarea>
 </body>
 </html>
