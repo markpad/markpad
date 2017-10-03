@@ -15,6 +15,7 @@
         const updateDontpad = () => {
             fetch("http://dontpad.com/markpad/exemplo", {
                 body: JSONToParams({"text":simpleMDE.value()}),
+                mode: "no-cors",
                 headers: new Headers({
                     "Accept": "application/json",
                     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
