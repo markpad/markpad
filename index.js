@@ -1,13 +1,15 @@
 let simpleMDE;
 
-const hash = window.location.hash.toString().replace("#!", "");
+const hash = () => {
+    return window.location.hash.indexOf("#!") !== -1 ? window.location.hash.toString().replace("#!", "") : window.location.pathname;
+}
 
 const JSONToParams = function params(obj){
   return Object.keys(obj).map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k])).join('&')
 };
 
 const updateDontpad = () => {
-  fetch(`http://dontpad.com${hash}` , {
+  fetch(`http://dontpad.com${hash()}` , {
     body: JSONToParams({"text":simpleMDE.value()}),
     mode: "no-cors",
     headers: new Headers({
@@ -29,7 +31,7 @@ var timeout = setTimeout( () => {
       "link", "image", "|", "preview", "side-by-side", "|", "guide", {
         "name": "save",
         "action": () => {
-        var file = new File([simpleMDE.value()], `${hash}.txt`, {type: "text/plain;charset=utf-8"});
+        var file = new File([simpleMDE.value()], `${hash()}.txt`, {type: "text/plain;charset=utf-8"});
 saveAs(file);
 },
 "className": "fa fa-hdd-o",
