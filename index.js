@@ -1,15 +1,16 @@
 let simpleMDE;
 
-const hash = () => {
+const getHash = () => {
     return window.location.hash.indexOf("#!") !== -1 ? window.location.hash.toString().replace("#!", "") : window.location.pathname;
 }
+const hash = getHash();
 
 const JSONToParams = function params(obj){
   return Object.keys(obj).map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k])).join('&')
 };
 
 const updateDontpad = () => {
-  fetch(`http://dontpad.com${hash()}` , {
+  fetch(`http://dontpad.com${hash}` , {
     body: JSONToParams({"text":simpleMDE.value()}),
     mode: "no-cors",
     headers: new Headers({
@@ -28,13 +29,13 @@ var timeout = setTimeout( () => {
     autofocus: true,
     toolbar: [
       "bold", "italic", "heading", "|" , "quote", "unordered-list", "ordered-list", "|",
-      "link", "image", "|", "preview", "side-by-side", "|", "guide", {
+      "link", "image", "|", "preview", "side-by-side", {
         "name": "save",
         "action": () => {
-        var file = new File([simpleMDE.value()], `${hash()}.txt`, {type: "text/plain;charset=utf-8"});
+        var file = new File([simpleMDE.value()], `${hash}.txt`, {type: "text/plain;charset=utf-8"});
 saveAs(file);
 },
-"className": "fa fa-hdd-o",
+"className": "fa fa-download p-float-right",
   "title": "Save file"
 }
 ]

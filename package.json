@@ -4,7 +4,8 @@
   "description": "Collaborative markdown editor.",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "dev": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,9 @@
   "dependencies": {
     "simplemde": "1.11.2",
     "@types/file-saver": "0.0.1"
+  },
+  "devDependencies": {
+    "connect": "^3.6.5",
+    "serve-static": "1.13.1"
   }
 }
