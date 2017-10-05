@@ -3,9 +3,20 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Markpad</title>
+	<script>
+      (function(){
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect != location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+	</script>
+	<meta name="fragment" content="!">
     <base href="/">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 	<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+	<script src="https://rawgit.com/eligrey/FileSaver.js/master/FileSaver.min.js"></script>
     <script type="text/javascript">
         let simpleMDE;
 
@@ -30,7 +41,23 @@
         };
 
         var timeout = setTimeout( () => {
-            simpleMDE = new SimpleMDE({ element: document.querySelector("[data-selector='markpad-textarea']") });
+			simpleMDE = new SimpleMDE({
+				element: document.querySelector("[data-selector='markpad-textarea']"),
+			  	autofocus: true,
+			 	toolbar: [
+					"bold", "italic", "heading", "|" , "quote", "unordered-list", "ordered-list", "|",
+					"link", "image", "|", "preview", "side-by-side", "|", "guide", {
+						"name": "save",
+						"action": () => {
+                    		var file = new File([simpleMDE.value()], `${hash}.txt`, {type: "text/plain;charset=utf-8"});
+        					saveAs(file);
+						},
+						"className": "fa fa-hdd-o",
+						"title": "Save file"
+					}
+				]
+			});
+			simpleMDE.toggleFullScreen();
         }, 0);
 
         var intervalShowMDEContent = setInterval( () => {

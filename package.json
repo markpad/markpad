@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/markpad/markpad.github.io#readme",
   "dependencies": {
-    "simplemde": "^1.11.2"
+    "simplemde": "1.11.2",
+    "@types/file-saver": "0.0.1"
   }
 }
