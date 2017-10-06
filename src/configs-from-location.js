@@ -1,11 +1,13 @@
+import locationSearchToObject from "./location-search-to-object";
+
 const ConfigsFromLocation = (location = window.location)=> {
 
-    const path = () => {
-        return location.path;
+    const init = () => {
+        return locationSearchToObject();
     };
 
     return {
-        path
+        init
     };
 };
 

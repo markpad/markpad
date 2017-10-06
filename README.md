@@ -1,18 +1,25 @@
-# markpad.github.io
-Markdown live text-editor
+# Markpad
 
-## Sublime Preferences
+Markpad é um editor de markdown colaborativo online.
 
-Preferências do sublime.
+Simples de usar.
+Crie sua url e comece a escrever.
+Visualize seu markdown em tempo real.
+Edite junto com amigos.
 
+Crie seus [diretorios/com/arquivos/dentro](http://markpad.github.io/diretorios/com/arquivos/dentro) direto pela url!
+
+## Motivação
+
+Markpad é a união do editor simpleMDE com o serviço online dontpad.com.
+
+## Desenvolvimento
+
+Desenvolvedor, após clonar este repositório utilize o seguinte comando para rodar sua aplicação:
+
+```bash
+npm run dev 
 ```
-{
-    "tab_size": 4,
-    "translate_tabs_to_spaces": true,
-    "trim_trailing_white_space_on_save": true
-}
-```
 
-## TODO's
+Isso irá rodar o projeto no endereço [http://localhost:8765/](http://localhost:8765/).
 
-* Configurar o .editorconfig depois para não precisarmos manter as preferencias do editor de texto no README.md e atualizar automaticamente.
