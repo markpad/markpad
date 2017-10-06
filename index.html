@@ -1,28 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Markpad</title>
-	<style>
-		.p-float-right {
-			float: right;
-		}
-	</style>
-	<script>
-      (function(){
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect != location.href) {
-          history.replaceState(null, null, redirect);
-        }
-      })();
-	</script>
-	<meta name="fragment" content="!">
-    <base href="/">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-</head>
-<body data-selector="markpad">
-	<textarea data-selector="simplemde-textarea"></textarea>
-</body>
-<script type="text/javascript" src="build.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <title>Markpad</title>
+        <style>
+            .p-float-right {
+                float: right;
+            }
+        </style>
+        <meta name="fragment" content="!">
+        <base href="/">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    </head>
+    <body>
+        <textarea data-selector="simplemde-textarea" title="SimpleMDE textarea"></textarea>
+    </body>
+    <script type="text/javascript" src="build.js"></script>
 </html>
