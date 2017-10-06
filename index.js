@@ -1,50 +1,39 @@
-let simpleMDE
+import DontpadIntegration from "./src/dontpad-integration";
+import ConfigsFromLocation from "./src/configs-from-location";
+import wordCounter from "./src/word-counter";
+import SimpleMDE from "simplemde";
 
-const getHash = () => {
-  return window.location.hash.indexOf('#!') !== -1 ? window.location.hash.toString().replace('#!', '') : window.location.pathname
-}
-const hash = getHash();
+const customSaveAction = {
+    "name": "save-txt",
+    "action": ()=> {},
+    "className": "fa fa-download p-float-right",
+    "title": "Save file"
+};
 
-const JSONToParams = function params (obj) {
-  return Object.keys(obj).map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k])).join('&')
-}
+const toolbarOrderedItems = ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|",
+  "link", "image", "|", "preview", "side-by-side", "fullscreen", customSaveAction];
 
-const updateDontpad = () => {
-  fetch(`http://dontpad.com${hash}`, {
-    body: JSONToParams({'text': simpleMDE.value()}),
-    mode: 'no-cors',
-    headers: new Headers({
-      'Accept': 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-    }),
-    method: 'POST'
-  }).then(function (res) {
-    console.log(res)
-  })
-}
 
-var timeout = setTimeout(() => {
-  simpleMDE = new SimpleMDE({
-    element: document.querySelector('[data-selector=\'markpad-textarea\']'),
+const customWordsStatus = {
+    className: "words-custom",
+    defaultValue: function(el) {
+        el.innerHTML = wordCounter("amor i love you");
+    },
+    onUpdate: function(el) {
+        console.log("atualizou o número de palavras");
+        el.innerHTML = wordCounter("amor i love you");
+    }
+};
+
+const simpleMDEConfigs = {
+    element: document.querySelector("[data-selector=\"simplemde-textarea\"]"),
     autofocus: true,
-    toolbar: [
-      'bold', 'italic', 'heading', '|', 'quote', 'unordered-list', 'ordered-list', '|',
-      'link', 'image', '|', 'preview', 'side-by-side', {
-        'name': 'save',
-        'action': () => {
-          var filename = `${hash}.txt`;
-          console.log(filename);
-          var file = new File([simpleMDE.value()], filename, {type: 'text/plain;charset=utf-8'})
-          saveAs(file)
-        },
-        'className': 'fa fa-download p-float-right',
-        'title': 'Save file'
-      }
-    ]
-  })
-  simpleMDE.toggleFullScreen()
-}, 0)
+    toolbar: toolbarOrderedItems,
+    spellChecker: false,
+    // status: [customWordsStatus]
+};
 
-var intervalShowMDEContent = setInterval(() => {
-  updateDontpad()
-}, 2000)
+const dontpadIntegration = new DontpadIntegration("http://dontpad.com/markpad");
+const configsFromLocation = new ConfigsFromLocation();
+const simpleMDE = new SimpleMDE(simpleMDEConfigs);
+simpleMDE.toggleFullScreen();

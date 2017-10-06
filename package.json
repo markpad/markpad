@@ -2,10 +2,12 @@
   "name": "markpad.github.io",
   "version": "0.1.0",
   "description": "Collaborative markdown editor.",
-  "main": "index.js",
+  "main": "./index.js",
   "scripts": {
     "test": "npm test",
-    "dev": "node server.js"
+    "server": "node server.js",
+    "build": "./node_modules/.bin/webpack --colors --progress",
+    "dev": "npm run build -- --watch & npm run server "
   },
   "repository": {
     "type": "git",
@@ -23,11 +25,17 @@
   },
   "homepage": "https://github.com/markpad/markpad.github.io#readme",
   "dependencies": {
-    "simplemde": "1.11.2",
-    "@types/file-saver": "0.0.1"
+    "@types/file-saver": "0.0.1",
+    "file-saver": "^1.3.3",
+    "simplemde": "1.11.2"
   },
   "devDependencies": {
-    "connect": "^3.6.5",
-    "serve-static": "1.13.1"
+    "babel": "6.23.0",
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-preset-es2015": "6.24.1",
+    "connect": "3.6.5",
+    "serve-static": "1.13.1",
+    "webpack": "3.0.0-rc.2"
   }
 }
