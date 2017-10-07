@@ -8,7 +8,12 @@ module.exports = {
         filename: "./build.js"
     },
     module: {
-        loaders: [{
+        loaders: [
+            {
+                test: /\.css$/,
+                loader: "style-loader!css-loader"
+            },
+            {
             test: /\.js$/,
             exclude: /node_modules/,
             loader: "babel-loader",
