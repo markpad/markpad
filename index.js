@@ -1,12 +1,9 @@
-import redirect from "./src/redirect";
 import DontpadIntegration from "./src/dontpad-integration";
 import ConfigsFromLocation from "./src/configs-from-location";
 import FileSaver from "file-saver";
 import SimpleMDE from "simplemde";
 let simplemde;
 let filename;
-
-redirect();
 
 const customSaveAction = {
     "name": "save-txt",
