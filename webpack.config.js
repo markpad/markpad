@@ -5,7 +5,7 @@ module.exports = {
         filename: "./index.js"
     },
     output: {
-        filename: "./dist/webpack.js"
+        filename: "./dist/markpad.js"
     },
     module: {
         loaders: [
