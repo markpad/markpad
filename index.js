@@ -11,12 +11,12 @@ const customSaveAction = {
         let blob = new Blob([simplemde.value()], {type: "text/plain;charset=utf-8"});
         FileSaver.saveAs(blob, `${filename}.txt`);
     },
-    "className": "fa fa-download p-float-right",
+    "className": "fa fa-download",
     "title": "Save file"
 };
 
 const toolbarOrderedItems = ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|",
-  "link", "image", "|", "preview", "side-by-side", "fullscreen", customSaveAction];
+  "link", "image", "|", "preview", "side-by-side", "fullscreen", "|", customSaveAction];
 
 const dontpadIntegration = new DontpadIntegration("http://dontpad.com/markpad");
 const configs = new ConfigsFromLocation();
