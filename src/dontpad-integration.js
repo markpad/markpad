@@ -1,9 +1,25 @@
 import JSONToParams from "./json-to-params";
 
-const DontpadIntegration = (dontpadUrl)=> {
+const DontpadIntegration = (dontpadUrl, callback)=> {
 
-    const updateToDontpad = (mdContent)=> {
-        fetch(dontpadUrl, {
+    let model = {
+        hasChanged: false,
+        lastUpdateTime: 0,
+        content: "",
+        isLoadingContent: false
+    };
+
+    const _getYQLUrl = () => {
+        const configs = {
+            api: "https://query.yahooapis.com/v1/public/yql?q=",
+            parameters: `&format=json`,
+            query: encodeURIComponent(`select * from json where url = '${dontpadUrl}.body.json?lastUpdate=${model.lastUpdateTime}'`)
+        };
+        return `${configs.api}${configs.query}${configs.parameters}`;
+    };
+
+    model.saveToDontpad = (mdContent)=> {
+        return fetch(dontpadUrl, {
             body: JSONToParams({'text': mdContent}),
             mode: 'no-cors',
             headers: new Headers({
@@ -11,18 +27,32 @@ const DontpadIntegration = (dontpadUrl)=> {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
             }),
             method: 'POST'
-        });
+        }).then(result => result);
     };
 
-    const getFromDontpad = ()=> {
-        return "getting content from dontpad";
+    model.getFromDontpad = ()=> {
+        model.isLoadingContent = true;
+
+        return fetch(_getYQLUrl()).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(Error('error'));
+            }).then(result => {
+                model.lastUpdateTime = result.query.results.json.lastUpdate;
+                model.hasChanged = JSON.parse(result.query.results.json.changed);
+                if(model.hasChanged){
+                    model.content = result.query.results.json.body;
+                }
+                model.isLoadingContent = false;
+                return new Promise((resolve) => {
+                    resolve(model);
+                });
+            });
     };
 
-    return {
-        dontpadUrl,
-        updateToDontpad,
-        getFromDontpad
-    };
+    return model;
+
 };
 
 export default DontpadIntegration;

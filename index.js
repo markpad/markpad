@@ -15,11 +15,22 @@ const customSaveAction = {
     "title": "Save file"
 };
 
-const toolbarOrderedItems = ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|",
-  "link", "image", "|", "preview", "side-by-side", "fullscreen", "|", customSaveAction];
+const customSaveToDontpadAction = {
+    "name": "save-dontpad",
+    "action": ()=> {
+        dontpadIntegration.saveToDontpad(simplemde.value());
+    },
+    "className": "fa fa-save",
+    "title": "Save to dontpad"
+};
 
-const dontpadIntegration = new DontpadIntegration("http://dontpad.com/markpad");
+const toolbarOrderedItems = ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|",
+  "link", "image", "|", "preview", "side-by-side", "fullscreen", "|", customSaveAction, customSaveToDontpadAction];
+
 const configs = new ConfigsFromLocation();
+const dontpadIntegration = new DontpadIntegration(`http://dontpad.com/${configs.path.full}`);
+dontpadIntegration.getFromDontpad().then(res => {simplemde.value(res.content);});
+
 filename = configs.path.last;
 
 simplemde = new SimpleMDE({
