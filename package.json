@@ -1,6 +1,6 @@
 {
   "name": "markpad",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Collaborative markdown editor.",
   "main": "./dist/markpad.js",
   "scripts": {

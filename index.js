@@ -3,7 +3,6 @@ import ConfigsFromLocation from "./src/configs-from-location";
 import Home from "./src/home";
 import SimpleMDEInit from "./src/simplemde-init";
 
-let simplemde;
 let filename;
 
 const configs = new ConfigsFromLocation();

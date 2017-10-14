@@ -1,13 +1,14 @@
 import FileSaver from "file-saver";
 import SimpleMDE from "simplemde";
+let simplemde;
 
 const SimpleMDEInit = () => {
 
     const customSaveAction = {
       "name": "save-txt",
       "action": ()=> {
-        let blob = new Blob([simplemde.value()], {type: "text/plain;charset=utf-8"});
-        FileSaver.saveAs(blob, `${filename}.txt`);
+          let blob = new Blob([simplemde.value()], {type: "text/plain;charset=utf-8"});
+          FileSaver.saveAs(blob, `${filename}.txt`);
       },
       "className": "fa fa-download",
       "title": "Save file"
