@@ -45,7 +45,7 @@ classes:
   article: prose max-w-none
 ---
 
-# taildown
+# marklab
 
 A markdown editor with live preview and Tailwind CSS styling.
 
@@ -71,8 +71,8 @@ A markdown editor with live preview and Tailwind CSS styling.
 ### Installation
 
 ```bash
-git clone https://github.com/teles/taildown.git
-cd taildown
+git clone https://github.com/teles/marklab.git
+cd marklab
 npm install
 npm start
 ```

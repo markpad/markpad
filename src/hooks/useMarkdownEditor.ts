@@ -21,7 +21,7 @@ interface InsertOptions {
 
 /**
  * Custom hook for managing markdown editor with proper cursor handling
- * Fixes: https://github.com/taildown/taildown.github.io/issues/5
+ * Fixes: https://github.com/teles/marklab/issues/5
  * The cursor now correctly positions after text insertion
  */
 export function useMarkdownEditor({

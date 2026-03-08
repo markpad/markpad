@@ -1,10 +1,10 @@
-# Taildown - 📝 Markdown Editor with Tailwind CSS
+# Marklab - 📝 Markdown Editor with Tailwind CSS
 
-Taildown is a simple yet powerful Markdown editor built with React ⚛️ and Tailwind CSS 🌈. It allows you to seamlessly edit, preview, and export your Markdown content with the added flexibility of customizing styles using Tailwind CSS classes.
+Marklab is a simple yet powerful Markdown editor built with React ⚛️ and Tailwind CSS 🌈. It allows you to seamlessly edit, preview, and export your Markdown content with the added flexibility of customizing styles using Tailwind CSS classes.
 
 ## Demo
 
-Check out the live demo at [taildown.github.io](https://taildown.github.io).
+Check out the live demo at [marklab.github.io](https://marklab.github.io).
 
 ## Features
 
@@ -15,45 +15,45 @@ Check out the live demo at [taildown.github.io](https://taildown.github.io).
 
 ## Getting Started
 
-To use Taildown, follow these steps:
+To use Marklab, follow these steps:
 
 1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/taildown.git
-    ```
+   ```bash
+   git clone https://github.com/teles/marklab.git
+   ```
 2. **Install dependencies:**
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 3. **Start the development server:**
-    ```bash
-    npm start
-    ```
+   ```bash
+   npm start
+   ```
 
 ## Usage
 
 ### Markdown Editing
 
 1. **Heading Tags:**
-    - H1: Click on the "H1" button or type `# ` at the beginning of a line.
-    - H2: Click on the "H2" button or type `## ` at the beginning of a line.
-    - H3: Click on the "H3" button or type `### ` at the beginning of a line.
+   - H1: Click on the "H1" button or type `# ` at the beginning of a line.
+   - H2: Click on the "H2" button or type `## ` at the beginning of a line.
+   - H3: Click on the "H3" button or type `### ` at the beginning of a line.
 
 2. **Insert Image:**
-    - Click on the image icon or type `![Alt Text](image.png)`.
+   - Click on the image icon or type `![Alt Text](image.png)`.
 
 3. **Insert Link:**
-    - Click on the link icon or type `[Link Text](example.com)`.
+   - Click on the link icon or type `[Link Text](example.com)`.
 
 4. **Insert Table:**
-    - Click on the table icon or type:
-        ```markdown
-        |   |   |   |
-        |---|---|---|
-        ```
+   - Click on the table icon or type:
+     ```markdown
+     |     |     |     |
+     | --- | --- | --- |
+     ```
 
 5. **Customization:**
-    - Change the Tailwind CSS classes for each Markdown element in the Config Mode.
+   - Change the Tailwind CSS classes for each Markdown element in the Config Mode.
 
 ### Preview Mode
 
@@ -81,5 +81,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-**Taildown - 📝 Markdown Editor with Tailwind CSS and React**  
+**Marklab - 📝 Markdown Editor with Tailwind CSS and React**  
 A project by [@teles](https://github.com/teles)
