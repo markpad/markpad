@@ -5,40 +5,58 @@
   "dependencies": {
     "@tailwindcss/typography": "^0.5.10",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.65",
-    "@types/react": "^18.2.38",
-    "@types/react-dom": "^18.2.17",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "@testing-library/react": "^14.2.0",
+    "@testing-library/user-event": "^14.5.0",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "gray-matter": "^4.0.3",
+    "pako": "^2.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.12.0",
     "react-markdown": "^9.0.1",
     "react-modal": "^3.16.1",
+    "react-router-dom": "^6.22.0",
     "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
     "react-syntax-highlighter": "^15.5.0",
-    "react-tooltip": "^5.24.0",
+    "react-tooltip": "^5.26.0",
     "remark-gfm": "^4.0.0",
-    "tailwindcss": "^3.3.5",
-    "typescript": "*",
-    "web-vitals": "^2.1.4"
+    "tailwindcss": "^3.4.0",
+    "typescript": "^4.9.5",
+    "web-vitals": "^3.5.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "npm run generate:themes && react-scripts start",
+    "build": "npm run generate:themes && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "generate:themes": "node scripts/generateThemes.js",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
-    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src"
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css}\""
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "@typescript-eslint/space-before-function-paren": "off",
+      "@typescript-eslint/comma-dangle": "off",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/strict-boolean-expressions": "off",
+      "@typescript-eslint/no-confusing-void-expression": "off",
+      "@typescript-eslint/no-misused-promises": "off",
+      "@typescript-eslint/consistent-type-imports": "off",
+      "jsx-a11y/heading-has-content": "off",
+      "jsx-a11y/anchor-has-content": "off"
+    }
   },
   "browserslist": {
     "production": [
@@ -53,16 +71,12 @@
     ]
   },
   "devDependencies": {
+    "@types/pako": "^2.0.3",
     "@types/react-helmet": "^6.1.9",
     "@types/react-modal": "^3.16.3",
     "@types/react-syntax-highlighter": "^15.5.10",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
-    "@typescript-eslint/parser": "^5.5.0",
-    "eslint": "^8.0.1",
-    "eslint-config-standard-with-typescript": "^40.0.0",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.33.2"
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.0",
+    "prettier": "^3.2.0"
   }
 }
