@@ -147,6 +147,56 @@ export const themePresets: ThemePreset[] = [
     "exampleContent": "# The Art of Writing Clean Code\n\n_A reflection on craftsmanship in software engineering_\n\n## Why Clean Code Matters\n\nEvery developer has inherited a codebase that made them question their career choices. **Clean code** isn't just about aesthetics — it's about respect for your future self and your teammates.\n\n### The Hidden Cost of Messy Code\n\n1. Onboarding new developers takes weeks instead of days\n2. Simple features require complex workarounds\n3. Bug fixes introduce new bugs\n4. Technical debt compounds like interest\n\n> \"Any fool can write code that a computer can understand. Good programmers write code that humans can understand.\"\n> — Martin Fowler\n\n## Principles That Stand the Test of Time\n\nThe best codebases share common traits. They are consistent, well-named, and broken into small, focused pieces.\n\n| Principle             | Impact    | Effort |\n| --------------------- | --------- | ------ |\n| Meaningful names      | High      | Low    |\n| Small functions       | High      | Medium |\n| Single responsibility | High      | Medium |\n| DRY                   | Medium    | Low    |\n| Tests                 | Very High | High   |\n\n## A Simple Example\n\n```javascript\n// Before: What does this do?\nconst d = (a, b) => a.filter((x) => b.includes(x.id))\n\n// After: Crystal clear\nconst findMatchingUsers = (users, allowedIds) => {\n  return users.filter((user) => allowedIds.includes(user.id))\n}\n```\n\n### Further Reading\n\n- [Clean Code by Robert C. Martin](https://example.com)\n- [The Pragmatic Programmer](https://example.com)\n- _Refactoring_ by Martin Fowler\n\n![Writing](https://picsum.photos/600/300?random=29)"
   },
   {
+    "id": "comic-book",
+    "name": "Comic Book",
+    "description": "Bold, colorful comic book style with pop art energy and dynamic typography.",
+    "category": "experimental",
+    "fontFamily": "Bangers",
+    "tailwindClasses": {
+      "h1": "text-5xl font-black mb-6 text-red-600 uppercase tracking-wider drop-shadow-[3px_3px_0px_rgba(0,0,0,0.8)]",
+      "h2": "text-3xl font-bold mb-4 text-blue-700 uppercase tracking-wide drop-shadow-[2px_2px_0px_rgba(0,0,0,0.6)]",
+      "h3": "text-2xl font-bold mb-3 text-yellow-600 uppercase",
+      "h4": "text-xl font-bold mb-3 text-red-500",
+      "h5": "text-lg font-bold mb-2 text-blue-600",
+      "h6": "text-base font-bold mb-2 text-gray-700",
+      "p": "mb-4 text-lg leading-relaxed text-gray-900",
+      "a": "text-red-600 hover:text-red-800 underline decoration-wavy decoration-yellow-400 decoration-2",
+      "img": "max-w-full my-4 rounded-lg border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,0.8)]",
+      "table": "table-auto my-4 w-full border-4 border-black",
+      "strong": "font-extrabold text-blue-700",
+      "ul": "list-disc list-inside",
+      "ol": "list-decimal list-inside",
+      "li": "mb-2 text-gray-800 text-lg",
+      "em": "italic text-purple-600",
+      "tr": "border-2 border-gray-800 even:bg-yellow-50 odd:bg-white",
+      "td": "border-2 border-gray-800 p-3",
+      "th": "bg-red-600 text-white font-bold uppercase p-3 border-2 border-black",
+      "blockquote": "border-l-4 border-red-500 bg-yellow-100 pl-4 py-2 italic my-4 text-gray-900 font-bold rounded-r-lg shadow-[4px_4px_0px_rgba(0,0,0,0.8)]",
+      "code": "bg-yellow-300 text-red-700 font-bold px-2 py-0.5 rounded border-2 border-black text-sm font-mono",
+      "pre": "bg-gray-900 text-green-300 p-4 rounded-xl border-4 border-black overflow-x-auto shadow-[6px_6px_0px_rgba(0,0,0,0.9)]",
+      "body": "bg-yellow-50 p-8 border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.9)] rounded-2xl",
+      "article": "prose prose-lg max-w-none"
+    },
+    "behaviorConfig": {
+      "shouldOpenLinksInNewTab": true,
+      "shouldShowLineNumbers": false
+    },
+    "fontConfig": {
+      "fontFamily": "Bangers"
+    },
+    "preview": {
+      "bgColor": "#fffde7",
+      "textColor": "#1a1a2e",
+      "accentColor": "#ff1744",
+      "headingFont": "Bangers",
+      "bodyFont": "Comic Neue",
+      "sampleHeading": "COMIC BOOK!",
+      "sampleText": "Bold panels and explosive action in every page.",
+      "style": "brutalist"
+    },
+    "exampleContent": "# 💥 COMIC BOOK STYLE!\n\nWelcome to a world of **bold colors**, *dynamic action*, and explosive storytelling!\n\n> \"With great power comes great responsibility!\" — Every comic ever\n\n## Origin Story\n\nEvery hero needs an origin story. This theme draws inspiration from the **golden age of comics**, bringing:\n\n- **Bold typography** that pops off the page\n- **Vibrant colors** inspired by classic four-color printing\n- **Dynamic shadows** that create depth and impact\n- **Hand-drawn energy** with wavy decorations\n\n## Powers & Abilities\n\n| Power | Level | Description |\n|-------|-------|-------------|\n| **Typography** | ★★★★★ | Bold, impactful headings |\n| **Color** | ★★★★★ | Vibrant primary palette |\n| **Layout** | ★★★★☆ | Clean panel structure |\n| **Fun Factor** | ★★★★★ | Maximum entertainment |\n\n## The Code of Heroes\n\n```javascript\nfunction assembleTeam(heroes) {\n  return heroes\n    .filter(hero => hero.isAvailable)\n    .map(hero => ({\n      ...hero,\n      status: 'ASSEMBLED! 💪'\n    }));\n}\n\nconst avengers = assembleTeam(allHeroes);\nconsole.log('Heroes assembled:', avengers.length);\n```\n\n## Sound Effects\n\nIn the world of comics, every action has a sound:\n\n1. **POW!** — A solid punch landing\n2. **ZAP!** — Energy blasts firing\n3. **WHAM!** — An explosive impact\n4. **SWOOSH!** — A hero taking flight\n\n> 💬 \"The world needs heroes. Not perfect ones — just brave ones willing to stand up and fight for what's right.\"\n\n### Data Links\n\n- [Hero Database](https://example.com)\n- [Villain Archive](https://example.com)\n- Comic series _Issue #42_\n\n![Comic panel](https://picsum.photos/600/300?random=42)"
+  },
+  {
     "id": "cyberpunk",
     "name": "Cyberpunk",
     "description": "Futuristic neon colors with a tech dystopia aesthetic.",
