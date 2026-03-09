@@ -250,20 +250,6 @@ export function Header({
             </div>
           </div>
         </div>
-
-        {/* Right Side - Share Button */}
-        <div className="flex items-center gap-2">
-          <Tooltip id="share-tooltip" />
-          <button
-            data-tooltip-id="share-tooltip"
-            data-tooltip-content="Share document"
-            className="flex items-center gap-2 px-5 py-2 bg-blue-600 text-white hover:bg-blue-500 rounded-full transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-500/30 font-medium"
-            onClick={handleShare}
-          >
-            <FaShare className="text-sm" />
-            <span>Share</span>
-          </button>
-        </div>
       </div>
 
       {/* Bottom Row - Menu Bar & Toolbar */}

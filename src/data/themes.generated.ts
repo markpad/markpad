@@ -447,6 +447,56 @@ export const themePresets: ThemePreset[] = [
     "exampleContent": "# Accessible Reading\n\nA theme designed for everyone, with extra attention to readability.\n\n## Why Accessibility Matters\n\nReading should be comfortable for **everyone**. This theme uses larger spacing, clear fonts, and high contrast to ensure the best possible reading experience.\n\n### Key Design Choices\n\n1. Generous line height and letter spacing\n2. Sans-serif font for screen readability\n3. Warm, low-glare background color\n4. High contrast without harsh black-on-white\n\n> \"The power of the Web is in its universality. Access by everyone regardless of disability is an essential aspect.\"\n> — Tim Berners-Lee\n\n## Readability Guidelines\n\n| Feature        | This Theme | Standard  |\n| -------------- | ---------- | --------- |\n| Line Height    | 2.0        | 1.5       |\n| Letter Spacing | Wide       | Normal    |\n| Font Size      | 18px base  | 16px base |\n| Paragraph Gap  | 1.5rem     | 1rem      |\n\n## Text Example\n\n```\nThis is a sample of monospace text.\n\nIt uses generous spacing to ensure\neach line is easy to follow.\n\nNo character should be confused\nwith another.\n```\n\n### Resources\n\n- [Web Accessibility Initiative](https://www.w3.org/WAI/)\n- [WCAG Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)\n- Designed with _care and intention_\n\n![Accessibility](https://picsum.photos/600/300?random=32)"
   },
   {
+    "id": "flexoki",
+    "name": "Flexoki",
+    "description": "Warm analog color scheme inspired by paper, ink, and the tactile nature of writing.",
+    "category": "serif",
+    "fontFamily": "Merriweather",
+    "tailwindClasses": {
+      "h1": "text-3xl font-bold mb-6 leading-tight",
+      "h2": "text-2xl font-bold mb-4",
+      "h3": "text-xl font-semibold mb-3",
+      "h4": "text-lg font-semibold mb-3",
+      "h5": "text-base font-semibold mb-2",
+      "h6": "text-sm font-semibold mb-2",
+      "p": "mb-4 text-base leading-7",
+      "a": "underline decoration-2 underline-offset-2 hover:opacity-80 transition-opacity",
+      "img": "max-w-full my-4 rounded",
+      "table": "table-auto my-4 w-full",
+      "strong": "font-bold",
+      "ul": "list-disc list-outside ml-6",
+      "ol": "list-decimal list-outside ml-6",
+      "li": "mb-2 leading-7",
+      "em": "italic",
+      "tr": "border-b",
+      "td": "p-3",
+      "th": "p-3 font-semibold text-left border-b-2",
+      "blockquote": "border-l-4 pl-4 italic my-4 py-2",
+      "code": "px-1.5 py-0.5 rounded font-mono text-sm",
+      "pre": "p-4 rounded overflow-x-auto font-mono text-sm",
+      "body": "bg-[#fffcf0] text-[#100f0f] p-8",
+      "article": "prose max-w-none prose-headings:text-[#100f0f] prose-p:text-[#100f0f] prose-a:text-[#d14d41] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#100f0f] prose-code:text-[#af3029] prose-code:bg-[#f2f0e5] prose-pre:bg-[#f2f0e5] prose-pre:text-[#100f0f] prose-blockquote:border-[#d14d41] prose-blockquote:text-[#282726] prose-th:text-[#100f0f] prose-td:text-[#282726] prose-li:text-[#282726]"
+    },
+    "behaviorConfig": {
+      "shouldOpenLinksInNewTab": true,
+      "shouldShowLineNumbers": false
+    },
+    "fontConfig": {
+      "fontFamily": "Merriweather"
+    },
+    "preview": {
+      "bgColor": "#fffcf0",
+      "textColor": "#100f0f",
+      "accentColor": "#d14d41",
+      "headingFont": "Merriweather",
+      "bodyFont": "Merriweather",
+      "sampleHeading": "Flexoki Theme",
+      "sampleText": "Inspired by the warmth of paper and the flow of ink.",
+      "style": "default"
+    },
+    "exampleContent": "# Flexoki\n\nA warm, analog color scheme that brings the tactile joy of paper and ink to your digital writing.\n\n## Philosophy\n\nFlexoki is inspired by the **analog materials** we use for thinking and writing:\n\n- Paper in various shades\n- Inks and markers in muted tones  \n- The warm glow of incandescent light\n- Natural materials and textures\n\n## Color Palette\n\nThe palette uses **warm tones** throughout, creating a cohesive and comfortable reading experience:\n\n- **Base**: Cream and warm grays\n- **Text**: Deep charcoal black\n- **Red**: `#D14D41` for emphasis and links\n- **Orange**: `#DA702C` for highlights\n- **Yellow**: `#D0A215` for attention\n- **Green**: `#879A39` for success\n- **Cyan**: `#3AA99F` for info\n- **Blue**: `#4385BE` for calm\n- **Purple**: `#8B7EC8` for creativity\n- **Magenta**: `#CE5D97` for energy\n\n## Typography\n\n```javascript\nconst flexoki = {\n  paper: '#fffcf0',\n  text: '#100f0f',\n  text2: '#282726',\n  red: '#d14d41',\n  orange: '#da702c',\n  yellow: '#d0a215',\n  green: '#879a39',\n}\n```\n\n### Features\n\n1. Warm, paper-like background\n2. High contrast for readability\n3. Muted accent colors inspired by ink\n4. Comfortable for long reading sessions\n\n> \"The best digital tools should feel as natural as pen and paper.\"\n\n## Design Principles\n\n| Principle | Description |\n|-----------|-------------|\n| **Warmth** | All colors lean toward warm tones |\n| **Contrast** | Text maintains excellent readability |\n| **Analog** | Inspired by physical materials |\n| **Comfort** | Designed for extended use |\n\n### Code Example\n\n```css\n.flexoki-theme {\n  background: #fffcf0;\n  color: #100f0f;\n  accent-color: #d14d41;\n}\n\n/* Warm, analog aesthetic */\n.prose {\n  font-family: serif;\n  line-height: 1.75;\n}\n```\n\n## Links & Resources\n\n- [Official Flexoki Repository](https://github.com/kepano/flexoki)\n- Designed by *Stephan Ango*\n- Open source color scheme\n\n![Analog writing materials](https://picsum.photos/600/300?random=27)\n\n---\n\n*Experience the warmth of analog in your digital workflow.*"
+  },
+  {
     "id": "github-readme",
     "name": "GitHub README",
     "description": "Mimics the style of GitHub repository README files.",

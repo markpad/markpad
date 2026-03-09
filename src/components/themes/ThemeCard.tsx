@@ -47,8 +47,8 @@ export function ThemeCard({ theme, isActive, onApply }: ThemeCardProps) {
           onClick={() => onApply(theme)}
           className={`w-full py-2.5 px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
             isActive
-              ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
-              : 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white'
+              ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700'
+              : 'bg-gray-700 text-gray-300 hover:bg-blue-600 hover:text-white'
           }`}
         >
           {isActive && <FaCheck className="text-xs" />}
