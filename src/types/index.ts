@@ -51,6 +51,8 @@ export const GOOGLE_FONTS = [
   { value: 'Ubuntu', label: 'Ubuntu' },
   { value: 'Oswald', label: 'Oswald' },
   { value: 'Fira Sans', label: 'Fira Sans' },
+  { value: 'Bangers', label: 'Bangers' },
+  { value: 'Comic Neue', label: 'Comic Neue' },
   { value: 'system-ui', label: 'System Default' },
 ] as const
 
