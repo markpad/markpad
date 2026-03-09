@@ -20,8 +20,14 @@ interface EditorProps {
  * Orchestrates all sub-components and manages layout state
  */
 export function Editor({ initialMode = 'split', showStylePanelByDefault = true }: EditorProps) {
-  const { state, setMarkdown, updateTailwindClass, updateBehaviorConfig, updateFontConfig } =
-    useAppState()
+  const {
+    state,
+    setMarkdown,
+    setDocumentTitle,
+    updateTailwindClass,
+    updateBehaviorConfig,
+    updateFontConfig,
+  } = useAppState()
 
   const [editionMode, setEditionMode] = useState<EditionMode>(initialMode)
   const [showStylePanel, setShowStylePanel] = useState(showStylePanelByDefault)
@@ -142,6 +148,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
         editionMode={editionMode}
         onEditionModeChange={setEditionMode}
         htmlContent={htmlContent}
+        onDocumentTitleChange={setDocumentTitle}
         onInsertHeading={(level) => editorRef.current?.insertHeading(level)}
         onInsertBold={() => editorRef.current?.insertBold()}
         onInsertItalic={() => editorRef.current?.insertItalic()}

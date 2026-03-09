@@ -161,3 +161,8 @@ export const defaultBehaviorConfig: BehaviorConfig = {
 export const defaultFontConfig = {
   fontFamily: 'Inter',
 }
+
+/**
+ * Default document title
+ */
+export const defaultDocumentTitle = 'Untitled Document'

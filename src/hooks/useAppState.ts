@@ -6,6 +6,7 @@ import {
   defaultTailwindClasses,
   defaultBehaviorConfig,
   defaultFontConfig,
+  defaultDocumentTitle,
 } from '../services/urlStateService'
 import debounce from '../utils/debounce'
 import initialMarkdown from '../initialMarkdown'
@@ -13,6 +14,7 @@ import initialMarkdown from '../initialMarkdown'
 interface UseAppStateReturn {
   state: AppState
   setMarkdown: (markdown: string) => void
+  setDocumentTitle: (title: string) => void
   setTailwindClasses: (tailwindClasses: TailwindClasses) => void
   updateTailwindClass: (element: keyof TailwindClasses, value: string) => void
   setBehaviorConfig: (behaviorConfig: BehaviorConfig) => void
@@ -41,6 +43,7 @@ export function useAppState(): UseAppStateReturn {
 
     return {
       markdown: savedMarkdown ?? initialMarkdown,
+      documentTitle: defaultDocumentTitle,
       tailwindClasses: defaultTailwindClasses,
       behaviorConfig: defaultBehaviorConfig,
       fontConfig: defaultFontConfig,
@@ -72,6 +75,10 @@ export function useAppState(): UseAppStateReturn {
 
   const setMarkdown = useCallback((markdown: string) => {
     setState((prev) => ({ ...prev, markdown }))
+  }, [])
+
+  const setDocumentTitle = useCallback((documentTitle: string) => {
+    setState((prev) => ({ ...prev, documentTitle }))
   }, [])
 
   const setTailwindClasses = useCallback((tailwindClasses: TailwindClasses) => {
@@ -108,6 +115,7 @@ export function useAppState(): UseAppStateReturn {
   const resetToDefaults = useCallback(() => {
     setState({
       markdown: initialMarkdown,
+      documentTitle: defaultDocumentTitle,
       tailwindClasses: defaultTailwindClasses,
       behaviorConfig: defaultBehaviorConfig,
       fontConfig: defaultFontConfig,
@@ -134,6 +142,7 @@ export function useAppState(): UseAppStateReturn {
   return {
     state,
     setMarkdown,
+    setDocumentTitle,
     setTailwindClasses,
     updateTailwindClass,
     setBehaviorConfig,

@@ -21,7 +21,7 @@ behavior:
 
 classes:
   h1: text-5xl font-black mb-6 text-red-600 uppercase tracking-wider drop-shadow-[3px_3px_0px_rgba(0,0,0,0.8)]
-  h2: text-3xl font-bold mb-4 text-blue-700 uppercase tracking-wide drop-shadow-[2px_2px_0px_rgba(0,0,0,0.6)]
+  h2: text-3xl font-bold mb-4 text-blue-700 uppercase tracking-wide
   h3: text-2xl font-bold mb-3 text-yellow-600 uppercase
   h4: text-xl font-bold mb-3 text-red-500
   h5: text-lg font-bold mb-2 text-blue-600

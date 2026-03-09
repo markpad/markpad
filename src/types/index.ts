@@ -58,6 +58,7 @@ export const GOOGLE_FONTS = [
 
 export interface AppState {
   markdown: string
+  documentTitle: string
   tailwindClasses: TailwindClasses
   behaviorConfig: BehaviorConfig
   fontConfig: FontConfig

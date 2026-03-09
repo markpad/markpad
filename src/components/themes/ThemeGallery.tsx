@@ -5,7 +5,7 @@ import { FaSearch, FaPalette, FaFileAlt, FaShare } from 'react-icons/fa'
 import { ThemeCard } from './ThemeCard'
 import { filterThemesByCategory, searchThemes, THEME_CATEGORIES } from '../../data/themes.generated'
 import type { ThemePreset, ThemeCategory } from '../../data/themes.generated'
-import { encodeState } from '../../services/urlStateService'
+import { encodeState, defaultDocumentTitle } from '../../services/urlStateService'
 
 /**
  * Theme Gallery page - displays pre-configured theme presets
@@ -33,6 +33,7 @@ export function ThemeGallery() {
     // Encode the theme's state with its example content and navigate to editor
     const state = {
       markdown: theme.exampleContent,
+      documentTitle: defaultDocumentTitle,
       tailwindClasses: theme.tailwindClasses,
       behaviorConfig: theme.behaviorConfig,
       fontConfig: theme.fontConfig,

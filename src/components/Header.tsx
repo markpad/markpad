@@ -25,6 +25,7 @@ interface HeaderProps {
   editionMode: EditionMode
   onEditionModeChange: (mode: EditionMode) => void
   htmlContent: string
+  onDocumentTitleChange: (title: string) => void
   onInsertHeading?: (level: 1 | 2 | 3) => void
   onInsertBold?: () => void
   onInsertItalic?: () => void
@@ -110,6 +111,7 @@ export function Header({
   editionMode,
   onEditionModeChange,
   htmlContent,
+  onDocumentTitleChange,
   onInsertHeading,
   onInsertBold,
   onInsertItalic,
@@ -120,7 +122,6 @@ export function Header({
   onInsertQuote,
   onInsertTable,
 }: HeaderProps) {
-  const [documentTitle, setDocumentTitle] = useState('Untitled Document')
   const [isEditingTitle, setIsEditingTitle] = useState(false)
 
   const handleShare = async () => {
@@ -139,7 +140,7 @@ export function Header({
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = format === 'markdown' ? `${documentTitle}.md` : `${documentTitle}.html`
+    a.download = format === 'markdown' ? `${state.documentTitle}.md` : `${state.documentTitle}.html`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -219,8 +220,8 @@ export function Header({
             {isEditingTitle ? (
               <input
                 type="text"
-                value={documentTitle}
-                onChange={(e) => setDocumentTitle(e.target.value)}
+                value={state.documentTitle}
+                onChange={(e) => onDocumentTitleChange(e.target.value)}
                 onBlur={() => setIsEditingTitle(false)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
@@ -235,7 +236,7 @@ export function Header({
                 onClick={() => setIsEditingTitle(true)}
                 className="text-gray-900 text-lg font-medium hover:bg-gray-100 px-2 py-1 rounded transition-colors text-left"
               >
-                {documentTitle}
+                {state.documentTitle}
               </button>
             )}
             <div className="flex items-center gap-3 px-2">
