@@ -158,13 +158,13 @@ const MarkdownConverter: React.FC = () => {
   return (
     <main className='container m-auto min-h-screen px-4 my-10 flex flex-col'>
         <Helmet>
-            <title>Taildown - Markdown editor with Tailwind CSS classes</title>
+            <title>Marklab - Markdown editor with Tailwind CSS classes</title>
             <meta name="description" content="A simple yet powerful Markdown editor for your writing needs." />
-            <meta name="keywords" content="Taildown, Markdown, Markdown Editor, React, Tailwind CSS" />
+            <meta name="keywords" content="Marklab, Markdown, Markdown Editor, React, Tailwind CSS" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </Helmet>
         <h1 className='text-base mt-5 text-slate-800 text-left mb-5'>
-            <strong>Taildown</strong>
+            <strong>Marklab</strong>
             <span>: Markdown Editor with Tailwind CSS</span>
         </h1>
         <div className="flex items-center flex-col">

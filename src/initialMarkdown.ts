@@ -1,4 +1,4 @@
-const initialMarkdown: string = `# Welcome to Taildown!
+const initialMarkdown: string = `# Welcome to Marklab!
 
 This is a simple example Markdown file to showcase some common elements using the **Tailwind CSS** framework.
 

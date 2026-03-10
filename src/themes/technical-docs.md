@@ -47,7 +47,7 @@ classes:
 
 # API Reference
 
-Complete reference for the Taildown REST API v2.0.
+Complete reference for the Marklab REST API v2.0.
 
 ## Authentication
 

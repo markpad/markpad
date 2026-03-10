@@ -49,7 +49,7 @@ export function ThemeGallery() {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100">
       <Helmet>
-        <title>Theme Gallery - Taildown</title>
+        <title>Theme Gallery - Marklab</title>
         <meta
           name="description"
           content="Browse and apply pre-configured Tailwind CSS themes for your markdown."
