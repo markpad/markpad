@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
 import {
-  FaShare,
   FaEye,
   FaColumns,
   FaEdit,
@@ -15,10 +14,12 @@ import {
   FaListOl,
   FaQuoteLeft,
   FaTable,
+  FaGlobe,
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
 import type { EditionMode, AppState } from '../types'
-import { generateShareableUrl } from '../services/urlStateService'
+import { generatePublishUrl } from '../services/urlStateService'
+import { PublishModal } from './PublishModal'
 
 interface HeaderProps {
   state: AppState
@@ -123,16 +124,8 @@ export function Header({
   onInsertTable,
 }: HeaderProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
-
-  const handleShare = async () => {
-    const url = generateShareableUrl(state)
-    try {
-      await navigator.clipboard.writeText(url)
-      alert('Link copied to clipboard!')
-    } catch {
-      prompt('Copy link:', url)
-    }
-  }
+  const [publishModalOpen, setPublishModalOpen] = useState(false)
+  const [publishUrl, setPublishUrl] = useState('')
 
   const handleExport = (format: 'html' | 'markdown') => {
     const content = format === 'markdown' ? state.markdown : htmlContent
@@ -150,6 +143,12 @@ export function Header({
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(state.markdown)
     alert('Content copied to clipboard!')
+  }
+
+  const handlePublishToWeb = () => {
+    const url = generatePublishUrl(state)
+    setPublishUrl(url)
+    setPublishModalOpen(true)
   }
 
   const fileMenuItems = [
@@ -172,6 +171,12 @@ export function Header({
       icon: <FaCopy />,
       shortcut: '⌘C',
       onClick: handleCopyToClipboard,
+    },
+    { label: 'divider', divider: true, onClick: () => {} },
+    {
+      label: 'Publish to Web',
+      icon: <FaGlobe />,
+      onClick: handlePublishToWeb,
     },
   ]
 
@@ -413,6 +418,13 @@ export function Header({
           </button>
         </div>
       </div>
+
+      <PublishModal
+        isOpen={publishModalOpen}
+        onClose={() => setPublishModalOpen(false)}
+        publishUrl={publishUrl}
+        documentTitle={state.documentTitle}
+      />
     </header>
   )
 }

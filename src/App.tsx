@@ -2,6 +2,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Editor from './components/Editor'
 import { ThemeGallery } from './components/themes/ThemeGallery'
+import { PublishedPage } from './components/published'
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
           path="/preview"
           element={<Editor initialMode="preview" showStylePanelByDefault={false} />}
         />
+
+        {/* Published page - read-only preview with minimal header */}
+        <Route path="/publish/:pako" element={<PublishedPage />} />
 
         {/* Fallback route */}
         <Route path="*" element={<Navigate to="/themes" replace />} />
