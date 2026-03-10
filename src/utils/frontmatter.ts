@@ -197,9 +197,10 @@ export function processLoops(content: string, data: Record<string, unknown>): st
           String(index === arrayValue.length - 1)
         )
 
-        return expanded
+        // Trim each item to avoid extra blank lines
+        return expanded.trim()
       })
-      .join('')
+      .join('\n')
 
     result = result.replace(fullMatch, expandedContent)
     loopPattern.lastIndex = 0 // Reset since string changed
