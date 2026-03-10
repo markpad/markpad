@@ -44,10 +44,18 @@ classes:
   body: bg-white p-8 text-gray-800 max-w-2xl mx-auto
   article: prose prose-lg max-w-none
 ---
+---
+title: The Art of Writing Clean Code
+author: Sarah Chen
+date: March 10, 2026
+readTime: 5 min read
+---
 
-# The Art of Writing Clean Code
+# {{title}}
 
 _A reflection on craftsmanship in software engineering_
+
+**By {{author}}** · {{date}} · {{readTime}}
 
 ## Why Clean Code Matters
 
@@ -94,3 +102,7 @@ const findMatchingUsers = (users, allowedIds) => {
 - _Refactoring_ by Martin Fowler
 
 ![Writing](https://picsum.photos/600/300?random=29)
+
+---
+
+_{{author}} is a software engineer passionate about code quality and developer experience._

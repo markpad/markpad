@@ -4,6 +4,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import type { TailwindClasses, BehaviorConfig, FontConfig } from '../../types'
 import { useMemo, useCallback } from 'react'
+import { processMarkdownWithFrontmatter } from '../../utils/frontmatter'
 
 interface MarkdownPreviewProps {
   markdown: string
@@ -106,6 +107,12 @@ export function MarkdownPreview({
     [tailwindClasses, behaviorConfig.shouldOpenLinksInNewTab]
   )
 
+  // Process frontmatter and interpolate variables
+  const processedMarkdown = useMemo(() => {
+    const { processedContent } = processMarkdownWithFrontmatter(markdown)
+    return processedContent
+  }, [markdown])
+
   return (
     <div className="flex flex-col h-full bg-white">
       <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 border-b border-gray-200">
@@ -119,7 +126,7 @@ export function MarkdownPreview({
       >
         <article className={tailwindClasses.article}>
           <Markdown components={components} remarkPlugins={[gfm]}>
-            {markdown}
+            {processedMarkdown}
           </Markdown>
         </article>
       </div>

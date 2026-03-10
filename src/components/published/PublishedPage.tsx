@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
 import { useParams, Navigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import Markdown from 'react-markdown'
@@ -7,6 +7,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { decodeState } from '../../services/urlStateService'
 import { PublishedHeader } from './PublishedHeader'
+import { processMarkdownWithFrontmatter } from '../../utils/frontmatter'
 import type { AppState } from '../../types'
 
 /**
@@ -32,8 +33,15 @@ export function PublishedPage() {
     }
   }, [pako])
 
+  // Process frontmatter and interpolate variables
+  const processedMarkdown = useMemo(() => {
+    if (!state) return ''
+    const { processedContent } = processMarkdownWithFrontmatter(state.markdown)
+    return processedContent
+  }, [state])
+
   if (error) {
-    return <Navigate to="/themes" replace />
+    return <Navigate to="/" replace />
   }
 
   if (!state) {
@@ -165,7 +173,7 @@ export function PublishedPage() {
           <h1 className="print-title">{state.documentTitle}</h1>
           <article ref={articleRef} className={state.tailwindClasses.article}>
             <Markdown components={components} remarkPlugins={[gfm]}>
-              {state.markdown}
+              {processedMarkdown}
             </Markdown>
           </article>
         </main>

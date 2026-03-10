@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { FaSearch, FaPalette, FaFileAlt, FaShare } from 'react-icons/fa'
+import { FaSearch, FaFileAlt } from 'react-icons/fa'
 import { ThemeCard } from './ThemeCard'
 import { filterThemesByCategory, searchThemes, THEME_CATEGORIES } from '../../data/themes.generated'
 import type { ThemePreset, ThemeCategory } from '../../data/themes.generated'

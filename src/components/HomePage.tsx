@@ -11,6 +11,7 @@ import {
   FaGithub,
   FaMagic,
   FaRocket,
+  FaTags,
 } from 'react-icons/fa'
 
 /**
@@ -251,12 +252,12 @@ export function HomePage() {
             {/* Feature 6 */}
             <div className="p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-gray-700 transition-colors">
               <div className="w-12 h-12 bg-pink-500/10 rounded-lg flex items-center justify-center mb-4">
-                <FaFileAlt className="text-pink-400 text-xl" />
+                <FaTags className="text-pink-400 text-xl" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">URL State</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">Frontmatter Variables</h3>
               <p className="text-gray-400">
-                Your entire document state is encoded in the URL. Bookmark, share, or save links to
-                your work.
+                Define variables in YAML frontmatter and use them with {'{{variable}}'} syntax.
+                Perfect for templates.
               </p>
             </div>
           </div>

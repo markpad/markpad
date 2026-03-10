@@ -44,11 +44,18 @@ classes:
   body: bg-white p-8 text-gray-800
   article: prose prose-sm max-w-none
 ---
+---
+name: John Developer
+title: Senior Software Engineer
+location: San Francisco, CA
+email: john@example.com
+github: github.com/johndeveloper
+---
 
-# John Developer
+# {{name}}
 
-_Senior Software Engineer_ — San Francisco, CA
-[john@example.com](mailto:john@example.com) | [github.com/johndeveloper](https://github.com)
+_{{title}}_ — {{location}}
+[{{email}}](mailto:{{email}}) | [{{github}}](https://github.com)
 
 ## Experience
 
