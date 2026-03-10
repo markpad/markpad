@@ -1,5 +1,6 @@
-import { FaTimes, FaDownload, FaMarkdown, FaCode, FaFileCode } from 'react-icons/fa'
+import { FaTimes, FaDownload, FaMarkdown, FaCode, FaFileCode, FaCheck } from 'react-icons/fa'
 import type { TailwindClasses } from '../types'
+import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
 
 interface DownloadModalProps {
   isOpen: boolean
@@ -44,8 +45,13 @@ export function DownloadModal({
     onClose()
   }
 
-  const handleDownloadMarkdown = () => {
+  const handleDownloadMarkdownOriginal = () => {
     downloadFile(markdown, `${documentTitle}.md`, 'text/markdown')
+  }
+
+  const handleDownloadMarkdownProcessed = () => {
+    const { processedContent } = processMarkdownWithFrontmatter(markdown)
+    downloadFile(processedContent, `${documentTitle}-processed.md`, 'text/markdown')
   }
 
   const handleDownloadSimpleHtml = () => {
@@ -119,19 +125,47 @@ ${htmlContent}
 
         {/* Content */}
         <div className="p-6 space-y-3">
-          {/* Markdown Option */}
+          {/* Markdown Section Header */}
+          <div className="flex items-center gap-2 mb-2">
+            <FaMarkdown className="text-gray-400" />
+            <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+              Markdown
+            </span>
+          </div>
+
+          {/* Markdown Original Option */}
           <button
-            onClick={handleDownloadMarkdown}
+            onClick={handleDownloadMarkdownOriginal}
             className="w-full flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all group"
           >
             <div className="w-10 h-10 bg-gray-100 group-hover:bg-blue-100 rounded-lg flex items-center justify-center transition-colors">
               <FaMarkdown className="text-gray-600 group-hover:text-blue-600 text-lg" />
             </div>
             <div className="text-left flex-1">
-              <p className="font-medium text-gray-900">Markdown</p>
-              <p className="text-sm text-gray-500">Original source file (.md)</p>
+              <p className="font-medium text-gray-900">Original</p>
+              <p className="text-sm text-gray-500">With frontmatter, variables & loops (.md)</p>
             </div>
           </button>
+
+          {/* Markdown Processed Option */}
+          <button
+            onClick={handleDownloadMarkdownProcessed}
+            className="w-full flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:border-green-300 hover:bg-green-50 transition-all group"
+          >
+            <div className="w-10 h-10 bg-gray-100 group-hover:bg-green-100 rounded-lg flex items-center justify-center transition-colors">
+              <FaCheck className="text-gray-600 group-hover:text-green-600 text-lg" />
+            </div>
+            <div className="text-left flex-1">
+              <p className="font-medium text-gray-900">Processed (Portable)</p>
+              <p className="text-sm text-gray-500">Clean markdown, variables resolved (.md)</p>
+            </div>
+          </button>
+
+          {/* HTML Section Header */}
+          <div className="flex items-center gap-2 mb-2 mt-4 pt-4 border-t border-gray-100">
+            <FaCode className="text-gray-400" />
+            <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">HTML</span>
+          </div>
 
           {/* Simple HTML Option */}
           <button

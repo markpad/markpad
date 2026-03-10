@@ -11,6 +11,7 @@ export interface MarkdownEditorHandle {
   insertOrderedList: () => void
   insertQuote: () => void
   insertTable: () => void
+  insertText: (text: string) => void
 }
 
 interface MarkdownEditorProps {
@@ -54,6 +55,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
       insertQuote: () => insertText('\n> '),
       insertTable: () =>
         insertText('\n| Column 1 | Column 2 |\n|----------|----------|\n| Value 1  | Value 2  |\n'),
+      insertText: (text: string) => insertText(text),
     }))
 
     // Calculate line numbers

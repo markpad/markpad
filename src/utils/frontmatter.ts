@@ -1,12 +1,25 @@
 import yaml from 'js-yaml'
 
-interface FrontmatterResult {
+export interface FrontmatterResult {
   /** The markdown content without frontmatter */
   content: string
   /** The frontmatter data as an object */
   data: Record<string, unknown>
   /** The original markdown including frontmatter */
   original: string
+}
+
+export interface LoopMatch {
+  /** The full match including {% for %} and {% endfor %} */
+  fullMatch: string
+  /** The iteration variable name (e.g., "item" in "for item in items") */
+  iteratorName: string
+  /** The array variable name (e.g., "items" in "for item in items") */
+  arrayName: string
+  /** The content inside the loop */
+  loopContent: string
+  /** Start index in the original string */
+  startIndex: number
 }
 
 /**
@@ -119,11 +132,144 @@ export function processMarkdownWithFrontmatter(markdown: string): {
   frontmatterData: Record<string, unknown>
 } {
   const { content, data, original } = parseFrontmatter(markdown)
-  const processedContent = interpolateVariables(content, data)
+  const loopsProcessed = processLoops(content, data)
+  const processedContent = interpolateVariables(loopsProcessed, data)
 
   return {
     processedContent,
     originalMarkdown: original,
     frontmatterData: data,
   }
+}
+
+/**
+ * Process loops in content using Liquid-like syntax
+ * Supports: {% for item in items %}...{% endfor %}
+ *
+ * @param content - The content with loop placeholders
+ * @param data - The frontmatter data containing arrays
+ * @returns The content with loops expanded
+ */
+export function processLoops(content: string, data: Record<string, unknown>): string {
+  // Match {% for iteratorName in arrayName %}...{% endfor %}
+  // Using non-greedy match for content and handling nested structures
+  const loopPattern = /\{%\s*for\s+(\w+)\s+in\s+(\w+(?:\.\w+)*)\s*%\}([\s\S]*?)\{%\s*endfor\s*%\}/g
+
+  let result = content
+  let match: RegExpExecArray | null
+
+  // Process all loops (need to reset lastIndex for each iteration since we modify the string)
+  while ((match = loopPattern.exec(result)) !== null) {
+    const [fullMatch, iteratorName, arrayName, loopContent] = match
+
+    const arrayValue = getNestedValue(data, arrayName)
+
+    if (!Array.isArray(arrayValue)) {
+      // If array not found or not an array, remove the loop entirely
+      result = result.replace(fullMatch, '')
+      loopPattern.lastIndex = 0 // Reset since string changed
+      continue
+    }
+
+    // Expand the loop
+    const expandedContent = arrayValue
+      .map((item, index) => {
+        let expanded = loopContent
+        // Replace {{iteratorName}} with the item value
+        const itemPattern = new RegExp(`\\{\\{\\s*${iteratorName}\\s*\\}\\}`, 'g')
+        expanded = expanded.replace(itemPattern, String(item))
+
+        // Support {{iteratorName.property}} for object items
+        if (typeof item === 'object' && item !== null) {
+          const propPattern = new RegExp(`\\{\\{\\s*${iteratorName}\\.([\\w.]+)\\s*\\}\\}`, 'g')
+          expanded = expanded.replace(propPattern, (_, propPath: string) => {
+            const value = getNestedValue(item as Record<string, unknown>, propPath)
+            return value !== undefined ? String(value) : ''
+          })
+        }
+
+        // Support {{loop.index}} (1-based) and {{loop.index0}} (0-based)
+        expanded = expanded.replace(/\{\{\s*loop\.index\s*\}\}/g, String(index + 1))
+        expanded = expanded.replace(/\{\{\s*loop\.index0\s*\}\}/g, String(index))
+        expanded = expanded.replace(/\{\{\s*loop\.first\s*\}\}/g, String(index === 0))
+        expanded = expanded.replace(
+          /\{\{\s*loop\.last\s*\}\}/g,
+          String(index === arrayValue.length - 1)
+        )
+
+        return expanded
+      })
+      .join('')
+
+    result = result.replace(fullMatch, expandedContent)
+    loopPattern.lastIndex = 0 // Reset since string changed
+  }
+
+  return result
+}
+
+/**
+ * Extract array variables from frontmatter data
+ * Useful for populating loop modal dropdown
+ *
+ * @param data - The frontmatter data object
+ * @returns Array of variable names that contain arrays
+ */
+export function extractArrayVariables(data: Record<string, unknown>): string[] {
+  const arrays: string[] = []
+
+  function traverse(obj: Record<string, unknown>, prefix = ''): void {
+    for (const [key, value] of Object.entries(obj)) {
+      const fullPath = prefix ? `${prefix}.${key}` : key
+
+      if (Array.isArray(value)) {
+        arrays.push(fullPath)
+      } else if (typeof value === 'object' && value !== null) {
+        traverse(value as Record<string, unknown>, fullPath)
+      }
+    }
+  }
+
+  traverse(data)
+  return arrays
+}
+
+/**
+ * Generate a loop template string
+ *
+ * @param arrayName - The name of the array variable
+ * @param iteratorName - The name of the iterator variable (default: 'item')
+ * @param template - The template for each item (default: '- {{item}}')
+ * @returns The complete loop string
+ */
+export function generateLoopTemplate(
+  arrayName: string,
+  iteratorName = 'item',
+  template = `- {{${iteratorName}}}`
+): string {
+  return `{% for ${iteratorName} in ${arrayName} %}\n${template}\n{% endfor %}`
+}
+
+/**
+ * Add or update an array in frontmatter
+ *
+ * @param markdown - The current markdown content
+ * @param arrayName - The name for the array
+ * @param items - The array items
+ * @returns Updated markdown with the array in frontmatter
+ */
+export function addArrayToFrontmatter(
+  markdown: string,
+  arrayName: string,
+  items: string[]
+): string {
+  const { content, data } = parseFrontmatter(markdown)
+
+  // Add or update the array
+  data[arrayName] = items
+
+  // Rebuild frontmatter
+  const yamlString = yaml.dump(data, { indent: 2, lineWidth: -1 })
+
+  return `---\n${yamlString}---\n${content}`
 }

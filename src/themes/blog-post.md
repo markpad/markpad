@@ -44,11 +44,14 @@ classes:
   body: bg-white p-8 text-gray-800 max-w-2xl mx-auto
   article: prose prose-lg max-w-none
 ---
+
 ---
+
 title: The Art of Writing Clean Code
 author: Sarah Chen
 date: March 10, 2026
 readTime: 5 min read
+
 ---
 
 # {{title}}

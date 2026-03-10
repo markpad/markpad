@@ -44,7 +44,9 @@ classes:
   body: bg-white p-8 max-w-none
   article: prose prose-slate max-w-none
 ---
+
 ---
+
 title: The Impact of Typography on Reading Comprehension
 subtitle: A Systematic Review
 author: Dr. Emily Richards
@@ -52,6 +54,7 @@ institution: Stanford University
 department: Department of Cognitive Science
 date: March 2024
 keywords: typography, reading, comprehension, digital media
+
 ---
 
 # {{title}}: {{subtitle}}

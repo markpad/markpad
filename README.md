@@ -74,6 +74,7 @@ Currently working at {{company.name}} as {{company.role}}.
 ### Markdown Editing
 
 Use the toolbar buttons or keyboard shortcuts:
+
 - **H1-H3:** Click buttons or type `#`, `##`, `###`
 - **Bold:** Click B or `**text**`
 - **Italic:** Click I or `_text_`
@@ -90,6 +91,7 @@ Use the toolbar buttons or keyboard shortcuts:
 ### Exporting
 
 Click the download button to export:
+
 - **Markdown:** Original source with frontmatter
 - **Simple HTML:** Plain HTML without styles
 - **Styled HTML:** Complete HTML with Tailwind CSS

@@ -4,10 +4,12 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import Markdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import { useAppState } from '../hooks/useAppState'
+import { useLoopModal } from '../hooks/useLoopModal'
 import { Header } from './Header'
 import { MarkdownEditor, MarkdownEditorHandle } from './editor/MarkdownEditor'
 import { MarkdownPreview } from './preview/MarkdownPreview'
 import { StylePanel } from './style/StylePanel'
+import { LoopModal } from './LoopModal'
 import type { EditionMode, TailwindClasses } from '../types'
 
 interface EditorProps {
@@ -31,6 +33,9 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
 
   const [editionMode, setEditionMode] = useState<EditionMode>(initialMode)
   const [showStylePanel, setShowStylePanel] = useState(showStylePanelByDefault)
+
+  // Loop modal hook
+  const loopModal = useLoopModal(state.markdown)
 
   // Ref for editor formatting methods
   const editorRef = useRef<MarkdownEditorHandle>(null)
@@ -132,6 +137,19 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
     updateTailwindClass(element, value)
   }
 
+  // Handle loop insertion
+  const handleInsertLoop = useCallback(
+    (loopCode: string, updatedMarkdown: string) => {
+      // If markdown was updated (new array added), update it first
+      if (updatedMarkdown !== state.markdown) {
+        setMarkdown(updatedMarkdown)
+      }
+      // Insert the loop code at cursor position (or end if no editor ref)
+      editorRef.current?.insertText?.('\n' + loopCode + '\n')
+    },
+    [state.markdown, setMarkdown]
+  )
+
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       <Helmet>
@@ -158,6 +176,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
         onInsertOrderedList={() => editorRef.current?.insertOrderedList()}
         onInsertQuote={() => editorRef.current?.insertQuote()}
         onInsertTable={() => editorRef.current?.insertTable()}
+        onInsertLoop={() => loopModal.open()}
       />
 
       <div className="flex flex-1 overflow-hidden">
@@ -221,6 +240,9 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
           </div>
         )}
       </div>
+
+      {/* Loop Modal */}
+      <LoopModal loopModal={loopModal} onInsertLoop={handleInsertLoop} />
     </div>
   )
 }

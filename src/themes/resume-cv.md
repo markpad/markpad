@@ -44,12 +44,20 @@ classes:
   body: bg-white p-8 text-gray-800
   article: prose prose-sm max-w-none
 ---
+
 ---
+
 name: John Developer
 title: Senior Software Engineer
 location: San Francisco, CA
 email: john@example.com
 github: github.com/johndeveloper
+certifications:
+
+- AWS Certified Solutions Architect
+- Google Cloud Professional Developer
+- Certified Kubernetes Administrator
+
 ---
 
 # {{name}}
@@ -102,8 +110,9 @@ Awards: Dean's List (6 semesters), ACM Programming Contest Finalist
 
 ### Certifications
 
-- AWS Certified Solutions Architect
-- Google Cloud Professional Developer
-- Certified _Kubernetes Administrator_
+{% for cert in certifications %}
+
+- {{cert}}
+  {% endfor %}
 
 ![Professional headshot](https://picsum.photos/600/300?random=31)

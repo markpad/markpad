@@ -15,6 +15,7 @@ import {
   FaQuoteLeft,
   FaTable,
   FaGlobe,
+  FaSync,
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
 import type { EditionMode, AppState } from '../types'
@@ -36,6 +37,7 @@ interface HeaderProps {
   onInsertOrderedList?: () => void
   onInsertQuote?: () => void
   onInsertTable?: () => void
+  onInsertLoop?: () => void
 }
 
 interface MenuItemProps {
@@ -122,6 +124,7 @@ export function Header({
   onInsertOrderedList,
   onInsertQuote,
   onInsertTable,
+  onInsertLoop,
 }: HeaderProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [publishModalOpen, setPublishModalOpen] = useState(false)
@@ -378,6 +381,18 @@ export function Header({
             onClick={onInsertTable}
           >
             <FaTable className="text-sm" />
+          </button>
+
+          <div className="h-4 w-px bg-gray-300 mx-1" />
+
+          <Tooltip id="loop-tooltip" />
+          <button
+            data-tooltip-id="loop-tooltip"
+            data-tooltip-content="Insert Loop"
+            className="p-2 text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded-md transition-colors"
+            onClick={onInsertLoop}
+          >
+            <FaSync className="text-sm" />
           </button>
         </div>
 
