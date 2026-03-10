@@ -173,7 +173,7 @@ export function PublishedPage() {
         {/* Footer */}
         <footer className="text-center py-6 text-gray-400 text-sm no-print">
           Published with{' '}
-          <a href="/themes" className="text-blue-500 hover:text-blue-600 transition-colors">
+          <a href="/" className="text-blue-500 hover:text-blue-600 transition-colors">
             Marklab
           </a>
         </footer>

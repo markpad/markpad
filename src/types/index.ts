@@ -1,4 +1,4 @@
-// Types for the Taildown application
+// Types for the Marklab application
 
 export interface TailwindClasses {
   h1: string

@@ -135,7 +135,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       <Helmet>
-        <title>Taildown - Markdown Editor with Tailwind CSS</title>
+        <title>Marklab - Markdown Editor with Tailwind CSS</title>
         <meta
           name="description"
           content="Markdown editor with customizable Tailwind CSS classes."

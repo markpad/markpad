@@ -75,14 +75,14 @@ export function PublishedHeader({
         {/* Left - Logo and Breadcrumb */}
         <div className="flex items-center gap-2 min-w-0">
           {/* App Icon + Name */}
-          <a href="/themes" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <div className="flex items-center justify-center w-6 h-6 bg-blue-500 rounded">
               <FaFileAlt className="text-white text-xs" />
             </div>
             <span
               className={`font-semibold text-sm ${isDarkHeader ? 'text-white' : 'text-gray-900'}`}
             >
-              MarkLab
+              Marklab
             </span>
           </a>
 
