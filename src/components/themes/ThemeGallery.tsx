@@ -42,10 +42,6 @@ export function ThemeGallery() {
     navigate(`/editor#${encoded}`)
   }
 
-  const handleCreateCustomTheme = () => {
-    navigate('/editor')
-  }
-
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100">
       <Helmet>
