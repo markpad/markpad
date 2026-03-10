@@ -61,7 +61,7 @@ export function ThemeGallery() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
           <div className="flex items-center gap-6">
             {/* Logo */}
-            <a href="/themes" className="flex items-center gap-2.5">
+            <a href="/" className="flex items-center gap-2.5">
               <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg">
                 <FaFileAlt className="text-white text-sm" />
               </div>
@@ -86,26 +86,7 @@ export function ThemeGallery() {
           </div>
 
           {/* Right Side */}
-          <div className="flex items-center gap-3">
-            {/* Search in Header */}
-            <div className="hidden md:flex items-center gap-2 bg-gray-800 rounded-lg px-3 py-1.5 text-sm text-gray-500 border border-gray-700">
-              <FaSearch className="text-xs" />
-              <span>Search commands...</span>
-            </div>
-
-            <button
-              onClick={handleCreateCustomTheme}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white hover:bg-blue-500 rounded-lg transition-all text-sm font-medium"
-            >
-              <FaShare className="text-xs" />
-              Publish
-            </button>
-
-            {/* Avatar placeholder */}
-            <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
-              <span className="text-gray-400 text-xs">👤</span>
-            </div>
-          </div>
+          <div className="flex items-center gap-3"></div>
         </div>
       </header>
 
@@ -120,14 +101,6 @@ export function ThemeGallery() {
               Each theme is optimized for readability and aesthetic precision.
             </p>
           </div>
-
-          <button
-            onClick={handleCreateCustomTheme}
-            className="hidden sm:flex items-center gap-2 px-5 py-2.5 bg-gray-800 text-white hover:bg-gray-700 border border-gray-700 rounded-lg transition-all text-sm font-medium"
-          >
-            <FaPalette className="text-blue-400" />
-            Create Custom Theme
-          </button>
         </div>
 
         {/* Search Bar */}
