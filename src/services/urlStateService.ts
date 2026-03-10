@@ -119,6 +119,14 @@ export function generateShareableUrl(state: AppState): string {
 }
 
 /**
+ * Generates a publish URL for the preview page
+ */
+export function generatePublishUrl(state: AppState): string {
+  const encoded = encodeState(state)
+  return `${window.location.origin}/publish/${encoded}`
+}
+
+/**
  * Default tailwind classes configuration
  */
 export const defaultTailwindClasses: TailwindClasses = {

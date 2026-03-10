@@ -119,7 +119,7 @@ export function StylePanel({
         <CollapsibleSection title="Typography" defaultOpen={true}>
           <div className="space-y-3">
             <div>
-              <label className="block text-gray-700 text-sm mb-1.5 flex items-center gap-2">
+              <label className="text-gray-700 text-sm mb-1.5 flex items-center gap-2">
                 <FaFont className="text-gray-500" />
                 Font Family
               </label>
