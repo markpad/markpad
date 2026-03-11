@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { FaTimes, FaSync, FaPlus, FaCode } from 'react-icons/fa'
 import type { UseLoopModalResult } from '../hooks/useLoopModal'
 
@@ -29,6 +30,14 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
     preview,
   } = loopModal
 
+  // Track raw textarea input to preserve newlines while typing
+  const [itemsInput, setItemsInput] = useState(newArrayConfig.items.join('\n'))
+
+  // Reset itemsInput when modal opens/closes or array changes
+  useEffect(() => {
+    setItemsInput(newArrayConfig.items.join('\n'))
+  }, [isOpen])
+
   if (!isOpen) return null
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -46,6 +55,7 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
   }
 
   const handleItemsChange = (value: string) => {
+    setItemsInput(value)
     const items = value
       .split('\n')
       .map((item) => item.trim())
@@ -160,7 +170,7 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
                   Items (one per line)
                 </label>
                 <textarea
-                  value={newArrayConfig.items.join('\n')}
+                  value={itemsInput}
                   onChange={(e) => handleItemsChange(e.target.value)}
                   placeholder="JavaScript&#10;TypeScript&#10;React"
                   rows={4}

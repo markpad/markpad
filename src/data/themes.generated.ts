@@ -229,7 +229,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Oswald"
@@ -279,7 +279,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Inter"
@@ -329,7 +329,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Fira Sans"
@@ -379,7 +379,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Fira Sans"
@@ -529,7 +529,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Inter"
@@ -579,7 +579,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Merriweather"
@@ -629,7 +629,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Open Sans"
@@ -679,7 +679,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Roboto"
@@ -779,7 +779,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Playfair Display"
@@ -829,7 +829,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Ubuntu"
@@ -979,7 +979,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Inter"
@@ -1029,7 +1029,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Nunito"
@@ -1129,7 +1129,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Ubuntu"
@@ -1229,7 +1229,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Source Sans Pro"
@@ -1279,7 +1279,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Inter"
@@ -1329,7 +1329,7 @@ export const themePresets: ThemePreset[] = [
     },
     "behaviorConfig": {
       "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": true
+      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Inter"

@@ -17,6 +17,12 @@ function generateThemes() {
     const content = fs.readFileSync(path.join(THEMES_DIR, file), 'utf-8')
     const { data, content: markdownContent } = matter(content)
 
+    // Extract only shouldOpenLinksInNewTab from behavior (shouldShowLineNumbers is user preference, not theme)
+    const behaviorConfig = {
+      shouldOpenLinksInNewTab: data.behavior?.shouldOpenLinksInNewTab ?? true,
+      shouldShowLineNumbers: false, // Default value, will be overridden by user preference
+    }
+
     return {
       id: data.id,
       name: data.name,
@@ -24,7 +30,7 @@ function generateThemes() {
       category: data.category,
       fontFamily: data.fontFamily,
       tailwindClasses: data.classes,
-      behaviorConfig: data.behavior,
+      behaviorConfig,
       fontConfig: { fontFamily: data.fontFamily },
       preview: data.preview,
       exampleContent: markdownContent.trim(),

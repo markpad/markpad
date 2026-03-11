@@ -1,4 +1,4 @@
-import { useRef, useCallback, useImperativeHandle, forwardRef } from 'react'
+import { useCallback, useImperativeHandle, forwardRef } from 'react'
 import { useMarkdownEditor } from '../../hooks/useMarkdownEditor'
 
 export interface MarkdownEditorHandle {
@@ -19,7 +19,6 @@ interface MarkdownEditorProps {
   setMarkdown: (markdown: string) => void
   showLineNumbers?: boolean
   onScroll?: (scrollTop: number, scrollHeight: number, clientHeight: number) => void
-  scrollRef?: React.RefObject<HTMLDivElement>
 }
 
 /**
@@ -27,18 +26,11 @@ interface MarkdownEditorProps {
  * Follows Single Responsibility - handles only markdown editing
  */
 export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorProps>(
-  function MarkdownEditor(
-    { markdown, setMarkdown, showLineNumbers = true, onScroll, scrollRef },
-    ref
-  ) {
+  function MarkdownEditor({ markdown, setMarkdown, showLineNumbers = true, onScroll }, ref) {
     const { textareaRef, handleChange, insertText, wrapSelection } = useMarkdownEditor({
       markdown,
       setMarkdown,
     })
-
-    const lineNumbersRef = useRef<HTMLDivElement>(null)
-    const internalScrollRef = useRef<HTMLDivElement>(null)
-    const activeScrollRef = scrollRef || internalScrollRef
 
     // Expose formatting methods to parent via ref
     useImperativeHandle(ref, () => ({
@@ -61,25 +53,15 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
     // Calculate line numbers
     const lineCount = markdown.split('\n').length
 
-    // Handle scroll to sync line numbers and notify parent
+    // Handle scroll to notify parent
     const handleScroll = useCallback(() => {
-      const scrollContainer = activeScrollRef.current
-      if (!scrollContainer) return
+      const textarea = textareaRef.current
+      if (!textarea) return
 
-      // Sync line numbers with textarea scroll
-      if (lineNumbersRef.current) {
-        lineNumbersRef.current.scrollTop = scrollContainer.scrollTop
-      }
-
-      // Notify parent for cross-panel sync
       if (onScroll) {
-        onScroll(
-          scrollContainer.scrollTop,
-          scrollContainer.scrollHeight,
-          scrollContainer.clientHeight
-        )
+        onScroll(textarea.scrollTop, textarea.scrollHeight, textarea.clientHeight)
       }
-    }, [onScroll, activeScrollRef])
+    }, [onScroll, textareaRef])
 
     return (
       <div className="flex flex-col h-full bg-white">
@@ -91,10 +73,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
         {/* Editor Content */}
         <div className="flex flex-1 overflow-hidden">
           {showLineNumbers && (
-            <div
-              ref={lineNumbersRef}
-              className="flex flex-col items-end py-3 px-2 bg-gray-50 text-gray-400 text-sm font-mono select-none border-r border-gray-200 min-w-[3rem] overflow-hidden"
-            >
+            <div className="py-3 px-2 bg-gray-50 text-gray-400 text-sm font-mono select-none border-r border-gray-200 min-w-[3rem] text-right">
               {Array.from({ length: lineCount }, (_, i) => (
                 <div key={i} className="leading-6 h-6">
                   {i + 1}
@@ -102,16 +81,15 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
               ))}
             </div>
           )}
-          <div ref={activeScrollRef} className="flex-1 overflow-auto" onScroll={handleScroll}>
-            <textarea
-              ref={textareaRef}
-              value={markdown}
-              onChange={handleChange}
-              className="w-full h-full min-h-full bg-white text-gray-800 p-3 resize-none outline-none font-mono text-sm leading-6"
-              placeholder="Type your markdown here..."
-              spellCheck={false}
-            />
-          </div>
+          <textarea
+            ref={textareaRef as React.RefObject<HTMLTextAreaElement>}
+            value={markdown}
+            onChange={handleChange}
+            onScroll={handleScroll}
+            className="flex-1 min-h-full bg-white text-gray-800 p-3 resize-none outline-none font-mono text-sm leading-6 overflow-auto"
+            placeholder="Type your markdown here..."
+            spellCheck={false}
+          />
         </div>
       </div>
     )

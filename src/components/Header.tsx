@@ -16,6 +16,8 @@ import {
   FaTable,
   FaGlobe,
   FaSync,
+  FaListAlt,
+  FaCheck,
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
 import type { EditionMode, AppState } from '../types'
@@ -28,6 +30,10 @@ interface HeaderProps {
   onEditionModeChange: (mode: EditionMode) => void
   htmlContent: string
   onDocumentTitleChange: (title: string) => void
+  showLineNumbers: boolean
+  onToggleLineNumbers: () => void
+  syncScroll: boolean
+  onToggleSyncScroll: () => void
   onInsertHeading?: (level: 1 | 2 | 3) => void
   onInsertBold?: () => void
   onInsertItalic?: () => void
@@ -79,12 +85,10 @@ function MenuDropdown({ label, items }: MenuItemProps) {
       </button>
       {isOpen && (
         <div className="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-xl z-50 min-w-[200px] py-1">
-          {items.map((item, index) =>
-            item.divider ? (
-              <div key={index} className="border-t border-gray-200 my-1" />
-            ) : (
+          {items.map((item, index) => (
+            <div key={index}>
+              {item.divider && <div className="border-t border-gray-200 my-1" />}
               <button
-                key={index}
                 className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex items-center justify-between"
                 onClick={() => {
                   item.onClick()
@@ -97,8 +101,8 @@ function MenuDropdown({ label, items }: MenuItemProps) {
                 </span>
                 {item.shortcut && <span className="text-gray-400 text-xs">{item.shortcut}</span>}
               </button>
-            )
-          )}
+            </div>
+          ))}
         </div>
       )}
     </div>
@@ -115,6 +119,10 @@ export function Header({
   onEditionModeChange,
   htmlContent,
   onDocumentTitleChange,
+  showLineNumbers,
+  onToggleLineNumbers,
+  syncScroll,
+  onToggleSyncScroll,
   onInsertHeading,
   onInsertBold,
   onInsertItalic,
@@ -207,6 +215,25 @@ export function Header({
       label: 'Preview only',
       icon: <FaEye />,
       onClick: () => onEditionModeChange('preview'),
+    },
+    {
+      label: 'Show line numbers',
+      icon: showLineNumbers ? (
+        <FaCheck className="text-blue-600" />
+      ) : (
+        <FaListAlt className="opacity-30" />
+      ),
+      onClick: onToggleLineNumbers,
+    },
+    {
+      label: 'Sync scroll',
+      icon: syncScroll ? (
+        <FaCheck className="text-blue-600" />
+      ) : (
+        <FaColumns className="opacity-30" />
+      ),
+      onClick: onToggleSyncScroll,
+      divider: true,
     },
   ]
 

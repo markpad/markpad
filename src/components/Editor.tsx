@@ -44,6 +44,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
   const [showStylePanel, setShowStylePanel] = useState(showStylePanelByDefault)
   const [activeSidebarPanel, setActiveSidebarPanel] = useState<SidebarPanel>('themes')
   const [currentThemeId, setCurrentThemeId] = useState<string | undefined>()
+  const [syncScroll, setSyncScroll] = useState(false)
 
   // Loop modal hook
   const loopModal = useLoopModal(state.markdown)
@@ -153,11 +154,20 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
   const handleApplyTheme = useCallback(
     (theme: ThemePreset) => {
       setTailwindClasses(theme.tailwindClasses)
-      setBehaviorConfig(theme.behaviorConfig)
+      // Preserve user's shouldShowLineNumbers preference when applying theme
+      setBehaviorConfig({
+        ...theme.behaviorConfig,
+        shouldShowLineNumbers: state.behaviorConfig.shouldShowLineNumbers,
+      })
       setFontConfig(theme.fontConfig)
       setCurrentThemeId(theme.id)
     },
-    [setTailwindClasses, setBehaviorConfig, setFontConfig]
+    [
+      setTailwindClasses,
+      setBehaviorConfig,
+      setFontConfig,
+      state.behaviorConfig.shouldShowLineNumbers,
+    ]
   )
 
   // Handle loop insertion
@@ -190,6 +200,12 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
         onEditionModeChange={setEditionMode}
         htmlContent={htmlContent}
         onDocumentTitleChange={setDocumentTitle}
+        showLineNumbers={state.behaviorConfig.shouldShowLineNumbers}
+        onToggleLineNumbers={() =>
+          updateBehaviorConfig('shouldShowLineNumbers', !state.behaviorConfig.shouldShowLineNumbers)
+        }
+        syncScroll={syncScroll}
+        onToggleSyncScroll={() => setSyncScroll(!syncScroll)}
         onInsertHeading={(level) => editorRef.current?.insertHeading(level)}
         onInsertBold={() => editorRef.current?.insertBold()}
         onInsertItalic={() => editorRef.current?.insertItalic()}
@@ -215,8 +231,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
                 markdown={state.markdown}
                 setMarkdown={setMarkdown}
                 showLineNumbers={state.behaviorConfig.shouldShowLineNumbers}
-                onScroll={editionMode === 'split' ? handleEditorScroll : undefined}
-                scrollRef={editorScrollRef}
+                onScroll={syncScroll && editionMode === 'split' ? handleEditorScroll : undefined}
               />
             </div>
           )}
@@ -229,7 +244,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
                 tailwindClasses={state.tailwindClasses}
                 behaviorConfig={state.behaviorConfig}
                 fontConfig={state.fontConfig}
-                onScroll={editionMode === 'split' ? handlePreviewScroll : undefined}
+                onScroll={syncScroll && editionMode === 'split' ? handlePreviewScroll : undefined}
                 scrollRef={previewScrollRef}
               />
             </div>

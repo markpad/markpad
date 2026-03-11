@@ -14,3 +14,9 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+/* Remove decorative backticks from inline code (Tailwind Typography default) */
+.prose code::before,
+.prose code::after {
+  content: none;
+}

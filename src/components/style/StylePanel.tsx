@@ -344,17 +344,6 @@ export function StylePanel({
                   />
                   Open links in new tab
                 </label>
-                <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={behaviorConfig.shouldShowLineNumbers}
-                    onChange={(e) => {
-                      onBehaviorConfigChange('shouldShowLineNumbers', e.target.checked)
-                    }}
-                    className="w-4 h-4 rounded border-gray-300 bg-white text-blue-600 focus:ring-blue-500"
-                  />
-                  Show line numbers
-                </label>
               </div>
             </CollapsibleSection>
           </>

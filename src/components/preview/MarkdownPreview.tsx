@@ -74,7 +74,12 @@ export function MarkdownPreview({
         const match = /language-(\w+)/.exec(className || '')
         const language = match ? match[1] : ''
 
-        if (inline) {
+        // Detect inline code: either explicit inline prop, or no language class and single line content
+        const content = String(children)
+        const isInline =
+          inline === true || (inline !== false && !className && !content.includes('\n'))
+
+        if (isInline) {
           return (
             <code className={tailwindClasses.code} {...props}>
               {children}
@@ -94,7 +99,7 @@ export function MarkdownPreview({
             }}
             {...props}
           >
-            {String(children).replace(/\n$/, '')}
+            {content.replace(/\n$/, '')}
           </SyntaxHighlighter>
         )
       },
