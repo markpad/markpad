@@ -33,10 +33,12 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
   // Track raw textarea input to preserve newlines while typing
   const [itemsInput, setItemsInput] = useState(newArrayConfig.items.join('\n'))
 
-  // Reset itemsInput when modal opens/closes or array changes
+  // Reset itemsInput when modal opens
   useEffect(() => {
-    setItemsInput(newArrayConfig.items.join('\n'))
-  }, [isOpen])
+    if (isOpen) {
+      setItemsInput(newArrayConfig.items.join('\n'))
+    }
+  }, [isOpen, newArrayConfig.items])
 
   if (!isOpen) return null
 
