@@ -85,24 +85,30 @@ function MenuDropdown({ label, items }: MenuItemProps) {
       </button>
       {isOpen && (
         <div className="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-xl z-50 min-w-[200px] py-1">
-          {items.map((item, index) => (
-            <div key={index}>
-              {item.divider && <div className="border-t border-gray-200 my-1" />}
-              <button
-                className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex items-center justify-between"
-                onClick={() => {
-                  item.onClick()
-                  setIsOpen(false)
-                }}
-              >
-                <span className="flex items-center gap-3">
-                  {item.icon && <span className="text-gray-500 w-4">{item.icon}</span>}
-                  {item.label}
-                </span>
-                {item.shortcut && <span className="text-gray-400 text-xs">{item.shortcut}</span>}
-              </button>
-            </div>
-          ))}
+          {items.map((item, index) => {
+            // Divider-only item
+            if (item.label === 'divider' && item.divider) {
+              return <div key={index} className="border-t border-gray-200 my-1" />
+            }
+            return (
+              <div key={index}>
+                {item.divider && <div className="border-t border-gray-200 my-1" />}
+                <button
+                  className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex items-center justify-between"
+                  onClick={() => {
+                    item.onClick()
+                    setIsOpen(false)
+                  }}
+                >
+                  <span className="flex items-center gap-3">
+                    {item.icon && <span className="text-gray-500 w-4">{item.icon}</span>}
+                    {item.label}
+                  </span>
+                  {item.shortcut && <span className="text-gray-400 text-xs">{item.shortcut}</span>}
+                </button>
+              </div>
+            )
+          })}
         </div>
       )}
     </div>
