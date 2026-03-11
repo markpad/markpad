@@ -1,0 +1,89 @@
+import React from 'react'
+import { ThemePreset } from '../../data/themes.generated'
+
+interface ThemeCardCompactProps {
+  theme: ThemePreset & { isLocal?: boolean }
+  isActive: boolean
+  onApply: () => void
+  onDelete?: () => void
+}
+
+// Compact preview that fits in sidebar
+function CompactPreview({ theme }: { theme: ThemePreset }) {
+  // Use the preview colors directly from theme data
+  const { bgColor, textColor, accentColor, headingFont, bodyFont } = theme.preview
+
+  return (
+    <div
+      className="h-16 rounded overflow-hidden border border-gray-200 p-2"
+      style={{ backgroundColor: bgColor }}
+    >
+      <div
+        className="truncate text-xs mb-1 font-bold"
+        style={{ fontFamily: headingFont, color: accentColor }}
+      >
+        Heading
+      </div>
+      <div
+        className="text-[8px] leading-tight line-clamp-2"
+        style={{ fontFamily: bodyFont, color: textColor }}
+      >
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.
+      </div>
+    </div>
+  )
+}
+
+export function ThemeCardCompact({ theme, isActive, onApply, onDelete }: ThemeCardCompactProps) {
+  const isLocal = 'isLocal' in theme && theme.isLocal
+
+  return (
+    <button
+      onClick={onApply}
+      className={`
+        w-full text-left rounded-lg border-2 transition-all p-2
+        ${
+          isActive
+            ? 'border-blue-500 bg-blue-50'
+            : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+        }
+      `}
+    >
+      <CompactPreview theme={theme} />
+
+      <div className="mt-2 flex items-start justify-between gap-1">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-1">
+            <span className="font-medium text-sm text-gray-900 truncate">{theme.name}</span>
+            {isLocal && (
+              <span className="flex-shrink-0 text-[10px] px-1 py-0.5 bg-purple-100 text-purple-700 rounded">
+                Local
+              </span>
+            )}
+          </div>
+          <p className="text-xs text-gray-500 truncate">{theme.description}</p>
+        </div>
+
+        {isLocal && onDelete && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              onDelete()
+            }}
+            className="flex-shrink-0 p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded"
+            title="Delete theme"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+          </button>
+        )}
+      </div>
+    </button>
+  )
+}

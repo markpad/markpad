@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet'
 import { renderToStaticMarkup } from 'react-dom/server'
 import Markdown from 'react-markdown'
 import gfm from 'remark-gfm'
+import { Tooltip } from 'react-tooltip'
+import { FaPalette, FaTimes } from 'react-icons/fa'
 import { useAppState } from '../hooks/useAppState'
 import { useLoopModal } from '../hooks/useLoopModal'
 import { Header } from './Header'
@@ -11,6 +13,7 @@ import { MarkdownPreview } from './preview/MarkdownPreview'
 import { StylePanel } from './style/StylePanel'
 import { LoopModal } from './LoopModal'
 import type { EditionMode, TailwindClasses } from '../types'
+import type { ThemePreset } from '../data/themes.generated'
 
 interface EditorProps {
   initialMode?: EditionMode
@@ -29,10 +32,14 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
     updateTailwindClass,
     updateBehaviorConfig,
     updateFontConfig,
+    setTailwindClasses,
+    setBehaviorConfig,
+    setFontConfig,
   } = useAppState()
 
   const [editionMode, setEditionMode] = useState<EditionMode>(initialMode)
   const [showStylePanel, setShowStylePanel] = useState(showStylePanelByDefault)
+  const [currentThemeId, setCurrentThemeId] = useState<string | undefined>()
 
   // Loop modal hook
   const loopModal = useLoopModal(state.markdown)
@@ -135,7 +142,19 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
 
   const handleTailwindClassChange = (element: keyof TailwindClasses, value: string) => {
     updateTailwindClass(element, value)
+    setCurrentThemeId(undefined) // Clear theme when manually edited
   }
+
+  // Handle applying a theme
+  const handleApplyTheme = useCallback(
+    (theme: ThemePreset) => {
+      setTailwindClasses(theme.tailwindClasses)
+      setBehaviorConfig(theme.behaviorConfig)
+      setFontConfig(theme.fontConfig)
+      setCurrentThemeId(theme.id)
+    },
+    [setTailwindClasses, setBehaviorConfig, setFontConfig]
+  )
 
   // Handle loop insertion
   const handleInsertLoop = useCallback(
@@ -213,29 +232,47 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
           )}
         </div>
 
-        {/* Style Panel Toggle Button */}
-        <button
-          className={`absolute right-0 top-1/2 transform -translate-y-1/2 z-10 px-1 py-4 bg-gray-200 text-gray-600 hover:text-gray-900 hover:bg-gray-300 rounded-l-md transition-all ${
-            showStylePanel ? 'right-[320px]' : 'right-0'
+        {/* Style Panel Toggle - Google Docs style icon bar */}
+        <div
+          className={`flex flex-col items-center bg-gray-50 border-l border-gray-300 transition-all ${
+            showStylePanel ? 'w-0 overflow-hidden' : 'w-12 py-2'
           }`}
-          onClick={() => {
-            setShowStylePanel(!showStylePanel)
-          }}
-          style={{ right: showStylePanel ? '320px' : '0' }}
         >
-          {showStylePanel ? '›' : '‹'}
-        </button>
+          {!showStylePanel && (
+            <>
+              <Tooltip id="themes-tooltip" />
+              <button
+                onClick={() => setShowStylePanel(true)}
+                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded-md transition-colors"
+                data-tooltip-id="themes-tooltip"
+                data-tooltip-content="Themes"
+              >
+                <FaPalette className="text-lg" />
+              </button>
+            </>
+          )}
+        </div>
 
         {/* Style Panel */}
         {showStylePanel && (
-          <div className="w-80 border-l border-gray-300 flex-shrink-0">
+          <div className="w-80 border-l border-gray-300 flex-shrink-0 relative">
+            {/* Close button */}
+            <button
+              onClick={() => setShowStylePanel(false)}
+              className="absolute top-1 right-1 z-10 p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-md transition-colors"
+              title="Close panel"
+            >
+              <FaTimes className="text-sm" />
+            </button>
             <StylePanel
               tailwindClasses={state.tailwindClasses}
               behaviorConfig={state.behaviorConfig}
               fontConfig={state.fontConfig}
+              currentThemeId={currentThemeId}
               onTailwindClassChange={handleTailwindClassChange}
               onBehaviorConfigChange={updateBehaviorConfig}
               onFontConfigChange={updateFontConfig}
+              onApplyTheme={handleApplyTheme}
             />
           </div>
         )}
