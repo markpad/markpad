@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useCallback } from 'react'
+import { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { renderToStaticMarkup } from 'react-dom/server'
 import Markdown from 'react-markdown'
@@ -45,9 +45,18 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
   const [activeSidebarPanel, setActiveSidebarPanel] = useState<SidebarPanel>('themes')
   const [currentThemeId, setCurrentThemeId] = useState<string | undefined>()
   const [syncScroll, setSyncScroll] = useState(false)
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode')
+    return saved === 'true'
+  })
 
   // Loop modal hook
   const loopModal = useLoopModal(state.markdown)
+
+  // Persist dark mode preference
+  useEffect(() => {
+    localStorage.setItem('darkMode', darkMode.toString())
+  }, [darkMode])
 
   // Ref for editor formatting methods
   const editorRef = useRef<MarkdownEditorHandle>(null)
@@ -184,145 +193,152 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
   )
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
-      <Helmet>
-        <title>Marklab - Markdown Editor with Tailwind CSS</title>
-        <meta
-          name="description"
-          content="Markdown editor with customizable Tailwind CSS classes."
+    <div className={`flex flex-col h-screen ${darkMode ? 'dark' : ''}`}>
+      <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
+        <Helmet>
+          <title>Marklab - Markdown Editor with Tailwind CSS</title>
+          <meta
+            name="description"
+            content="Markdown editor with customizable Tailwind CSS classes."
+          />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        </Helmet>
+
+        <Header
+          state={state}
+          editionMode={editionMode}
+          onEditionModeChange={setEditionMode}
+          htmlContent={htmlContent}
+          onDocumentTitleChange={setDocumentTitle}
+          showLineNumbers={state.behaviorConfig.shouldShowLineNumbers}
+          onToggleLineNumbers={() =>
+            updateBehaviorConfig(
+              'shouldShowLineNumbers',
+              !state.behaviorConfig.shouldShowLineNumbers
+            )
+          }
+          syncScroll={syncScroll}
+          onToggleSyncScroll={() => setSyncScroll(!syncScroll)}
+          darkMode={darkMode}
+          onToggleDarkMode={() => setDarkMode(!darkMode)}
+          onInsertHeading={(level) => editorRef.current?.insertHeading(level)}
+          onInsertBold={() => editorRef.current?.insertBold()}
+          onInsertItalic={() => editorRef.current?.insertItalic()}
+          onInsertLink={() => editorRef.current?.insertLink()}
+          onInsertImage={() => editorRef.current?.insertImage()}
+          onInsertUnorderedList={() => editorRef.current?.insertUnorderedList()}
+          onInsertOrderedList={() => editorRef.current?.insertOrderedList()}
+          onInsertQuote={() => editorRef.current?.insertQuote()}
+          onInsertTable={() => editorRef.current?.insertTable()}
+          onInsertLoop={() => loopModal.open()}
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Helmet>
 
-      <Header
-        state={state}
-        editionMode={editionMode}
-        onEditionModeChange={setEditionMode}
-        htmlContent={htmlContent}
-        onDocumentTitleChange={setDocumentTitle}
-        showLineNumbers={state.behaviorConfig.shouldShowLineNumbers}
-        onToggleLineNumbers={() =>
-          updateBehaviorConfig('shouldShowLineNumbers', !state.behaviorConfig.shouldShowLineNumbers)
-        }
-        syncScroll={syncScroll}
-        onToggleSyncScroll={() => setSyncScroll(!syncScroll)}
-        onInsertHeading={(level) => editorRef.current?.insertHeading(level)}
-        onInsertBold={() => editorRef.current?.insertBold()}
-        onInsertItalic={() => editorRef.current?.insertItalic()}
-        onInsertLink={() => editorRef.current?.insertLink()}
-        onInsertImage={() => editorRef.current?.insertImage()}
-        onInsertUnorderedList={() => editorRef.current?.insertUnorderedList()}
-        onInsertOrderedList={() => editorRef.current?.insertOrderedList()}
-        onInsertQuote={() => editorRef.current?.insertQuote()}
-        onInsertTable={() => editorRef.current?.insertTable()}
-        onInsertLoop={() => loopModal.open()}
-      />
-
-      <div className="flex flex-1 overflow-hidden">
-        {/* Main content area */}
         <div className="flex flex-1 overflow-hidden">
-          {/* Editor Panel */}
-          {(editionMode === 'edit' || editionMode === 'split') && (
-            <div
-              className={`${editionMode === 'split' ? 'w-1/2' : 'flex-1'} border-r border-gray-300`}
-            >
-              <MarkdownEditor
-                ref={editorRef}
-                markdown={state.markdown}
-                setMarkdown={setMarkdown}
-                showLineNumbers={state.behaviorConfig.shouldShowLineNumbers}
-                onScroll={syncScroll && editionMode === 'split' ? handleEditorScroll : undefined}
-              />
-            </div>
-          )}
-
-          {/* Preview Panel */}
-          {(editionMode === 'preview' || editionMode === 'split') && (
-            <div className={`${editionMode === 'split' ? 'w-1/2' : 'flex-1'}`}>
-              <MarkdownPreview
-                markdown={state.markdown}
-                tailwindClasses={state.tailwindClasses}
-                behaviorConfig={state.behaviorConfig}
-                fontConfig={state.fontConfig}
-                onScroll={syncScroll && editionMode === 'split' ? handlePreviewScroll : undefined}
-                scrollRef={previewScrollRef}
-              />
-            </div>
-          )}
-        </div>
-
-        {/* Style Panel Toggle - Google Docs style icon bar */}
-        <div
-          className={`flex flex-col items-center bg-gray-50 border-l border-gray-300 transition-all ${
-            showStylePanel ? 'w-0 overflow-hidden' : 'w-12 py-2'
-          }`}
-        >
-          {!showStylePanel && (
-            <>
-              <Tooltip id="sidebar-tooltip" />
-              <button
-                onClick={() => {
-                  setActiveSidebarPanel('themes')
-                  setShowStylePanel(true)
-                }}
-                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded-md transition-colors"
-                data-tooltip-id="sidebar-tooltip"
-                data-tooltip-content="Themes"
+          {/* Main content area */}
+          <div className="flex flex-1 overflow-hidden">
+            {/* Editor Panel */}
+            {(editionMode === 'edit' || editionMode === 'split') && (
+              <div
+                className={`${editionMode === 'split' ? 'w-1/2' : 'flex-1'} border-r border-gray-300 dark:border-gray-700`}
               >
-                <FaPalette className="text-lg" />
-              </button>
-              <button
-                onClick={() => {
-                  setActiveSidebarPanel('export')
-                  setShowStylePanel(true)
-                }}
-                className="p-2 mt-1 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded-md transition-colors"
-                data-tooltip-id="sidebar-tooltip"
-                data-tooltip-content="Export"
-              >
-                <FaDownload className="text-lg" />
-              </button>
-            </>
-          )}
-        </div>
+                <MarkdownEditor
+                  ref={editorRef}
+                  markdown={state.markdown}
+                  setMarkdown={setMarkdown}
+                  showLineNumbers={state.behaviorConfig.shouldShowLineNumbers}
+                  onScroll={syncScroll && editionMode === 'split' ? handleEditorScroll : undefined}
+                />
+              </div>
+            )}
 
-        {/* Side Panel */}
-        {showStylePanel && (
-          <div className="w-80 border-l border-gray-300 flex-shrink-0 relative">
-            {/* Close button */}
-            <button
-              onClick={() => setShowStylePanel(false)}
-              className="absolute top-1 right-1 z-10 p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-md transition-colors"
-              title="Close panel"
-            >
-              <FaTimes className="text-sm" />
-            </button>
-            {activeSidebarPanel === 'themes' ? (
-              <StylePanel
-                tailwindClasses={state.tailwindClasses}
-                behaviorConfig={state.behaviorConfig}
-                fontConfig={state.fontConfig}
-                currentThemeId={currentThemeId}
-                onTailwindClassChange={handleTailwindClassChange}
-                onBehaviorConfigChange={updateBehaviorConfig}
-                onFontConfigChange={updateFontConfig}
-                onApplyTheme={handleApplyTheme}
-              />
-            ) : (
-              <ExportPanel
-                documentTitle={state.documentTitle}
-                markdown={state.markdown}
-                htmlContent={htmlContent}
-                tailwindClasses={state.tailwindClasses}
-                fontFamily={state.fontConfig.fontFamily}
-              />
+            {/* Preview Panel */}
+            {(editionMode === 'preview' || editionMode === 'split') && (
+              <div className={`${editionMode === 'split' ? 'w-1/2' : 'flex-1'}`}>
+                <MarkdownPreview
+                  markdown={state.markdown}
+                  tailwindClasses={state.tailwindClasses}
+                  behaviorConfig={state.behaviorConfig}
+                  fontConfig={state.fontConfig}
+                  onScroll={syncScroll && editionMode === 'split' ? handlePreviewScroll : undefined}
+                  scrollRef={previewScrollRef}
+                />
+              </div>
             )}
           </div>
-        )}
-      </div>
 
-      {/* Loop Modal */}
-      <LoopModal loopModal={loopModal} onInsertLoop={handleInsertLoop} />
+          {/* Style Panel Toggle - Google Docs style icon bar */}
+          <div
+            className={`flex flex-col items-center bg-gray-50 dark:bg-gray-800 border-l border-gray-300 dark:border-gray-700 transition-all ${
+              showStylePanel ? 'w-0 overflow-hidden' : 'w-12 py-2'
+            }`}
+          >
+            {!showStylePanel && (
+              <>
+                <Tooltip id="sidebar-tooltip" />
+                <button
+                  onClick={() => {
+                    setActiveSidebarPanel('themes')
+                    setShowStylePanel(true)
+                  }}
+                  className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors"
+                  data-tooltip-id="sidebar-tooltip"
+                  data-tooltip-content="Themes"
+                >
+                  <FaPalette className="text-lg" />
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveSidebarPanel('export')
+                    setShowStylePanel(true)
+                  }}
+                  className="p-2 mt-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors"
+                  data-tooltip-id="sidebar-tooltip"
+                  data-tooltip-content="Export"
+                >
+                  <FaDownload className="text-lg" />
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* Side Panel */}
+          {showStylePanel && (
+            <div className="w-80 border-l border-gray-300 dark:border-gray-700 flex-shrink-0 relative">
+              {/* Close button */}
+              <button
+                onClick={() => setShowStylePanel(false)}
+                className="absolute top-1 right-1 z-10 p-1.5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors"
+                title="Close panel"
+              >
+                <FaTimes className="text-sm" />
+              </button>
+              {activeSidebarPanel === 'themes' ? (
+                <StylePanel
+                  tailwindClasses={state.tailwindClasses}
+                  behaviorConfig={state.behaviorConfig}
+                  fontConfig={state.fontConfig}
+                  currentThemeId={currentThemeId}
+                  onTailwindClassChange={handleTailwindClassChange}
+                  onBehaviorConfigChange={updateBehaviorConfig}
+                  onFontConfigChange={updateFontConfig}
+                  onApplyTheme={handleApplyTheme}
+                />
+              ) : (
+                <ExportPanel
+                  documentTitle={state.documentTitle}
+                  markdown={state.markdown}
+                  htmlContent={htmlContent}
+                  tailwindClasses={state.tailwindClasses}
+                  fontFamily={state.fontConfig.fontFamily}
+                />
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Loop Modal */}
+        <LoopModal loopModal={loopModal} onInsertLoop={handleInsertLoop} />
+      </div>
     </div>
   )
 }

@@ -56,14 +56,14 @@ export function TailwindClassInput({ label, value, onChange }: TailwindClassInpu
 
   return (
     <div className="mb-3">
-      <label className="block text-gray-700 text-sm mb-1.5">{label}</label>
+      <label className="block text-gray-700 dark:text-gray-300 text-sm mb-1.5">{label}</label>
       <div className="relative" ref={containerRef}>
-        <div className="flex flex-wrap gap-1 p-2 bg-white border border-gray-300 rounded-md min-h-[42px] focus-within:border-blue-500 transition-colors">
+        <div className="flex flex-wrap gap-1 p-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md min-h-[42px] focus-within:border-blue-500 dark:focus-within:border-blue-400 transition-colors">
           {/* Selected classes as tags */}
           {currentClasses.map((cls, index) => (
             <span
               key={`${cls}-${index}`}
-              className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded"
+              className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 text-xs rounded"
             >
               {cls}
               <button
@@ -71,7 +71,7 @@ export function TailwindClassInput({ label, value, onChange }: TailwindClassInpu
                 onClick={() => {
                   removeClass(cls)
                 }}
-                className="hover:text-red-600 transition-colors"
+                className="hover:text-red-600 dark:hover:text-red-400 transition-colors"
               >
                 <FaTimes className="text-[10px]" />
               </button>
@@ -91,7 +91,7 @@ export function TailwindClassInput({ label, value, onChange }: TailwindClassInpu
               setIsOpen(true)
             }}
             onKeyDown={handleKeyDown}
-            className="flex-1 min-w-[100px] bg-transparent text-gray-800 text-sm outline-none placeholder-gray-400"
+            className="flex-1 min-w-[100px] bg-transparent text-gray-800 dark:text-gray-200 text-sm outline-none placeholder-gray-400 dark:placeholder-gray-500"
             placeholder={currentClasses.length === 0 ? 'Type to search classes...' : ''}
           />
         </div>
@@ -100,15 +100,15 @@ export function TailwindClassInput({ label, value, onChange }: TailwindClassInpu
         {isOpen && suggestions.length > 0 && (
           <div
             ref={dropdownRef}
-            className="absolute left-0 right-0 top-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto z-50"
+            className="absolute left-0 right-0 top-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto z-50"
           >
             {suggestions.map((suggestion, index) => (
               <div
                 key={suggestion.value}
                 className={`px-3 py-2 text-sm cursor-pointer transition-colors ${
                   index === selectedIndex
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    ? 'bg-blue-600 dark:bg-blue-500 text-white'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
                 onMouseDown={(e) => {
                   e.preventDefault() // Prevent input blur

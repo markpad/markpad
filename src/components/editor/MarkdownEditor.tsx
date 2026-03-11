@@ -64,16 +64,18 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
     }, [onScroll, textareaRef])
 
     return (
-      <div className="flex flex-col h-full bg-white">
+      <div className="flex flex-col h-full bg-white dark:bg-gray-900">
         {/* Editor Header */}
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 border-b border-gray-200">
-          <span className="text-gray-500 text-xs uppercase tracking-wider">Editor</span>
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+          <span className="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider">
+            Editor
+          </span>
         </div>
 
         {/* Editor Content */}
         <div className="flex flex-1 overflow-hidden">
           {showLineNumbers && (
-            <div className="py-3 px-2 bg-gray-50 text-gray-400 text-sm font-mono select-none border-r border-gray-200 min-w-[3rem] text-right">
+            <div className="py-3 px-2 bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 text-sm font-mono select-none border-r border-gray-200 dark:border-gray-700 min-w-[3rem] text-right">
               {Array.from({ length: lineCount }, (_, i) => (
                 <div key={i} className="leading-6 h-6">
                   {i + 1}
@@ -86,7 +88,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
             value={markdown}
             onChange={handleChange}
             onScroll={handleScroll}
-            className="flex-1 min-h-full bg-white text-gray-800 p-3 resize-none outline-none font-mono text-sm leading-6 overflow-auto"
+            className="flex-1 min-h-full bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-3 resize-none outline-none font-mono text-sm leading-6 overflow-auto"
             placeholder="Type your markdown here..."
             spellCheck={false}
           />

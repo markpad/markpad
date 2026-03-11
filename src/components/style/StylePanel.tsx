@@ -36,9 +36,9 @@ function CollapsibleSection({ title, defaultOpen = true, children }: Collapsible
   const [isOpen, setIsOpen] = useState(defaultOpen)
 
   return (
-    <div className="border-b border-gray-200">
+    <div className="border-b border-gray-200 dark:border-gray-700">
       <button
-        className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+        className="w-full flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
         onClick={() => {
           setIsOpen(!isOpen)
         }}
@@ -70,8 +70,8 @@ function TabButton({
         flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors
         ${
           active
-            ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
-            : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50 border-b-2 border-transparent'
+            ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 bg-blue-50/50 dark:bg-blue-900/20'
+            : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border-b-2 border-transparent'
         }
       `}
     >
@@ -177,9 +177,9 @@ export function StylePanel({
   ]
 
   return (
-    <div className="flex flex-col h-full bg-white overflow-hidden">
+    <div className="flex flex-col h-full bg-white dark:bg-gray-900 overflow-hidden">
       {/* Tab Bar */}
-      <div className="flex border-b border-gray-200 bg-gray-50">
+      <div className="flex border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
         <TabButton
           active={activeTab === 'themes'}
           onClick={() => setActiveTab('themes')}
@@ -200,13 +200,13 @@ export function StylePanel({
           <div className="p-3 space-y-3">
             {/* Search */}
             <div className="relative">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 text-sm" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search themes..."
-                className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-400 placeholder-gray-400 dark:placeholder-gray-500"
               />
             </div>
 
@@ -214,19 +214,19 @@ export function StylePanel({
             {!showSaveDialog ? (
               <button
                 onClick={() => setShowSaveDialog(true)}
-                className="w-full flex items-center justify-center gap-2 px-3 py-2 text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-3 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md transition-colors"
               >
                 <FaSave className="text-xs" />
                 Save current as theme
               </button>
             ) : (
-              <div className="p-2 bg-gray-50 rounded-md border border-gray-200 space-y-2">
+              <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700 space-y-2">
                 <input
                   type="text"
                   value={saveThemeName}
                   onChange={(e) => setSaveThemeName(e.target.value)}
                   placeholder="Theme name..."
-                  className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 placeholder-gray-400 dark:placeholder-gray-500"
                   autoFocus
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') handleSaveTheme()
@@ -246,7 +246,7 @@ export function StylePanel({
                       setShowSaveDialog(false)
                       setSaveThemeName('')
                     }}
-                    className="px-2 py-1 text-xs text-gray-600 hover:bg-gray-200 rounded transition-colors"
+                    className="px-2 py-1 text-xs text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 rounded transition-colors"
                   >
                     Cancel
                   </button>
@@ -270,7 +270,9 @@ export function StylePanel({
                 />
               ))}
               {filteredThemes.length === 0 && (
-                <div className="text-center py-8 text-gray-500 text-sm">No themes found</div>
+                <div className="text-center py-8 text-gray-500 dark:text-gray-400 text-sm">
+                  No themes found
+                </div>
               )}
             </div>
           </div>
@@ -280,14 +282,14 @@ export function StylePanel({
             <CollapsibleSection title="Typography" defaultOpen={true}>
               <div className="space-y-3">
                 <div>
-                  <label className="text-gray-700 text-sm mb-1.5 flex items-center gap-2">
-                    <FaFont className="text-gray-500" />
+                  <label className="text-gray-700 dark:text-gray-300 text-sm mb-1.5 flex items-center gap-2">
+                    <FaFont className="text-gray-500 dark:text-gray-400" />
                     Font Family
                   </label>
                   <select
                     value={fontConfig.fontFamily}
                     onChange={(e) => onFontConfigChange('fontFamily', e.target.value)}
-                    className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-gray-800 text-sm focus:border-blue-500 focus:outline-none transition-colors"
+                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-200 text-sm focus:border-blue-500 dark:focus:border-blue-400 focus:outline-none transition-colors"
                     style={{ fontFamily: fontConfig.fontFamily }}
                   >
                     {GOOGLE_FONTS.map((font) => (
@@ -301,7 +303,7 @@ export function StylePanel({
                     ))}
                   </select>
                 </div>
-                <div className="text-xs text-gray-500 mt-2 p-2 bg-gray-50 rounded">
+                <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 p-2 bg-gray-50 dark:bg-gray-800 rounded">
                   Preview:{' '}
                   <span style={{ fontFamily: fontConfig.fontFamily }}>
                     The quick brown fox jumps over the lazy dog
@@ -333,14 +335,14 @@ export function StylePanel({
             {/* Behavior Configuration */}
             <CollapsibleSection title="Behavior" defaultOpen={false}>
               <div className="space-y-3">
-                <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={behaviorConfig.shouldOpenLinksInNewTab}
                     onChange={(e) => {
                       onBehaviorConfigChange('shouldOpenLinksInNewTab', e.target.checked)
                     }}
-                    className="w-4 h-4 rounded border-gray-300 bg-white text-blue-600 focus:ring-blue-500"
+                    className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-400"
                   />
                   Open links in new tab
                 </label>
@@ -351,8 +353,8 @@ export function StylePanel({
       </div>
 
       {/* Footer */}
-      <div className="px-3 py-2 bg-gray-50 border-t border-gray-200 text-center">
-        <span className="text-xs text-gray-500">Tailwind Engine: JIT</span>
+      <div className="px-3 py-2 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-center">
+        <span className="text-xs text-gray-500 dark:text-gray-400">Tailwind Engine: JIT</span>
       </div>
     </div>
   )

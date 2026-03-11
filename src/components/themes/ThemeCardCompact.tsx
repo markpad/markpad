@@ -15,7 +15,7 @@ function CompactPreview({ theme }: { theme: ThemePreset }) {
 
   return (
     <div
-      className="h-16 rounded overflow-hidden border border-gray-200 p-2"
+      className="h-16 rounded overflow-hidden border border-gray-200 dark:border-gray-600 p-2"
       style={{ backgroundColor: bgColor }}
     >
       <div
@@ -44,8 +44,8 @@ export function ThemeCardCompact({ theme, isActive, onApply, onDelete }: ThemeCa
         w-full text-left rounded-lg border-2 transition-all p-2
         ${
           isActive
-            ? 'border-blue-500 bg-blue-50'
-            : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+            ? 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20'
+            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800'
         }
       `}
     >
@@ -54,14 +54,16 @@ export function ThemeCardCompact({ theme, isActive, onApply, onDelete }: ThemeCa
       <div className="mt-2 flex items-start justify-between gap-1">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1">
-            <span className="font-medium text-sm text-gray-900 truncate">{theme.name}</span>
+            <span className="font-medium text-sm text-gray-900 dark:text-gray-100 truncate">
+              {theme.name}
+            </span>
             {isLocal && (
-              <span className="flex-shrink-0 text-[10px] px-1 py-0.5 bg-purple-100 text-purple-700 rounded">
+              <span className="flex-shrink-0 text-[10px] px-1 py-0.5 bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded">
                 Local
               </span>
             )}
           </div>
-          <p className="text-xs text-gray-500 truncate">{theme.description}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{theme.description}</p>
         </div>
 
         {isLocal && onDelete && (
@@ -70,7 +72,7 @@ export function ThemeCardCompact({ theme, isActive, onApply, onDelete }: ThemeCa
               e.stopPropagation()
               onDelete()
             }}
-            className="flex-shrink-0 p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded"
+            className="flex-shrink-0 p-1 text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded"
             title="Delete theme"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

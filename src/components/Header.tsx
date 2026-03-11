@@ -18,6 +18,7 @@ import {
   FaSync,
   FaListAlt,
   FaCheck,
+  FaMoon,
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
 import type { EditionMode, AppState } from '../types'
@@ -34,6 +35,8 @@ interface HeaderProps {
   onToggleLineNumbers: () => void
   syncScroll: boolean
   onToggleSyncScroll: () => void
+  darkMode: boolean
+  onToggleDarkMode: () => void
   onInsertHeading?: (level: 1 | 2 | 3) => void
   onInsertBold?: () => void
   onInsertItalic?: () => void
@@ -76,35 +79,45 @@ function MenuDropdown({ label, items }: MenuItemProps) {
       <button
         className={`px-3 py-1 text-sm rounded transition-colors ${
           isOpen
-            ? 'bg-gray-200 text-gray-900'
-            : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+            ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
+            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
         }`}
         onClick={() => setIsOpen(!isOpen)}
       >
         {label}
       </button>
       {isOpen && (
-        <div className="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-xl z-50 min-w-[200px] py-1">
+        <div className="absolute left-0 top-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl z-50 min-w-[200px] py-1">
           {items.map((item, index) => {
             // Divider-only item
             if (item.label === 'divider' && item.divider) {
-              return <div key={index} className="border-t border-gray-200 my-1" />
+              return (
+                <div key={index} className="border-t border-gray-200 dark:border-gray-700 my-1" />
+              )
             }
             return (
               <div key={index}>
-                {item.divider && <div className="border-t border-gray-200 my-1" />}
+                {item.divider && (
+                  <div className="border-t border-gray-200 dark:border-gray-700 my-1" />
+                )}
                 <button
-                  className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex items-center justify-between"
+                  className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100 flex items-center justify-between"
                   onClick={() => {
                     item.onClick()
                     setIsOpen(false)
                   }}
                 >
                   <span className="flex items-center gap-3">
-                    {item.icon && <span className="text-gray-500 w-4">{item.icon}</span>}
+                    {item.icon && (
+                      <span className="text-gray-500 dark:text-gray-400 w-4">{item.icon}</span>
+                    )}
                     {item.label}
                   </span>
-                  {item.shortcut && <span className="text-gray-400 text-xs">{item.shortcut}</span>}
+                  {item.shortcut && (
+                    <span className="text-gray-400 dark:text-gray-500 text-xs">
+                      {item.shortcut}
+                    </span>
+                  )}
                 </button>
               </div>
             )
@@ -129,6 +142,8 @@ export function Header({
   onToggleLineNumbers,
   syncScroll,
   onToggleSyncScroll,
+  darkMode,
+  onToggleDarkMode,
   onInsertHeading,
   onInsertBold,
   onInsertItalic,
@@ -239,14 +254,19 @@ export function Header({
         <FaColumns className="opacity-30" />
       ),
       onClick: onToggleSyncScroll,
+    },
+    {
+      label: 'Dark mode',
+      icon: darkMode ? <FaCheck className="text-blue-600" /> : <FaMoon className="opacity-30" />,
+      onClick: onToggleDarkMode,
       divider: true,
     },
   ]
 
   return (
-    <header className="bg-white border-b border-gray-200">
+    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
       {/* Top Row - Logo, Title, Share */}
-      <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100">
+      <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-gray-700">
         <div className="flex items-center gap-3">
           {/* App Icon */}
           <a
@@ -269,22 +289,24 @@ export function Header({
                     setIsEditingTitle(false)
                   }
                 }}
-                className="bg-gray-100 border border-gray-300 rounded px-2 py-1 text-gray-900 text-lg font-medium focus:outline-none focus:border-blue-500 min-w-[200px]"
+                className="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-gray-900 dark:text-gray-100 text-lg font-medium focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 min-w-[200px]"
                 autoFocus
               />
             ) : (
               <button
                 onClick={() => setIsEditingTitle(true)}
-                className="text-gray-900 text-lg font-medium hover:bg-gray-100 px-2 py-1 rounded transition-colors text-left"
+                className="text-gray-900 dark:text-gray-100 text-lg font-medium hover:bg-gray-100 dark:hover:bg-gray-700 px-2 py-1 rounded transition-colors text-left"
               >
                 {state.documentTitle}
               </button>
             )}
             <div className="flex items-center gap-3 px-2">
-              <span className="text-gray-500 text-xs">Tailwind Markdown Editor</span>
+              <span className="text-gray-500 dark:text-gray-400 text-xs">
+                Tailwind Markdown Editor
+              </span>
               <a
                 href="/themes"
-                className="text-blue-500 hover:text-blue-700 text-xs font-medium transition-colors"
+                className="text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-xs font-medium transition-colors"
               >
                 Themes
               </a>
@@ -301,14 +323,14 @@ export function Header({
           <MenuDropdown label="Edit" items={editMenuItems} />
           <MenuDropdown label="View" items={viewMenuItems} />
 
-          <div className="h-4 w-px bg-gray-300 mx-2" />
+          <div className="h-4 w-px bg-gray-300 dark:bg-gray-600 mx-2" />
 
           {/* Formatting Toolbar */}
           <Tooltip id="h1-tooltip" />
           <button
             data-tooltip-id="h1-tooltip"
             data-tooltip-content="Heading 1"
-            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors font-bold text-sm"
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors font-bold text-sm"
             onClick={() => onInsertHeading?.(1)}
           >
             H1
@@ -317,7 +339,7 @@ export function Header({
           <button
             data-tooltip-id="h2-tooltip"
             data-tooltip-content="Heading 2"
-            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors font-bold text-sm"
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors font-bold text-sm"
             onClick={() => onInsertHeading?.(2)}
           >
             H2
@@ -326,7 +348,7 @@ export function Header({
           <button
             data-tooltip-id="h3-tooltip"
             data-tooltip-content="Heading 3"
-            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors font-bold text-sm"
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors font-bold text-sm"
             onClick={() => onInsertHeading?.(3)}
           >
             H3
@@ -338,7 +360,7 @@ export function Header({
           <button
             data-tooltip-id="bold-tooltip"
             data-tooltip-content="Bold"
-            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
             onClick={onInsertBold}
           >
             <FaBold className="text-sm" />
@@ -347,7 +369,7 @@ export function Header({
           <button
             data-tooltip-id="italic-tooltip"
             data-tooltip-content="Italic"
-            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
             onClick={onInsertItalic}
           >
             <FaItalic className="text-sm" />
@@ -359,7 +381,7 @@ export function Header({
           <button
             data-tooltip-id="link-tooltip"
             data-tooltip-content="Insert Link"
-            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
             onClick={onInsertLink}
           >
             <FaLink className="text-sm" />
@@ -368,7 +390,7 @@ export function Header({
           <button
             data-tooltip-id="image-tooltip"
             data-tooltip-content="Insert Image"
-            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
             onClick={onInsertImage}
           >
             <FaImage className="text-sm" />
@@ -380,7 +402,7 @@ export function Header({
           <button
             data-tooltip-id="ul-tooltip"
             data-tooltip-content="Bulleted List"
-            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
             onClick={onInsertUnorderedList}
           >
             <FaListUl className="text-sm" />
@@ -389,7 +411,7 @@ export function Header({
           <button
             data-tooltip-id="ol-tooltip"
             data-tooltip-content="Numbered List"
-            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
             onClick={onInsertOrderedList}
           >
             <FaListOl className="text-sm" />
@@ -401,7 +423,7 @@ export function Header({
           <button
             data-tooltip-id="quote-tooltip"
             data-tooltip-content="Insert Quote"
-            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
             onClick={onInsertQuote}
           >
             <FaQuoteLeft className="text-sm" />
@@ -410,7 +432,7 @@ export function Header({
           <button
             data-tooltip-id="table-tooltip"
             data-tooltip-content="Insert Table"
-            className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
             onClick={onInsertTable}
           >
             <FaTable className="text-sm" />
@@ -422,7 +444,7 @@ export function Header({
           <button
             data-tooltip-id="loop-tooltip"
             data-tooltip-content="Insert Loop"
-            className="p-2 text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded-md transition-colors"
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/30 rounded-md transition-colors"
             onClick={onInsertLoop}
           >
             <FaSync className="text-sm" />
@@ -430,12 +452,12 @@ export function Header({
         </div>
 
         {/* Right - View Mode Toggle */}
-        <div className="flex items-center bg-gray-100 rounded-lg p-1">
+        <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
           <button
             className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-all ${
               editionMode === 'edit'
-                ? 'bg-white text-blue-600 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
             }`}
             onClick={() => onEditionModeChange('edit')}
           >
@@ -445,8 +467,8 @@ export function Header({
           <button
             className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-all ${
               editionMode === 'split'
-                ? 'bg-white text-blue-600 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
             }`}
             onClick={() => onEditionModeChange('split')}
           >
@@ -456,8 +478,8 @@ export function Header({
           <button
             className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-all ${
               editionMode === 'preview'
-                ? 'bg-white text-blue-600 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
             }`}
             onClick={() => onEditionModeChange('preview')}
           >

@@ -18,7 +18,16 @@ export function PublishedPage() {
   const { pako } = useParams<{ pako: string }>()
   const [state, setState] = useState<AppState | null>(null)
   const [error, setError] = useState(false)
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode')
+    return saved === 'true'
+  })
   const articleRef = useRef<HTMLElement>(null)
+
+  // Persist dark mode preference
+  useEffect(() => {
+    localStorage.setItem('darkMode', darkMode.toString())
+  }, [darkMode])
 
   useEffect(() => {
     if (pako) {
@@ -46,8 +55,10 @@ export function PublishedPage() {
 
   if (!state) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-50">
-        <div className="animate-pulse text-gray-500">Loading...</div>
+      <div
+        className={`flex items-center justify-center h-screen bg-gray-50 dark:bg-gray-900 ${darkMode ? 'dark' : ''}`}
+      >
+        <div className="animate-pulse text-gray-500 dark:text-gray-400">Loading...</div>
       </div>
     )
   }
@@ -127,11 +138,12 @@ export function PublishedPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Helmet>
-        <title>{state.documentTitle} - Marklab</title>
-        <meta name="description" content={`${state.documentTitle} - Published with Marklab`} />
-        <style>{`
+    <div className={`min-h-screen flex flex-col ${darkMode ? 'dark' : ''}`}>
+      <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
+        <Helmet>
+          <title>{state.documentTitle} - Marklab</title>
+          <meta name="description" content={`${state.documentTitle} - Published with Marklab`} />
+          <style>{`
           @media print {
             header, footer, .no-print {
               display: none !important;
@@ -153,38 +165,44 @@ export function PublishedPage() {
             display: none;
           }
         `}</style>
-      </Helmet>
+        </Helmet>
 
-      <PublishedHeader
-        documentTitle={state.documentTitle}
-        editorUrl={editorUrl}
-        markdown={state.markdown}
-        articleRef={articleRef}
-        tailwindClasses={state.tailwindClasses}
-        fontFamily={state.fontConfig.fontFamily}
-      />
+        <PublishedHeader
+          documentTitle={state.documentTitle}
+          editorUrl={editorUrl}
+          markdown={state.markdown}
+          articleRef={articleRef}
+          tailwindClasses={state.tailwindClasses}
+          fontFamily={state.fontConfig.fontFamily}
+          darkMode={darkMode}
+          onToggleDarkMode={() => setDarkMode(!darkMode)}
+        />
 
-      {/* Content Area with body styles */}
-      <div
-        className={`flex-1 ${state.tailwindClasses.body}`}
-        style={{ fontFamily: state.fontConfig.fontFamily }}
-      >
-        <main className="max-w-6xl mx-auto py-8 px-4">
-          <h1 className="print-title">{state.documentTitle}</h1>
-          <article ref={articleRef} className={state.tailwindClasses.article}>
-            <Markdown components={components} remarkPlugins={[gfm]}>
-              {processedMarkdown}
-            </Markdown>
-          </article>
-        </main>
+        {/* Content Area with body styles */}
+        <div
+          className={`flex-1 ${state.tailwindClasses.body}`}
+          style={{ fontFamily: state.fontConfig.fontFamily }}
+        >
+          <main className="max-w-6xl mx-auto py-8 px-4">
+            <h1 className="print-title">{state.documentTitle}</h1>
+            <article ref={articleRef} className={state.tailwindClasses.article}>
+              <Markdown components={components} remarkPlugins={[gfm]}>
+                {processedMarkdown}
+              </Markdown>
+            </article>
+          </main>
 
-        {/* Footer */}
-        <footer className="text-center py-6 text-gray-400 text-sm no-print">
-          Published with{' '}
-          <a href="/" className="text-blue-500 hover:text-blue-600 transition-colors">
-            Marklab
-          </a>
-        </footer>
+          {/* Footer */}
+          <footer className="text-center py-6 text-gray-400 dark:text-gray-500 text-sm no-print">
+            Published with{' '}
+            <a
+              href="/"
+              className="text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
+            >
+              Marklab
+            </a>
+          </footer>
+        </div>
       </div>
     </div>
   )

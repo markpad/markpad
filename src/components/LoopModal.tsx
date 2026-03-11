@@ -74,21 +74,25 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full overflow-hidden animate-in fade-in zoom-in duration-200">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-lg w-full overflow-hidden animate-in fade-in zoom-in duration-200">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-indigo-50">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center">
               <FaSync className="text-white text-lg" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">Insert Loop</h2>
-              <p className="text-sm text-gray-500">Create repeating content from arrays</p>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                Insert Loop
+              </h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Create repeating content from arrays
+              </p>
             </div>
           </div>
           <button
             onClick={close}
-            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             <FaTimes />
           </button>
@@ -102,8 +106,8 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
               onClick={() => setIsCreatingNewArray(false)}
               className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                 !isCreatingNewArray
-                  ? 'bg-purple-100 text-purple-700 border-2 border-purple-300'
-                  : 'bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200'
+                  ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 border-2 border-purple-300 dark:border-purple-600'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-2 border-transparent hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               Use Existing Array
@@ -112,8 +116,8 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
               onClick={() => setIsCreatingNewArray(true)}
               className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 ${
                 isCreatingNewArray
-                  ? 'bg-purple-100 text-purple-700 border-2 border-purple-300'
-                  : 'bg-gray-100 text-gray-600 border-2 border-transparent hover:bg-gray-200'
+                  ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 border-2 border-purple-300 dark:border-purple-600'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-2 border-transparent hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               <FaPlus className="text-xs" />
@@ -124,14 +128,14 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
           {/* Existing Array Selection */}
           {!isCreatingNewArray && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Select Array Variable
               </label>
               {availableArrays.length > 0 ? (
                 <select
                   value={loopConfig.arrayName}
                   onChange={(e) => setLoopConfig({ arrayName: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent"
                 >
                   <option value="">Select an array...</option>
                   {availableArrays.map((array) => (
@@ -141,11 +145,13 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
                   ))}
                 </select>
               ) : (
-                <div className="px-3 py-4 bg-gray-50 rounded-lg text-center">
-                  <p className="text-gray-500 text-sm">No arrays found in frontmatter</p>
+                <div className="px-3 py-4 bg-gray-50 dark:bg-gray-700 rounded-lg text-center">
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">
+                    No arrays found in frontmatter
+                  </p>
                   <button
                     onClick={() => setIsCreatingNewArray(true)}
-                    className="mt-2 text-purple-600 hover:text-purple-700 text-sm font-medium"
+                    className="mt-2 text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 text-sm font-medium"
                   >
                     Create a new array instead
                   </button>
@@ -158,17 +164,19 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
           {isCreatingNewArray && (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Array Name</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Array Name
+                </label>
                 <input
                   type="text"
                   value={newArrayConfig.name}
                   onChange={(e) => setNewArrayConfig({ name: e.target.value })}
                   placeholder="e.g., skills, projects, languages"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Items (one per line)
                 </label>
                 <textarea
@@ -176,7 +184,7 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
                   onChange={(e) => handleItemsChange(e.target.value)}
                   placeholder="JavaScript&#10;TypeScript&#10;React"
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent font-mono text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent font-mono text-sm placeholder-gray-400 dark:placeholder-gray-500"
                 />
               </div>
             </div>
@@ -185,7 +193,7 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
           {/* Loop Configuration */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Iterator Variable
               </label>
               <input
@@ -193,17 +201,19 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
                 value={loopConfig.iteratorName}
                 onChange={(e) => setLoopConfig({ iteratorName: e.target.value })}
                 placeholder="item"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent font-mono text-sm"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent font-mono text-sm placeholder-gray-400 dark:placeholder-gray-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Item Template</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Item Template
+              </label>
               <input
                 type="text"
                 value={loopConfig.itemTemplate}
                 onChange={(e) => setLoopConfig({ itemTemplate: e.target.value })}
                 placeholder="- {{item}}"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent font-mono text-sm"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:border-transparent font-mono text-sm placeholder-gray-400 dark:placeholder-gray-500"
               />
             </div>
           </div>
@@ -211,8 +221,8 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
           {/* Preview */}
           {preview && (
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
-                <FaCode className="text-purple-500" />
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 flex items-center gap-2">
+                <FaCode className="text-purple-500 dark:text-purple-400" />
                 Preview
               </label>
               <pre className="px-3 py-2 bg-gray-900 text-green-400 rounded-lg text-sm font-mono overflow-x-auto">
@@ -223,10 +233,10 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-3 px-6 py-4 bg-gray-50 border-t border-gray-200">
+        <div className="flex justify-end gap-3 px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
           <button
             onClick={close}
-            className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm font-medium transition-colors"
+            className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 text-sm font-medium transition-colors"
           >
             Cancel
           </button>
