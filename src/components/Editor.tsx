@@ -4,16 +4,19 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import Markdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import { Tooltip } from 'react-tooltip'
-import { FaPalette, FaTimes } from 'react-icons/fa'
+import { FaPalette, FaTimes, FaDownload } from 'react-icons/fa'
 import { useAppState } from '../hooks/useAppState'
 import { useLoopModal } from '../hooks/useLoopModal'
 import { Header } from './Header'
 import { MarkdownEditor, MarkdownEditorHandle } from './editor/MarkdownEditor'
 import { MarkdownPreview } from './preview/MarkdownPreview'
 import { StylePanel } from './style/StylePanel'
+import { ExportPanel } from './style/ExportPanel'
 import { LoopModal } from './LoopModal'
 import type { EditionMode, TailwindClasses } from '../types'
 import type { ThemePreset } from '../data/themes.generated'
+
+type SidebarPanel = 'themes' | 'export'
 
 interface EditorProps {
   initialMode?: EditionMode
@@ -39,6 +42,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
 
   const [editionMode, setEditionMode] = useState<EditionMode>(initialMode)
   const [showStylePanel, setShowStylePanel] = useState(showStylePanelByDefault)
+  const [activeSidebarPanel, setActiveSidebarPanel] = useState<SidebarPanel>('themes')
   const [currentThemeId, setCurrentThemeId] = useState<string | undefined>()
 
   // Loop modal hook
@@ -240,20 +244,34 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
         >
           {!showStylePanel && (
             <>
-              <Tooltip id="themes-tooltip" />
+              <Tooltip id="sidebar-tooltip" />
               <button
-                onClick={() => setShowStylePanel(true)}
+                onClick={() => {
+                  setActiveSidebarPanel('themes')
+                  setShowStylePanel(true)
+                }}
                 className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded-md transition-colors"
-                data-tooltip-id="themes-tooltip"
+                data-tooltip-id="sidebar-tooltip"
                 data-tooltip-content="Themes"
               >
                 <FaPalette className="text-lg" />
+              </button>
+              <button
+                onClick={() => {
+                  setActiveSidebarPanel('export')
+                  setShowStylePanel(true)
+                }}
+                className="p-2 mt-1 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded-md transition-colors"
+                data-tooltip-id="sidebar-tooltip"
+                data-tooltip-content="Export"
+              >
+                <FaDownload className="text-lg" />
               </button>
             </>
           )}
         </div>
 
-        {/* Style Panel */}
+        {/* Side Panel */}
         {showStylePanel && (
           <div className="w-80 border-l border-gray-300 flex-shrink-0 relative">
             {/* Close button */}
@@ -264,16 +282,26 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
             >
               <FaTimes className="text-sm" />
             </button>
-            <StylePanel
-              tailwindClasses={state.tailwindClasses}
-              behaviorConfig={state.behaviorConfig}
-              fontConfig={state.fontConfig}
-              currentThemeId={currentThemeId}
-              onTailwindClassChange={handleTailwindClassChange}
-              onBehaviorConfigChange={updateBehaviorConfig}
-              onFontConfigChange={updateFontConfig}
-              onApplyTheme={handleApplyTheme}
-            />
+            {activeSidebarPanel === 'themes' ? (
+              <StylePanel
+                tailwindClasses={state.tailwindClasses}
+                behaviorConfig={state.behaviorConfig}
+                fontConfig={state.fontConfig}
+                currentThemeId={currentThemeId}
+                onTailwindClassChange={handleTailwindClassChange}
+                onBehaviorConfigChange={updateBehaviorConfig}
+                onFontConfigChange={updateFontConfig}
+                onApplyTheme={handleApplyTheme}
+              />
+            ) : (
+              <ExportPanel
+                documentTitle={state.documentTitle}
+                markdown={state.markdown}
+                htmlContent={htmlContent}
+                tailwindClasses={state.tailwindClasses}
+                fontFamily={state.fontConfig.fontFamily}
+              />
+            )}
           </div>
         )}
       </div>
