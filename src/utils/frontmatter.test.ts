@@ -3,6 +3,9 @@ import {
   interpolateVariables,
   processMarkdownWithFrontmatter,
   processLoops,
+  processConditionals,
+  evaluateCondition,
+  generateIfTemplate,
   extractArrayVariables,
   generateLoopTemplate,
   addArrayToFrontmatter,
@@ -266,6 +269,215 @@ After`
     })
   })
 
+  describe('evaluateCondition', () => {
+    it('should return true for truthy string values', () => {
+      expect(evaluateCondition('name', { name: 'Alice' })).toBe(true)
+    })
+
+    it('should return false for undefined values', () => {
+      expect(evaluateCondition('missing', {})).toBe(false)
+    })
+
+    it('should return false for null values', () => {
+      expect(evaluateCondition('val', { val: null })).toBe(false)
+    })
+
+    it('should return false for empty string', () => {
+      expect(evaluateCondition('val', { val: '' })).toBe(false)
+    })
+
+    it('should return false for false boolean', () => {
+      expect(evaluateCondition('active', { active: false })).toBe(false)
+    })
+
+    it('should return true for true boolean', () => {
+      expect(evaluateCondition('active', { active: true })).toBe(true)
+    })
+
+    it('should return false for zero', () => {
+      expect(evaluateCondition('count', { count: 0 })).toBe(false)
+    })
+
+    it('should return true for non-zero number', () => {
+      expect(evaluateCondition('count', { count: 5 })).toBe(true)
+    })
+
+    it('should return true for non-empty array', () => {
+      expect(evaluateCondition('items', { items: ['a'] })).toBe(true)
+    })
+
+    it('should return false for empty array', () => {
+      expect(evaluateCondition('items', { items: [] })).toBe(false)
+    })
+
+    it('should handle nested paths', () => {
+      expect(evaluateCondition('author.name', { author: { name: 'Alice' } })).toBe(true)
+      expect(evaluateCondition('author.missing', { author: {} })).toBe(false)
+    })
+
+    it('should handle negation with "not"', () => {
+      expect(evaluateCondition('not active', { active: true })).toBe(false)
+      expect(evaluateCondition('not active', { active: false })).toBe(true)
+      expect(evaluateCondition('not missing', {})).toBe(true)
+    })
+
+    it('should handle equality with double quotes', () => {
+      expect(evaluateCondition('role == "admin"', { role: 'admin' })).toBe(true)
+      expect(evaluateCondition('role == "admin"', { role: 'user' })).toBe(false)
+    })
+
+    it('should handle equality with single quotes', () => {
+      expect(evaluateCondition("role == 'admin'", { role: 'admin' })).toBe(true)
+    })
+
+    it('should handle inequality', () => {
+      expect(evaluateCondition('role != "admin"', { role: 'user' })).toBe(true)
+      expect(evaluateCondition('role != "admin"', { role: 'admin' })).toBe(false)
+    })
+
+    it('should handle numeric comparisons', () => {
+      expect(evaluateCondition('age > 18', { age: 25 })).toBe(true)
+      expect(evaluateCondition('age > 18', { age: 10 })).toBe(false)
+      expect(evaluateCondition('age < 18', { age: 10 })).toBe(true)
+      expect(evaluateCondition('age >= 18', { age: 18 })).toBe(true)
+      expect(evaluateCondition('age <= 18', { age: 18 })).toBe(true)
+    })
+
+    it('should return false for NaN in numeric comparisons', () => {
+      expect(evaluateCondition('name > 5', { name: 'Alice' })).toBe(false)
+    })
+  })
+
+  describe('processConditionals', () => {
+    it('should show content when condition is truthy', () => {
+      const content = '{% if showBio %}This is my bio{% endif %}'
+      const data = { showBio: true }
+
+      const result = processConditionals(content, data)
+
+      expect(result).toBe('This is my bio')
+    })
+
+    it('should hide content when condition is falsy', () => {
+      const content = '{% if showBio %}This is my bio{% endif %}'
+      const data = { showBio: false }
+
+      const result = processConditionals(content, data)
+
+      expect(result).toBe('')
+    })
+
+    it('should handle else branch', () => {
+      const content = '{% if premium %}Premium user{% else %}Free user{% endif %}'
+
+      expect(processConditionals(content, { premium: true })).toBe('Premium user')
+      expect(processConditionals(content, { premium: false })).toBe('Free user')
+    })
+
+    it('should handle undefined variable as falsy', () => {
+      const content = '{% if unknown %}Visible{% else %}Hidden{% endif %}'
+
+      expect(processConditionals(content, {})).toBe('Hidden')
+    })
+
+    it('should handle equality comparisons', () => {
+      const content = '{% if role == "admin" %}Admin panel{% else %}User panel{% endif %}'
+
+      expect(processConditionals(content, { role: 'admin' })).toBe('Admin panel')
+      expect(processConditionals(content, { role: 'user' })).toBe('User panel')
+    })
+
+    it('should handle inequality comparisons', () => {
+      const content = '{% if status != "draft" %}Published{% endif %}'
+
+      expect(processConditionals(content, { status: 'published' })).toBe('Published')
+      expect(processConditionals(content, { status: 'draft' })).toBe('')
+    })
+
+    it('should handle negation', () => {
+      const content = '{% if not hideEmail %}email@example.com{% endif %}'
+
+      expect(processConditionals(content, { hideEmail: false })).toBe('email@example.com')
+      expect(processConditionals(content, { hideEmail: true })).toBe('')
+    })
+
+    it('should handle nested variable paths', () => {
+      const content = '{% if author.verified %}Verified author{% endif %}'
+      const data = { author: { verified: true } }
+
+      expect(processConditionals(content, data)).toBe('Verified author')
+    })
+
+    it('should handle multiple conditionals', () => {
+      const content = `{% if showName %}Alice{% endif %} - {% if showRole %}Developer{% endif %}`
+      const data = { showName: true, showRole: false }
+
+      const result = processConditionals(content, data)
+
+      expect(result).toContain('Alice')
+      expect(result).not.toContain('Developer')
+    })
+
+    it('should handle multiline content inside conditionals', () => {
+      const content = `{% if showSection %}
+## About Me
+
+I am a developer.
+{% endif %}`
+      const data = { showSection: true }
+
+      const result = processConditionals(content, data)
+
+      expect(result).toContain('## About Me')
+      expect(result).toContain('I am a developer.')
+    })
+
+    it('should handle numeric comparisons', () => {
+      const content = '{% if experience > 5 %}Senior{% else %}Junior{% endif %}'
+
+      expect(processConditionals(content, { experience: 10 })).toBe('Senior')
+      expect(processConditionals(content, { experience: 2 })).toBe('Junior')
+    })
+
+    it('should handle array truthiness (non-empty = true)', () => {
+      const content = '{% if skills %}Has skills{% else %}No skills{% endif %}'
+
+      expect(processConditionals(content, { skills: ['JS'] })).toBe('Has skills')
+      expect(processConditionals(content, { skills: [] })).toBe('No skills')
+    })
+
+    it('should handle conditionals combined with loops', () => {
+      const content = `{% if showSkills %}
+Skills:
+{% for skill in skills %}
+- {{skill}}
+{% endfor %}
+{% endif %}`
+      const data = { showSkills: true, skills: ['JavaScript', 'TypeScript'] }
+
+      const result = processConditionals(content, data)
+
+      expect(result).toContain('Skills:')
+      expect(result).toContain('{% for skill in skills %}')
+    })
+  })
+
+  describe('generateIfTemplate', () => {
+    it('should generate simple if template', () => {
+      const result = generateIfTemplate('showBio', 'This is my bio')
+
+      expect(result).toBe('{% if showBio %}\nThis is my bio\n{% endif %}')
+    })
+
+    it('should generate if/else template', () => {
+      const result = generateIfTemplate('premium', 'Premium content', 'Free content')
+
+      expect(result).toBe(
+        '{% if premium %}\nPremium content\n{% else %}\nFree content\n{% endif %}'
+      )
+    })
+  })
+
   describe('processMarkdownWithFrontmatter', () => {
     it('should process complete markdown with frontmatter, variables, and loops', () => {
       const markdown = `---
@@ -304,6 +516,39 @@ Hello {{name}}`
       const result = processMarkdownWithFrontmatter(markdown)
 
       expect(result.originalMarkdown).toBe(markdown)
+    })
+
+    it('should process conditionals with variables and loops together', () => {
+      const markdown = `---
+title: Profile
+showSkills: true
+showBio: false
+skills:
+  - React
+  - Node
+---
+
+# {{title}}
+
+{% if showBio %}
+## Bio
+A developer.
+{% endif %}
+
+{% if showSkills %}
+## Skills
+{% for skill in skills %}
+- {{skill}}
+{% endfor %}
+{% endif %}`
+
+      const result = processMarkdownWithFrontmatter(markdown)
+
+      expect(result.processedContent).toContain('# Profile')
+      expect(result.processedContent).not.toContain('## Bio')
+      expect(result.processedContent).toContain('## Skills')
+      expect(result.processedContent).toContain('- React')
+      expect(result.processedContent).toContain('- Node')
     })
   })
 
