@@ -8,25 +8,14 @@ interface HtmlGeneratorOptions {
 }
 
 /**
- * Generate a simple HTML document without any styling
+ * Convert font family name to Google Fonts URL
  */
-export function generateSimpleHtml({
-  documentTitle,
-  htmlContent,
-}: Pick<HtmlGeneratorOptions, 'documentTitle' | 'htmlContent'>): string {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${documentTitle}</title>
-</head>
-<body>
-  <article>
-${htmlContent}
-  </article>
-</body>
-</html>`
+function getFontUrl(fontFamily: string): string {
+  // Extract the main font name (before any fallbacks)
+  const mainFont = fontFamily.split(',')[0].trim().replace(/["']/g, '')
+  // Convert font name to URL format (replace spaces with +)
+  const urlFormattedFont = mainFont.replace(/\s+/g, '+')
+  return `https://fonts.googleapis.com/css2?family=${urlFormattedFont}:wght@400;500;600;700&display=swap`
 }
 
 /**
@@ -39,6 +28,9 @@ export function generateStyledHtml({
   fontFamily,
 }: HtmlGeneratorOptions): string {
   const tailwindCdn = 'https://cdn.tailwindcss.com'
+  const fontUrl = getFontUrl(fontFamily)
+  // Extract main font name for CSS
+  const mainFontName = fontFamily.split(',')[0].trim().replace(/["']/g, '')
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,11 +38,14 @@ export function generateStyledHtml({
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${documentTitle}</title>
   <script src="${tailwindCdn}"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="${fontUrl}" rel="stylesheet">
   <style>
-    body { font-family: ${fontFamily}, system-ui, sans-serif; }
+    body { font-family: '${mainFontName}', system-ui, sans-serif; }
   </style>
 </head>
-<body class="${tailwindClasses.body}" style="font-family: ${fontFamily}, system-ui, sans-serif;">
+<body class="${tailwindClasses.body}" style="font-family: '${mainFontName}', system-ui, sans-serif;">
   <article class="${tailwindClasses.article}">
 ${htmlContent}
   </article>

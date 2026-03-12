@@ -32,7 +32,6 @@ import { generatePublishUrl } from '../services/urlStateService'
 import { PublishModal } from './PublishModal'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
 import {
-  generateSimpleHtml,
   generateStyledHtml,
   downloadFile,
   copyToClipboard,
@@ -241,10 +240,6 @@ export function Header({
     downloadFile(processedContent, `${state.documentTitle}-processed.md`, 'text/markdown')
   }
 
-  const handleExportHtmlSimple = () => {
-    downloadFile(generateSimpleHtml(htmlOptions), `${state.documentTitle}.html`, 'text/html')
-  }
-
   const handleExportHtmlStyled = () => {
     downloadFile(generateStyledHtml(htmlOptions), `${state.documentTitle}-styled.html`, 'text/html')
   }
@@ -259,11 +254,6 @@ export function Header({
     const { processedContent } = processMarkdownWithFrontmatter(state.markdown)
     await copyToClipboard(processedContent)
     alert('Processed markdown copied!')
-  }
-
-  const handleCopyHtmlSimple = async () => {
-    await copyToClipboard(generateSimpleHtml(htmlOptions))
-    alert('Simple HTML copied!')
   }
 
   const handleCopyHtmlStyled = async () => {
@@ -306,7 +296,6 @@ export function Header({
           onClick: handleExportMarkdownProcessed,
         },
         { label: 'divider', divider: true },
-        { label: 'HTML (Simple)', icon: <FaCode />, onClick: handleExportHtmlSimple },
         { label: 'HTML (Styled)', icon: <FaFileCode />, onClick: handleExportHtmlStyled },
       ],
     },
@@ -317,7 +306,6 @@ export function Header({
         { label: 'Markdown (Original)', icon: <FaMarkdown />, onClick: handleCopyMarkdownOriginal },
         { label: 'Markdown (Processed)', icon: <FaCheck />, onClick: handleCopyMarkdownProcessed },
         { label: 'divider', divider: true },
-        { label: 'HTML (Simple)', icon: <FaCode />, onClick: handleCopyHtmlSimple },
         { label: 'HTML (Styled)', icon: <FaFileCode />, onClick: handleCopyHtmlStyled },
       ],
     },

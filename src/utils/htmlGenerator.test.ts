@@ -1,4 +1,4 @@
-import { generateSimpleHtml, generateStyledHtml } from './htmlGenerator'
+import { generateStyledHtml } from './htmlGenerator'
 import type { TailwindClasses } from '../types'
 
 describe('htmlGenerator module', () => {
@@ -27,70 +27,6 @@ describe('htmlGenerator module', () => {
     body: 'bg-white text-gray-900',
     article: 'max-w-4xl mx-auto p-8',
   }
-
-  describe('generateSimpleHtml', () => {
-    it('should generate valid HTML document structure', () => {
-      const result = generateSimpleHtml({
-        documentTitle: 'Test Document',
-        htmlContent: '<h1>Hello World</h1>',
-      })
-
-      expect(result).toContain('<!DOCTYPE html>')
-      expect(result).toContain('<html lang="en">')
-      expect(result).toContain('</html>')
-    })
-
-    it('should include the document title in the title tag', () => {
-      const result = generateSimpleHtml({
-        documentTitle: 'My Test Title',
-        htmlContent: '<p>Content</p>',
-      })
-
-      expect(result).toContain('<title>My Test Title</title>')
-    })
-
-    it('should wrap content in article tag', () => {
-      const result = generateSimpleHtml({
-        documentTitle: 'Test',
-        htmlContent: '<p>Test content</p>',
-      })
-
-      expect(result).toContain('<article>')
-      expect(result).toContain('<p>Test content</p>')
-      expect(result).toContain('</article>')
-    })
-
-    it('should include meta viewport tag', () => {
-      const result = generateSimpleHtml({
-        documentTitle: 'Test',
-        htmlContent: '',
-      })
-
-      expect(result).toContain(
-        '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
-      )
-    })
-
-    it('should include charset meta tag', () => {
-      const result = generateSimpleHtml({
-        documentTitle: 'Test',
-        htmlContent: '',
-      })
-
-      expect(result).toContain('<meta charset="UTF-8">')
-    })
-
-    it('should not include any styling', () => {
-      const result = generateSimpleHtml({
-        documentTitle: 'Test',
-        htmlContent: '<p>Content</p>',
-      })
-
-      expect(result).not.toContain('tailwindcss')
-      expect(result).not.toContain('<style>')
-      expect(result).not.toContain('class=')
-    })
-  })
 
   describe('generateStyledHtml', () => {
     it('should generate valid HTML document structure', () => {
@@ -148,7 +84,7 @@ describe('htmlGenerator module', () => {
       })
 
       expect(result).toContain('<style>')
-      expect(result).toContain('font-family: Roboto, system-ui, sans-serif;')
+      expect(result).toContain("font-family: 'Roboto', system-ui, sans-serif;")
     })
 
     it('should include font-family inline style on body', () => {
@@ -159,7 +95,41 @@ describe('htmlGenerator module', () => {
         fontFamily: 'Open Sans',
       })
 
-      expect(result).toContain('style="font-family: Open Sans, system-ui, sans-serif;"')
+      expect(result).toContain("style=\"font-family: 'Open Sans', system-ui, sans-serif;\"")
+    })
+
+    it('should include Google Fonts preconnect links', () => {
+      const result = generateStyledHtml({
+        documentTitle: 'Test',
+        htmlContent: '',
+        tailwindClasses: mockTailwindClasses,
+        fontFamily: 'Inter',
+      })
+
+      expect(result).toContain('<link rel="preconnect" href="https://fonts.googleapis.com">')
+      expect(result).toContain('<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>')
+    })
+
+    it('should include Google Fonts stylesheet link', () => {
+      const result = generateStyledHtml({
+        documentTitle: 'Test',
+        htmlContent: '',
+        tailwindClasses: mockTailwindClasses,
+        fontFamily: 'Roboto',
+      })
+
+      expect(result).toContain('href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap"')
+    })
+
+    it('should handle font names with spaces in Google Fonts URL', () => {
+      const result = generateStyledHtml({
+        documentTitle: 'Test',
+        htmlContent: '',
+        tailwindClasses: mockTailwindClasses,
+        fontFamily: 'Open Sans',
+      })
+
+      expect(result).toContain('family=Open+Sans:')
     })
 
     it('should include the document title', () => {
@@ -183,46 +153,6 @@ describe('htmlGenerator module', () => {
       })
 
       expect(result).toContain(htmlContent)
-    })
-  })
-
-  describe('comparison between simple and styled', () => {
-    it('simple HTML should be smaller than styled HTML', () => {
-      const simple = generateSimpleHtml({
-        documentTitle: 'Test',
-        htmlContent: '<p>Content</p>',
-      })
-
-      const styled = generateStyledHtml({
-        documentTitle: 'Test',
-        htmlContent: '<p>Content</p>',
-        tailwindClasses: mockTailwindClasses,
-        fontFamily: 'Inter',
-      })
-
-      expect(simple.length).toBeLessThan(styled.length)
-    })
-
-    it('both should have the same basic structure', () => {
-      const simple = generateSimpleHtml({
-        documentTitle: 'Test',
-        htmlContent: '<p>Content</p>',
-      })
-
-      const styled = generateStyledHtml({
-        documentTitle: 'Test',
-        htmlContent: '<p>Content</p>',
-        tailwindClasses: mockTailwindClasses,
-        fontFamily: 'Inter',
-      })
-
-      // Both should be valid HTML5 documents
-      expect(simple).toContain('<!DOCTYPE html>')
-      expect(styled).toContain('<!DOCTYPE html>')
-
-      // Both should have the content
-      expect(simple).toContain('<p>Content</p>')
-      expect(styled).toContain('<p>Content</p>')
     })
   })
 })

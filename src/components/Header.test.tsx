@@ -220,7 +220,6 @@ describe('Header Component', () => {
       await waitFor(() => {
         expect(screen.getByText('Markdown (Original)')).toBeInTheDocument()
         expect(screen.getByText('Markdown (Processed)')).toBeInTheDocument()
-        expect(screen.getByText('HTML (Simple)')).toBeInTheDocument()
         expect(screen.getByText('HTML (Styled)')).toBeInTheDocument()
       })
     })

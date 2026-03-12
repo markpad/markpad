@@ -6,6 +6,7 @@ import gfm from 'remark-gfm'
 import { Tooltip } from 'react-tooltip'
 import { FaPalette, FaTimes, FaDownload } from 'react-icons/fa'
 import { useAppState } from '../hooks/useAppState'
+import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
 import { useLoopModal } from '../hooks/useLoopModal'
 import { Header } from './Header'
 import { MarkdownEditor, MarkdownEditorHandle } from './editor/MarkdownEditor'
@@ -145,10 +146,13 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
       pre: ({ node, ...props }: any) => <pre className={state.tailwindClasses.pre} {...props} />,
     }
 
+    // Process markdown to remove frontmatter before rendering HTML
+    const { processedContent } = processMarkdownWithFrontmatter(state.markdown)
+
     return renderToStaticMarkup(
       <article className={state.tailwindClasses.article}>
         <Markdown components={components} remarkPlugins={[gfm]}>
-          {state.markdown}
+          {processedContent}
         </Markdown>
       </article>
     )
