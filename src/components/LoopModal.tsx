@@ -37,14 +37,13 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
   const prevIsOpenRef = useRef(false)
 
   // Reset itemsInput only when modal opens (not when items change)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (isOpen && !prevIsOpenRef.current) {
       // Modal just opened - reset to initial state
       setItemsInput(newArrayConfig.items.join('\n'))
     }
     prevIsOpenRef.current = isOpen
-  }, [isOpen])
+  }, [isOpen, newArrayConfig.items])
 
   if (!isOpen) return null
 
