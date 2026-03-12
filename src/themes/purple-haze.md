@@ -80,7 +80,7 @@ interface Theme {
 }
 
 const applyTheme = (theme: Theme) => {
-  console.log(`Applying ${theme.name}`)
+  console.log('Applying ' + theme.name)
   // Magic happens here ✨
 }
 ```

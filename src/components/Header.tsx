@@ -23,7 +23,6 @@ import {
   FaUndo,
   FaRedo,
   FaMarkdown,
-  FaCode,
   FaFileCode,
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
