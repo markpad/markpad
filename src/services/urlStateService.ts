@@ -119,11 +119,11 @@ export function generateShareableUrl(state: AppState): string {
 }
 
 /**
- * Generates a publish URL for the preview page
+ * Generates a share URL for the preview page
  */
-export function generatePublishUrl(state: AppState): string {
+export function generateShareUrl(state: AppState): string {
   const encoded = encodeState(state)
-  return `${window.location.origin}/publish/${encoded}`
+  return `${window.location.origin}/share/${encoded}`
 }
 
 /**

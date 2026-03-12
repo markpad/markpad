@@ -28,14 +28,10 @@ import {
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
 import type { EditionMode, AppState, TailwindClasses } from '../types'
-import { generatePublishUrl } from '../services/urlStateService'
-import { PublishModal } from './PublishModal'
+import { generateShareUrl } from '../services/urlStateService'
+import { ShareModal } from './ShareModal'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
-import {
-  generateStyledHtml,
-  downloadFile,
-  copyToClipboard,
-} from '../utils/htmlGenerator'
+import { generateStyledHtml, downloadFile, copyToClipboard } from '../utils/htmlGenerator'
 
 interface HeaderProps {
   state: AppState
@@ -219,8 +215,8 @@ export function Header({
   onInsertLoop,
 }: HeaderProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
-  const [publishModalOpen, setPublishModalOpen] = useState(false)
-  const [publishUrl, setPublishUrl] = useState('')
+  const [shareModalOpen, setShareModalOpen] = useState(false)
+  const [shareUrl, setShareUrl] = useState('')
 
   // HTML generation options
   const htmlOptions = {
@@ -263,9 +259,9 @@ export function Header({
 
   // Share handler
   const handleGenerateShareLink = () => {
-    const url = generatePublishUrl(state)
-    setPublishUrl(url)
-    setPublishModalOpen(true)
+    const url = generateShareUrl(state)
+    setShareUrl(url)
+    setShareModalOpen(true)
   }
 
   // New document handler
@@ -594,10 +590,10 @@ export function Header({
         </div>
       </div>
 
-      <PublishModal
-        isOpen={publishModalOpen}
-        onClose={() => setPublishModalOpen(false)}
-        publishUrl={publishUrl}
+      <ShareModal
+        isOpen={shareModalOpen}
+        onClose={() => setShareModalOpen(false)}
+        shareUrl={shareUrl}
         documentTitle={state.documentTitle}
       />
     </header>

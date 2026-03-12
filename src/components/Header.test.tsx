@@ -12,12 +12,12 @@ global.ResizeObserver = class ResizeObserver {
 
 // Mock the dependencies
 jest.mock('../services/urlStateService', () => ({
-  generatePublishUrl: jest.fn(() => 'https://example.com/share/abc123'),
+  generateShareUrl: jest.fn(() => 'https://example.com/share/abc123'),
 }))
 
-jest.mock('./PublishModal', () => ({
-  PublishModal: ({ isOpen, publishUrl }: { isOpen: boolean; publishUrl: string }) =>
-    isOpen ? <div data-testid="publish-modal">{publishUrl}</div> : null,
+jest.mock('./ShareModal', () => ({
+  ShareModal: ({ isOpen, shareUrl }: { isOpen: boolean; shareUrl: string }) =>
+    isOpen ? <div data-testid="share-modal">{shareUrl}</div> : null,
 }))
 
 // Mock clipboard API
@@ -243,13 +243,13 @@ describe('Header Component', () => {
   })
 
   describe('Share Link', () => {
-    it('should open PublishModal when Generate Share Link is clicked', async () => {
+    it('should open ShareModal when Generate Share Link is clicked', async () => {
       render(<Header {...defaultProps} />)
 
       await userEvent.click(screen.getAllByText('File')[0])
       await userEvent.click(screen.getByText('Generate Share Link...'))
 
-      expect(screen.getByTestId('publish-modal')).toBeInTheDocument()
+      expect(screen.getByTestId('share-modal')).toBeInTheDocument()
     })
   })
 

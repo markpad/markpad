@@ -27,8 +27,8 @@ function App() {
           element={<Editor initialMode="preview" showStylePanelByDefault={false} />}
         />
 
-        {/* Published page - read-only preview with minimal header */}
-        <Route path="/publish/:pako" element={<PublishedPage />} />
+        {/* Shared page - read-only preview with minimal header */}
+        <Route path="/share/:pako" element={<PublishedPage />} />
 
         {/* Fallback route */}
         <Route path="*" element={<Navigate to="/" replace />} />

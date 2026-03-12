@@ -95,7 +95,7 @@ describe('htmlGenerator module', () => {
         fontFamily: 'Open Sans',
       })
 
-      expect(result).toContain("style=\"font-family: 'Open Sans', system-ui, sans-serif;\"")
+      expect(result).toContain('style="font-family: \'Open Sans\', system-ui, sans-serif;"')
     })
 
     it('should include Google Fonts preconnect links', () => {
@@ -107,7 +107,9 @@ describe('htmlGenerator module', () => {
       })
 
       expect(result).toContain('<link rel="preconnect" href="https://fonts.googleapis.com">')
-      expect(result).toContain('<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>')
+      expect(result).toContain(
+        '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+      )
     })
 
     it('should include Google Fonts stylesheet link', () => {
@@ -118,7 +120,9 @@ describe('htmlGenerator module', () => {
         fontFamily: 'Roboto',
       })
 
-      expect(result).toContain('href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap"')
+      expect(result).toContain(
+        'href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap"'
+      )
     })
 
     it('should handle font names with spaces in Google Fonts URL', () => {

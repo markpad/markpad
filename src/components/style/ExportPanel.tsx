@@ -1,6 +1,7 @@
 import { FaDownload, FaMarkdown, FaCode, FaFileCode, FaCheck } from 'react-icons/fa'
 import type { TailwindClasses } from '../../types'
 import { processMarkdownWithFrontmatter } from '../../utils/frontmatter'
+import { generateStyledHtml, downloadFile } from '../../utils/htmlGenerator'
 
 interface ExportPanelProps {
   documentTitle: string
@@ -20,18 +21,6 @@ export function ExportPanel({
   tailwindClasses,
   fontFamily,
 }: ExportPanelProps) {
-  const downloadFile = (content: string, filename: string, mimeType: string) => {
-    const blob = new Blob([content], { type: `${mimeType};charset=utf-8` })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = filename
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-  }
-
   const handleDownloadMarkdownOriginal = () => {
     downloadFile(markdown, `${documentTitle}.md`, 'text/markdown')
   }
@@ -41,45 +30,14 @@ export function ExportPanel({
     downloadFile(processedContent, `${documentTitle}-processed.md`, 'text/markdown')
   }
 
-  const handleDownloadSimpleHtml = () => {
-    const simpleHtml = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${documentTitle}</title>
-</head>
-<body>
-  <article>
-${htmlContent}
-  </article>
-</body>
-</html>`
-    downloadFile(simpleHtml, `${documentTitle}.html`, 'text/html')
-  }
-
-  const handleDownloadCompleteHtml = () => {
-    const tailwindCdn = 'https://cdn.tailwindcss.com'
-    const completeHtml = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${documentTitle}</title>
-  <script src="${tailwindCdn}"></script>
-  <style>
-    body {
-      font-family: ${fontFamily}, system-ui, sans-serif;
-    }
-  </style>
-</head>
-<body class="${tailwindClasses.body}" style="font-family: ${fontFamily}, system-ui, sans-serif;">
-  <article class="${tailwindClasses.article}">
-${htmlContent}
-  </article>
-</body>
-</html>`
-    downloadFile(completeHtml, `${documentTitle}-styled.html`, 'text/html')
+  const handleDownloadStyledHtml = () => {
+    const styledHtml = generateStyledHtml({
+      documentTitle,
+      htmlContent,
+      tailwindClasses,
+      fontFamily,
+    })
+    downloadFile(styledHtml, `${documentTitle}-styled.html`, 'text/html')
   }
 
   return (
@@ -145,25 +103,9 @@ ${htmlContent}
           </span>
         </div>
 
-        {/* Simple HTML */}
-        <button
-          onClick={handleDownloadSimpleHtml}
-          className="w-full flex items-center gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all group"
-        >
-          <div className="w-8 h-8 bg-gray-100 dark:bg-gray-800 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 rounded-lg flex items-center justify-center transition-colors">
-            <FaCode className="text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400" />
-          </div>
-          <div className="text-left flex-1 min-w-0">
-            <p className="font-medium text-sm text-gray-900 dark:text-gray-100">Simple HTML</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-              Plain HTML without styles
-            </p>
-          </div>
-        </button>
-
         {/* Styled HTML */}
         <button
-          onClick={handleDownloadCompleteHtml}
+          onClick={handleDownloadStyledHtml}
           className="w-full flex items-center gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all group"
         >
           <div className="w-8 h-8 bg-gray-100 dark:bg-gray-800 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 rounded-lg flex items-center justify-center transition-colors">
@@ -172,7 +114,7 @@ ${htmlContent}
           <div className="text-left flex-1 min-w-0">
             <p className="font-medium text-sm text-gray-900 dark:text-gray-100">Styled HTML</p>
             <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-              Complete with Tailwind CSS
+              Complete with Tailwind CSS & fonts
             </p>
           </div>
         </button>
