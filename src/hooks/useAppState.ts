@@ -38,8 +38,12 @@ export function useAppState(): UseAppStateReturn {
       return urlState
     }
 
-    // Check localStorage for backwards compatibility
-    const savedMarkdown = localStorage.getItem('markdown')
+    // Check if this is a new document request
+    const urlParams = new URLSearchParams(window.location.search)
+    const isNewDocument = urlParams.get('new') === 'true'
+
+    // Check localStorage for backwards compatibility (unless new document)
+    const savedMarkdown = !isNewDocument ? localStorage.getItem('markdown') : null
 
     return {
       markdown: savedMarkdown ?? initialMarkdown,

@@ -28,7 +28,7 @@ import {
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
 import type { EditionMode, AppState, TailwindClasses } from '../types'
-import { generateShareUrl } from '../services/urlStateService'
+import { generateShareUrl, encodeState } from '../services/urlStateService'
 import { ShareModal } from './ShareModal'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
 import { generateStyledHtml, downloadFile, copyToClipboard } from '../utils/htmlGenerator'
@@ -274,7 +274,14 @@ export function Header({
 
   // New document handler
   const handleNewDocument = () => {
-    window.location.href = '/editor'
+    window.open('/editor?new=true', '_blank')
+  }
+
+  // Duplicate document handler
+  const handleDuplicateDocument = () => {
+    const encoded = encodeState(state)
+    const url = `${window.location.origin}/editor#${encoded}`
+    window.open(url, '_blank')
   }
 
   const fileMenuItems: MenuItem[] = [
@@ -283,6 +290,12 @@ export function Header({
       icon: <FaFileAlt />,
       shortcut: '⌘N',
       onClick: handleNewDocument,
+    },
+    {
+      label: 'Duplicate',
+      icon: <FaCopy />,
+      shortcut: '⌘D',
+      onClick: handleDuplicateDocument,
     },
     { label: 'divider', divider: true },
     {

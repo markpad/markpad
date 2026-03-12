@@ -120,6 +120,7 @@ describe('Header Component', () => {
       await userEvent.click(screen.getAllByText('File')[0])
 
       expect(screen.getByText('New Document')).toBeInTheDocument()
+      expect(screen.getByText('Duplicate')).toBeInTheDocument()
       expect(screen.getByText('Export')).toBeInTheDocument()
       expect(screen.getByText('Copy')).toBeInTheDocument()
       expect(screen.getByText('Generate Share Link...')).toBeInTheDocument()
@@ -320,6 +321,14 @@ describe('Header Component', () => {
       await userEvent.click(screen.getAllByText('File')[0])
 
       expect(screen.getByText('⌘N')).toBeInTheDocument()
+    })
+
+    it('should display keyboard shortcut for Duplicate', async () => {
+      render(<Header {...defaultProps} />)
+
+      await userEvent.click(screen.getAllByText('File')[0])
+
+      expect(screen.getByText('⌘D')).toBeInTheDocument()
     })
 
     it('should display keyboard shortcuts for Undo and Redo', async () => {
