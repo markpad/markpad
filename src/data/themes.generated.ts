@@ -497,6 +497,56 @@ export const themePresets: ThemePreset[] = [
     "exampleContent": "# Flexoki\n\nA warm, analog color scheme that brings the tactile joy of paper and ink to your digital writing.\n\n## Philosophy\n\nFlexoki is inspired by the **analog materials** we use for thinking and writing:\n\n- Paper in various shades\n- Inks and markers in muted tones\n- The warm glow of incandescent light\n- Natural materials and textures\n\n## Color Palette\n\nThe palette uses **warm tones** throughout, creating a cohesive and comfortable reading experience:\n\n- **Base**: Cream and warm grays\n- **Text**: Deep charcoal black\n- **Red**: `#D14D41` for emphasis and links\n- **Orange**: `#DA702C` for highlights\n- **Yellow**: `#D0A215` for attention\n- **Green**: `#879A39` for success\n- **Cyan**: `#3AA99F` for info\n- **Blue**: `#4385BE` for calm\n- **Purple**: `#8B7EC8` for creativity\n- **Magenta**: `#CE5D97` for energy\n\n## Typography\n\n```javascript\nconst flexoki = {\n  paper: '#fffcf0',\n  text: '#100f0f',\n  text2: '#282726',\n  red: '#d14d41',\n  orange: '#da702c',\n  yellow: '#d0a215',\n  green: '#879a39',\n}\n```\n\n### Features\n\n1. Warm, paper-like background\n2. High contrast for readability\n3. Muted accent colors inspired by ink\n4. Comfortable for long reading sessions\n\n> \"The best digital tools should feel as natural as pen and paper.\"\n\n## Design Principles\n\n| Principle    | Description                          |\n| ------------ | ------------------------------------ |\n| **Warmth**   | All colors lean toward warm tones    |\n| **Contrast** | Text maintains excellent readability |\n| **Analog**   | Inspired by physical materials       |\n| **Comfort**  | Designed for extended use            |\n\n### Code Example\n\n```css\n.flexoki-theme {\n  background: #fffcf0;\n  color: #100f0f;\n  accent-color: #d14d41;\n}\n\n/* Warm, analog aesthetic */\n.prose {\n  font-family: serif;\n  line-height: 1.75;\n}\n```\n\n## Links & Resources\n\n- [Official Flexoki Repository](https://github.com/kepano/flexoki)\n- Designed by _Stephan Ango_\n- Open source color scheme\n\n![Analog writing materials](https://picsum.photos/600/300?random=27)\n\n---\n\n_Experience the warmth of analog in your digital workflow._"
   },
   {
+    "id": "forest-dusk",
+    "name": "Forest Dusk",
+    "description": "Earthy greens and warm amber tones - seamlessly adapts to light and dark modes.",
+    "category": "serif",
+    "fontFamily": "Merriweather",
+    "tailwindClasses": {
+      "h1": "text-3xl font-bold mb-4 text-stone-800 dark:text-lime-400",
+      "h2": "text-2xl font-bold mb-4 text-stone-700 dark:text-lime-400",
+      "h3": "text-xl font-bold mb-3 text-stone-700 dark:text-lime-300",
+      "h4": "text-lg font-bold mb-3 text-stone-600 dark:text-amber-300",
+      "h5": "text-base font-bold mb-2 text-stone-600 dark:text-amber-300",
+      "h6": "text-sm font-bold mb-2 text-stone-600 dark:text-amber-300",
+      "p": "mb-4 text-base text-stone-700 dark:text-stone-300 leading-relaxed",
+      "a": "text-lime-700 dark:text-lime-400 hover:text-lime-800 dark:hover:text-lime-300 underline decoration-lime-600/40 hover:decoration-lime-600",
+      "img": "max-w-full my-4 rounded-lg shadow-xl",
+      "table": "table-auto my-4 w-full",
+      "strong": "font-bold text-stone-900 dark:text-amber-100",
+      "ul": "list-disc list-outside ml-6 space-y-2 my-4",
+      "ol": "list-decimal list-outside ml-6 space-y-2 my-4",
+      "li": "text-stone-700 dark:text-stone-300",
+      "em": "italic text-stone-600 dark:text-amber-200",
+      "tr": "border-b border-stone-200 dark:border-stone-700 even:bg-stone-50 dark:even:bg-stone-800/30",
+      "td": "border border-stone-300 dark:border-stone-600 p-3 text-stone-700 dark:text-stone-300",
+      "th": "border border-stone-300 dark:border-stone-600 p-3 bg-stone-200 dark:bg-stone-800 font-bold text-stone-800 dark:text-lime-400",
+      "blockquote": "border-l-4 border-lime-600 dark:border-lime-500 pl-4 italic my-4 text-stone-600 dark:text-stone-400 bg-stone-50 dark:bg-stone-800/40 py-3 pr-4 rounded-r",
+      "code": "bg-stone-200 dark:bg-stone-800 px-2 py-1 rounded font-mono text-sm text-lime-800 dark:text-lime-400",
+      "pre": "bg-stone-100 dark:bg-stone-900 p-4 rounded-lg overflow-x-auto border border-stone-300 dark:border-stone-700 my-4",
+      "body": "bg-amber-50 dark:bg-stone-900 p-8 text-stone-700 dark:text-stone-300",
+      "article": "prose dark:prose-invert max-w-none prose-stone"
+    },
+    "behaviorConfig": {
+      "shouldOpenLinksInNewTab": true,
+      "shouldShowLineNumbers": false
+    },
+    "fontConfig": {
+      "fontFamily": "Merriweather"
+    },
+    "preview": {
+      "bgColor": "#1c1917",
+      "textColor": "#d6d3d1",
+      "accentColor": "#84cc16",
+      "headingFont": "Merriweather",
+      "bodyFont": "Merriweather",
+      "sampleHeading": "Forest Dusk",
+      "sampleText": "Where nature meets technology with adaptive light and dark modes.",
+      "style": "default"
+    },
+    "exampleContent": "# Forest Dusk\n\nA theme that captures the tranquil moment when day transitions to night in a forest clearing. Earthy tones and natural colors create a warm, inviting reading experience.\n\n## Design Philosophy\n\nForest Dusk combines the warmth of sunset amber with the vitality of forest greens, creating a harmonious balance that works beautifully in both light and dark environments.\n\n### Perfect For\n\n- **Long-Form Content**: The serif typography and warm colors reduce eye strain\n- **Nature-Focused Writing**: Environmental blogs, outdoor guides, sustainability reports\n- **Creative Writing**: Stories, poetry, and narratives that benefit from a natural aesthetic\n\n### Color Palette\n\nThe theme uses:\n\n1. **Primary**: Lime green for headers and accents\n2. **Secondary**: Warm amber for emphasis\n3. **Base**: Stone grays that shift with the light\n\n```python\n# Nature-inspired code highlighting\ndef forest_walk():\n    trees = [\"oak\", \"pine\", \"birch\"]\n    for tree in trees:\n        print(f\"Walking past a {tree}\")\n```\n\n> In every walk with nature, one receives far more than he seeks. — John Muir\n\n**Pro Tip**: This theme automatically adapts to your system's light/dark mode preference, ensuring optimal readability at any time of day."
+  },
+  {
     "id": "github-readme",
     "name": "GitHub README",
     "description": "Mimics the style of GitHub repository README files.",
@@ -997,6 +1047,56 @@ export const themePresets: ThemePreset[] = [
     "exampleContent": "# Nord Theme\n\nAn arctic, north-bluish palette for the modern developer.\n\n## Philosophy\n\nNord's design is inspired by the beauty and calmness of the **arctic**. Clean lines, subdued colors, and a focus on readability define this color scheme.\n\n### Principles\n\n1. Inspired by arctic landscapes\n2. Four distinct palette groups\n3. Smooth color transitions\n4. Universal adaptability\n\n> \"Clean, beautiful, and designed with care — just like Scandinavian architecture.\"\n\n## Palette Groups\n\n| Group       | Purpose          | Colors |\n| ----------- | ---------------- | ------ |\n| Polar Night | Background tones | 4      |\n| Snow Storm  | Text and UI      | 3      |\n| Frost       | Primary accents  | 4      |\n| Aurora      | Status colors    | 5      |\n\n## Code Example\n\n```javascript\nconst nordPalette = {\n  // Polar Night\n  nord0: '#2e3440',\n  nord1: '#3b4252',\n  nord2: '#434c5e',\n  nord3: '#4c566a',\n  // Snow Storm\n  nord4: '#d8dee9',\n  nord5: '#e5e9f0',\n  nord6: '#eceff4',\n  // Frost\n  nord7: '#8fbcbb',\n  nord8: '#88c0d0',\n  nord9: '#81a1c1',\n  nord10: '#5e81ac',\n}\n```\n\n### Resources\n\n- [Nord Website](https://www.nordtheme.com)\n- Available for _editors, terminals, and UI_\n- Community-maintained ports\n\n![Nordic landscape](https://picsum.photos/600/300?random=22)"
   },
   {
+    "id": "oceanic-night",
+    "name": "Oceanic Night",
+    "description": "Deep ocean blues with cyan accents - adapts to light and dark modes.",
+    "category": "sans-serif",
+    "fontFamily": "Inter",
+    "tailwindClasses": {
+      "h1": "text-3xl font-bold mb-4 text-slate-800 dark:text-cyan-400",
+      "h2": "text-2xl font-bold mb-4 text-slate-700 dark:text-cyan-400",
+      "h3": "text-xl font-bold mb-3 text-slate-700 dark:text-cyan-300",
+      "h4": "text-lg font-bold mb-3 text-slate-600 dark:text-cyan-300",
+      "h5": "text-base font-bold mb-2 text-slate-600 dark:text-cyan-300",
+      "h6": "text-sm font-bold mb-2 text-slate-600 dark:text-cyan-300",
+      "p": "mb-3 text-base text-slate-700 dark:text-slate-300 leading-relaxed",
+      "a": "text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 underline decoration-cyan-500/30 hover:decoration-cyan-500",
+      "img": "max-w-full my-4 rounded-xl shadow-lg",
+      "table": "table-auto my-4 w-full border-collapse",
+      "strong": "font-bold text-slate-900 dark:text-white",
+      "ul": "list-disc list-inside space-y-1 my-3",
+      "ol": "list-decimal list-inside space-y-1 my-3",
+      "li": "text-slate-700 dark:text-slate-300",
+      "em": "italic text-slate-600 dark:text-slate-400",
+      "tr": "border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50",
+      "td": "border border-slate-300 dark:border-slate-600 p-3 text-slate-700 dark:text-slate-300",
+      "th": "border border-slate-300 dark:border-slate-600 p-3 bg-slate-100 dark:bg-slate-800 font-semibold text-slate-800 dark:text-cyan-400",
+      "blockquote": "border-l-4 border-cyan-500 dark:border-cyan-400 pl-4 italic my-4 text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 py-3 pr-4 rounded-r",
+      "code": "bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded font-mono text-sm text-cyan-700 dark:text-cyan-400",
+      "pre": "bg-slate-100 dark:bg-slate-900 p-4 rounded-lg overflow-x-auto border border-slate-200 dark:border-slate-700 my-4",
+      "body": "bg-white dark:bg-slate-900 p-8 text-slate-700 dark:text-slate-300",
+      "article": "prose dark:prose-invert max-w-none prose-slate"
+    },
+    "behaviorConfig": {
+      "shouldOpenLinksInNewTab": true,
+      "shouldShowLineNumbers": false
+    },
+    "fontConfig": {
+      "fontFamily": "Inter"
+    },
+    "preview": {
+      "bgColor": "#0f172a",
+      "textColor": "#cbd5e1",
+      "accentColor": "#06b6d4",
+      "headingFont": "Inter",
+      "bodyFont": "Inter",
+      "sampleHeading": "Oceanic Night",
+      "sampleText": "Dive deep into the digital ocean with adaptive dark mode support.",
+      "style": "default"
+    },
+    "exampleContent": "# Oceanic Night\n\nA theme inspired by the deep ocean, seamlessly transitioning between light and dark modes. Perfect for long reading sessions at any time of day.\n\n## Features\n\n- **Adaptive Design**: Automatically adjusts to your system's light/dark mode preference\n- **Ocean-Inspired Colors**: Calming blues and cyans that reduce eye strain\n- **High Contrast**: Ensures readability in both modes\n\n### Why Choose Oceanic Night?\n\nThis theme brings the serenity of the ocean to your documentation. Whether you're working during the day or burning the midnight oil, the adaptive color scheme keeps your content looking professional and easy on the eyes.\n\n```javascript\n// Code looks great in both modes\nconst theme = {\n  name: 'Oceanic Night',\n  mode: 'adaptive',\n  primary: 'cyan',\n}\n```\n\n> The ocean stirs the heart, inspires the imagination and brings eternal joy to the soul. — Wyland"
+  },
+  {
     "id": "pastel-dream",
     "name": "Pastel Dream",
     "description": "Soft pastel colors with rounded elements and gentle gradients.",
@@ -1045,6 +1145,56 @@ export const themePresets: ThemePreset[] = [
       "style": "default"
     },
     "exampleContent": "# ✨ Welcome to Pastel Dream\n\n_Where colors dance and creativity blooms_ 🌸\n\n## A Gentle Aesthetic\n\nPastel Dream brings a **soft, dreamy** atmosphere to your content. Perfect for creative portfolios, lifestyle blogs, and anything that needs a touch of whimsy.\n\n### Why Pastels?\n\nPastel colors are known for their:\n\n- 💜 Calming effect\n- 💗 Friendly appearance\n- 💙 Creative versatility\n- 💚 Modern appeal\n\n> \"Colors are the smiles of nature.\"  \n> — Leigh Hunt\n\n## The Color Story\n\n| Mood  | Color      | Hex       |\n| ----- | ---------- | --------- |\n| Calm  | Lavender   | `#E9D5FF` |\n| Joy   | Pink       | `#FBCFE8` |\n| Trust | Periwinkle | `#C7D2FE` |\n| Fresh | Mint       | `#A7F3D0` |\n\n### Creating Magic\n\n```css\n.pastel-dream {\n  background: linear-gradient(135deg, #faf5ff, #fdf2f8);\n  border-radius: 1rem;\n  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.1);\n}\n```\n\n## Perfect For\n\n1. **Creative portfolios**\n2. **Lifestyle blogs**\n3. **Wedding sites**\n4. **Children's content**\n5. **Wellness brands**\n\n### A Little Inspiration\n\nLife is too short for boring design. Let your content _sparkle_ with personality and charm. ✨\n\n[Explore more themes](https://example.com) 🎨\n\n![Pastel aesthetic](https://picsum.photos/600/300?random=7)\n\n---\n\n_Made with 💜 and a sprinkle of magic_"
+  },
+  {
+    "id": "purple-haze",
+    "name": "Purple Haze",
+    "description": "Vibrant purples and magentas with adaptive dark mode support for a modern, creative look.",
+    "category": "sans-serif",
+    "fontFamily": "Poppins",
+    "tailwindClasses": {
+      "h1": "text-4xl font-bold mb-4 text-purple-700 dark:text-purple-400 tracking-tight",
+      "h2": "text-3xl font-bold mb-4 text-purple-600 dark:text-purple-400",
+      "h3": "text-2xl font-bold mb-3 text-purple-600 dark:text-fuchsia-400",
+      "h4": "text-xl font-bold mb-3 text-purple-500 dark:text-fuchsia-400",
+      "h5": "text-lg font-bold mb-2 text-purple-500 dark:text-fuchsia-300",
+      "h6": "text-base font-bold mb-2 text-purple-500 dark:text-fuchsia-300",
+      "p": "mb-3 text-base text-gray-700 dark:text-purple-100 leading-relaxed",
+      "a": "text-purple-600 dark:text-fuchsia-400 hover:text-purple-700 dark:hover:text-fuchsia-300 underline underline-offset-4 decoration-purple-400/50 hover:decoration-purple-600",
+      "img": "max-w-full my-4 rounded-2xl shadow-2xl shadow-purple-500/20 dark:shadow-purple-500/40",
+      "table": "table-auto my-4 w-full border-collapse",
+      "strong": "font-bold text-purple-800 dark:text-fuchsia-300",
+      "ul": "list-disc list-inside space-y-2 my-3",
+      "ol": "list-decimal list-inside space-y-2 my-3",
+      "li": "text-gray-700 dark:text-purple-200",
+      "em": "italic text-purple-600 dark:text-fuchsia-300",
+      "tr": "border-b border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors",
+      "td": "border border-purple-300 dark:border-purple-700 p-3 text-gray-700 dark:text-purple-100",
+      "th": "border border-purple-300 dark:border-purple-700 p-3 bg-purple-100 dark:bg-purple-900 font-bold text-purple-800 dark:text-purple-300",
+      "blockquote": "border-l-4 border-fuchsia-500 dark:border-fuchsia-400 pl-4 italic my-4 text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-900/40 py-3 pr-4 rounded-r",
+      "code": "bg-purple-100 dark:bg-purple-900 px-2 py-1 rounded font-mono text-sm text-purple-700 dark:text-fuchsia-400 border border-purple-200 dark:border-purple-700",
+      "pre": "bg-purple-50 dark:bg-indigo-950 p-4 rounded-xl overflow-x-auto border border-purple-200 dark:border-purple-800 my-4 shadow-inner",
+      "body": "bg-gradient-to-br from-purple-50 to-fuchsia-50 dark:from-indigo-950 dark:to-purple-950 p-8 text-gray-700 dark:text-purple-100",
+      "article": "prose dark:prose-invert max-w-none prose-purple"
+    },
+    "behaviorConfig": {
+      "shouldOpenLinksInNewTab": true,
+      "shouldShowLineNumbers": false
+    },
+    "fontConfig": {
+      "fontFamily": "Poppins"
+    },
+    "preview": {
+      "bgColor": "#1e1b4b",
+      "textColor": "#e9d5ff",
+      "accentColor": "#a855f7",
+      "headingFont": "Poppins",
+      "bodyFont": "Poppins",
+      "sampleHeading": "Purple Haze",
+      "sampleText": "Bold, creative, and modern with seamless light and dark mode transitions.",
+      "style": "default"
+    },
+    "exampleContent": "# Purple Haze\n\nA bold, creative theme that embraces the energy of purple and magenta. Perfect for designers, artists, and anyone who wants their content to stand out.\n\n## Why Purple?\n\nPurple represents creativity, wisdom, and imagination. It's the color of innovation and unconventional thinking—perfect for content that breaks the mold.\n\n### Design Features\n\n- **Gradient Backgrounds**: Subtle gradients add depth without distraction\n- **High Impact**: Bold colors ensure your headings grab attention\n- **Adaptive**: Seamlessly transitions between light and dark modes\n- **Modern Typography**: Poppins font family for a clean, contemporary look\n\n### Perfect Use Cases\n\n1. **Creative Portfolios**: Showcase your work with style\n2. **Design Documentation**: Match the aesthetic of modern design systems\n3. **Tech Startups**: Bold branding for bold ideas\n4. **Marketing Content**: Stand out from the traditional blue schemes\n\n### Code Example\n\n```typescript\ninterface Theme {\n  name: 'Purple Haze'\n  colors: {\n    primary: 'purple'\n    accent: 'fuchsia'\n  }\n  modes: ['light', 'dark']\n}\n\nconst applyTheme = (theme: Theme) => {\n  console.log(`Applying ${theme.name}`)\n  // Magic happens here ✨\n}\n```\n\n> Creativity is intelligence having fun. — Albert Einstein\n\n**Note**: This theme uses dynamic color classes that automatically adjust based on your system preferences. The vibrant purples remain eye-catching in both modes while maintaining excellent readability.\n\n---\n\n### Tips for Best Results\n\n- Pair with high-quality imagery for maximum impact\n- Use the gradient backgrounds to create visual hierarchy\n- Let the bold headings guide your reader's attention\n- Combine with white space for a clean, modern layout"
   },
   {
     "id": "resume-cv",

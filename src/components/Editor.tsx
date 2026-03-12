@@ -200,7 +200,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
     <div className={`flex flex-col h-screen ${darkMode ? 'dark' : ''}`}>
       <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
         <Helmet>
-          <title>Marklab - Markdown Editor with Tailwind CSS</title>
+          <title>{state.documentTitle} - Marklab</title>
           <meta
             name="description"
             content="Markdown editor with customizable Tailwind CSS classes."

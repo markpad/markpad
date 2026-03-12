@@ -32,6 +32,7 @@ import { generateShareUrl } from '../services/urlStateService'
 import { ShareModal } from './ShareModal'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
 import { generateStyledHtml, downloadFile, copyToClipboard } from '../utils/htmlGenerator'
+import { Toast } from './Toast'
 
 interface HeaderProps {
   state: AppState
@@ -217,6 +218,13 @@ export function Header({
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [shareModalOpen, setShareModalOpen] = useState(false)
   const [shareUrl, setShareUrl] = useState('')
+  const [toastMessage, setToastMessage] = useState('')
+  const [showToast, setShowToast] = useState(false)
+
+  const showToastMessage = (message: string) => {
+    setToastMessage(message)
+    setShowToast(true)
+  }
 
   // HTML generation options
   const htmlOptions = {
@@ -243,18 +251,18 @@ export function Header({
   // Copy handlers
   const handleCopyMarkdownOriginal = async () => {
     await copyToClipboard(state.markdown)
-    alert('Original markdown copied!')
+    showToastMessage('Original markdown copied!')
   }
 
   const handleCopyMarkdownProcessed = async () => {
     const { processedContent } = processMarkdownWithFrontmatter(state.markdown)
     await copyToClipboard(processedContent)
-    alert('Processed markdown copied!')
+    showToastMessage('Processed markdown copied!')
   }
 
   const handleCopyHtmlStyled = async () => {
     await copyToClipboard(generateStyledHtml(htmlOptions))
-    alert('Styled HTML copied!')
+    showToastMessage('Styled HTML copied!')
   }
 
   // Share handler
@@ -596,6 +604,8 @@ export function Header({
         shareUrl={shareUrl}
         documentTitle={state.documentTitle}
       />
+
+      <Toast message={toastMessage} isVisible={showToast} onClose={() => setShowToast(false)} />
     </header>
   )
 }
