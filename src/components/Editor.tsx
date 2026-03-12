@@ -8,12 +8,14 @@ import { FaPalette, FaTimes, FaDownload } from 'react-icons/fa'
 import { useAppState } from '../hooks/useAppState'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
 import { useLoopModal } from '../hooks/useLoopModal'
+import { useIfModal } from '../hooks/useIfModal'
 import { Header } from './Header'
 import { MarkdownEditor, MarkdownEditorHandle } from './editor/MarkdownEditor'
 import { MarkdownPreview } from './preview/MarkdownPreview'
 import { StylePanel } from './style/StylePanel'
 import { ExportPanel } from './style/ExportPanel'
 import { LoopModal } from './LoopModal'
+import { IfModal } from './IfModal'
 import type { EditionMode, TailwindClasses } from '../types'
 import type { ThemePreset } from '../data/themes.generated'
 
@@ -51,8 +53,9 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
     return saved === 'true'
   })
 
-  // Loop modal hook
+  // Modal hooks
   const loopModal = useLoopModal(state.markdown)
+  const ifModal = useIfModal(state.markdown)
 
   // Persist dark mode preference
   useEffect(() => {
@@ -218,6 +221,30 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
     [state.markdown, setMarkdown]
   )
 
+  // Handle if insertion
+  const handleInsertIf = useCallback(
+    (ifCode: string) => {
+      const cursorPosition = editorRef.current?.getCursorPosition?.() ?? 0
+
+      // Insert the if code at the cursor position
+      const before = state.markdown.substring(0, cursorPosition)
+      const after = state.markdown.substring(cursorPosition)
+      const insertedText = '\n' + ifCode + '\n'
+      const finalMarkdown = before + insertedText + after
+
+      // Calculate new cursor position (after the inserted if)
+      const newCursorPosition = cursorPosition + insertedText.length
+
+      setMarkdown(finalMarkdown)
+
+      // Position cursor after the inserted if
+      setTimeout(() => {
+        editorRef.current?.setCursorPosition?.(newCursorPosition)
+      }, 0)
+    },
+    [state.markdown, setMarkdown]
+  )
+
   return (
     <div className={`flex flex-col h-screen ${darkMode ? 'dark' : ''}`}>
       <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
@@ -261,6 +288,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
           onInsertQuote={() => editorRef.current?.insertQuote()}
           onInsertTable={() => editorRef.current?.insertTable()}
           onInsertLoop={() => loopModal.open()}
+          onInsertIf={() => ifModal.open()}
         />
 
         <div className="flex flex-1 overflow-hidden">
@@ -368,6 +396,9 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
 
         {/* Loop Modal */}
         <LoopModal loopModal={loopModal} onInsertLoop={handleInsertLoop} />
+
+        {/* If Modal */}
+        <IfModal ifModal={ifModal} onInsertIf={handleInsertIf} />
       </div>
     </div>
   )
