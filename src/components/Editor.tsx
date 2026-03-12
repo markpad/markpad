@@ -9,6 +9,7 @@ import { useAppState } from '../hooks/useAppState'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
 import { useLoopModal } from '../hooks/useLoopModal'
 import { useIfModal } from '../hooks/useIfModal'
+import { useImageModal } from '../hooks/useImageModal'
 import { Header } from './Header'
 import { MarkdownEditor, MarkdownEditorHandle } from './editor/MarkdownEditor'
 import { MarkdownPreview } from './preview/MarkdownPreview'
@@ -16,6 +17,7 @@ import { StylePanel } from './style/StylePanel'
 import { ExportPanel } from './style/ExportPanel'
 import { LoopModal } from './LoopModal'
 import { IfModal } from './IfModal'
+import { ImageModal } from './ImageModal'
 import type { EditionMode, TailwindClasses } from '../types'
 import type { ThemePreset } from '../data/themes.generated'
 
@@ -56,6 +58,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
   // Modal hooks
   const loopModal = useLoopModal(state.markdown)
   const ifModal = useIfModal(state.markdown)
+  const imageModal = useImageModal()
 
   // Persist dark mode preference
   useEffect(() => {
@@ -245,6 +248,29 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
     [state.markdown, setMarkdown]
   )
 
+  // Handle image insertion
+  const handleInsertImage = useCallback(
+    (imageCode: string) => {
+      const cursorPosition = editorRef.current?.getCursorPosition?.() ?? 0
+
+      // Insert the image code at the cursor position
+      const before = state.markdown.substring(0, cursorPosition)
+      const after = state.markdown.substring(cursorPosition)
+      const finalMarkdown = before + imageCode + after
+
+      // Calculate new cursor position (after the inserted image)
+      const newCursorPosition = cursorPosition + imageCode.length
+
+      setMarkdown(finalMarkdown)
+
+      // Position cursor after the inserted image
+      setTimeout(() => {
+        editorRef.current?.setCursorPosition?.(newCursorPosition)
+      }, 0)
+    },
+    [state.markdown, setMarkdown]
+  )
+
   return (
     <div className={`flex flex-col h-screen ${darkMode ? 'dark' : ''}`}>
       <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
@@ -282,7 +308,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
           onInsertBold={() => editorRef.current?.insertBold()}
           onInsertItalic={() => editorRef.current?.insertItalic()}
           onInsertLink={() => editorRef.current?.insertLink()}
-          onInsertImage={() => editorRef.current?.insertImage()}
+          onInsertImage={() => imageModal.open()}
           onInsertUnorderedList={() => editorRef.current?.insertUnorderedList()}
           onInsertOrderedList={() => editorRef.current?.insertOrderedList()}
           onInsertQuote={() => editorRef.current?.insertQuote()}
@@ -399,6 +425,9 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
 
         {/* If Modal */}
         <IfModal ifModal={ifModal} onInsertIf={handleInsertIf} />
+
+        {/* Image Modal */}
+        <ImageModal imageModal={imageModal} onInsertImage={handleInsertImage} />
       </div>
     </div>
   )
