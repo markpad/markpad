@@ -221,6 +221,10 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
           onToggleSyncScroll={() => setSyncScroll(!syncScroll)}
           darkMode={darkMode}
           onToggleDarkMode={() => setDarkMode(!darkMode)}
+          tailwindClasses={state.tailwindClasses}
+          fontFamily={state.fontConfig.fontFamily}
+          onUndo={() => document.execCommand('undo')}
+          onRedo={() => document.execCommand('redo')}
           onInsertHeading={(level) => editorRef.current?.insertHeading(level)}
           onInsertBold={() => editorRef.current?.insertBold()}
           onInsertItalic={() => editorRef.current?.insertItalic()}

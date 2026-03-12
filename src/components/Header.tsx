@@ -14,16 +14,29 @@ import {
   FaListOl,
   FaQuoteLeft,
   FaTable,
-  FaGlobe,
+  FaShareAlt,
   FaSync,
   FaListAlt,
   FaCheck,
   FaMoon,
+  FaChevronRight,
+  FaUndo,
+  FaRedo,
+  FaMarkdown,
+  FaCode,
+  FaFileCode,
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
-import type { EditionMode, AppState } from '../types'
+import type { EditionMode, AppState, TailwindClasses } from '../types'
 import { generatePublishUrl } from '../services/urlStateService'
 import { PublishModal } from './PublishModal'
+import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
+import {
+  generateSimpleHtml,
+  generateStyledHtml,
+  downloadFile,
+  copyToClipboard,
+} from '../utils/htmlGenerator'
 
 interface HeaderProps {
   state: AppState
@@ -37,6 +50,10 @@ interface HeaderProps {
   onToggleSyncScroll: () => void
   darkMode: boolean
   onToggleDarkMode: () => void
+  tailwindClasses: TailwindClasses
+  fontFamily: string
+  onUndo?: () => void
+  onRedo?: () => void
   onInsertHeading?: (level: 1 | 2 | 3) => void
   onInsertBold?: () => void
   onInsertItalic?: () => void
@@ -49,30 +66,106 @@ interface HeaderProps {
   onInsertLoop?: () => void
 }
 
+interface MenuItem {
+  label: string
+  icon?: React.ReactNode
+  shortcut?: string
+  onClick?: () => void
+  divider?: boolean
+  checked?: boolean
+  submenu?: MenuItem[]
+}
+
 interface MenuItemProps {
   label: string
-  items: {
-    label: string
-    icon?: React.ReactNode
-    shortcut?: string
-    onClick: () => void
-    divider?: boolean
-  }[]
+  items: MenuItem[]
 }
 
 function MenuDropdown({ label, items }: MenuItemProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setIsOpen(false)
+        setOpenSubmenu(null)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  const renderMenuItem = (item: MenuItem, index: number, isSubmenu = false) => {
+    // Divider-only item
+    if (item.label === 'divider' && item.divider) {
+      return <div key={index} className="border-t border-gray-200 dark:border-gray-700 my-1" />
+    }
+
+    // Item with submenu
+    if (item.submenu) {
+      return (
+        <div
+          key={index}
+          className="relative"
+          onMouseEnter={() => setOpenSubmenu(item.label)}
+          onMouseLeave={() => setOpenSubmenu(null)}
+        >
+          {item.divider && <div className="border-t border-gray-200 dark:border-gray-700 my-1" />}
+          <button className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100 flex items-center justify-between">
+            <span className="flex items-center gap-3">
+              {item.icon && (
+                <span className="text-gray-500 dark:text-gray-400 w-4">{item.icon}</span>
+              )}
+              {item.label}
+            </span>
+            <FaChevronRight className="text-gray-400 dark:text-gray-500 text-xs" />
+          </button>
+          {openSubmenu === item.label && (
+            <div className="absolute left-full top-0 ml-0.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl min-w-[180px] py-1">
+              {item.submenu.map((subitem, subindex) => renderMenuItem(subitem, subindex, true))}
+            </div>
+          )}
+        </div>
+      )
+    }
+
+    // Regular item
+    return (
+      <div key={index}>
+        {item.divider && <div className="border-t border-gray-200 dark:border-gray-700 my-1" />}
+        <button
+          className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100 flex items-center justify-between"
+          onClick={() => {
+            item.onClick?.()
+            setIsOpen(false)
+            setOpenSubmenu(null)
+          }}
+        >
+          <span className="flex items-center gap-3">
+            {item.icon && (
+              <span className="text-gray-500 dark:text-gray-400 w-4">
+                {item.checked !== undefined ? (
+                  item.checked ? (
+                    <FaCheck className="text-blue-600 dark:text-blue-400" />
+                  ) : (
+                    <span className="opacity-30">{item.icon}</span>
+                  )
+                ) : (
+                  item.icon
+                )}
+              </span>
+            )}
+            {item.label}
+          </span>
+          {item.shortcut && (
+            <span className="text-gray-400 dark:text-gray-500 text-xs">{item.shortcut}</span>
+          )}
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div ref={menuRef} className="relative">
@@ -88,40 +181,7 @@ function MenuDropdown({ label, items }: MenuItemProps) {
       </button>
       {isOpen && (
         <div className="absolute left-0 top-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl z-50 min-w-[200px] py-1">
-          {items.map((item, index) => {
-            // Divider-only item
-            if (item.label === 'divider' && item.divider) {
-              return (
-                <div key={index} className="border-t border-gray-200 dark:border-gray-700 my-1" />
-              )
-            }
-            return (
-              <div key={index}>
-                {item.divider && (
-                  <div className="border-t border-gray-200 dark:border-gray-700 my-1" />
-                )}
-                <button
-                  className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100 flex items-center justify-between"
-                  onClick={() => {
-                    item.onClick()
-                    setIsOpen(false)
-                  }}
-                >
-                  <span className="flex items-center gap-3">
-                    {item.icon && (
-                      <span className="text-gray-500 dark:text-gray-400 w-4">{item.icon}</span>
-                    )}
-                    {item.label}
-                  </span>
-                  {item.shortcut && (
-                    <span className="text-gray-400 dark:text-gray-500 text-xs">
-                      {item.shortcut}
-                    </span>
-                  )}
-                </button>
-              </div>
-            )
-          })}
+          {items.map((item, index) => renderMenuItem(item, index))}
         </div>
       )}
     </div>
@@ -144,6 +204,10 @@ export function Header({
   onToggleSyncScroll,
   darkMode,
   onToggleDarkMode,
+  tailwindClasses,
+  fontFamily,
+  onUndo,
+  onRedo,
   onInsertHeading,
   onInsertBold,
   onInsertItalic,
@@ -159,107 +223,171 @@ export function Header({
   const [publishModalOpen, setPublishModalOpen] = useState(false)
   const [publishUrl, setPublishUrl] = useState('')
 
-  const handleExport = (format: 'html' | 'markdown') => {
-    const content = format === 'markdown' ? state.markdown : htmlContent
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = format === 'markdown' ? `${state.documentTitle}.md` : `${state.documentTitle}.html`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
+  // HTML generation options
+  const htmlOptions = {
+    documentTitle: state.documentTitle,
+    htmlContent,
+    tailwindClasses,
+    fontFamily,
   }
 
-  const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText(state.markdown)
-    alert('Content copied to clipboard!')
+  // Export handlers
+  const handleExportMarkdownOriginal = () => {
+    downloadFile(state.markdown, `${state.documentTitle}.md`, 'text/markdown')
   }
 
-  const handlePublishToWeb = () => {
+  const handleExportMarkdownProcessed = () => {
+    const { processedContent } = processMarkdownWithFrontmatter(state.markdown)
+    downloadFile(processedContent, `${state.documentTitle}-processed.md`, 'text/markdown')
+  }
+
+  const handleExportHtmlSimple = () => {
+    downloadFile(generateSimpleHtml(htmlOptions), `${state.documentTitle}.html`, 'text/html')
+  }
+
+  const handleExportHtmlStyled = () => {
+    downloadFile(generateStyledHtml(htmlOptions), `${state.documentTitle}-styled.html`, 'text/html')
+  }
+
+  // Copy handlers
+  const handleCopyMarkdownOriginal = async () => {
+    await copyToClipboard(state.markdown)
+    alert('Original markdown copied!')
+  }
+
+  const handleCopyMarkdownProcessed = async () => {
+    const { processedContent } = processMarkdownWithFrontmatter(state.markdown)
+    await copyToClipboard(processedContent)
+    alert('Processed markdown copied!')
+  }
+
+  const handleCopyHtmlSimple = async () => {
+    await copyToClipboard(generateSimpleHtml(htmlOptions))
+    alert('Simple HTML copied!')
+  }
+
+  const handleCopyHtmlStyled = async () => {
+    await copyToClipboard(generateStyledHtml(htmlOptions))
+    alert('Styled HTML copied!')
+  }
+
+  // Share handler
+  const handleGenerateShareLink = () => {
     const url = generatePublishUrl(state)
     setPublishUrl(url)
     setPublishModalOpen(true)
   }
 
-  const fileMenuItems = [
+  // New document handler
+  const handleNewDocument = () => {
+    window.location.href = '/editor'
+  }
+
+  const fileMenuItems: MenuItem[] = [
     {
-      label: 'New document',
+      label: 'New Document',
       icon: <FaFileAlt />,
       shortcut: '⌘N',
-      onClick: () => window.open('/editor', '_blank'),
+      onClick: handleNewDocument,
     },
-    { label: 'divider', divider: true, onClick: () => {} },
-    { label: 'Export as HTML', icon: <FaFileExport />, onClick: () => handleExport('html') },
+    { label: 'divider', divider: true },
     {
-      label: 'Export as Markdown',
+      label: 'Export',
       icon: <FaFileExport />,
-      onClick: () => handleExport('markdown'),
+      submenu: [
+        {
+          label: 'Markdown (Original)',
+          icon: <FaMarkdown />,
+          onClick: handleExportMarkdownOriginal,
+        },
+        {
+          label: 'Markdown (Processed)',
+          icon: <FaCheck />,
+          onClick: handleExportMarkdownProcessed,
+        },
+        { label: 'divider', divider: true },
+        { label: 'HTML (Simple)', icon: <FaCode />, onClick: handleExportHtmlSimple },
+        { label: 'HTML (Styled)', icon: <FaFileCode />, onClick: handleExportHtmlStyled },
+      ],
     },
-    { label: 'divider', divider: true, onClick: () => {} },
     {
-      label: 'Copy to clipboard',
+      label: 'Copy',
       icon: <FaCopy />,
-      shortcut: '⌘C',
-      onClick: handleCopyToClipboard,
+      submenu: [
+        { label: 'Markdown (Original)', icon: <FaMarkdown />, onClick: handleCopyMarkdownOriginal },
+        { label: 'Markdown (Processed)', icon: <FaCheck />, onClick: handleCopyMarkdownProcessed },
+        { label: 'divider', divider: true },
+        { label: 'HTML (Simple)', icon: <FaCode />, onClick: handleCopyHtmlSimple },
+        { label: 'HTML (Styled)', icon: <FaFileCode />, onClick: handleCopyHtmlStyled },
+      ],
     },
-    { label: 'divider', divider: true, onClick: () => {} },
+    { label: 'divider', divider: true },
     {
-      label: 'Publish to Web',
-      icon: <FaGlobe />,
-      onClick: handlePublishToWeb,
+      label: 'Generate Share Link...',
+      icon: <FaShareAlt />,
+      onClick: handleGenerateShareLink,
     },
   ]
 
-  const editMenuItems = [
+  const editMenuItems: MenuItem[] = [
     {
-      label: 'Copy to clipboard',
-      icon: <FaCopy />,
-      shortcut: '⌘C',
-      onClick: handleCopyToClipboard,
+      label: 'Undo',
+      icon: <FaUndo />,
+      shortcut: '⌘Z',
+      onClick: onUndo,
+    },
+    {
+      label: 'Redo',
+      icon: <FaRedo />,
+      shortcut: '⌘⇧Z',
+      onClick: onRedo,
     },
   ]
 
-  const viewMenuItems = [
+  const viewMenuItems: MenuItem[] = [
     {
-      label: 'Editor only',
-      icon: <FaEdit />,
-      onClick: () => onEditionModeChange('edit'),
-    },
-    {
-      label: 'Split view',
+      label: 'Layout',
       icon: <FaColumns />,
-      onClick: () => onEditionModeChange('split'),
+      submenu: [
+        {
+          label: 'Editor Only',
+          icon: <FaEdit />,
+          onClick: () => onEditionModeChange('edit'),
+          checked: editionMode === 'edit',
+        },
+        {
+          label: 'Split View',
+          icon: <FaColumns />,
+          onClick: () => onEditionModeChange('split'),
+          checked: editionMode === 'split',
+        },
+        {
+          label: 'Preview Only',
+          icon: <FaEye />,
+          onClick: () => onEditionModeChange('preview'),
+          checked: editionMode === 'preview',
+        },
+      ],
     },
+    { label: 'divider', divider: true },
     {
-      label: 'Preview only',
-      icon: <FaEye />,
-      onClick: () => onEditionModeChange('preview'),
-    },
-    {
-      label: 'Show line numbers',
-      icon: showLineNumbers ? (
-        <FaCheck className="text-blue-600" />
-      ) : (
-        <FaListAlt className="opacity-30" />
-      ),
+      label: 'Show Line Numbers',
+      icon: <FaListAlt />,
       onClick: onToggleLineNumbers,
+      checked: showLineNumbers,
     },
     {
-      label: 'Sync scroll',
-      icon: syncScroll ? (
-        <FaCheck className="text-blue-600" />
-      ) : (
-        <FaColumns className="opacity-30" />
-      ),
+      label: 'Sync Scroll',
+      icon: <FaSync />,
       onClick: onToggleSyncScroll,
+      checked: syncScroll,
     },
+    { label: 'divider', divider: true },
     {
-      label: 'Dark mode',
-      icon: darkMode ? <FaCheck className="text-blue-600" /> : <FaMoon className="opacity-30" />,
+      label: 'Dark Mode',
+      icon: <FaMoon />,
       onClick: onToggleDarkMode,
-      divider: true,
+      checked: darkMode,
     },
   ]
 
@@ -300,17 +428,6 @@ export function Header({
                 {state.documentTitle}
               </button>
             )}
-            <div className="flex items-center gap-3 px-2">
-              <span className="text-gray-500 dark:text-gray-400 text-xs">
-                Tailwind Markdown Editor
-              </span>
-              <a
-                href="/themes"
-                className="text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-xs font-medium transition-colors"
-              >
-                Themes
-              </a>
-            </div>
           </div>
         </div>
       </div>
