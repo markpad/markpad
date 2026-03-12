@@ -10,6 +10,8 @@ interface UseMarkdownEditorReturn {
   handleChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
   insertText: (text: string, options?: InsertOptions) => void
   wrapSelection: (prefix: string, suffix: string) => void
+  setCursorPosition: (position: number) => void
+  getCursorPosition: () => number
 }
 
 interface InsertOptions {
@@ -110,10 +112,20 @@ export function useMarkdownEditor({
     [markdown, setMarkdown]
   )
 
+  const setCursorPosition = useCallback((position: number) => {
+    setPendingCursorPosition(position)
+  }, [])
+
+  const getCursorPosition = useCallback(() => {
+    return textareaRef.current?.selectionStart ?? 0
+  }, [])
+
   return {
     textareaRef,
     handleChange,
     insertText,
     wrapSelection,
+    setCursorPosition,
+    getCursorPosition,
   }
 }

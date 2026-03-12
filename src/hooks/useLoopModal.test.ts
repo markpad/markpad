@@ -140,6 +140,59 @@ Content`
       expect(result.current.newArrayConfig.name).toBe('tools')
       expect(result.current.newArrayConfig.items).toEqual(['Git', 'Docker'])
     })
+
+    it('should preserve items across multiple setNewArrayConfig calls', () => {
+      const { result } = renderHook(() => useLoopModal(markdownWithArrays))
+
+      // Simulate typing items one by one (like the textarea onChange)
+      act(() => {
+        result.current.setNewArrayConfig({ items: ['JavaScript'] })
+      })
+      expect(result.current.newArrayConfig.items).toEqual(['JavaScript'])
+
+      act(() => {
+        result.current.setNewArrayConfig({ items: ['JavaScript', 'TypeScript'] })
+      })
+      expect(result.current.newArrayConfig.items).toEqual(['JavaScript', 'TypeScript'])
+
+      act(() => {
+        result.current.setNewArrayConfig({ items: ['JavaScript', 'TypeScript', 'React'] })
+      })
+      expect(result.current.newArrayConfig.items).toEqual(['JavaScript', 'TypeScript', 'React'])
+    })
+
+    it('should handle items with special characters', () => {
+      const { result } = renderHook(() => useLoopModal(markdownWithArrays))
+
+      act(() => {
+        result.current.setNewArrayConfig({
+          name: 'quotes',
+          items: ['Hello "World"', "It's working", 'Special: @#$%'],
+        })
+      })
+
+      expect(result.current.newArrayConfig.items).toEqual([
+        'Hello "World"',
+        "It's working",
+        'Special: @#$%',
+      ])
+    })
+
+    it('should update name independently of items', () => {
+      const { result } = renderHook(() => useLoopModal(markdownWithArrays))
+
+      act(() => {
+        result.current.setNewArrayConfig({ items: ['Item1', 'Item2'] })
+      })
+
+      act(() => {
+        result.current.setNewArrayConfig({ name: 'myArray' })
+      })
+
+      // Items should be preserved when only name is updated
+      expect(result.current.newArrayConfig.name).toBe('myArray')
+      expect(result.current.newArrayConfig.items).toEqual(['Item1', 'Item2'])
+    })
   })
 
   describe('generateLoopCode', () => {
@@ -225,6 +278,86 @@ Content`
       const updated = result.current.getUpdatedMarkdown()
 
       expect(updated).toBe(markdownWithArrays)
+    })
+
+    it('should add array with single item to frontmatter', () => {
+      const { result } = renderHook(() => useLoopModal(markdownWithArrays))
+
+      act(() => {
+        result.current.setIsCreatingNewArray(true)
+        result.current.setNewArrayConfig({
+          name: 'singleItem',
+          items: ['OnlyOne'],
+        })
+      })
+
+      const updated = result.current.getUpdatedMarkdown()
+
+      expect(updated).toContain('singleItem:')
+      expect(updated).toContain('- OnlyOne')
+    })
+
+    it('should add array with multiple items preserving order', () => {
+      const { result } = renderHook(() => useLoopModal(markdownWithArrays))
+
+      act(() => {
+        result.current.setIsCreatingNewArray(true)
+        result.current.setNewArrayConfig({
+          name: 'orderedList',
+          items: ['First', 'Second', 'Third', 'Fourth'],
+        })
+      })
+
+      const updated = result.current.getUpdatedMarkdown()
+
+      // Check that items appear in order
+      const firstIndex = updated.indexOf('- First')
+      const secondIndex = updated.indexOf('- Second')
+      const thirdIndex = updated.indexOf('- Third')
+      const fourthIndex = updated.indexOf('- Fourth')
+
+      expect(firstIndex).toBeLessThan(secondIndex)
+      expect(secondIndex).toBeLessThan(thirdIndex)
+      expect(thirdIndex).toBeLessThan(fourthIndex)
+    })
+
+    it('should preserve existing frontmatter when adding new array', () => {
+      const { result } = renderHook(() => useLoopModal(markdownWithArrays))
+
+      act(() => {
+        result.current.setIsCreatingNewArray(true)
+        result.current.setNewArrayConfig({
+          name: 'newArray',
+          items: ['NewItem'],
+        })
+      })
+
+      const updated = result.current.getUpdatedMarkdown()
+
+      // Original frontmatter should be preserved
+      expect(updated).toContain('title: Test')
+      expect(updated).toContain('skills:')
+      expect(updated).toContain('- JavaScript')
+      expect(updated).toContain('languages:')
+      // New array should be added
+      expect(updated).toContain('newArray:')
+      expect(updated).toContain('- NewItem')
+    })
+
+    it('should preserve markdown content after frontmatter', () => {
+      const { result } = renderHook(() => useLoopModal(markdownWithArrays))
+
+      act(() => {
+        result.current.setIsCreatingNewArray(true)
+        result.current.setNewArrayConfig({
+          name: 'test',
+          items: ['Item'],
+        })
+      })
+
+      const updated = result.current.getUpdatedMarkdown()
+
+      expect(updated).toContain('Content here')
     })
   })
 

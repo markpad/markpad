@@ -12,6 +12,8 @@ export interface MarkdownEditorHandle {
   insertQuote: () => void
   insertTable: () => void
   insertText: (text: string) => void
+  setCursorPosition: (position: number) => void
+  getCursorPosition: () => number
 }
 
 interface MarkdownEditorProps {
@@ -27,7 +29,14 @@ interface MarkdownEditorProps {
  */
 export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorProps>(
   function MarkdownEditor({ markdown, setMarkdown, showLineNumbers = true, onScroll }, ref) {
-    const { textareaRef, handleChange, insertText, wrapSelection } = useMarkdownEditor({
+    const {
+      textareaRef,
+      handleChange,
+      insertText,
+      wrapSelection,
+      setCursorPosition,
+      getCursorPosition,
+    } = useMarkdownEditor({
       markdown,
       setMarkdown,
     })
@@ -48,6 +57,8 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
       insertTable: () =>
         insertText('\n| Column 1 | Column 2 |\n|----------|----------|\n| Value 1  | Value 2  |\n'),
       insertText: (text: string) => insertText(text),
+      setCursorPosition: (position: number) => setCursorPosition(position),
+      getCursorPosition: () => getCursorPosition(),
     }))
 
     // Calculate line numbers

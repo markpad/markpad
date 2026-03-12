@@ -186,12 +186,34 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
   // Handle loop insertion
   const handleInsertLoop = useCallback(
     (loopCode: string, updatedMarkdown: string) => {
-      // If markdown was updated (new array added), update it first
+      // Get cursor position from editor ref
+      const cursorPosition = editorRef.current?.getCursorPosition?.() ?? 0
+
+      // If markdown was updated (new array added), we need to adjust cursor position
+      // because the frontmatter might have grown
+      let adjustedCursorPosition = cursorPosition
       if (updatedMarkdown !== state.markdown) {
-        setMarkdown(updatedMarkdown)
+        // Calculate the difference in length due to frontmatter changes
+        const lengthDiff = updatedMarkdown.length - state.markdown.length
+        adjustedCursorPosition = cursorPosition + lengthDiff
       }
-      // Insert the loop code at cursor position (or end if no editor ref)
-      editorRef.current?.insertText?.('\n' + loopCode + '\n')
+
+      // Insert the loop code at the cursor position in the updated markdown
+      const before = updatedMarkdown.substring(0, adjustedCursorPosition)
+      const after = updatedMarkdown.substring(adjustedCursorPosition)
+      const insertedText = '\n' + loopCode + '\n'
+      const finalMarkdown = before + insertedText + after
+
+      // Calculate new cursor position (after the inserted loop)
+      const newCursorPosition = adjustedCursorPosition + insertedText.length
+
+      setMarkdown(finalMarkdown)
+
+      // Position cursor after the inserted loop
+      // Use setTimeout to ensure state is updated first
+      setTimeout(() => {
+        editorRef.current?.setCursorPosition?.(newCursorPosition)
+      }, 0)
     },
     [state.markdown, setMarkdown]
   )

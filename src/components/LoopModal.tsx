@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { FaTimes, FaSync, FaPlus, FaCode } from 'react-icons/fa'
 import type { UseLoopModalResult } from '../hooks/useLoopModal'
 
@@ -31,14 +31,19 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
   } = loopModal
 
   // Track raw textarea input to preserve newlines while typing
-  const [itemsInput, setItemsInput] = useState(newArrayConfig.items.join('\n'))
+  const [itemsInput, setItemsInput] = useState('')
 
-  // Reset itemsInput when modal opens
+  // Track previous isOpen state to detect modal opening
+  const prevIsOpenRef = useRef(false)
+
+  // Reset itemsInput only when modal opens (not when items change)
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !prevIsOpenRef.current) {
+      // Modal just opened - reset to initial state
       setItemsInput(newArrayConfig.items.join('\n'))
     }
-  }, [isOpen, newArrayConfig.items])
+    prevIsOpenRef.current = isOpen
+  }, [isOpen])
 
   if (!isOpen) return null
 
@@ -164,10 +169,14 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
           {isCreatingNewArray && (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label
+                  htmlFor="array-name-input"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
                   Array Name
                 </label>
                 <input
+                  id="array-name-input"
                   type="text"
                   value={newArrayConfig.name}
                   onChange={(e) => setNewArrayConfig({ name: e.target.value })}
@@ -176,10 +185,14 @@ export function LoopModal({ loopModal, onInsertLoop }: LoopModalProps) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label
+                  htmlFor="items-input"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
                   Items (one per line)
                 </label>
                 <textarea
+                  id="items-input"
                   value={itemsInput}
                   onChange={(e) => handleItemsChange(e.target.value)}
                   placeholder="JavaScript&#10;TypeScript&#10;React"
