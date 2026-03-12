@@ -31,7 +31,12 @@ import type { EditionMode, AppState, TailwindClasses } from '../types'
 import { generateShareUrl, encodeState } from '../services/urlStateService'
 import { ShareModal } from './ShareModal'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
-import { generateStyledHtml, downloadFile, copyToClipboard } from '../utils/htmlGenerator'
+import {
+  generateStyledHtml,
+  downloadFile,
+  copyToClipboard,
+  copyHtmlToClipboard,
+} from '../utils/htmlGenerator'
 import { Toast } from './Toast'
 
 interface HeaderProps {
@@ -263,7 +268,7 @@ export function Header({
   }
 
   const handleCopyHtmlStyled = async () => {
-    await copyToClipboard(generateStyledHtml(htmlOptions))
+    await copyHtmlToClipboard(generateStyledHtml(htmlOptions))
     showToastMessage('Styled HTML copied!')
   }
 

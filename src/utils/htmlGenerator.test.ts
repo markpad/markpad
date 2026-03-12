@@ -1,4 +1,4 @@
-import { generateStyledHtml } from './htmlGenerator'
+import { generateStyledHtml, copyHtmlToClipboard } from './htmlGenerator'
 import type { TailwindClasses } from '../types'
 
 describe('htmlGenerator module', () => {
@@ -157,6 +157,74 @@ describe('htmlGenerator module', () => {
       })
 
       expect(result).toContain(htmlContent)
+    })
+  })
+
+  describe('copyHtmlToClipboard', () => {
+    let mockWrite: jest.Mock
+    let mockClipboardItem: jest.Mock
+
+    beforeEach(() => {
+      // Mock ClipboardItem
+      mockClipboardItem = jest.fn((items) => items)
+      global.ClipboardItem = mockClipboardItem as any
+
+      // Mock navigator.clipboard.write
+      mockWrite = jest.fn().mockResolvedValue(undefined)
+      Object.assign(navigator, {
+        clipboard: {
+          write: mockWrite,
+        },
+      })
+    })
+
+    it('should copy HTML with both text/html and text/plain formats', async () => {
+      const htmlContent = '<h1>Hello</h1><p>World</p>'
+      await copyHtmlToClipboard(htmlContent)
+
+      expect(mockClipboardItem).toHaveBeenCalled()
+      expect(mockWrite).toHaveBeenCalled()
+
+      // Check that ClipboardItem was called with both formats
+      const clipboardItemArgs = mockClipboardItem.mock.calls[0][0]
+      expect(clipboardItemArgs).toHaveProperty('text/html')
+      expect(clipboardItemArgs).toHaveProperty('text/plain')
+    })
+
+    it('should create Blob with correct type for HTML', async () => {
+      const htmlContent = '<h1>Title</h1><p>Paragraph text</p>'
+      await copyHtmlToClipboard(htmlContent)
+
+      const clipboardItemArgs = mockClipboardItem.mock.calls[0][0]
+      const htmlBlob = clipboardItemArgs['text/html']
+
+      expect(htmlBlob).toBeInstanceOf(Blob)
+      expect(htmlBlob.type).toBe('text/html')
+    })
+
+    it('should create Blob with correct type for plain text', async () => {
+      const htmlContent = '<h1>Title</h1><p>Paragraph text</p>'
+      await copyHtmlToClipboard(htmlContent)
+
+      const clipboardItemArgs = mockClipboardItem.mock.calls[0][0]
+      const textBlob = clipboardItemArgs['text/plain']
+
+      expect(textBlob).toBeInstanceOf(Blob)
+      expect(textBlob.type).toBe('text/plain')
+    })
+
+    it('should handle empty HTML', async () => {
+      await copyHtmlToClipboard('')
+
+      expect(mockWrite).toHaveBeenCalled()
+    })
+
+    it('should call clipboard.write with ClipboardItem array', async () => {
+      const htmlContent = '<div>Content</div>'
+      await copyHtmlToClipboard(htmlContent)
+
+      expect(mockWrite).toHaveBeenCalledTimes(1)
+      expect(mockWrite).toHaveBeenCalledWith(expect.arrayContaining([expect.anything()]))
     })
   })
 })

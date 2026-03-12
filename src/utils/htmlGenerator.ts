@@ -69,8 +69,30 @@ export function downloadFile(content: string, filename: string, mimeType: string
 }
 
 /**
- * Copy content to clipboard
+ * Copy content to clipboard as plain text
  */
 export async function copyToClipboard(content: string): Promise<void> {
   await navigator.clipboard.writeText(content)
+}
+
+/**
+ * Copy HTML content to clipboard with rich formatting
+ * This allows pasting formatted content into rich text editors
+ */
+export async function copyHtmlToClipboard(htmlContent: string): Promise<void> {
+  // Extract text content from HTML for plain text fallback
+  const tempDiv = document.createElement('div')
+  tempDiv.innerHTML = htmlContent
+  const textContent = tempDiv.textContent || tempDiv.innerText || ''
+
+  // Create clipboard item with both HTML and plain text
+  const blob = new Blob([htmlContent], { type: 'text/html' })
+  const textBlob = new Blob([textContent], { type: 'text/plain' })
+
+  const clipboardItem = new ClipboardItem({
+    'text/html': blob,
+    'text/plain': textBlob,
+  })
+
+  await navigator.clipboard.write([clipboardItem])
 }
