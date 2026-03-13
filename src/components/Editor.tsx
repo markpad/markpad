@@ -7,9 +7,15 @@ import { Tooltip } from 'react-tooltip'
 import { FaPalette, FaTimes, FaDownload } from 'react-icons/fa'
 import { useAppState } from '../hooks/useAppState'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
+import {
+  defaultTailwindClasses,
+  defaultBehaviorConfig,
+  defaultFontConfig,
+} from '../services/urlStateService'
 import { useLoopModal } from '../hooks/useLoopModal'
 import { useIfModal } from '../hooks/useIfModal'
 import { useImageModal } from '../hooks/useImageModal'
+import { useLinkModal } from '../hooks/useLinkModal'
 import { Header } from './Header'
 import { MarkdownEditor, MarkdownEditorHandle } from './editor/MarkdownEditor'
 import { MarkdownPreview } from './preview/MarkdownPreview'
@@ -18,6 +24,7 @@ import { ExportPanel } from './style/ExportPanel'
 import { LoopModal } from './LoopModal'
 import { IfModal } from './IfModal'
 import { ImageModal } from './ImageModal'
+import { LinkModal } from './LinkModal'
 import type { EditionMode, TailwindClasses } from '../types'
 import type { ThemePreset } from '../data/themes.generated'
 
@@ -49,16 +56,21 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
   const [showStylePanel, setShowStylePanel] = useState(showStylePanelByDefault)
   const [activeSidebarPanel, setActiveSidebarPanel] = useState<SidebarPanel>('themes')
   const [currentThemeId, setCurrentThemeId] = useState<string | undefined>()
+  const [customThemeName, setCustomThemeName] = useState('Custom Theme')
   const [syncScroll, setSyncScroll] = useState(false)
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode')
     return saved === 'true'
   })
 
+  // Check if current theme is custom (modified from preset or default)
+  const isCustomTheme = !currentThemeId
+
   // Modal hooks
   const loopModal = useLoopModal(state.markdown)
   const ifModal = useIfModal(state.markdown)
   const imageModal = useImageModal()
+  const linkModal = useLinkModal()
 
   // Persist dark mode preference
   useEffect(() => {
@@ -166,7 +178,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
 
   const handleTailwindClassChange = (element: keyof TailwindClasses, value: string) => {
     updateTailwindClass(element, value)
-    setCurrentThemeId(undefined) // Clear theme when manually edited
+    setCurrentThemeId(undefined) // Clear theme when manually edited - makes it custom
   }
 
   // Handle applying a theme
@@ -180,6 +192,8 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
       })
       setFontConfig(theme.fontConfig)
       setCurrentThemeId(theme.id)
+      // Reset custom theme name when applying a preset
+      setCustomThemeName('Custom Theme')
     },
     [
       setTailwindClasses,
@@ -187,6 +201,38 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
       setFontConfig,
       state.behaviorConfig.shouldShowLineNumbers,
     ]
+  )
+
+  // Handle resetting to default theme
+  const handleResetToDefault = useCallback(() => {
+    setTailwindClasses(defaultTailwindClasses)
+    setBehaviorConfig({
+      ...defaultBehaviorConfig,
+      shouldShowLineNumbers: state.behaviorConfig.shouldShowLineNumbers,
+    })
+    setFontConfig(defaultFontConfig)
+    setCurrentThemeId('standard-blue')
+    setCustomThemeName('Custom Theme')
+  }, [
+    setTailwindClasses,
+    setBehaviorConfig,
+    setFontConfig,
+    state.behaviorConfig.shouldShowLineNumbers,
+  ])
+
+  // Handle saving custom theme as a preset
+  const handleSaveCustomTheme = useCallback(
+    (themeName: string) => {
+      // Return the saved theme configuration for the StylePanel to handle
+      return {
+        name: themeName,
+        tailwindClasses: state.tailwindClasses,
+        behaviorConfig: state.behaviorConfig,
+        fontConfig: state.fontConfig,
+        fontFamily: state.fontConfig.fontFamily,
+      }
+    },
+    [state.tailwindClasses, state.behaviorConfig, state.fontConfig]
   )
 
   // Handle loop insertion
@@ -271,6 +317,29 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
     [state.markdown, setMarkdown]
   )
 
+  // Handle link insertion
+  const handleInsertLink = useCallback(
+    (linkCode: string) => {
+      const cursorPosition = editorRef.current?.getCursorPosition?.() ?? 0
+
+      // Insert the link code at the cursor position
+      const before = state.markdown.substring(0, cursorPosition)
+      const after = state.markdown.substring(cursorPosition)
+      const finalMarkdown = before + linkCode + after
+
+      // Calculate new cursor position (after the inserted link)
+      const newCursorPosition = cursorPosition + linkCode.length
+
+      setMarkdown(finalMarkdown)
+
+      // Position cursor after the inserted link
+      setTimeout(() => {
+        editorRef.current?.setCursorPosition?.(newCursorPosition)
+      }, 0)
+    },
+    [state.markdown, setMarkdown]
+  )
+
   return (
     <div className={`flex flex-col h-screen ${darkMode ? 'dark' : ''}`}>
       <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
@@ -307,7 +376,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
           onInsertHeading={(level) => editorRef.current?.insertHeading(level)}
           onInsertBold={() => editorRef.current?.insertBold()}
           onInsertItalic={() => editorRef.current?.insertItalic()}
-          onInsertLink={() => editorRef.current?.insertLink()}
+          onInsertLink={() => linkModal.open()}
           onInsertImage={() => imageModal.open()}
           onInsertUnorderedList={() => editorRef.current?.insertUnorderedList()}
           onInsertOrderedList={() => editorRef.current?.insertOrderedList()}
@@ -402,10 +471,15 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
                   behaviorConfig={state.behaviorConfig}
                   fontConfig={state.fontConfig}
                   currentThemeId={currentThemeId}
+                  isCustomTheme={isCustomTheme}
+                  customThemeName={customThemeName}
+                  onCustomThemeNameChange={setCustomThemeName}
                   onTailwindClassChange={handleTailwindClassChange}
                   onBehaviorConfigChange={updateBehaviorConfig}
                   onFontConfigChange={updateFontConfig}
                   onApplyTheme={handleApplyTheme}
+                  onResetToDefault={handleResetToDefault}
+                  onSaveCustomTheme={handleSaveCustomTheme}
                 />
               ) : (
                 <ExportPanel
@@ -428,6 +502,9 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
 
         {/* Image Modal */}
         <ImageModal imageModal={imageModal} onInsertImage={handleInsertImage} />
+
+        {/* Link Modal */}
+        <LinkModal linkModal={linkModal} onInsertLink={handleInsertLink} />
       </div>
     </div>
   )
