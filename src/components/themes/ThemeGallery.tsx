@@ -1,11 +1,12 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { FaSearch, FaFileAlt } from 'react-icons/fa'
+import { FaSearch, FaFileAlt, FaHeart } from 'react-icons/fa'
 import { ThemeCard } from './ThemeCard'
 import { filterThemesByCategory, searchThemes, THEME_CATEGORIES } from '../../data/themes.generated'
 import type { ThemePreset, ThemeCategory } from '../../data/themes.generated'
 import { encodeState, defaultDocumentTitle } from '../../services/urlStateService'
+import { useStyleSidebar } from '../../hooks/useStyleSidebar'
 
 /**
  * Theme Gallery page - displays pre-configured theme presets
@@ -16,6 +17,8 @@ export function ThemeGallery() {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState<ThemeCategory>('all')
   const [appliedThemeId, setAppliedThemeId] = useState<string | null>(null)
+
+  const { favoriteThemes, toggleFavorite, isFavorite } = useStyleSidebar()
 
   const filteredThemes = useMemo(() => {
     let themes: ThemePreset[]
@@ -131,6 +134,34 @@ export function ThemeGallery() {
           ))}
         </div>
 
+        {/* Favorites Section */}
+        {favoriteThemes.length > 0 && !searchQuery && activeCategory === 'all' && (
+          <div className="mb-10">
+            <div className="flex items-center gap-2 mb-4">
+              <FaHeart className="text-red-500" />
+              <h2 className="text-xl font-semibold text-white">Your Favorites</h2>
+              <span className="text-sm text-gray-500">({favoriteThemes.length})</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {favoriteThemes.map((theme) => (
+                <ThemeCard
+                  key={`fav-${theme.id}`}
+                  theme={theme}
+                  isActive={appliedThemeId === theme.id}
+                  isFavorite={true}
+                  onApply={handleApplyTheme}
+                  onToggleFavorite={() => toggleFavorite(theme.id)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* All Themes Section */}
+        {favoriteThemes.length > 0 && !searchQuery && activeCategory === 'all' && (
+          <h2 className="text-xl font-semibold text-white mb-4">All Themes</h2>
+        )}
+
         {/* Theme Grid */}
         {filteredThemes.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -139,7 +170,9 @@ export function ThemeGallery() {
                 key={theme.id}
                 theme={theme}
                 isActive={appliedThemeId === theme.id}
+                isFavorite={isFavorite(theme.id)}
                 onApply={handleApplyTheme}
+                onToggleFavorite={() => toggleFavorite(theme.id)}
               />
             ))}
           </div>

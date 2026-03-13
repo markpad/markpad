@@ -9,13 +9,15 @@ interface LocalTheme extends ThemePreset {
 }
 
 const LOCAL_THEMES_KEY = 'marklab-local-themes'
+const FAVORITE_THEMES_KEY = 'marklab-favorite-themes'
 
 export function useStyleSidebar() {
   const [activeTab, setActiveTab] = useState<SidebarTab>('themes')
   const [searchQuery, setSearchQuery] = useState('')
   const [localThemes, setLocalThemes] = useState<LocalTheme[]>([])
+  const [favoriteThemeIds, setFavoriteThemeIds] = useState<string[]>([])
 
-  // Load local themes from localStorage on mount
+  // Load local themes and favorites from localStorage on mount
   useEffect(() => {
     try {
       const stored = localStorage.getItem(LOCAL_THEMES_KEY)
@@ -24,6 +26,15 @@ export function useStyleSidebar() {
       }
     } catch (e) {
       console.error('Failed to load local themes:', e)
+    }
+
+    try {
+      const storedFavorites = localStorage.getItem(FAVORITE_THEMES_KEY)
+      if (storedFavorites) {
+        setFavoriteThemeIds(JSON.parse(storedFavorites))
+      }
+    } catch (e) {
+      console.error('Failed to load favorite themes:', e)
     }
   }, [])
 
@@ -89,6 +100,35 @@ export function useStyleSidebar() {
     [localThemes, saveLocalThemesToStorage]
   )
 
+  // Toggle favorite status for a theme
+  const toggleFavorite = useCallback(
+    (themeId: string) => {
+      const isFavorite = favoriteThemeIds.includes(themeId)
+      const updatedFavorites = isFavorite
+        ? favoriteThemeIds.filter((id) => id !== themeId)
+        : [...favoriteThemeIds, themeId]
+
+      setFavoriteThemeIds(updatedFavorites)
+      try {
+        localStorage.setItem(FAVORITE_THEMES_KEY, JSON.stringify(updatedFavorites))
+      } catch (e) {
+        console.error('Failed to save favorite themes:', e)
+      }
+    },
+    [favoriteThemeIds]
+  )
+
+  // Check if a theme is favorited
+  const isFavorite = useCallback(
+    (themeId: string) => favoriteThemeIds.includes(themeId),
+    [favoriteThemeIds]
+  )
+
+  // Get favorite themes
+  const favoriteThemes = useMemo(() => {
+    return [...localThemes, ...themePresets].filter((theme) => favoriteThemeIds.includes(theme.id))
+  }, [localThemes, favoriteThemeIds])
+
   // Filter themes based on search query
   const filteredThemes = useMemo(() => {
     const query = searchQuery.toLowerCase().trim()
@@ -111,7 +151,11 @@ export function useStyleSidebar() {
     setSearchQuery,
     localThemes,
     filteredThemes,
+    favoriteThemes,
+    favoriteThemeIds,
     saveAsLocalTheme,
     deleteLocalTheme,
+    toggleFavorite,
+    isFavorite,
   }
 }

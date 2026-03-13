@@ -1,20 +1,46 @@
-import { FaCheck } from 'react-icons/fa'
+import { FaCheck, FaHeart, FaRegHeart } from 'react-icons/fa'
 import type { ThemePreset } from '../../data/themes.generated'
 
 interface ThemeCardProps {
   theme: ThemePreset
   isActive: boolean
+  isFavorite?: boolean
   onApply: (theme: ThemePreset) => void
+  onToggleFavorite?: () => void
 }
 
 /**
  * Individual theme card with preview and apply functionality
  */
-export function ThemeCard({ theme, isActive, onApply }: ThemeCardProps) {
+export function ThemeCard({
+  theme,
+  isActive,
+  isFavorite,
+  onApply,
+  onToggleFavorite,
+}: ThemeCardProps) {
   const { preview } = theme
 
   return (
-    <div className="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-gray-500 transition-all group hover:shadow-xl hover:shadow-black/20">
+    <div className="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-gray-500 transition-all group hover:shadow-xl hover:shadow-black/20 relative">
+      {/* Favorite Button */}
+      {onToggleFavorite && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            onToggleFavorite()
+          }}
+          className={`absolute top-3 right-3 z-10 p-2 rounded-full transition-all ${
+            isFavorite
+              ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
+              : 'bg-gray-900/60 text-gray-400 hover:text-red-400 hover:bg-gray-900/80'
+          }`}
+          title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          {isFavorite ? <FaHeart className="w-4 h-4" /> : <FaRegHeart className="w-4 h-4" />}
+        </button>
+      )}
+
       {/* Preview Area */}
       <div
         className="h-44 p-5 flex flex-col justify-end relative overflow-hidden"
