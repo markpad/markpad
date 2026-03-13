@@ -81,23 +81,32 @@ interface MenuItem {
 interface MenuItemProps {
   label: string
   items: MenuItem[]
+  anyMenuOpen: boolean
+  isActive: boolean
+  onMenuOpenChange: (label: string, isOpen: boolean) => void
 }
 
-function MenuDropdown({ label, items }: MenuItemProps) {
-  const [isOpen, setIsOpen] = useState(false)
+function MenuDropdown({ label, items, anyMenuOpen, isActive, onMenuOpenChange }: MenuItemProps) {
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setIsOpen(false)
         setOpenSubmenu(null)
+        onMenuOpenChange(label, false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  }, [label, onMenuOpenChange])
+
+  // Clear submenu when menu closes
+  useEffect(() => {
+    if (!isActive) {
+      setOpenSubmenu(null)
+    }
+  }, [isActive])
 
   const renderMenuItem = (item: MenuItem, index: number, isSubmenu = false) => {
     // Divider-only item
@@ -141,7 +150,7 @@ function MenuDropdown({ label, items }: MenuItemProps) {
           className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100 flex items-center justify-between"
           onClick={() => {
             item.onClick?.()
-            setIsOpen(false)
+            onMenuOpenChange(label, false)
             setOpenSubmenu(null)
           }}
         >
@@ -173,15 +182,20 @@ function MenuDropdown({ label, items }: MenuItemProps) {
     <div ref={menuRef} className="relative">
       <button
         className={`px-3 py-1 text-sm rounded transition-colors ${
-          isOpen
+          isActive
             ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
             : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
         }`}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => onMenuOpenChange(label, !isActive)}
+        onMouseEnter={() => {
+          if (anyMenuOpen && !isActive) {
+            onMenuOpenChange(label, true)
+          }
+        }}
       >
         {label}
       </button>
-      {isOpen && (
+      {isActive && (
         <div className="absolute left-0 top-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl z-50 min-w-[200px] py-1">
           {items.map((item, index) => renderMenuItem(item, index))}
         </div>
@@ -227,10 +241,25 @@ export function Header({
   const [shareUrl, setShareUrl] = useState('')
   const [toastMessage, setToastMessage] = useState('')
   const [showToast, setShowToast] = useState(false)
+  const [anyMenuOpen, setAnyMenuOpen] = useState(false)
+  const [openMenuLabel, setOpenMenuLabel] = useState<string | null>(null)
 
   const showToastMessage = (message: string) => {
     setToastMessage(message)
     setShowToast(true)
+  }
+
+  const handleMenuOpenChange = (label: string, isOpen: boolean) => {
+    if (isOpen) {
+      setAnyMenuOpen(true)
+      setOpenMenuLabel(label)
+    } else {
+      // Check if the closing menu is the currently open one
+      if (openMenuLabel === label) {
+        setAnyMenuOpen(false)
+        setOpenMenuLabel(null)
+      }
+    }
   }
 
   // HTML generation options
@@ -448,9 +477,27 @@ export function Header({
       <div className="flex items-center justify-between px-2 py-1">
         {/* Left - Menu Bar + Formatting Toolbar */}
         <div className="flex items-center gap-1">
-          <MenuDropdown label="File" items={fileMenuItems} />
-          <MenuDropdown label="Edit" items={editMenuItems} />
-          <MenuDropdown label="View" items={viewMenuItems} />
+          <MenuDropdown
+            label="File"
+            items={fileMenuItems}
+            anyMenuOpen={anyMenuOpen}
+            isActive={openMenuLabel === 'File'}
+            onMenuOpenChange={handleMenuOpenChange}
+          />
+          <MenuDropdown
+            label="Edit"
+            items={editMenuItems}
+            anyMenuOpen={anyMenuOpen}
+            isActive={openMenuLabel === 'Edit'}
+            onMenuOpenChange={handleMenuOpenChange}
+          />
+          <MenuDropdown
+            label="View"
+            items={viewMenuItems}
+            anyMenuOpen={anyMenuOpen}
+            isActive={openMenuLabel === 'View'}
+            onMenuOpenChange={handleMenuOpenChange}
+          />
 
           <div className="h-4 w-px bg-gray-300 dark:bg-gray-600 mx-2" />
 
