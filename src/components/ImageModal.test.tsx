@@ -15,6 +15,13 @@ const createMockImageModal = (overrides?: Partial<UseImageModalResult>): UseImag
   generateImageCode: jest.fn(() => '![](https://example.com/image.jpg)'),
   reset: jest.fn(),
   isValidUrl: false,
+  history: [],
+  addToHistory: jest.fn(),
+  removeFromHistory: jest.fn(),
+  loadFromHistory: jest.fn(),
+  searchQuery: '',
+  setSearchQuery: jest.fn(),
+  filteredHistory: [],
   ...overrides,
 })
 

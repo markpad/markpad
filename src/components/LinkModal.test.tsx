@@ -15,6 +15,13 @@ const createMockLinkModal = (overrides?: Partial<UseLinkModalResult>): UseLinkMo
   generateLinkCode: jest.fn(() => '[](https://example.com)'),
   reset: jest.fn(),
   isValidUrl: false,
+  history: [],
+  addToHistory: jest.fn(),
+  removeFromHistory: jest.fn(),
+  loadFromHistory: jest.fn(),
+  searchQuery: '',
+  setSearchQuery: jest.fn(),
+  filteredHistory: [],
   ...overrides,
 })
 
