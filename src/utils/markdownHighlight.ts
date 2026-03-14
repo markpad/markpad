@@ -47,18 +47,120 @@ const tw = {
   templateVar: 'text-amber-600 dark:text-yellow-400',
   // Template keywords (for, if, else, endif, endfor)
   templateKeyword: 'text-purple-700 dark:text-purple-400 font-bold',
+  // Frontmatter delimiter ---
+  frontmatterDelimiter: 'text-gray-400 dark:text-gray-500',
+  // YAML key
+  yamlKey: 'text-cyan-600 dark:text-cyan-400',
+  // YAML value (string)
+  yamlValue: 'text-amber-600 dark:text-amber-400',
+  // YAML value (number)
+  yamlNumber: 'text-green-600 dark:text-green-400',
+  // YAML list marker
+  yamlListMarker: 'text-pink-600 dark:text-pink-400',
 }
 
 // Helper to create span with Tailwind classes
 const span = (className: string, content: string) => `<span class="${className}">${content}</span>`
 
+// Check if we're inside frontmatter (between first --- and second ---)
+function highlightFrontmatter(code: string): { highlighted: string; endIndex: number } | null {
+  // Check if starts with ---
+  if (!code.startsWith('---')) {
+    return null
+  }
+
+  // Find the closing ---
+  const lines = code.split('\n')
+  let endLineIndex = -1
+
+  for (let i = 1; i < lines.length; i++) {
+    if (lines[i].trim() === '---') {
+      endLineIndex = i
+      break
+    }
+  }
+
+  if (endLineIndex === -1) {
+    return null
+  }
+
+  // Highlight the frontmatter
+  const frontmatterLines = lines.slice(0, endLineIndex + 1)
+  const highlightedLines = frontmatterLines.map((line, idx) => {
+    // First and last lines are delimiters
+    if (idx === 0 || idx === endLineIndex) {
+      return span(tw.frontmatterDelimiter, escapeHtml(line))
+    }
+
+    // Empty line
+    if (line.trim() === '') {
+      return line
+    }
+
+    // List item (indented with -)
+    const listMatch = line.match(/^(\s*)(-)(\s+)(.*)$/)
+    if (listMatch) {
+      const [, indent, dash, space, value] = listMatch
+      return `${indent}${span(tw.yamlListMarker, escapeHtml(dash))}${space}${span(tw.yamlValue, escapeHtml(value))}`
+    }
+
+    // Key-value pair
+    const kvMatch = line.match(/^(\s*)([a-zA-Z_][a-zA-Z0-9_]*)(:)(\s*)(.*)$/)
+    if (kvMatch) {
+      const [, indent, key, colon, space, value] = kvMatch
+      const escapedKey = escapeHtml(key)
+      const escapedColon = escapeHtml(colon)
+      const escapedValue = escapeHtml(value)
+
+      // Check if value is a number
+      const isNumber = /^-?\d+(\.\d+)?$/.test(value.trim())
+      // Check if value is boolean
+      const isBoolOrNull = /^(true|false|null|yes|no)$/i.test(value.trim())
+
+      let valueClass = tw.yamlValue
+      if (isNumber) {
+        valueClass = tw.yamlNumber
+      } else if (isBoolOrNull) {
+        valueClass = tw.yamlNumber // Use same color for booleans
+      }
+
+      return `${indent}${span(tw.yamlKey, escapedKey)}${span(tw.frontmatterDelimiter, escapedColon)}${space}${value ? span(valueClass, escapedValue) : ''}`
+    }
+
+    // Fallback - just escape
+    return escapeHtml(line)
+  })
+
+  // Calculate the end index in the original string
+  const endIndex = frontmatterLines.join('\n').length
+
+  return {
+    highlighted: highlightedLines.join('\n'),
+    endIndex,
+  }
+}
+
 // Highlight markdown syntax with Tailwind classes
 export function highlightMarkdown(code: string): string {
-  // First escape HTML
-  let result = escapeHtml(code)
+  // First check for frontmatter
+  const frontmatter = highlightFrontmatter(code)
+  let result: string
+  let contentToHighlight: string
+
+  if (frontmatter) {
+    // Highlight the rest of the content after frontmatter
+    contentToHighlight = code.substring(frontmatter.endIndex)
+    result = frontmatter.highlighted
+  } else {
+    contentToHighlight = code
+    result = ''
+  }
+
+  // Escape HTML for the rest
+  let escapedContent = escapeHtml(contentToHighlight)
 
   // Process line by line to handle block-level syntax
-  const lines = result.split('\n')
+  const lines = escapedContent.split('\n')
   const highlightedLines = lines.map((line) => {
     // Headers (must be at start of line)
     if (/^#{1,6}\s/.test(line)) {
@@ -107,7 +209,7 @@ export function highlightMarkdown(code: string): string {
     return line
   })
 
-  result = highlightedLines.join('\n')
+  result += highlightedLines.join('\n')
 
   // Inline patterns (applied after line processing)
 

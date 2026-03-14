@@ -1,13 +1,6 @@
 import { useState, RefObject } from 'react'
-import {
-  FaFileAlt,
-  FaLink,
-  FaDownload,
-  FaFilePdf,
-  FaChevronRight,
-  FaSun,
-  FaMoon,
-} from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import { FaArrowLeft, FaLink, FaDownload, FaFilePdf, FaSun, FaMoon, FaMagic } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
 import { Toast } from '../Toast'
 import { DownloadModal } from '../DownloadModal'
@@ -22,11 +15,14 @@ interface PublishedHeaderProps {
   fontFamily: string
   darkMode: boolean
   onToggleDarkMode: () => void
+  hasVariables?: boolean
+  showWizard?: boolean
+  onToggleWizard?: () => void
 }
 
 /**
- * Minimal header for published/preview pages
- * Similar to MarkLab published document header
+ * Header for published/preview pages
+ * Uses consistent styling with AppHeader
  */
 export function PublishedHeader({
   documentTitle,
@@ -37,6 +33,9 @@ export function PublishedHeader({
   fontFamily,
   darkMode,
   onToggleDarkMode,
+  hasVariables = false,
+  showWizard = false,
+  onToggleWizard,
 }: PublishedHeaderProps) {
   const [showToast, setShowToast] = useState(false)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
@@ -70,90 +69,94 @@ export function PublishedHeader({
   }
 
   return (
-    <header
-      className={`sticky top-0 z-50 no-print transition-colors duration-200 ${darkMode ? 'bg-gray-900' : 'bg-white border-b border-gray-200 shadow-sm'}`}
-    >
+    <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3 no-print">
       <Tooltip id="header-tooltip" />
-      <div className="flex items-center justify-between px-4 py-2.5">
-        {/* Left - Logo and Breadcrumb */}
-        <div className="flex items-center gap-2 min-w-0">
-          {/* App Icon + Name */}
-          <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <div className="flex items-center justify-center w-6 h-6 bg-blue-500 rounded">
-              <FaFileAlt className="text-white text-xs" />
-            </div>
-            <span className={`font-semibold text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-              Marklab
-            </span>
-          </a>
-
-          {/* Breadcrumb Separator */}
-          <FaChevronRight className="text-gray-500 text-xs flex-shrink-0" />
-
-          {/* Document Title */}
-          <span
-            className={`text-sm truncate max-w-[150px] md:max-w-[300px] lg:max-w-[400px] ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}
+      <div className="flex items-center justify-between">
+        {/* Left - Back and Title */}
+        <div className="flex items-center gap-4 min-w-0">
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+          >
+            <FaArrowLeft className="w-4 h-4" />
+            <span className="text-sm">Back</span>
+          </Link>
+          <div className="h-6 w-px bg-gray-300 dark:bg-gray-700" />
+          <h1
+            className="text-lg font-semibold text-gray-900 dark:text-gray-100 truncate max-w-[200px] md:max-w-[400px]"
+            title={documentTitle}
           >
             {documentTitle}
-          </span>
+          </h1>
         </div>
 
         {/* Right - Actions */}
         <div className="flex items-center gap-3">
-          {/* Icon Group */}
-          <div
-            className={`flex items-center gap-1 border-r pr-3 ${darkMode ? 'border-gray-700' : 'border-gray-300'}`}
+          {/* Customize Button (only shown when document has variables) */}
+          {hasVariables && onToggleWizard && (
+            <button
+              onClick={onToggleWizard}
+              className={`p-2 rounded-md transition-colors ${
+                showWizard
+                  ? 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-400'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+              }`}
+              data-tooltip-id="header-tooltip"
+              data-tooltip-content={
+                showWizard ? 'Close customization panel' : 'Customize this document'
+              }
+            >
+              <FaMagic className="w-4 h-4" />
+            </button>
+          )}
+
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={onToggleDarkMode}
+            className="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            data-tooltip-id="header-tooltip"
+            data-tooltip-content={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            {/* Light/Dark Toggle */}
-            <button
-              onClick={() => onToggleDarkMode()}
-              className={`p-2 rounded-md transition-all ${darkMode ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
-              data-tooltip-id="header-tooltip"
-              data-tooltip-content={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {darkMode ? <FaSun className="text-sm" /> : <FaMoon className="text-sm" />}
-            </button>
+            {darkMode ? <FaSun className="w-4 h-4" /> : <FaMoon className="w-4 h-4" />}
+          </button>
 
-            {/* Copy Link */}
-            <button
-              onClick={handleCopyLink}
-              className={`p-2 rounded-md transition-all ${darkMode ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
-              data-tooltip-id="header-tooltip"
-              data-tooltip-content="Copy link to clipboard"
-            >
-              <FaLink className="text-sm" />
-            </button>
+          {/* Copy Link */}
+          <button
+            onClick={handleCopyLink}
+            className="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            data-tooltip-id="header-tooltip"
+            data-tooltip-content="Copy link to clipboard"
+          >
+            <FaLink className="w-4 h-4" />
+          </button>
 
-            {/* Download Options */}
-            <button
-              onClick={() => setShowDownloadModal(true)}
-              className={`p-2 rounded-md transition-all ${darkMode ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
-              data-tooltip-id="header-tooltip"
-              data-tooltip-content="Download document"
-            >
-              <FaDownload className="text-sm" />
-            </button>
-          </div>
+          {/* Download */}
+          <button
+            onClick={() => setShowDownloadModal(true)}
+            className="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            data-tooltip-id="header-tooltip"
+            data-tooltip-content="Download document"
+          >
+            <FaDownload className="w-4 h-4" />
+          </button>
 
           {/* PDF Button */}
           <button
             onClick={handlePrint}
-            className={`flex items-center gap-2 px-3 py-1.5 border rounded-md transition-all text-sm ${darkMode ? 'text-gray-300 hover:text-white border-gray-600 hover:border-gray-500' : 'text-gray-600 hover:text-gray-900 border-gray-300 hover:border-gray-400'}`}
+            className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             data-tooltip-id="header-tooltip"
             data-tooltip-content="Print or save as PDF"
           >
-            <FaFilePdf className="text-sm" />
+            <FaFilePdf className="w-4 h-4" />
             <span className="hidden sm:inline">PDF</span>
           </button>
 
-          {/* Edit in MarkLab Button */}
+          {/* Edit Button */}
           <a
             href={editorUrl}
-            className="flex items-center gap-2 px-4 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md transition-colors"
-            data-tooltip-id="header-tooltip"
-            data-tooltip-content="Open this document in the editor"
+            className="flex items-center gap-2 px-4 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
           >
-            <span>Edit in MarkLab</span>
+            Edit in Marklab
           </a>
         </div>
       </div>

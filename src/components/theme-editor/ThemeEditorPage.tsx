@@ -1,12 +1,8 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
 import {
-  FaArrowLeft,
   FaDownload,
   FaCopy,
   FaCheck,
-  FaSun,
-  FaMoon,
   FaPalette,
   FaChevronDown,
   FaChevronRight,
@@ -17,6 +13,7 @@ import {
   FaExchangeAlt,
   FaSave,
 } from 'react-icons/fa'
+import { AppHeader } from '../shared/AppHeader'
 import {
   type ThemeElement,
   type ElementConfig,
@@ -314,34 +311,22 @@ export function ThemeEditorPage() {
 
   return (
     <div className={`h-screen flex flex-col overflow-hidden ${darkMode ? 'dark' : ''}`}>
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link
-              to="/"
-              className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-            >
-              <FaArrowLeft className="w-4 h-4" />
-              <span className="text-sm">Back</span>
-            </Link>
-            <div className="h-6 w-px bg-gray-300 dark:bg-gray-700" />
-            <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-              <FaPalette className="w-4 h-4 text-blue-500" />
-              Theme Editor
-            </h1>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {/* Theme Name Input */}
-            <input
-              type="text"
-              value={themeName}
-              onChange={(e) => setThemeName(e.target.value)}
-              className="px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
-              placeholder="Theme name..."
-            />
-
+      <AppHeader
+        title="Theme Editor"
+        titleIcon={<FaPalette className="w-4 h-4 text-blue-500" />}
+        darkMode={darkMode}
+        onToggleDarkMode={() => setDarkMode(!darkMode)}
+        leftContent={
+          <input
+            type="text"
+            value={themeName}
+            onChange={(e) => setThemeName(e.target.value)}
+            className="ml-4 px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
+            placeholder="Theme name..."
+          />
+        }
+        iconButtons={
+          <>
             {/* Load Theme Button */}
             <button
               onClick={() => setShowThemeSelector(true)}
@@ -392,16 +377,10 @@ export function ThemeEditorPage() {
             >
               <FaMousePointer className="w-4 h-4" />
             </button>
-
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              title={darkMode ? 'Switch to light mode preview' : 'Switch to dark mode preview'}
-            >
-              {darkMode ? <FaSun className="w-4 h-4" /> : <FaMoon className="w-4 h-4" />}
-            </button>
-
+          </>
+        }
+        rightContent={
+          <>
             {/* Copy Button */}
             <button
               onClick={copyToClipboard}
@@ -460,9 +439,9 @@ export function ThemeEditorPage() {
                 </>
               )}
             </div>
-          </div>
-        </div>
-      </header>
+          </>
+        }
+      />
 
       {/* Main Content */}
       <div className="flex flex-1 overflow-hidden bg-gray-100 dark:bg-gray-950">

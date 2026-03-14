@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import Markdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import { Tooltip } from 'react-tooltip'
-import { FaPalette, FaTimes, FaDownload } from 'react-icons/fa'
+import { FaPalette, FaTimes, FaDownload, FaMagic } from 'react-icons/fa'
 import { useAppState } from '../hooks/useAppState'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
 import {
@@ -21,6 +21,7 @@ import { MarkdownEditor, MarkdownEditorHandle } from './editor/MarkdownEditor'
 import { MarkdownPreview } from './preview/MarkdownPreview'
 import { StylePanel } from './style/StylePanel'
 import { ExportPanel } from './style/ExportPanel'
+import { VariablesPanel } from './style/VariablesPanel'
 import { LoopModal } from './LoopModal'
 import { IfModal } from './IfModal'
 import { ImageModal } from './ImageModal'
@@ -28,7 +29,7 @@ import { LinkModal } from './LinkModal'
 import type { EditionMode, TailwindClasses } from '../types'
 import type { ThemePreset } from '../data/themes.generated'
 
-type SidebarPanel = 'themes' | 'export'
+type SidebarPanel = 'themes' | 'export' | 'variables'
 
 interface EditorProps {
   initialMode?: EditionMode
@@ -441,6 +442,17 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
                 </button>
                 <button
                   onClick={() => {
+                    setActiveSidebarPanel('variables')
+                    setShowStylePanel(true)
+                  }}
+                  className="p-2 mt-1 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors"
+                  data-tooltip-id="sidebar-tooltip"
+                  data-tooltip-content="Variables"
+                >
+                  <FaMagic className="text-lg" />
+                </button>
+                <button
+                  onClick={() => {
                     setActiveSidebarPanel('export')
                     setShowStylePanel(true)
                   }}
@@ -465,7 +477,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
               >
                 <FaTimes className="text-sm" />
               </button>
-              {activeSidebarPanel === 'themes' ? (
+              {activeSidebarPanel === 'themes' && (
                 <StylePanel
                   tailwindClasses={state.tailwindClasses}
                   behaviorConfig={state.behaviorConfig}
@@ -481,7 +493,11 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
                   onResetToDefault={handleResetToDefault}
                   onSaveCustomTheme={handleSaveCustomTheme}
                 />
-              ) : (
+              )}
+              {activeSidebarPanel === 'variables' && (
+                <VariablesPanel markdown={state.markdown} onMarkdownChange={setMarkdown} />
+              )}
+              {activeSidebarPanel === 'export' && (
                 <ExportPanel
                   documentTitle={state.documentTitle}
                   markdown={state.markdown}

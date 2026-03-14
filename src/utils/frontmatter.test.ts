@@ -124,10 +124,10 @@ Content`
       const content = 'Hello {{ name }}'
       const data = { name: 'Bob' }
 
-      // Current implementation doesn't support spaces, so it should leave as-is
+      // New implementation supports spaces around braces
       const result = interpolateVariables(content, data)
 
-      expect(result).toBe('Hello {{ name }}')
+      expect(result).toBe('Hello Bob')
     })
   })
 
