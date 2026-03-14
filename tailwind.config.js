@@ -7,10 +7,10 @@ module.exports = {
   },
   plugins: [require('@tailwindcss/typography')],
   safelist: [
-    // Allow all text colors for dynamic styling
-    { pattern: /^text-/ },
-    { pattern: /^bg-/ },
-    { pattern: /^border-/ },
+    // Allow all text colors for dynamic styling (with dark mode variants)
+    { pattern: /^text-/, variants: ['dark'] },
+    { pattern: /^bg-/, variants: ['dark', 'even', 'odd'] },
+    { pattern: /^border-/, variants: ['dark'] },
     { pattern: /^font-/ },
     { pattern: /^mb-/ },
     { pattern: /^mt-/ },
@@ -28,8 +28,5 @@ module.exports = {
     { pattern: /^table-/ },
     { pattern: /^overflow-/ },
     { pattern: /^hover:/ },
-    { pattern: /^even:/ },
-    { pattern: /^odd:/ },
-    { pattern: /^dark:/ },
   ],
 }

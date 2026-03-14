@@ -4,6 +4,7 @@ import Editor from './components/Editor'
 import { ThemeGallery } from './components/themes/ThemeGallery'
 import { PublishedPage } from './components/published'
 import { HomePage } from './components/HomePage'
+import { ThemeEditorPage } from './components/theme-editor'
 
 function App() {
   return (
@@ -14,6 +15,9 @@ function App() {
 
         {/* Theme Gallery */}
         <Route path="/themes" element={<ThemeGallery />} />
+
+        {/* Theme Editor */}
+        <Route path="/theme-editor" element={<ThemeEditorPage />} />
 
         {/* Main editor with split view */}
         <Route
