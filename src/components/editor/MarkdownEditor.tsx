@@ -1,5 +1,6 @@
-import { useCallback, useImperativeHandle, forwardRef } from 'react'
-import { useMarkdownEditor } from '../../hooks/useMarkdownEditor'
+import { useCallback, useImperativeHandle, forwardRef, useRef, useEffect } from 'react'
+import Editor from 'react-simple-code-editor'
+import { highlightMarkdown } from '../../utils/markdownHighlight'
 
 export interface MarkdownEditorHandle {
   insertHeading: (level: 1 | 2 | 3) => void
@@ -24,22 +25,72 @@ interface MarkdownEditorProps {
 }
 
 /**
- * Markdown editor component with formatting capabilities
- * Follows Single Responsibility - handles only markdown editing
+ * Markdown editor component with syntax highlighting
+ * Uses react-simple-code-editor for colorful syntax highlighting
  */
 export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorProps>(
   function MarkdownEditor({ markdown, setMarkdown, showLineNumbers = true, onScroll }, ref) {
-    const {
-      textareaRef,
-      handleChange,
-      insertText,
-      wrapSelection,
-      setCursorPosition,
-      getCursorPosition,
-    } = useMarkdownEditor({
-      markdown,
-      setMarkdown,
-    })
+    const editorRef = useRef<HTMLDivElement>(null)
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+
+    // Find and store the textarea reference inside the editor
+    useEffect(() => {
+      if (editorRef.current) {
+        const textarea = editorRef.current.querySelector('textarea')
+        if (textarea) {
+          textareaRef.current = textarea
+        }
+      }
+    }, [])
+
+    // Insert text at cursor position
+    const insertText = useCallback(
+      (text: string, options: { cursorOffset?: number } = {}) => {
+        const textarea = textareaRef.current
+        if (!textarea) return
+
+        const { selectionStart, selectionEnd } = textarea
+        const before = markdown.substring(0, selectionStart)
+        const after = markdown.substring(selectionEnd)
+        const newText = before + text + after
+
+        setMarkdown(newText)
+
+        // Set cursor position after state update
+        requestAnimationFrame(() => {
+          const newPos =
+            options.cursorOffset !== undefined
+              ? selectionStart + options.cursorOffset
+              : selectionStart + text.length
+          textarea.focus()
+          textarea.setSelectionRange(newPos, newPos)
+        })
+      },
+      [markdown, setMarkdown]
+    )
+
+    // Wrap selected text
+    const wrapSelection = useCallback(
+      (prefix: string, suffix: string) => {
+        const textarea = textareaRef.current
+        if (!textarea) return
+
+        const { selectionStart, selectionEnd } = textarea
+        const selectedText = markdown.substring(selectionStart, selectionEnd)
+        const wrappedText = prefix + selectedText + suffix
+        const before = markdown.substring(0, selectionStart)
+        const after = markdown.substring(selectionEnd)
+
+        setMarkdown(before + wrappedText + after)
+
+        requestAnimationFrame(() => {
+          const newPos = selectionStart + prefix.length + selectedText.length + suffix.length
+          textarea.focus()
+          textarea.setSelectionRange(newPos, newPos)
+        })
+      },
+      [markdown, setMarkdown]
+    )
 
     // Expose formatting methods to parent via ref
     useImperativeHandle(ref, () => ({
@@ -57,25 +108,35 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
       insertTable: () =>
         insertText('\n| Column 1 | Column 2 |\n|----------|----------|\n| Value 1  | Value 2  |\n'),
       insertText: (text: string) => insertText(text),
-      setCursorPosition: (position: number) => setCursorPosition(position),
-      getCursorPosition: () => getCursorPosition(),
+      setCursorPosition: (position: number) => {
+        const textarea = textareaRef.current
+        if (textarea) {
+          textarea.focus()
+          textarea.setSelectionRange(position, position)
+        }
+      },
+      getCursorPosition: () => {
+        return textareaRef.current?.selectionStart ?? 0
+      },
     }))
 
     // Calculate line numbers
     const lineCount = markdown.split('\n').length
 
     // Handle scroll to notify parent
-    const handleScroll = useCallback(() => {
-      const textarea = textareaRef.current
-      if (!textarea) return
-
-      if (onScroll) {
-        onScroll(textarea.scrollTop, textarea.scrollHeight, textarea.clientHeight)
-      }
-    }, [onScroll, textareaRef])
+    const handleScroll = useCallback(
+      (e: React.UIEvent<HTMLDivElement>) => {
+        const target = e.currentTarget
+        if (onScroll) {
+          onScroll(target.scrollTop, target.scrollHeight, target.clientHeight)
+        }
+      },
+      [onScroll]
+    )
 
     return (
       <div className="flex flex-col h-full bg-white dark:bg-gray-900">
+        {/* Inject highlighting styles */}
         {/* Editor Header */}
         <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
           <span className="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider">
@@ -86,7 +147,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
         {/* Editor Content */}
         <div className="flex flex-1 overflow-hidden">
           {showLineNumbers && (
-            <div className="py-3 px-2 bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 text-sm font-mono select-none border-r border-gray-200 dark:border-gray-700 min-w-[3rem] text-right">
+            <div className="py-3 px-2 bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 text-sm font-mono select-none border-r border-gray-200 dark:border-gray-700 min-w-[3rem] text-right overflow-hidden">
               {Array.from({ length: lineCount }, (_, i) => (
                 <div key={i} className="leading-6 h-6">
                   {i + 1}
@@ -94,15 +155,27 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
               ))}
             </div>
           )}
-          <textarea
-            ref={textareaRef as React.RefObject<HTMLTextAreaElement>}
-            value={markdown}
-            onChange={handleChange}
+          <div
+            ref={editorRef}
+            className="flex-1 overflow-auto markdown-editor-container"
             onScroll={handleScroll}
-            className="flex-1 min-h-full bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-3 resize-none outline-none font-mono text-sm leading-6 overflow-auto"
-            placeholder="Type your markdown here..."
-            spellCheck={false}
-          />
+          >
+            <Editor
+              value={markdown}
+              onValueChange={setMarkdown}
+              highlight={highlightMarkdown}
+              padding={12}
+              placeholder="Type your markdown here..."
+              className="min-h-full"
+              textareaClassName="outline-none"
+              style={{
+                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                fontSize: '14px',
+                lineHeight: '24px',
+                minHeight: '100%',
+              }}
+            />
+          </div>
         </div>
       </div>
     )

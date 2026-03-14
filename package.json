@@ -1,5 +1,5 @@
 {
-  "name": "marklab",
+  "name": "markpad",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,10 +9,12 @@
     "@testing-library/user-event": "14.6.1",
     "@types/jest": "29.5.14",
     "@types/node": "25.3.5",
+    "@types/prismjs": "1.26.6",
     "@types/react": "18.3.28",
     "@types/react-dom": "18.3.7",
-    "js-yaml": "^4.1.1",
+    "js-yaml": "4.1.1",
     "pako": "2.1.0",
+    "prismjs": "1.30.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-helmet": "6.1.0",
@@ -22,6 +24,7 @@
     "react-router-dom": "6.30.3",
     "react-scripts": "5.0.1",
     "react-select": "5.10.2",
+    "react-simple-code-editor": "0.14.1",
     "react-syntax-highlighter": "15.6.6",
     "react-tooltip": "5.30.0",
     "remark-gfm": "4.0.1",
