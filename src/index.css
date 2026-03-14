@@ -20,3 +20,42 @@ code {
 .prose code::after {
   content: none;
 }
+
+/* Markdown Editor Syntax Highlighting Container */
+.markdown-editor-container {
+  background-color: white;
+}
+
+.dark .markdown-editor-container {
+  background-color: rgb(17 24 39); /* gray-900 */
+}
+
+.markdown-editor-container textarea,
+.markdown-editor-container pre {
+  background: transparent !important;
+}
+
+/* Base text colors */
+.markdown-editor-container {
+  color: #374151;
+}
+
+.dark .markdown-editor-container {
+  color: #e5e7eb;
+}
+
+.markdown-editor-container textarea {
+  caret-color: #374151;
+}
+
+.dark .markdown-editor-container textarea {
+  caret-color: #e5e7eb;
+}
+
+.markdown-editor-container textarea::placeholder {
+  color: #9ca3af;
+}
+
+.dark .markdown-editor-container textarea::placeholder {
+  color: #6b7280;
+}
