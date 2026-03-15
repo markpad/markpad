@@ -42,10 +42,6 @@ export function process(markdown: string, options: ProcessOptions = {}): Process
 
   const { content, frontmatter, raw } = parse(markdown)
 
-  // DEBUG: Log parsing result
-  console.log('[markdown-templating] Parsed frontmatter:', frontmatter)
-  console.log('[markdown-templating] Content after parse:', content.substring(0, 100))
-
   // Merge frontmatter data with custom variables (custom takes precedence)
   const data = { ...frontmatter, ...variables }
 
@@ -53,7 +49,6 @@ export function process(markdown: string, options: ProcessOptions = {}): Process
   let processedContent: string
   try {
     processedContent = env.renderString(content, data)
-    console.log('[markdown-templating] Rendered content:', processedContent.substring(0, 100))
   } catch (error) {
     // If template rendering fails, return original content
     console.warn('Template rendering error:', error)
