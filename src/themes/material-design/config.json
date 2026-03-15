@@ -1,0 +1,42 @@
+{
+  "id": "material-design",
+  "name": "Material Design",
+  "description": "Clean, modern theme following Google Material Design guidelines.",
+  "category": "sans-serif",
+  "fontFamily": "Roboto",
+  "preview": {
+    "bgColor": "#fafafa",
+    "textColor": "#212121",
+    "accentColor": "#1976d2",
+    "headingFont": "Roboto",
+    "bodyFont": "Roboto",
+    "sampleHeading": "Material Design",
+    "sampleText": "Bold, graphic, and intentional — design with purpose.",
+    "style": "default"
+  },
+  "classes": {
+    "h1": "text-3xl font-medium mb-4 text-gray-900",
+    "h2": "text-2xl font-medium mb-4 text-gray-900",
+    "h3": "text-xl font-medium mb-3 text-gray-800",
+    "h4": "text-lg font-medium mb-3 text-gray-800",
+    "h5": "text-base font-medium mb-2 text-gray-800",
+    "h6": "text-sm font-medium mb-2 text-gray-700",
+    "p": "mb-3 text-base text-gray-700 leading-relaxed",
+    "a": "text-blue-700 hover:text-blue-900 hover:underline",
+    "img": "max-w-full my-4 rounded-lg",
+    "table": "table-auto my-4 w-full",
+    "strong": "font-medium text-gray-900",
+    "ul": "list-disc list-inside",
+    "ol": "list-decimal list-inside",
+    "li": "mb-1 text-gray-700",
+    "em": "italic",
+    "tr": "border border-gray-200 even:bg-gray-50 odd:bg-white",
+    "td": "border border-gray-200 p-3",
+    "th": "border border-gray-200 p-3 bg-blue-50 font-medium text-blue-900",
+    "blockquote": "border-l-4 border-blue-500 pl-4 my-4 text-gray-600 bg-blue-50 py-2 rounded-r",
+    "code": "bg-gray-100 px-1.5 py-0.5 rounded font-mono text-sm text-pink-600",
+    "pre": "bg-gray-100 p-4 rounded-lg overflow-x-auto border border-gray-200",
+    "body": "bg-white p-6 text-gray-800",
+    "article": "prose max-w-none"
+  }
+}

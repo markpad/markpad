@@ -1,0 +1,42 @@
+{
+  "id": "purple-haze",
+  "name": "Purple Haze",
+  "description": "Vibrant purples and magentas with adaptive dark mode support for a modern, creative look.",
+  "category": "sans-serif",
+  "fontFamily": "Poppins",
+  "preview": {
+    "bgColor": "#1e1b4b",
+    "textColor": "#e9d5ff",
+    "accentColor": "#a855f7",
+    "headingFont": "Poppins",
+    "bodyFont": "Poppins",
+    "sampleHeading": "Purple Haze",
+    "sampleText": "Bold, creative, and modern with seamless light and dark mode transitions.",
+    "style": "default"
+  },
+  "classes": {
+    "h1": "text-4xl font-bold mb-4 text-purple-700 dark:text-purple-400 tracking-tight",
+    "h2": "text-3xl font-bold mb-4 text-purple-600 dark:text-purple-400",
+    "h3": "text-2xl font-bold mb-3 text-purple-600 dark:text-fuchsia-400",
+    "h4": "text-xl font-bold mb-3 text-purple-500 dark:text-fuchsia-400",
+    "h5": "text-lg font-bold mb-2 text-purple-500 dark:text-fuchsia-300",
+    "h6": "text-base font-bold mb-2 text-purple-500 dark:text-fuchsia-300",
+    "p": "mb-3 text-base text-gray-700 dark:text-purple-100 leading-relaxed",
+    "a": "text-purple-600 dark:text-fuchsia-400 hover:text-purple-700 dark:hover:text-fuchsia-300 underline underline-offset-4 decoration-purple-400/50 hover:decoration-purple-600",
+    "img": "max-w-full my-4 rounded-2xl shadow-2xl shadow-purple-500/20 dark:shadow-purple-500/40",
+    "table": "table-auto my-4 w-full border-collapse",
+    "strong": "font-bold text-purple-800 dark:text-fuchsia-300",
+    "ul": "list-disc list-inside space-y-2 my-3",
+    "ol": "list-decimal list-inside space-y-2 my-3",
+    "li": "text-gray-700 dark:text-purple-200",
+    "em": "italic text-purple-600 dark:text-fuchsia-300",
+    "tr": "border-b border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors",
+    "td": "border border-purple-300 dark:border-purple-700 p-3 text-gray-700 dark:text-purple-100",
+    "th": "border border-purple-300 dark:border-purple-700 p-3 bg-purple-100 dark:bg-purple-900 font-bold text-purple-800 dark:text-purple-300",
+    "blockquote": "border-l-4 border-fuchsia-500 dark:border-fuchsia-400 pl-4 italic my-4 text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-900/40 py-3 pr-4 rounded-r",
+    "code": "bg-purple-100 dark:bg-purple-900 px-2 py-1 rounded font-mono text-sm text-purple-700 dark:text-fuchsia-400 border border-purple-200 dark:border-purple-700",
+    "pre": "bg-purple-50 dark:bg-indigo-950 p-4 rounded-xl overflow-x-auto border border-purple-200 dark:border-purple-800 my-4 shadow-inner",
+    "body": "bg-gradient-to-br from-purple-50 to-fuchsia-50 dark:from-indigo-950 dark:to-purple-950 p-8 text-gray-700 dark:text-purple-100",
+    "article": "prose dark:prose-invert max-w-none prose-purple"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "blog-post",
+  "name": "Blog Post",
+  "description": "Medium/Substack-inspired clean reading experience.",
+  "category": "serif",
+  "fontFamily": "Merriweather",
+  "preview": {
+    "bgColor": "#ffffff",
+    "textColor": "#292929",
+    "accentColor": "#1a8917",
+    "headingFont": "Playfair Display",
+    "bodyFont": "Merriweather",
+    "sampleHeading": "Blog Post",
+    "sampleText": "A clean, elegant reading experience inspired by modern publishing.",
+    "style": "default"
+  },
+  "classes": {
+    "h1": "text-4xl font-bold mb-6 text-gray-900 leading-tight",
+    "h2": "text-2xl font-bold mb-4 text-gray-900 mt-8",
+    "h3": "text-xl font-semibold mb-3 text-gray-800 mt-6",
+    "h4": "text-lg font-semibold mb-3 text-gray-800",
+    "h5": "text-base font-semibold mb-2 text-gray-700",
+    "h6": "text-sm font-semibold mb-2 text-gray-600",
+    "p": "mb-4 text-lg text-gray-700 leading-8",
+    "a": "text-green-700 hover:text-green-900 underline decoration-1 underline-offset-2",
+    "img": "max-w-full my-6 rounded-lg",
+    "table": "table-auto my-6 w-full",
+    "strong": "font-bold text-gray-900",
+    "ul": "list-disc list-inside",
+    "ol": "list-decimal list-inside",
+    "li": "mb-2 text-lg text-gray-700 leading-8",
+    "em": "italic",
+    "tr": "border border-gray-200 even:bg-gray-50 odd:bg-white",
+    "td": "border border-gray-200 p-3",
+    "th": "border border-gray-200 p-3 bg-gray-50 font-semibold text-gray-800",
+    "blockquote": "border-l-4 border-gray-900 pl-6 italic my-6 text-xl text-gray-600 leading-relaxed",
+    "code": "bg-gray-100 px-1.5 py-0.5 rounded font-mono text-base text-gray-800",
+    "pre": "bg-gray-50 p-6 rounded-lg overflow-x-auto border border-gray-200",
+    "body": "bg-white p-8 text-gray-800 max-w-2xl mx-auto",
+    "article": "prose prose-lg max-w-none"
+  }
+}

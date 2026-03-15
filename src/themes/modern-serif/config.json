@@ -1,0 +1,42 @@
+{
+  "id": "modern-serif",
+  "name": "Modern Serif",
+  "description": "Elegant typography with soft gold accents and cream background.",
+  "category": "serif",
+  "fontFamily": "Playfair Display",
+  "preview": {
+    "bgColor": "#fffbeb",
+    "textColor": "#78350f",
+    "accentColor": "#d97706",
+    "headingFont": "Playfair Display",
+    "bodyFont": "Playfair Display",
+    "sampleHeading": "Modern Serif",
+    "sampleText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.",
+    "style": "serif"
+  },
+  "classes": {
+    "h1": "text-4xl font-bold mb-6 text-amber-900",
+    "h2": "text-3xl font-bold mb-4 text-amber-800",
+    "h3": "text-2xl font-semibold mb-3 text-amber-800",
+    "h4": "text-xl font-semibold mb-3 text-amber-700",
+    "h5": "text-lg font-semibold mb-2 text-amber-700",
+    "h6": "text-base font-semibold mb-2 text-amber-700",
+    "p": "mb-3 text-base text-amber-950 leading-relaxed",
+    "a": "text-amber-700 hover:text-amber-500 underline decoration-amber-300",
+    "img": "max-w-full my-4 rounded-lg shadow-md",
+    "table": "table-auto my-6 w-full",
+    "strong": "font-bold text-amber-900",
+    "ul": "list-disc list-inside ml-2",
+    "ol": "list-decimal list-inside ml-2",
+    "li": "mb-1 text-amber-950",
+    "em": "italic text-amber-800",
+    "tr": "border border-amber-200 even:bg-amber-50 odd:bg-white",
+    "td": "border border-amber-200 p-2",
+    "th": "border border-amber-200 p-2 bg-amber-100 font-semibold",
+    "blockquote": "border-l-4 border-amber-400 pl-4 italic my-4 text-amber-800 bg-amber-50 py-2",
+    "code": "bg-amber-100 px-1.5 py-0.5 rounded font-mono text-sm text-amber-900",
+    "pre": "bg-amber-50 p-4 rounded-lg overflow-x-auto border border-amber-200",
+    "body": "bg-amber-50 p-8",
+    "article": "prose prose-slate max-w-none"
+  }
+}

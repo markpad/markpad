@@ -1,0 +1,42 @@
+{
+  "id": "github-readme",
+  "name": "GitHub README",
+  "description": "Mimics the style of GitHub repository README files.",
+  "category": "sans-serif",
+  "fontFamily": "Inter",
+  "preview": {
+    "bgColor": "#ffffff",
+    "textColor": "#1f2328",
+    "accentColor": "#0969da",
+    "headingFont": "Inter",
+    "bodyFont": "Inter",
+    "sampleHeading": "GitHub README",
+    "sampleText": "The familiar, trusted style of GitHub repository documentation.",
+    "style": "default"
+  },
+  "classes": {
+    "h1": "text-3xl font-bold mb-4 text-gray-900 pb-2 border-b border-gray-300",
+    "h2": "text-2xl font-bold mb-3 text-gray-900 pb-2 border-b border-gray-300",
+    "h3": "text-xl font-semibold mb-3 text-gray-900",
+    "h4": "text-lg font-semibold mb-2 text-gray-900",
+    "h5": "text-base font-semibold mb-2 text-gray-900",
+    "h6": "text-sm font-semibold mb-2 text-gray-500",
+    "p": "mb-4 text-base text-gray-700 leading-7",
+    "a": "text-blue-600 hover:underline",
+    "img": "max-w-full my-4",
+    "table": "table-auto my-4 w-full",
+    "strong": "font-semibold text-gray-900",
+    "ul": "list-disc list-inside",
+    "ol": "list-decimal list-inside",
+    "li": "mb-1 text-gray-700 leading-7",
+    "em": "italic",
+    "tr": "border border-gray-200 even:bg-gray-50 odd:bg-white",
+    "td": "border border-gray-200 p-2",
+    "th": "border border-gray-200 p-2 bg-gray-50 font-semibold text-gray-900",
+    "blockquote": "border-l-4 border-gray-300 pl-4 my-4 text-gray-600",
+    "code": "bg-gray-100 px-1.5 py-0.5 rounded font-mono text-sm text-gray-800",
+    "pre": "bg-gray-100 p-4 rounded-lg overflow-x-auto",
+    "body": "bg-white p-6 text-gray-800",
+    "article": "prose max-w-none"
+  }
+}

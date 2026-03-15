@@ -186,22 +186,12 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
   const handleApplyTheme = useCallback(
     (theme: ThemePreset) => {
       setTailwindClasses(theme.tailwindClasses)
-      // Preserve user's shouldShowLineNumbers preference when applying theme
-      setBehaviorConfig({
-        ...theme.behaviorConfig,
-        shouldShowLineNumbers: state.behaviorConfig.shouldShowLineNumbers,
-      })
       setFontConfig(theme.fontConfig)
       setCurrentThemeId(theme.id)
       // Reset custom theme name when applying a preset
       setCustomThemeName('Custom Theme')
     },
-    [
-      setTailwindClasses,
-      setBehaviorConfig,
-      setFontConfig,
-      state.behaviorConfig.shouldShowLineNumbers,
-    ]
+    [setTailwindClasses, setFontConfig]
   )
 
   // Handle resetting to default theme

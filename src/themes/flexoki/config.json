@@ -1,0 +1,42 @@
+{
+  "id": "flexoki",
+  "name": "Flexoki",
+  "description": "Warm analog color scheme inspired by paper, ink, and the tactile nature of writing.",
+  "category": "serif",
+  "fontFamily": "Merriweather",
+  "preview": {
+    "bgColor": "#fffcf0",
+    "textColor": "#100f0f",
+    "accentColor": "#d14d41",
+    "headingFont": "Merriweather",
+    "bodyFont": "Merriweather",
+    "sampleHeading": "Flexoki Theme",
+    "sampleText": "Inspired by the warmth of paper and the flow of ink.",
+    "style": "default"
+  },
+  "classes": {
+    "h1": "text-3xl font-bold mb-6 leading-tight",
+    "h2": "text-2xl font-bold mb-4",
+    "h3": "text-xl font-semibold mb-3",
+    "h4": "text-lg font-semibold mb-3",
+    "h5": "text-base font-semibold mb-2",
+    "h6": "text-sm font-semibold mb-2",
+    "p": "mb-4 text-base leading-7",
+    "a": "underline decoration-2 underline-offset-2 hover:opacity-80 transition-opacity",
+    "img": "max-w-full my-4 rounded",
+    "table": "table-auto my-4 w-full",
+    "strong": "font-bold",
+    "ul": "list-disc list-outside ml-6",
+    "ol": "list-decimal list-outside ml-6",
+    "li": "mb-2 leading-7",
+    "em": "italic",
+    "tr": "border-b",
+    "td": "p-3",
+    "th": "p-3 font-semibold text-left border-b-2",
+    "blockquote": "border-l-4 pl-4 italic my-4 py-2",
+    "code": "px-1.5 py-0.5 rounded font-mono text-sm",
+    "pre": "p-4 rounded overflow-x-auto font-mono text-sm",
+    "body": "bg-[#fffcf0] text-[#100f0f] p-8",
+    "article": "prose max-w-none prose-headings:text-[#100f0f] prose-p:text-[#100f0f] prose-a:text-[#d14d41] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#100f0f] prose-code:text-[#af3029] prose-code:bg-[#f2f0e5] prose-pre:bg-[#f2f0e5] prose-pre:text-[#100f0f] prose-blockquote:border-[#d14d41] prose-blockquote:text-[#282726] prose-th:text-[#100f0f] prose-td:text-[#282726] prose-li:text-[#282726]"
+  }
+}

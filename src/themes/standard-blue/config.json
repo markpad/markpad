@@ -1,0 +1,42 @@
+{
+  "id": "standard-blue",
+  "name": "Standard Blue",
+  "description": "The classic Tailwind CSS utility-first aesthetic for developer docs.",
+  "category": "sans-serif",
+  "fontFamily": "Inter",
+  "preview": {
+    "bgColor": "#ffffff",
+    "textColor": "#1f2937",
+    "accentColor": "#3b82f6",
+    "headingFont": "Inter",
+    "bodyFont": "Inter",
+    "sampleHeading": "Tailwind Default",
+    "sampleText": "The classic Tailwind CSS utility-first aesthetic for developer docs.",
+    "style": "default"
+  },
+  "classes": {
+    "h1": "text-3xl font-bold mb-4 text-gray-800",
+    "h2": "text-2xl font-bold mb-4 text-gray-800",
+    "h3": "text-xl font-bold mb-4 text-gray-800",
+    "h4": "text-lg font-bold mb-4 text-gray-800",
+    "h5": "text-base font-bold mb-4 text-gray-800",
+    "h6": "text-sm font-bold mb-4 text-gray-800",
+    "p": "mb-2 text-base text-gray-800",
+    "a": "text-blue-500 hover:text-blue-700 hover:underline",
+    "img": "max-w-full my-4",
+    "table": "table-auto my-4",
+    "strong": "font-bold",
+    "ul": "list-disc list-inside",
+    "ol": "list-decimal list-inside",
+    "li": "mb-1",
+    "em": "italic",
+    "tr": "border border-gray-200 even:bg-gray-50 odd:bg-white",
+    "td": "border border-gray-200 p-1",
+    "th": "border border-gray-200 p-1",
+    "blockquote": "border-l-4 border-gray-300 pl-4 italic my-4",
+    "code": "bg-gray-100 px-1 rounded font-mono text-sm",
+    "pre": "bg-gray-100 p-4 rounded overflow-x-auto",
+    "body": "bg-white p-4",
+    "article": "prose prose-slate max-w-none"
+  }
+}

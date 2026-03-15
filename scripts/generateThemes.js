@@ -1,47 +1,49 @@
 /**
- * Pre-build script to generate themes.ts from markdown theme files
+ * Pre-build script to generate themes.ts from theme folders
+ * Each theme has: config.json (metadata + classes) and example.md (sample content)
  * Run with: node scripts/generateThemes.js
  */
 
 const fs = require('fs')
 const path = require('path')
-const matter = require('gray-matter')
 
 const THEMES_DIR = path.join(__dirname, '../src/themes')
 const OUTPUT_FILE = path.join(__dirname, '../src/data/themes.generated.ts')
 
 function generateThemes() {
-  const themeFiles = fs.readdirSync(THEMES_DIR).filter((f) => f.endsWith('.md'))
+  // Get all theme folders (directories that contain config.json)
+  const themeFolders = fs.readdirSync(THEMES_DIR).filter((item) => {
+    const itemPath = path.join(THEMES_DIR, item)
+    return fs.statSync(itemPath).isDirectory() && fs.existsSync(path.join(itemPath, 'config.json'))
+  })
 
-  const themes = themeFiles.map((file) => {
-    const content = fs.readFileSync(path.join(THEMES_DIR, file), 'utf-8')
-    const { data, content: markdownContent } = matter(content)
+  const themes = themeFolders.map((folder) => {
+    const themeDir = path.join(THEMES_DIR, folder)
 
-    // Extract only shouldOpenLinksInNewTab from behavior (shouldShowLineNumbers is user preference, not theme)
-    const behaviorConfig = {
-      shouldOpenLinksInNewTab: data.behavior?.shouldOpenLinksInNewTab ?? true,
-      shouldShowLineNumbers: false, // Default value, will be overridden by user preference
-    }
+    // Read config.json
+    const config = JSON.parse(fs.readFileSync(path.join(themeDir, 'config.json'), 'utf-8'))
+
+    // Read example.md
+    const exampleContent = fs.readFileSync(path.join(themeDir, 'example.md'), 'utf-8').trim()
 
     return {
-      id: data.id,
-      name: data.name,
-      description: data.description,
-      category: data.category,
-      fontFamily: data.fontFamily,
-      tailwindClasses: data.classes,
-      behaviorConfig,
-      fontConfig: { fontFamily: data.fontFamily },
-      preview: data.preview,
-      exampleContent: markdownContent.trim(),
+      id: config.id,
+      name: config.name,
+      description: config.description,
+      category: config.category,
+      fontFamily: config.fontFamily,
+      tailwindClasses: config.classes,
+      fontConfig: { fontFamily: config.fontFamily },
+      preview: config.preview,
+      exampleContent,
     }
   })
 
   const output = `// AUTO-GENERATED FILE - DO NOT EDIT DIRECTLY
-// Generated from src/themes/*.md files
+// Generated from src/themes/*/config.json + example.md files
 // Run 'npm run generate:themes' to regenerate
 
-import type { TailwindClasses, BehaviorConfig, FontConfig } from '../types'
+import type { TailwindClasses, FontConfig } from '../types'
 
 export interface ThemePreset {
   id: string
@@ -50,7 +52,6 @@ export interface ThemePreset {
   category: ThemeCategory
   fontFamily: string
   tailwindClasses: TailwindClasses
-  behaviorConfig: BehaviorConfig
   fontConfig: FontConfig
   preview: ThemePreview
   exampleContent: string

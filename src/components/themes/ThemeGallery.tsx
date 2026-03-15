@@ -5,7 +5,11 @@ import { FaSearch, FaFileAlt, FaHeart } from 'react-icons/fa'
 import { ThemeCard } from './ThemeCard'
 import { filterThemesByCategory, searchThemes, THEME_CATEGORIES } from '../../data/themes.generated'
 import type { ThemePreset, ThemeCategory } from '../../data/themes.generated'
-import { encodeState, defaultDocumentTitle } from '../../services/urlStateService'
+import {
+  encodeState,
+  defaultDocumentTitle,
+  defaultBehaviorConfig,
+} from '../../services/urlStateService'
 import { useStyleSidebar } from '../../hooks/useStyleSidebar'
 
 /**
@@ -38,7 +42,7 @@ export function ThemeGallery() {
       markdown: theme.exampleContent,
       documentTitle: defaultDocumentTitle,
       tailwindClasses: theme.tailwindClasses,
-      behaviorConfig: theme.behaviorConfig,
+      behaviorConfig: defaultBehaviorConfig,
       fontConfig: theme.fontConfig,
     }
     const encoded = encodeState(state)

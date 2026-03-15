@@ -1,0 +1,42 @@
+{
+  "id": "minimalist",
+  "name": "Minimalist",
+  "description": "Clean whitespace with subtle gray scales and zero distractions.",
+  "category": "sans-serif",
+  "fontFamily": "Inter",
+  "preview": {
+    "bgColor": "#f0fdf4",
+    "textColor": "#374151",
+    "accentColor": "#9ca3af",
+    "headingFont": "Inter",
+    "bodyFont": "Inter",
+    "sampleHeading": "MINIMALIST",
+    "sampleText": "FOCUS ON WHAT MATTERS",
+    "style": "minimal"
+  },
+  "classes": {
+    "h1": "text-2xl font-light mb-6 text-gray-900 uppercase tracking-[0.3em]",
+    "h2": "text-xl font-light mb-4 text-gray-800 uppercase tracking-[0.2em]",
+    "h3": "text-lg font-light mb-3 text-gray-700 uppercase tracking-widest",
+    "h4": "text-base font-light mb-3 text-gray-700 uppercase tracking-wider",
+    "h5": "text-sm font-light mb-2 text-gray-600 uppercase tracking-wider",
+    "h6": "text-xs font-light mb-2 text-gray-500 uppercase tracking-wider",
+    "p": "mb-4 text-sm text-gray-600 leading-loose",
+    "a": "text-gray-600 hover:text-gray-900 underline underline-offset-4 decoration-gray-300",
+    "img": "max-w-full my-6",
+    "table": "table-auto my-6 w-full",
+    "strong": "font-medium text-gray-800",
+    "ul": "list-none ml-0",
+    "ol": "list-none ml-0",
+    "li": "mb-2 text-gray-600 text-sm pl-4 border-l border-gray-200",
+    "em": "italic text-gray-500",
+    "tr": "border-b border-gray-100",
+    "td": "p-3 text-sm",
+    "th": "p-3 text-sm font-medium text-gray-400 uppercase tracking-wider",
+    "blockquote": "border-l border-gray-200 pl-6 italic my-6 text-gray-400",
+    "code": "text-gray-600 text-sm font-mono",
+    "pre": "bg-gray-50 p-6 overflow-x-auto",
+    "body": "bg-white p-12",
+    "article": "prose prose-stone max-w-none"
+  }
+}

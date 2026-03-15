@@ -51,10 +51,7 @@ export function useStyleSidebar() {
   const saveAsLocalTheme = useCallback(
     (
       name: string,
-      currentConfig: Pick<
-        ThemePreset,
-        'tailwindClasses' | 'behaviorConfig' | 'fontConfig' | 'fontFamily'
-      >
+      currentConfig: Pick<ThemePreset, 'tailwindClasses' | 'fontConfig' | 'fontFamily'>
     ) => {
       const defaultPreview: ThemePreview = {
         bgColor: '#ffffff',
@@ -74,7 +71,6 @@ export function useStyleSidebar() {
         category: 'experimental',
         fontFamily: currentConfig.fontFamily,
         tailwindClasses: currentConfig.tailwindClasses,
-        behaviorConfig: currentConfig.behaviorConfig,
         fontConfig: currentConfig.fontConfig,
         preview: defaultPreview,
         exampleContent: '',

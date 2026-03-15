@@ -1,0 +1,42 @@
+{
+  "id": "solarized",
+  "name": "Solarized",
+  "description": "Ethan Schoonover's precision-engineered color scheme for comfortable reading.",
+  "category": "sans-serif",
+  "fontFamily": "Source Sans Pro",
+  "preview": {
+    "bgColor": "#fdf6e3",
+    "textColor": "#657b83",
+    "accentColor": "#268bd2",
+    "headingFont": "Source Sans Pro",
+    "bodyFont": "Source Sans Pro",
+    "sampleHeading": "Solarized Light",
+    "sampleText": "Precision colors designed for optimal readability and reduced eye strain.",
+    "style": "default"
+  },
+  "classes": {
+    "h1": "text-3xl font-bold mb-4 text-yellow-900",
+    "h2": "text-2xl font-bold mb-4 text-yellow-900",
+    "h3": "text-xl font-semibold mb-3 text-yellow-800",
+    "h4": "text-lg font-semibold mb-3 text-yellow-800",
+    "h5": "text-base font-semibold mb-2 text-yellow-800",
+    "h6": "text-sm font-semibold mb-2 text-yellow-800",
+    "p": "mb-3 text-base leading-relaxed",
+    "a": "text-blue-600 hover:text-blue-500 hover:underline",
+    "img": "max-w-full my-4 rounded",
+    "table": "table-auto my-4 w-full",
+    "strong": "font-bold text-yellow-900",
+    "ul": "list-disc list-inside",
+    "ol": "list-decimal list-inside",
+    "li": "mb-1",
+    "em": "italic text-yellow-700",
+    "tr": "border border-yellow-200 even:bg-yellow-50 odd:bg-yellow-100",
+    "td": "border border-yellow-200 p-2",
+    "th": "border border-yellow-200 p-2 bg-yellow-200 font-semibold text-yellow-900",
+    "blockquote": "border-l-4 border-blue-400 pl-4 italic my-4 text-yellow-700 bg-yellow-50 py-2 rounded-r",
+    "code": "bg-yellow-100 px-1.5 py-0.5 rounded font-mono text-sm text-red-600",
+    "pre": "bg-yellow-100 p-4 rounded overflow-x-auto border border-yellow-200",
+    "body": "p-6",
+    "article": "prose max-w-none"
+  }
+}

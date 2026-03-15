@@ -1,8 +1,8 @@
 // AUTO-GENERATED FILE - DO NOT EDIT DIRECTLY
-// Generated from src/themes/*.md files
+// Generated from src/themes/*/config.json + example.md files
 // Run 'npm run generate:themes' to regenerate
 
-import type { TailwindClasses, BehaviorConfig, FontConfig } from '../types'
+import type { TailwindClasses, FontConfig } from '../types'
 
 export interface ThemePreset {
   id: string
@@ -11,7 +11,6 @@ export interface ThemePreset {
   category: ThemeCategory
   fontFamily: string
   tailwindClasses: TailwindClasses
-  behaviorConfig: BehaviorConfig
   fontConfig: FontConfig
   preview: ThemePreview
   exampleContent: string
@@ -77,10 +76,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-white p-8 max-w-none",
       "article": "prose prose-slate max-w-none"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Merriweather"
     },
@@ -126,10 +121,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-gray-50 p-6 rounded-lg overflow-x-auto border border-gray-200",
       "body": "bg-white p-8 text-gray-800 max-w-2xl mx-auto",
       "article": "prose prose-lg max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Merriweather"
@@ -177,10 +168,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-yellow-50 p-8 border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.9)] rounded-2xl",
       "article": "prose prose-lg max-w-none"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Bangers"
     },
@@ -226,10 +213,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-gray-950 p-4 rounded overflow-x-auto border border-cyan-800",
       "body": "bg-gray-950 p-6 text-gray-200",
       "article": "prose prose-invert max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Oswald"
@@ -277,10 +260,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-gray-900 p-6 text-gray-200",
       "article": "prose prose-invert max-w-none"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Inter"
     },
@@ -326,10 +305,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-black p-4 rounded overflow-x-auto border border-green-900",
       "body": "bg-gray-950 p-6 text-green-200",
       "article": "prose prose-invert max-w-none font-mono"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Fira Sans"
@@ -377,10 +352,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-gray-900 p-6 text-gray-100",
       "article": "prose prose-invert max-w-none"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Fira Sans"
     },
@@ -426,10 +397,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-yellow-50 p-6 rounded overflow-x-auto border-2 border-yellow-200 text-base leading-loose",
       "body": "p-8 text-gray-800",
       "article": "prose prose-lg max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Open Sans"
@@ -477,10 +444,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-[#fffcf0] text-[#100f0f] p-8",
       "article": "prose max-w-none prose-headings:text-[#100f0f] prose-p:text-[#100f0f] prose-a:text-[#d14d41] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#100f0f] prose-code:text-[#af3029] prose-code:bg-[#f2f0e5] prose-pre:bg-[#f2f0e5] prose-pre:text-[#100f0f] prose-blockquote:border-[#d14d41] prose-blockquote:text-[#282726] prose-th:text-[#100f0f] prose-td:text-[#282726] prose-li:text-[#282726]"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Merriweather"
     },
@@ -526,10 +489,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-stone-100 dark:bg-stone-900 p-4 rounded-lg overflow-x-auto border border-stone-300 dark:border-stone-700 my-4",
       "body": "bg-amber-50 dark:bg-stone-900 p-8 text-stone-700 dark:text-stone-300",
       "article": "prose dark:prose-invert max-w-none prose-stone"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Merriweather"
@@ -577,10 +536,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-white p-6 text-gray-800",
       "article": "prose max-w-none"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Inter"
     },
@@ -626,10 +581,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-gray-800 p-4 rounded overflow-x-auto border border-yellow-900",
       "body": "bg-gray-900 p-6 text-yellow-100",
       "article": "prose prose-invert max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Merriweather"
@@ -677,10 +628,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-white p-6",
       "article": "prose prose-slate max-w-none"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Open Sans"
     },
@@ -726,10 +673,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-gray-100 p-4 rounded-lg overflow-x-auto border border-gray-200",
       "body": "bg-white p-6 text-gray-800",
       "article": "prose max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Roboto"
@@ -777,10 +720,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-white p-12",
       "article": "prose prose-stone max-w-none"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Inter"
     },
@@ -826,10 +765,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-amber-50 p-4 rounded-lg overflow-x-auto border border-amber-200",
       "body": "bg-amber-50 p-8",
       "article": "prose prose-slate max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Playfair Display"
@@ -877,10 +812,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-gray-900 p-6 text-gray-100",
       "article": "prose prose-invert max-w-none"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Ubuntu"
     },
@@ -926,10 +857,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-white p-4 overflow-x-auto border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]",
       "body": "bg-white p-6",
       "article": "max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Oswald"
@@ -977,10 +904,6 @@ export const themePresets: ThemePreset[] = [
       "body": "p-6 text-gray-900",
       "article": "prose max-w-none"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Playfair Display"
     },
@@ -1026,10 +949,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-gray-800 p-4 rounded-lg overflow-x-auto border border-gray-600",
       "body": "bg-gray-800 p-6 text-gray-200",
       "article": "prose prose-invert max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Inter"
@@ -1077,10 +996,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-white dark:bg-slate-900 p-8 text-slate-700 dark:text-slate-300",
       "article": "prose dark:prose-invert max-w-none prose-slate"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Inter"
     },
@@ -1126,10 +1041,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-xl overflow-x-auto border border-purple-200",
       "body": "bg-gradient-to-br from-purple-50 to-pink-50 p-6",
       "article": "prose prose-slate max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Nunito"
@@ -1177,10 +1088,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-gradient-to-br from-purple-50 to-fuchsia-50 dark:from-indigo-950 dark:to-purple-950 p-8 text-gray-700 dark:text-purple-100",
       "article": "prose dark:prose-invert max-w-none prose-purple"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Poppins"
     },
@@ -1226,10 +1133,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-gray-50 p-3 rounded overflow-x-auto text-sm border border-gray-200",
       "body": "bg-white p-8 text-gray-800",
       "article": "prose prose-sm max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Lato"
@@ -1277,10 +1180,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-black p-6 text-green-400",
       "article": "prose prose-invert max-w-none"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Ubuntu"
     },
@@ -1326,10 +1225,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-yellow-100 p-4 rounded overflow-x-auto border border-yellow-300",
       "body": "p-8 text-yellow-900",
       "article": "prose max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Merriweather"
@@ -1377,10 +1272,6 @@ export const themePresets: ThemePreset[] = [
       "body": "p-6",
       "article": "prose max-w-none"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Source Sans Pro"
     },
@@ -1426,10 +1317,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-gray-100 p-4 rounded overflow-x-auto",
       "body": "bg-white p-4",
       "article": "prose prose-slate max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "Inter"
@@ -1477,10 +1364,6 @@ export const themePresets: ThemePreset[] = [
       "body": "bg-white p-6 text-gray-800",
       "article": "prose max-w-none"
     },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
-    },
     "fontConfig": {
       "fontFamily": "Inter"
     },
@@ -1526,10 +1409,6 @@ export const themePresets: ThemePreset[] = [
       "pre": "bg-gray-50 p-4 rounded overflow-x-auto border border-gray-200",
       "body": "bg-white p-6 text-gray-800",
       "article": "prose max-w-none"
-    },
-    "behaviorConfig": {
-      "shouldOpenLinksInNewTab": true,
-      "shouldShowLineNumbers": false
     },
     "fontConfig": {
       "fontFamily": "PT Sans"

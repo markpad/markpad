@@ -1,0 +1,42 @@
+{
+  "id": "monokai",
+  "name": "Monokai",
+  "description": "Classic dark theme inspired by the iconic editor color scheme.",
+  "category": "monospace",
+  "fontFamily": "Ubuntu",
+  "preview": {
+    "bgColor": "#272822",
+    "textColor": "#f8f8f2",
+    "accentColor": "#f92672",
+    "headingFont": "Ubuntu",
+    "bodyFont": "Ubuntu",
+    "sampleHeading": "Monokai",
+    "sampleText": "The iconic color scheme that defined a generation of coding.",
+    "style": "default"
+  },
+  "classes": {
+    "h1": "text-3xl font-bold mb-4 text-pink-400",
+    "h2": "text-2xl font-bold mb-4 text-pink-400",
+    "h3": "text-xl font-semibold mb-3 text-yellow-300",
+    "h4": "text-lg font-semibold mb-3 text-yellow-300",
+    "h5": "text-base font-semibold mb-2 text-yellow-300",
+    "h6": "text-sm font-semibold mb-2 text-yellow-300",
+    "p": "mb-3 text-base leading-relaxed",
+    "a": "text-blue-400 hover:text-blue-300 hover:underline",
+    "img": "max-w-full my-4 rounded-lg",
+    "table": "table-auto my-4 w-full",
+    "strong": "font-bold text-orange-300",
+    "ul": "list-disc list-inside",
+    "ol": "list-decimal list-inside",
+    "li": "mb-1",
+    "em": "italic text-purple-300",
+    "tr": "border border-gray-700 even:bg-gray-800 odd:bg-gray-900",
+    "td": "border border-gray-700 p-2",
+    "th": "border border-gray-700 p-2 bg-gray-800 font-semibold text-pink-400",
+    "blockquote": "border-l-4 border-pink-500 pl-4 italic my-4 text-gray-400 bg-gray-800 py-2 rounded-r",
+    "code": "bg-gray-800 px-1.5 py-0.5 rounded font-mono text-sm text-green-400",
+    "pre": "bg-gray-900 p-4 rounded-lg overflow-x-auto border border-gray-700",
+    "body": "bg-gray-900 p-6 text-gray-100",
+    "article": "prose prose-invert max-w-none"
+  }
+}

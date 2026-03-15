@@ -1,0 +1,42 @@
+{
+  "id": "cyberpunk",
+  "name": "Cyberpunk",
+  "description": "Futuristic neon colors with a tech dystopia aesthetic.",
+  "category": "experimental",
+  "fontFamily": "Oswald",
+  "preview": {
+    "bgColor": "#0a0a0f",
+    "textColor": "#e0e0ff",
+    "accentColor": "#00ffff",
+    "headingFont": "Oswald",
+    "bodyFont": "Fira Sans",
+    "sampleHeading": "CYBERPUNK",
+    "sampleText": "Neon-lit interfaces from a digital dystopia.",
+    "style": "brutalist"
+  },
+  "classes": {
+    "h1": "text-4xl font-black mb-4 text-cyan-400 uppercase tracking-widest",
+    "h2": "text-3xl font-bold mb-4 text-pink-500 uppercase tracking-wider",
+    "h3": "text-2xl font-bold mb-3 text-yellow-400 uppercase tracking-wide",
+    "h4": "text-xl font-bold mb-3 text-cyan-300",
+    "h5": "text-lg font-bold mb-2 text-cyan-300",
+    "h6": "text-base font-bold mb-2 text-cyan-300",
+    "p": "mb-3 text-base leading-relaxed text-gray-300",
+    "a": "text-cyan-400 hover:text-pink-400 hover:underline decoration-2",
+    "img": "max-w-full my-4 border-2 border-cyan-500 rounded",
+    "table": "table-auto my-4 w-full",
+    "strong": "font-bold text-pink-400",
+    "ul": "list-disc list-inside",
+    "ol": "list-decimal list-inside",
+    "li": "mb-1 text-gray-300",
+    "em": "italic text-yellow-300",
+    "tr": "border border-cyan-900 even:bg-gray-900 odd:bg-gray-950",
+    "td": "border border-cyan-900 p-2",
+    "th": "border border-cyan-900 p-2 bg-cyan-900 font-bold text-cyan-300 uppercase text-sm",
+    "blockquote": "border-l-4 border-pink-500 pl-4 italic my-4 text-pink-200 bg-gray-900 py-2 rounded-r",
+    "code": "bg-gray-900 px-1.5 py-0.5 rounded font-mono text-sm text-green-400 border border-cyan-800",
+    "pre": "bg-gray-950 p-4 rounded overflow-x-auto border border-cyan-800",
+    "body": "bg-gray-950 p-6 text-gray-200",
+    "article": "prose prose-invert max-w-none"
+  }
+}

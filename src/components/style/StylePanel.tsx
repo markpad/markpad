@@ -33,7 +33,7 @@ interface StylePanelProps {
   onResetToDefault?: () => void
   onSaveCustomTheme?: (name: string) => Pick<
     ThemePreset,
-    'tailwindClasses' | 'behaviorConfig' | 'fontConfig' | 'fontFamily'
+    'tailwindClasses' | 'fontConfig' | 'fontFamily'
   > & {
     name: string
   }
