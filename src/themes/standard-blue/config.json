@@ -5,11 +5,6 @@
   "category": "sans-serif",
   "fontFamily": "Inter",
   "preview": {
-    "bgColor": "#ffffff",
-    "textColor": "#1f2937",
-    "accentColor": "#3b82f6",
-    "headingFont": "Inter",
-    "bodyFont": "Inter",
     "sampleHeading": "Tailwind Default",
     "sampleText": "The classic Tailwind CSS utility-first aesthetic for developer docs.",
     "style": "default"

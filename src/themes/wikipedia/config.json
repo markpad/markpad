@@ -5,11 +5,6 @@
   "category": "serif",
   "fontFamily": "PT Sans",
   "preview": {
-    "bgColor": "#ffffff",
-    "textColor": "#202122",
-    "accentColor": "#3366cc",
-    "headingFont": "PT Sans",
-    "bodyFont": "PT Sans",
     "sampleHeading": "Wikipedia",
     "sampleText": "Encyclopedic knowledge in a familiar, trusted format.",
     "style": "default"

@@ -5,11 +5,6 @@
   "category": "serif",
   "fontFamily": "Merriweather",
   "preview": {
-    "bgColor": "#fffcf0",
-    "textColor": "#100f0f",
-    "accentColor": "#d14d41",
-    "headingFont": "Merriweather",
-    "bodyFont": "Merriweather",
     "sampleHeading": "Flexoki Theme",
     "sampleText": "Inspired by the warmth of paper and the flow of ink.",
     "style": "default"

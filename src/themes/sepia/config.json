@@ -5,11 +5,6 @@
   "category": "accessibility",
   "fontFamily": "Merriweather",
   "preview": {
-    "bgColor": "#f4ecd8",
-    "textColor": "#433422",
-    "accentColor": "#8b5e3c",
-    "headingFont": "Merriweather",
-    "bodyFont": "Merriweather",
     "sampleHeading": "Sepia Reader",
     "sampleText": "Warm sepia tones for a gentle, book-like reading experience.",
     "style": "default"

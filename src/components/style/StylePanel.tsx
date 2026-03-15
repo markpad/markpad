@@ -267,16 +267,8 @@ export function StylePanel({
               ) : currentTheme ? (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div
-                      className="w-8 h-8 rounded border border-gray-200 dark:border-gray-600"
-                      style={{ backgroundColor: currentTheme.preview.bgColor }}
-                    >
-                      <div
-                        className="w-full h-full flex items-center justify-center text-xs font-bold"
-                        style={{ color: currentTheme.preview.accentColor }}
-                      >
-                        {currentTheme.name.charAt(0)}
-                      </div>
+                    <div className="w-8 h-8 rounded border border-gray-200 dark:border-gray-600 flex items-center justify-center text-xs font-bold bg-gradient-to-br from-blue-500 to-purple-600 text-white">
+                      {currentTheme.name.charAt(0)}
                     </div>
                     <div>
                       <div className="font-medium text-sm text-gray-900 dark:text-gray-100">

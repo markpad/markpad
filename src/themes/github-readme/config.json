@@ -5,11 +5,6 @@
   "category": "sans-serif",
   "fontFamily": "Inter",
   "preview": {
-    "bgColor": "#ffffff",
-    "textColor": "#1f2328",
-    "accentColor": "#0969da",
-    "headingFont": "Inter",
-    "bodyFont": "Inter",
     "sampleHeading": "GitHub README",
     "sampleText": "The familiar, trusted style of GitHub repository documentation.",
     "style": "default"

@@ -5,11 +5,6 @@
   "category": "sans-serif",
   "fontFamily": "Inter",
   "preview": {
-    "bgColor": "#0f172a",
-    "textColor": "#cbd5e1",
-    "accentColor": "#06b6d4",
-    "headingFont": "Inter",
-    "bodyFont": "Inter",
     "sampleHeading": "Oceanic Night",
     "sampleText": "Dive deep into the digital ocean with adaptive dark mode support.",
     "style": "default"

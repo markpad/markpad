@@ -5,11 +5,6 @@
   "category": "serif",
   "fontFamily": "Playfair Display",
   "preview": {
-    "bgColor": "#f5f0e8",
-    "textColor": "#1a1a1a",
-    "accentColor": "#8b0000",
-    "headingFont": "Playfair Display",
-    "bodyFont": "PT Sans",
     "sampleHeading": "The Daily Chronicle",
     "sampleText": "Traditional broadsheet typography meets the digital age.",
     "style": "default"

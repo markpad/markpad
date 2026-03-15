@@ -5,11 +5,6 @@
   "category": "monospace",
   "fontFamily": "Ubuntu",
   "preview": {
-    "bgColor": "#272822",
-    "textColor": "#f8f8f2",
-    "accentColor": "#f92672",
-    "headingFont": "Ubuntu",
-    "bodyFont": "Ubuntu",
     "sampleHeading": "Monokai",
     "sampleText": "The iconic color scheme that defined a generation of coding.",
     "style": "default"

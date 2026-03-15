@@ -5,11 +5,6 @@
   "category": "experimental",
   "fontFamily": "Fira Sans",
   "preview": {
-    "bgColor": "#282a36",
-    "textColor": "#f8f8f2",
-    "accentColor": "#bd93f9",
-    "headingFont": "Fira Sans",
-    "bodyFont": "Fira Sans",
     "sampleHeading": "Dracula",
     "sampleText": "A dark theme with vibrant purples, pinks, and cyans.",
     "style": "default"

@@ -17,11 +17,6 @@ export interface ThemePreset {
 }
 
 export interface ThemePreview {
-  bgColor: string
-  textColor: string
-  accentColor: string
-  headingFont: string
-  bodyFont: string
   sampleHeading: string
   sampleText: string
   style?: 'serif' | 'sans' | 'mono' | 'brutalist' | 'minimal' | 'default'
@@ -80,11 +75,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Merriweather"
     },
     "preview": {
-      "bgColor": "#ffffff",
-      "textColor": "#1f2937",
-      "accentColor": "#1e40af",
-      "headingFont": "Merriweather",
-      "bodyFont": "Merriweather",
       "sampleHeading": "Academic Paper",
       "sampleText": "Traditional academic formatting with proper hierarchy and citations style.",
       "style": "serif"
@@ -126,11 +116,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Merriweather"
     },
     "preview": {
-      "bgColor": "#ffffff",
-      "textColor": "#292929",
-      "accentColor": "#1a8917",
-      "headingFont": "Playfair Display",
-      "bodyFont": "Merriweather",
       "sampleHeading": "Blog Post",
       "sampleText": "A clean, elegant reading experience inspired by modern publishing.",
       "style": "default"
@@ -172,11 +157,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Bangers"
     },
     "preview": {
-      "bgColor": "#fffde7",
-      "textColor": "#1a1a2e",
-      "accentColor": "#ff1744",
-      "headingFont": "Bangers",
-      "bodyFont": "Comic Neue",
       "sampleHeading": "COMIC BOOK!",
       "sampleText": "Bold panels and explosive action in every page.",
       "style": "brutalist"
@@ -218,11 +198,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Oswald"
     },
     "preview": {
-      "bgColor": "#0a0a0f",
-      "textColor": "#e0e0ff",
-      "accentColor": "#00ffff",
-      "headingFont": "Oswald",
-      "bodyFont": "Fira Sans",
       "sampleHeading": "CYBERPUNK",
       "sampleText": "Neon-lit interfaces from a digital dystopia.",
       "style": "brutalist"
@@ -264,11 +239,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Inter"
     },
     "preview": {
-      "bgColor": "#111827",
-      "textColor": "#d1d5db",
-      "accentColor": "#34d399",
-      "headingFont": "Inter",
-      "bodyFont": "Inter",
       "sampleHeading": "Dark Mode Pro",
       "sampleText": "Terminal aesthetics meet high-end editorial design.",
       "style": "default"
@@ -310,11 +280,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Fira Sans"
     },
     "preview": {
-      "bgColor": "#030712",
-      "textColor": "#86efac",
-      "accentColor": "#22d3ee",
-      "headingFont": "monospace",
-      "bodyFont": "monospace",
       "sampleHeading": ".markdown { @apply font-mono; }",
       "sampleText": "Monospaced font stack designed for technical documentation.",
       "style": "mono"
@@ -356,11 +321,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Fira Sans"
     },
     "preview": {
-      "bgColor": "#282a36",
-      "textColor": "#f8f8f2",
-      "accentColor": "#bd93f9",
-      "headingFont": "Fira Sans",
-      "bodyFont": "Fira Sans",
       "sampleHeading": "Dracula",
       "sampleText": "A dark theme with vibrant purples, pinks, and cyans.",
       "style": "default"
@@ -402,11 +362,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Open Sans"
     },
     "preview": {
-      "bgColor": "#faf8f0",
-      "textColor": "#2d2d2d",
-      "accentColor": "#4a90d9",
-      "headingFont": "Open Sans",
-      "bodyFont": "Open Sans",
       "sampleHeading": "Dyslexia Friendly",
       "sampleText": "Optimized for clarity with generous spacing and readable fonts.",
       "style": "default"
@@ -448,11 +403,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Merriweather"
     },
     "preview": {
-      "bgColor": "#fffcf0",
-      "textColor": "#100f0f",
-      "accentColor": "#d14d41",
-      "headingFont": "Merriweather",
-      "bodyFont": "Merriweather",
       "sampleHeading": "Flexoki Theme",
       "sampleText": "Inspired by the warmth of paper and the flow of ink.",
       "style": "default"
@@ -494,11 +444,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Merriweather"
     },
     "preview": {
-      "bgColor": "#1c1917",
-      "textColor": "#d6d3d1",
-      "accentColor": "#84cc16",
-      "headingFont": "Merriweather",
-      "bodyFont": "Merriweather",
       "sampleHeading": "Forest Dusk",
       "sampleText": "Where nature meets technology with adaptive light and dark modes.",
       "style": "default"
@@ -540,11 +485,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Inter"
     },
     "preview": {
-      "bgColor": "#ffffff",
-      "textColor": "#1f2328",
-      "accentColor": "#0969da",
-      "headingFont": "Inter",
-      "bodyFont": "Inter",
       "sampleHeading": "GitHub README",
       "sampleText": "The familiar, trusted style of GitHub repository documentation.",
       "style": "default"
@@ -586,11 +526,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Merriweather"
     },
     "preview": {
-      "bgColor": "#282828",
-      "textColor": "#ebdbb2",
-      "accentColor": "#fe8019",
-      "headingFont": "Merriweather",
-      "bodyFont": "Merriweather",
       "sampleHeading": "Gruvbox",
       "sampleText": "Retro groove with warm earthy tones and vintage aesthetics.",
       "style": "default"
@@ -632,11 +567,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Open Sans"
     },
     "preview": {
-      "bgColor": "#ffffff",
-      "textColor": "#000000",
-      "accentColor": "#1e40af",
-      "headingFont": "Open Sans",
-      "bodyFont": "Open Sans",
       "sampleHeading": "High Contrast",
       "sampleText": "Maximum readability with strong contrast ratios and large text.",
       "style": "default"
@@ -678,11 +608,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Roboto"
     },
     "preview": {
-      "bgColor": "#fafafa",
-      "textColor": "#212121",
-      "accentColor": "#1976d2",
-      "headingFont": "Roboto",
-      "bodyFont": "Roboto",
       "sampleHeading": "Material Design",
       "sampleText": "Bold, graphic, and intentional — design with purpose.",
       "style": "default"
@@ -724,11 +649,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Inter"
     },
     "preview": {
-      "bgColor": "#f0fdf4",
-      "textColor": "#374151",
-      "accentColor": "#9ca3af",
-      "headingFont": "Inter",
-      "bodyFont": "Inter",
       "sampleHeading": "MINIMALIST",
       "sampleText": "FOCUS ON WHAT MATTERS",
       "style": "minimal"
@@ -770,11 +690,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Playfair Display"
     },
     "preview": {
-      "bgColor": "#fffbeb",
-      "textColor": "#78350f",
-      "accentColor": "#d97706",
-      "headingFont": "Playfair Display",
-      "bodyFont": "Playfair Display",
       "sampleHeading": "Modern Serif",
       "sampleText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.",
       "style": "serif"
@@ -816,11 +731,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Ubuntu"
     },
     "preview": {
-      "bgColor": "#272822",
-      "textColor": "#f8f8f2",
-      "accentColor": "#f92672",
-      "headingFont": "Ubuntu",
-      "bodyFont": "Ubuntu",
       "sampleHeading": "Monokai",
       "sampleText": "The iconic color scheme that defined a generation of coding.",
       "style": "default"
@@ -862,11 +772,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Oswald"
     },
     "preview": {
-      "bgColor": "#ffffff",
-      "textColor": "#000000",
-      "accentColor": "#facc15",
-      "headingFont": "Oswald",
-      "bodyFont": "system-ui",
       "sampleHeading": "NEO-BRUTALIST",
       "sampleText": "BOLD. RAW. UNFILTERED.",
       "style": "brutalist"
@@ -908,11 +813,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Playfair Display"
     },
     "preview": {
-      "bgColor": "#f5f0e8",
-      "textColor": "#1a1a1a",
-      "accentColor": "#8b0000",
-      "headingFont": "Playfair Display",
-      "bodyFont": "PT Sans",
       "sampleHeading": "The Daily Chronicle",
       "sampleText": "Traditional broadsheet typography meets the digital age.",
       "style": "default"
@@ -954,11 +854,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Inter"
     },
     "preview": {
-      "bgColor": "#2e3440",
-      "textColor": "#d8dee9",
-      "accentColor": "#88c0d0",
-      "headingFont": "Inter",
-      "bodyFont": "Inter",
       "sampleHeading": "Nord",
       "sampleText": "An arctic, north-bluish color palette for clean, elegant interfaces.",
       "style": "default"
@@ -1000,11 +895,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Inter"
     },
     "preview": {
-      "bgColor": "#0f172a",
-      "textColor": "#cbd5e1",
-      "accentColor": "#06b6d4",
-      "headingFont": "Inter",
-      "bodyFont": "Inter",
       "sampleHeading": "Oceanic Night",
       "sampleText": "Dive deep into the digital ocean with adaptive dark mode support.",
       "style": "default"
@@ -1046,11 +936,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Nunito"
     },
     "preview": {
-      "bgColor": "#faf5ff",
-      "textColor": "#6b21a8",
-      "accentColor": "#ec4899",
-      "headingFont": "Nunito",
-      "bodyFont": "Nunito",
       "sampleHeading": "Pastel Dream",
       "sampleText": "Soft pastel colors with rounded elements and gentle vibes.",
       "style": "default"
@@ -1092,11 +977,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Poppins"
     },
     "preview": {
-      "bgColor": "#1e1b4b",
-      "textColor": "#e9d5ff",
-      "accentColor": "#a855f7",
-      "headingFont": "Poppins",
-      "bodyFont": "Poppins",
       "sampleHeading": "Purple Haze",
       "sampleText": "Bold, creative, and modern with seamless light and dark mode transitions.",
       "style": "default"
@@ -1138,11 +1018,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Lato"
     },
     "preview": {
-      "bgColor": "#ffffff",
-      "textColor": "#333333",
-      "accentColor": "#2563eb",
-      "headingFont": "Lato",
-      "bodyFont": "Lato",
       "sampleHeading": "Resume / CV",
       "sampleText": "Professional, clean layout designed for career documents.",
       "style": "default"
@@ -1184,14 +1059,9 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Ubuntu"
     },
     "preview": {
-      "bgColor": "#0c0c0c",
-      "textColor": "#33ff33",
-      "accentColor": "#33ff33",
-      "headingFont": "Ubuntu",
-      "bodyFont": "Ubuntu",
       "sampleHeading": "> TERMINAL_",
       "sampleText": "C:\\> Green phosphor glow on a CRT monitor.",
-      "style": "default"
+      "style": "mono"
     },
     "exampleContent": "# > SYSTEM TERMINAL v2.4\n\nConnection established. Welcome, operator.\n\n## > SYSTEM STATUS\n\nThe **Retro Terminal** theme brings back the golden age of computing. Green phosphor characters on pure black — the way legends were built.\n\n### > FEATURES\n\n1. Authentic CRT green monochrome\n2. Monospace typography throughout\n3. Command-line aesthetic\n4. Minimal visual distractions\n\n> SYSTEM MESSAGE: \"In the beginning, there was the command line.\"\n> — Neal Stephenson\n\n## > PROCESS TABLE\n\n| PID | Process  | Status  | Memory |\n| --- | -------- | ------- | ------ |\n| 001 | kernel   | RUNNING | 64K    |\n| 002 | shell    | RUNNING | 16K    |\n| 003 | editor   | ACTIVE  | 32K    |\n| 004 | compiler | IDLE    | 128K   |\n\n## > SAMPLE PROGRAM\n\n```bash\n#!/bin/bash\necho \"=== SYSTEM BOOT ===\"\necho \"Initializing kernel...\"\nsleep 1\necho \"Loading drivers...\"\nsleep 1\necho \"Starting shell...\"\n\nfor i in $(seq 1 10); do\n  echo \"Process $i started [OK]\"\ndone\n\necho \"=== READY ===\"\n```\n\n### > REFERENCES\n\n- [Unix Heritage Society](https://example.com)\n- [VT100 Terminal Reference](https://example.com)\n- System uptime: _847 days, 14 hours_\n\n![Terminal](https://picsum.photos/600/300?random=27)"
   },
@@ -1230,11 +1100,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Merriweather"
     },
     "preview": {
-      "bgColor": "#f4ecd8",
-      "textColor": "#433422",
-      "accentColor": "#8b5e3c",
-      "headingFont": "Merriweather",
-      "bodyFont": "Merriweather",
       "sampleHeading": "Sepia Reader",
       "sampleText": "Warm sepia tones for a gentle, book-like reading experience.",
       "style": "default"
@@ -1276,11 +1141,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Source Sans Pro"
     },
     "preview": {
-      "bgColor": "#fdf6e3",
-      "textColor": "#657b83",
-      "accentColor": "#268bd2",
-      "headingFont": "Source Sans Pro",
-      "bodyFont": "Source Sans Pro",
       "sampleHeading": "Solarized Light",
       "sampleText": "Precision colors designed for optimal readability and reduced eye strain.",
       "style": "default"
@@ -1322,11 +1182,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Inter"
     },
     "preview": {
-      "bgColor": "#ffffff",
-      "textColor": "#1f2937",
-      "accentColor": "#3b82f6",
-      "headingFont": "Inter",
-      "bodyFont": "Inter",
       "sampleHeading": "Tailwind Default",
       "sampleText": "The classic Tailwind CSS utility-first aesthetic for developer docs.",
       "style": "default"
@@ -1368,11 +1223,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "Inter"
     },
     "preview": {
-      "bgColor": "#ffffff",
-      "textColor": "#24292e",
-      "accentColor": "#0366d6",
-      "headingFont": "Inter",
-      "bodyFont": "Inter",
       "sampleHeading": "Technical Docs",
       "sampleText": "Clean, structured layout optimized for API and technical documentation.",
       "style": "default"
@@ -1414,11 +1264,6 @@ export const themePresets: ThemePreset[] = [
       "fontFamily": "PT Sans"
     },
     "preview": {
-      "bgColor": "#ffffff",
-      "textColor": "#202122",
-      "accentColor": "#3366cc",
-      "headingFont": "PT Sans",
-      "bodyFont": "PT Sans",
       "sampleHeading": "Wikipedia",
       "sampleText": "Encyclopedic knowledge in a familiar, trusted format.",
       "style": "default"

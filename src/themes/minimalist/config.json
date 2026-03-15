@@ -5,11 +5,6 @@
   "category": "sans-serif",
   "fontFamily": "Inter",
   "preview": {
-    "bgColor": "#f0fdf4",
-    "textColor": "#374151",
-    "accentColor": "#9ca3af",
-    "headingFont": "Inter",
-    "bodyFont": "Inter",
     "sampleHeading": "MINIMALIST",
     "sampleText": "FOCUS ON WHAT MATTERS",
     "style": "minimal"

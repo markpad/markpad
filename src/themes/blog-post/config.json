@@ -5,11 +5,6 @@
   "category": "serif",
   "fontFamily": "Merriweather",
   "preview": {
-    "bgColor": "#ffffff",
-    "textColor": "#292929",
-    "accentColor": "#1a8917",
-    "headingFont": "Playfair Display",
-    "bodyFont": "Merriweather",
     "sampleHeading": "Blog Post",
     "sampleText": "A clean, elegant reading experience inspired by modern publishing.",
     "style": "default"

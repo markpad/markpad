@@ -5,11 +5,6 @@
   "category": "experimental",
   "fontFamily": "Oswald",
   "preview": {
-    "bgColor": "#ffffff",
-    "textColor": "#000000",
-    "accentColor": "#facc15",
-    "headingFont": "Oswald",
-    "bodyFont": "system-ui",
     "sampleHeading": "NEO-BRUTALIST",
     "sampleText": "BOLD. RAW. UNFILTERED.",
     "style": "brutalist"

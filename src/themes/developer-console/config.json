@@ -5,11 +5,6 @@
   "category": "monospace",
   "fontFamily": "Fira Sans",
   "preview": {
-    "bgColor": "#030712",
-    "textColor": "#86efac",
-    "accentColor": "#22d3ee",
-    "headingFont": "monospace",
-    "bodyFont": "monospace",
     "sampleHeading": ".markdown { @apply font-mono; }",
     "sampleText": "Monospaced font stack designed for technical documentation.",
     "style": "mono"

@@ -54,11 +54,6 @@ export function useStyleSidebar() {
       currentConfig: Pick<ThemePreset, 'tailwindClasses' | 'fontConfig' | 'fontFamily'>
     ) => {
       const defaultPreview: ThemePreview = {
-        bgColor: '#ffffff',
-        textColor: '#374151',
-        accentColor: '#3b82f6',
-        headingFont: currentConfig.fontFamily,
-        bodyFont: currentConfig.fontFamily,
         sampleHeading: 'Custom Theme',
         sampleText: 'Your saved styles',
         style: 'default',

@@ -5,11 +5,6 @@
   "category": "serif",
   "fontFamily": "Merriweather",
   "preview": {
-    "bgColor": "#ffffff",
-    "textColor": "#1f2937",
-    "accentColor": "#1e40af",
-    "headingFont": "Merriweather",
-    "bodyFont": "Merriweather",
     "sampleHeading": "Academic Paper",
     "sampleText": "Traditional academic formatting with proper hierarchy and citations style.",
     "style": "serif"

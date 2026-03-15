@@ -5,11 +5,6 @@
   "category": "sans-serif",
   "fontFamily": "Poppins",
   "preview": {
-    "bgColor": "#1e1b4b",
-    "textColor": "#e9d5ff",
-    "accentColor": "#a855f7",
-    "headingFont": "Poppins",
-    "bodyFont": "Poppins",
     "sampleHeading": "Purple Haze",
     "sampleText": "Bold, creative, and modern with seamless light and dark mode transitions.",
     "style": "default"

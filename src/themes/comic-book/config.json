@@ -5,11 +5,6 @@
   "category": "experimental",
   "fontFamily": "Bangers",
   "preview": {
-    "bgColor": "#fffde7",
-    "textColor": "#1a1a2e",
-    "accentColor": "#ff1744",
-    "headingFont": "Bangers",
-    "bodyFont": "Comic Neue",
     "sampleHeading": "COMIC BOOK!",
     "sampleText": "Bold panels and explosive action in every page.",
     "style": "brutalist"

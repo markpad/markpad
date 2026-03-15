@@ -5,11 +5,6 @@
   "category": "serif",
   "fontFamily": "Merriweather",
   "preview": {
-    "bgColor": "#1c1917",
-    "textColor": "#d6d3d1",
-    "accentColor": "#84cc16",
-    "headingFont": "Merriweather",
-    "bodyFont": "Merriweather",
     "sampleHeading": "Forest Dusk",
     "sampleText": "Where nature meets technology with adaptive light and dark modes.",
     "style": "default"

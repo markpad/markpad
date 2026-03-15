@@ -5,11 +5,6 @@
   "category": "experimental",
   "fontFamily": "Oswald",
   "preview": {
-    "bgColor": "#0a0a0f",
-    "textColor": "#e0e0ff",
-    "accentColor": "#00ffff",
-    "headingFont": "Oswald",
-    "bodyFont": "Fira Sans",
     "sampleHeading": "CYBERPUNK",
     "sampleText": "Neon-lit interfaces from a digital dystopia.",
     "style": "brutalist"

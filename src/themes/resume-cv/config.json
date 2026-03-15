@@ -5,11 +5,6 @@
   "category": "sans-serif",
   "fontFamily": "Lato",
   "preview": {
-    "bgColor": "#ffffff",
-    "textColor": "#333333",
-    "accentColor": "#2563eb",
-    "headingFont": "Lato",
-    "bodyFont": "Lato",
     "sampleHeading": "Resume / CV",
     "sampleText": "Professional, clean layout designed for career documents.",
     "style": "default"

@@ -1,6 +1,8 @@
 import React from 'react'
 import { ThemePreset } from '../../data/themes.generated'
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
+import type { TailwindClasses } from '../../types'
+import { getTextColorClass, getFontClass } from './themeUtils'
 
 interface ThemeCardCompactProps {
   theme: ThemePreset & { isLocal?: boolean }
@@ -11,27 +13,151 @@ interface ThemeCardCompactProps {
   onToggleFavorite?: () => void
 }
 
-// Compact preview that fits in sidebar
+// Compact preview that fits in sidebar - same logic as ThemeCard but compact
 function CompactPreview({ theme }: { theme: ThemePreset }) {
-  // Use the preview colors directly from theme data
-  const { bgColor, textColor, accentColor, headingFont, bodyFont } = theme.preview
+  const { preview, tailwindClasses, fontFamily } = theme
 
   return (
     <div
-      className="h-16 rounded overflow-hidden border border-gray-200 dark:border-gray-600 p-2"
-      style={{ backgroundColor: bgColor }}
+      className={`h-16 rounded overflow-hidden p-2 ${tailwindClasses.body}`}
+      style={{ fontFamily }}
     >
-      <div
-        className="truncate text-xs mb-1 font-bold"
-        style={{ fontFamily: headingFont, color: accentColor }}
-      >
-        Heading
+      {preview.style === 'brutalist' ? (
+        <CompactBrutalistPreview preview={preview} classes={tailwindClasses} />
+      ) : preview.style === 'minimal' ? (
+        <CompactMinimalPreview preview={preview} classes={tailwindClasses} />
+      ) : preview.style === 'mono' ? (
+        <CompactMonoPreview preview={preview} classes={tailwindClasses} />
+      ) : preview.style === 'serif' ? (
+        <CompactSerifPreview preview={preview} classes={tailwindClasses} />
+      ) : (
+        <CompactDefaultPreview preview={preview} classes={tailwindClasses} />
+      )}
+    </div>
+  )
+}
+
+function CompactDefaultPreview({
+  preview,
+  classes,
+}: {
+  preview: ThemePreset['preview']
+  classes: TailwindClasses
+}) {
+  // Extract only color and font classes from h1/p
+  const headingColor = getTextColorClass(classes.h1)
+  const headingFont = getFontClass(classes.h1)
+  const textColor = getTextColorClass(classes.p)
+  const accentBg = getTextColorClass(classes.a).replace('text-', 'bg-')
+
+  return (
+    <div className="flex flex-col h-full justify-center space-y-1">
+      <h4 className={`text-sm font-semibold truncate ${headingColor} ${headingFont}`}>
+        {preview.sampleHeading}
+      </h4>
+      <p className={`text-[10px] leading-snug line-clamp-2 ${textColor}`}>{preview.sampleText}</p>
+      <div className="flex gap-1 pt-1">
+        <div className={`h-1 w-10 rounded-full ${accentBg}`} />
+        <div className={`h-1 w-6 rounded-full ${accentBg} opacity-50`} />
       </div>
-      <div
-        className="text-[8px] leading-tight line-clamp-2"
-        style={{ fontFamily: bodyFont, color: textColor }}
-      >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.
+    </div>
+  )
+}
+
+function CompactSerifPreview({
+  preview,
+  classes,
+}: {
+  preview: ThemePreset['preview']
+  classes: TailwindClasses
+}) {
+  const headingColor = getTextColorClass(classes.h1)
+  const headingFont = getFontClass(classes.h1)
+  const textColor = getTextColorClass(classes.p)
+
+  return (
+    <div className="flex flex-col h-full justify-center space-y-1">
+      <h4 className={`text-sm font-semibold italic truncate ${headingColor} ${headingFont}`}>
+        {preview.sampleHeading}
+      </h4>
+      <p className={`text-[10px] leading-snug line-clamp-2 ${textColor} opacity-80`}>
+        {preview.sampleText}
+      </p>
+    </div>
+  )
+}
+
+function CompactBrutalistPreview({
+  preview,
+  classes,
+}: {
+  preview: ThemePreset['preview']
+  classes: TailwindClasses
+}) {
+  // Same logic as BrutalistPreview in ThemeCard
+  const headingColor = getTextColorClass(classes.h1)
+  const textColor = getTextColorClass(classes.p)
+
+  return (
+    <div className="flex flex-col h-full justify-center space-y-1.5">
+      <div className="border-2 border-black px-2 py-1 inline-block self-start">
+        <span className={`font-black text-[11px] tracking-wide ${headingColor}`}>
+          {preview.sampleHeading}
+        </span>
+      </div>
+      <p className={`font-bold text-[9px] tracking-wide truncate ${textColor}`}>
+        {preview.sampleText}
+      </p>
+      <div className="flex gap-0.5">
+        <div className="h-2 flex-1 bg-yellow-400" />
+        <div className="h-2 flex-1 bg-blue-600" />
+      </div>
+    </div>
+  )
+}
+
+function CompactMinimalPreview({
+  preview,
+  classes,
+}: {
+  preview: ThemePreset['preview']
+  classes: TailwindClasses
+}) {
+  // Same logic as MinimalistPreview in ThemeCard
+  const headingColor = getTextColorClass(classes.h1)
+  const textColor = getTextColorClass(classes.p)
+
+  return (
+    <div className="flex flex-col items-center justify-center h-full text-center space-y-1.5">
+      <h4 className={`text-xs font-light tracking-[0.25em] uppercase ${headingColor}`}>
+        {preview.sampleHeading}
+      </h4>
+      <p className={`text-[9px] tracking-[0.2em] uppercase opacity-70 ${textColor}`}>
+        {preview.sampleText}
+      </p>
+    </div>
+  )
+}
+
+function CompactMonoPreview({
+  preview,
+  classes,
+}: {
+  preview: ThemePreset['preview']
+  classes: TailwindClasses
+}) {
+  // Same logic as MonoPreview in ThemeCard - use accent color from links
+  const accentColor = getTextColorClass(classes.a)
+  const textColor = getTextColorClass(classes.p)
+
+  return (
+    <div className="font-mono flex flex-col h-full justify-center space-y-1.5">
+      <div className="bg-gray-800 rounded px-2 py-1 inline-block self-start border border-gray-700">
+        <code className={`text-[10px] ${accentColor}`}>{preview.sampleHeading}</code>
+      </div>
+      <div className="flex items-center gap-1.5 text-[9px]">
+        <span className={textColor}>{'<'}</span>
+        <span className={accentColor}>{'>'}</span>
       </div>
     </div>
   )

@@ -5,11 +5,6 @@
   "category": "serif",
   "fontFamily": "Playfair Display",
   "preview": {
-    "bgColor": "#fffbeb",
-    "textColor": "#78350f",
-    "accentColor": "#d97706",
-    "headingFont": "Playfair Display",
-    "bodyFont": "Playfair Display",
     "sampleHeading": "Modern Serif",
     "sampleText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.",
     "style": "serif"

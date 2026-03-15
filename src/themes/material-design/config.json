@@ -5,11 +5,6 @@
   "category": "sans-serif",
   "fontFamily": "Roboto",
   "preview": {
-    "bgColor": "#fafafa",
-    "textColor": "#212121",
-    "accentColor": "#1976d2",
-    "headingFont": "Roboto",
-    "bodyFont": "Roboto",
     "sampleHeading": "Material Design",
     "sampleText": "Bold, graphic, and intentional — design with purpose.",
     "style": "default"

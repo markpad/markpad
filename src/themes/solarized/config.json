@@ -5,11 +5,6 @@
   "category": "sans-serif",
   "fontFamily": "Source Sans Pro",
   "preview": {
-    "bgColor": "#fdf6e3",
-    "textColor": "#657b83",
-    "accentColor": "#268bd2",
-    "headingFont": "Source Sans Pro",
-    "bodyFont": "Source Sans Pro",
     "sampleHeading": "Solarized Light",
     "sampleText": "Precision colors designed for optimal readability and reduced eye strain.",
     "style": "default"

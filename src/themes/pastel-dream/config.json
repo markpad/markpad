@@ -5,11 +5,6 @@
   "category": "experimental",
   "fontFamily": "Nunito",
   "preview": {
-    "bgColor": "#faf5ff",
-    "textColor": "#6b21a8",
-    "accentColor": "#ec4899",
-    "headingFont": "Nunito",
-    "bodyFont": "Nunito",
     "sampleHeading": "Pastel Dream",
     "sampleText": "Soft pastel colors with rounded elements and gentle vibes.",
     "style": "default"

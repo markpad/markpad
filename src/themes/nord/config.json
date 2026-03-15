@@ -5,11 +5,6 @@
   "category": "sans-serif",
   "fontFamily": "Inter",
   "preview": {
-    "bgColor": "#2e3440",
-    "textColor": "#d8dee9",
-    "accentColor": "#88c0d0",
-    "headingFont": "Inter",
-    "bodyFont": "Inter",
     "sampleHeading": "Nord",
     "sampleText": "An arctic, north-bluish color palette for clean, elegant interfaces.",
     "style": "default"

@@ -58,11 +58,6 @@ export interface ThemePreset {
 }
 
 export interface ThemePreview {
-  bgColor: string
-  textColor: string
-  accentColor: string
-  headingFont: string
-  bodyFont: string
   sampleHeading: string
   sampleText: string
   style?: 'serif' | 'sans' | 'mono' | 'brutalist' | 'minimal' | 'default'

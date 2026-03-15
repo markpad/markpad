@@ -5,11 +5,6 @@
   "category": "sans-serif",
   "fontFamily": "Inter",
   "preview": {
-    "bgColor": "#111827",
-    "textColor": "#d1d5db",
-    "accentColor": "#34d399",
-    "headingFont": "Inter",
-    "bodyFont": "Inter",
     "sampleHeading": "Dark Mode Pro",
     "sampleText": "Terminal aesthetics meet high-end editorial design.",
     "style": "default"

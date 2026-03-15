@@ -5,11 +5,6 @@
   "category": "accessibility",
   "fontFamily": "Open Sans",
   "preview": {
-    "bgColor": "#faf8f0",
-    "textColor": "#2d2d2d",
-    "accentColor": "#4a90d9",
-    "headingFont": "Open Sans",
-    "bodyFont": "Open Sans",
     "sampleHeading": "Dyslexia Friendly",
     "sampleText": "Optimized for clarity with generous spacing and readable fonts.",
     "style": "default"

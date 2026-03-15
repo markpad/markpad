@@ -5,11 +5,6 @@
   "category": "accessibility",
   "fontFamily": "Open Sans",
   "preview": {
-    "bgColor": "#ffffff",
-    "textColor": "#000000",
-    "accentColor": "#1e40af",
-    "headingFont": "Open Sans",
-    "bodyFont": "Open Sans",
     "sampleHeading": "High Contrast",
     "sampleText": "Maximum readability with strong contrast ratios and large text.",
     "style": "default"
