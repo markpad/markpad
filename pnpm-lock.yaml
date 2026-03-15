@@ -43,6 +43,9 @@ importers:
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
+      idb:
+        specifier: ^8.0.3
+        version: 8.0.3
       js-yaml:
         specifier: 4.1.1
         version: 4.1.1
@@ -3345,6 +3348,9 @@ packages:
 
   idb@7.1.1:
     resolution: {integrity: sha512-gchesWBzyvGHRO9W8tzUWFDycow5gwjvFKfyV9FF32Y7F50yZMp7mP+T2mJIWFx49zicqyC4uefHM17o6xKIVQ==}
+
+  idb@8.0.3:
+    resolution: {integrity: sha512-LtwtVyVYO5BqRvcsKuB2iUMnHwPVByPCXFXOpuU96IZPPoPN6xjOGxZQ74pgSVVLQWtUOYgyeL4GE98BY5D3wg==}
 
   identity-obj-proxy@3.0.0:
     resolution: {integrity: sha512-00n6YnVHKrinT9t0d9+5yZC6UBNJANpYEQvL2LlX6Ab9lnmxzIRcEmTPuyGScvl1+jKuCICX1Z0Ab1pPKKdikA==}
@@ -10220,6 +10226,8 @@ snapshots:
       postcss: 8.5.8
 
   idb@7.1.1: {}
+
+  idb@8.0.3: {}
 
   identity-obj-proxy@3.0.0:
     dependencies:

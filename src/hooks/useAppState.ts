@@ -11,6 +11,11 @@ import {
 import debounce from '../utils/debounce'
 import initialMarkdown from '../initialMarkdown'
 
+interface UseAppStateOptions {
+  /** When set, disables pako URL persistence (state is persisted to IndexedDB instead) */
+  docId?: string | null
+}
+
 interface UseAppStateReturn {
   state: AppState
   setMarkdown: (markdown: string) => void
@@ -22,17 +27,34 @@ interface UseAppStateReturn {
   setFontConfig: (fontConfig: FontConfig) => void
   updateFontConfig: <K extends keyof FontConfig>(key: K, value: FontConfig[K]) => void
   resetToDefaults: () => void
+  /** Replace entire state at once (used when loading a document from IndexedDB) */
+  loadState: (newState: AppState) => void
 }
 
 /**
- * Custom hook for managing application state with URL persistence
- * Follows Single Responsibility Principle - handles only state management
+ * Custom hook for managing application state
+ * When docId is provided, URL pako persistence is disabled (document mode).
+ * When no docId, falls back to URL hash persistence via pako (anonymous/legacy mode).
  */
-export function useAppState(): UseAppStateReturn {
+export function useAppState(options?: UseAppStateOptions): UseAppStateReturn {
+  const docId = options?.docId
+  const isDocumentMode = !!docId
+
   const [isInitialized, setIsInitialized] = useState(false)
 
-  // Initialize state from URL or defaults
+  // Initialize state from URL (if no docId) or defaults (if docId - will be overwritten by Editor)
   const getInitialState = (): AppState => {
+    // In document mode, start with defaults; Editor will load full state from IndexedDB
+    if (isDocumentMode) {
+      return {
+        markdown: '',
+        documentTitle: defaultDocumentTitle,
+        tailwindClasses: defaultTailwindClasses,
+        behaviorConfig: defaultBehaviorConfig,
+        fontConfig: defaultFontConfig,
+      }
+    }
+
     const urlState = getStateFromUrl()
     if (urlState !== null) {
       return urlState
@@ -56,21 +78,21 @@ export function useAppState(): UseAppStateReturn {
 
   const [state, setState] = useState<AppState>(getInitialState)
 
-  // Debounced URL update to prevent too many history changes
+  // Debounced URL update (only used in anonymous mode)
   const debouncedUpdateUrl = useRef(
     debounce((newState: AppState) => {
       updateUrlWithState(newState)
     }, 1000)
   ).current
 
-  // Update URL when state changes
+  // Update URL when state changes (only in anonymous mode)
   useEffect(() => {
-    if (isInitialized) {
+    if (isInitialized && !isDocumentMode) {
       debouncedUpdateUrl(state)
       // Also save to localStorage for backwards compatibility
       localStorage.setItem('markdown', state.markdown)
     }
-  }, [state, isInitialized, debouncedUpdateUrl])
+  }, [state, isInitialized, isDocumentMode, debouncedUpdateUrl])
 
   // Mark as initialized after first render
   useEffect(() => {
@@ -143,6 +165,10 @@ export function useAppState(): UseAppStateReturn {
     []
   )
 
+  const loadState = useCallback((newState: AppState) => {
+    setState(newState)
+  }, [])
+
   return {
     state,
     setMarkdown,
@@ -154,5 +180,6 @@ export function useAppState(): UseAppStateReturn {
     setFontConfig,
     updateFontConfig,
     resetToDefaults,
+    loadState,
   }
 }

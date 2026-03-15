@@ -13,6 +13,7 @@ import {
   FaExchangeAlt,
   FaSave,
 } from 'react-icons/fa'
+import { useParams, useNavigate } from 'react-router-dom'
 import { AppHeader } from '../shared/AppHeader'
 import {
   type ThemeElement,
@@ -26,12 +27,8 @@ import { ElementConfigPanel } from './ElementConfigPanel'
 import { LivePreview } from './LivePreview'
 import { ThemeSelectorModal } from './ThemeSelectorModal'
 import { ReplaceColorsModal } from './ReplaceColorsModal'
-import {
-  getThemeEditorStateFromUrl,
-  updateThemeEditorUrl,
-  getDarkModeFromStorage,
-  saveDarkModeToStorage,
-} from './urlStateService'
+import { getDarkModeFromStorage } from './urlStateService'
+import { customThemeRepository } from '../../lib/repositories'
 import debounce from '../../utils/debounce'
 import type { ThemePreset } from '../../data/themes.generated'
 
@@ -44,32 +41,20 @@ function getInitialConfigs(): Record<ThemeElement, ElementConfig> {
   return configs as Record<ThemeElement, ElementConfig>
 }
 
-// Get initial state from URL or defaults
-function getInitialState() {
-  const urlState = getThemeEditorStateFromUrl()
-  if (urlState) {
-    return {
-      themeName: urlState.themeName,
-      selectedElement: urlState.selectedElement,
-      configs: urlState.configs,
-      darkMode: urlState.darkMode,
-    }
-  }
-  return {
-    themeName: 'My Custom Theme',
-    selectedElement: 'h1' as ThemeElement,
-    configs: getInitialConfigs(),
-    darkMode: getDarkModeFromStorage(),
-  }
-}
-
 export function ThemeEditorPage() {
-  const initialState = useRef(getInitialState()).current
-  const [isInitialized, setIsInitialized] = useState(false)
+  const { id: themeId } = useParams<{ id: string }>()
+  const navigate = useNavigate()
+  const isNewTheme = !themeId || themeId === 'new'
 
-  const [themeName, setThemeName] = useState(initialState.themeName)
-  const [selectedElement, setSelectedElement] = useState<ThemeElement>(initialState.selectedElement)
-  const [configs, setConfigs] = useState<Record<ThemeElement, ElementConfig>>(initialState.configs)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [isInitialized, setIsInitialized] = useState(false)
+  const [persistedId, setPersistedId] = useState<string | undefined>(
+    isNewTheme ? undefined : themeId
+  )
+
+  const [themeName, setThemeName] = useState('My Custom Theme')
+  const [selectedElement, setSelectedElement] = useState<ThemeElement>('h1')
+  const [configs, setConfigs] = useState<Record<ThemeElement, ElementConfig>>(getInitialConfigs())
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
     Container: true,
     Headings: true,
@@ -82,45 +67,95 @@ export function ThemeEditorPage() {
     Media: false,
   })
   const [copied, setCopied] = useState(false)
-  const [darkMode, setDarkMode] = useState(initialState.darkMode)
+  const [darkMode, setDarkMode] = useState(getDarkModeFromStorage())
   const [showThemeSelector, setShowThemeSelector] = useState(false)
   const [showReplaceColors, setShowReplaceColors] = useState(false)
   const [inspectMode, setInspectMode] = useState(false)
   const [savedNotification, setSavedNotification] = useState(false)
 
-  // Debounced URL update to prevent too many history changes
-  const debouncedUpdateUrl = useRef(
+  // Load existing theme from IndexedDB
+  useEffect(() => {
+    if (!isNewTheme && themeId) {
+      customThemeRepository.getById(themeId).then((theme) => {
+        if (theme) {
+          setThemeName(theme.name)
+          setConfigs(theme.configs as Record<ThemeElement, ElementConfig>)
+          setSelectedElement((theme.selectedElement as ThemeElement) || 'h1')
+          setDarkMode(theme.darkMode)
+        }
+        setIsLoaded(true)
+        // Small delay so initial load doesn't trigger auto-save
+        setTimeout(() => setIsInitialized(true), 100)
+      })
+    } else {
+      setIsLoaded(true)
+      setTimeout(() => setIsInitialized(true), 100)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [themeId])
+
+  // Debounced auto-save to IndexedDB
+  const debouncedSave = useRef(
     debounce(
-      (state: {
+      async (state: {
+        persistedId: string | undefined
         themeName: string
         selectedElement: ThemeElement
         configs: Record<ThemeElement, ElementConfig>
         darkMode: boolean
+        setPersistedId: (id: string) => void
+        navigate: (path: string, opts?: { replace?: boolean }) => void
       }) => {
-        updateThemeEditorUrl(state)
+        try {
+          if (state.persistedId) {
+            await customThemeRepository.update(state.persistedId, {
+              name: state.themeName,
+              configs: state.configs as Record<string, Record<string, string | undefined>>,
+              selectedElement: state.selectedElement,
+              darkMode: state.darkMode,
+            })
+          } else {
+            const created = await customThemeRepository.create({
+              name: state.themeName,
+              configs: state.configs as Record<string, Record<string, string | undefined>>,
+              selectedElement: state.selectedElement,
+              darkMode: state.darkMode,
+            })
+            state.setPersistedId(created.id)
+            state.navigate(`/theme-editor/${created.id}`, { replace: true })
+          }
+        } catch (e) {
+          console.error('Failed to auto-save theme:', e)
+        }
       },
-      500
+      800
     )
   ).current
 
-  // Update URL when state changes
+  // Auto-save when state changes
   useEffect(() => {
-    if (isInitialized) {
-      debouncedUpdateUrl({ themeName, selectedElement, configs, darkMode })
+    if (isInitialized && isLoaded) {
+      debouncedSave({
+        persistedId,
+        themeName,
+        selectedElement,
+        configs,
+        darkMode,
+        setPersistedId,
+        navigate,
+      })
     }
-  }, [themeName, selectedElement, configs, darkMode, isInitialized, debouncedUpdateUrl])
-
-  // Save dark mode to localStorage when it changes
-  useEffect(() => {
-    if (isInitialized) {
-      saveDarkModeToStorage(darkMode)
-    }
-  }, [darkMode, isInitialized])
-
-  // Mark as initialized after first render
-  useEffect(() => {
-    setIsInitialized(true)
-  }, [])
+  }, [
+    themeName,
+    selectedElement,
+    configs,
+    darkMode,
+    isInitialized,
+    isLoaded,
+    persistedId,
+    debouncedSave,
+    navigate,
+  ])
 
   // Update a single element's config
   const updateConfig = useCallback((element: ThemeElement, config: ElementConfig) => {
@@ -256,58 +291,28 @@ export function ThemeEditorPage() {
   // State for download dropdown
   const [showDownloadMenu, setShowDownloadMenu] = useState(false)
 
-  // Save theme to localStorage (shared with /editor)
-  const LOCAL_THEMES_KEY = 'marklab-local-themes'
-
-  const saveToLocalThemes = useCallback(() => {
+  // Manual save (force immediate persist)
+  const saveNow = useCallback(async () => {
     try {
-      // Load existing local themes
-      const stored = localStorage.getItem(LOCAL_THEMES_KEY)
-      const existingThemes = stored ? JSON.parse(stored) : []
-
-      // Create the new local theme
-      const newTheme = {
-        id: `local-${Date.now()}`,
+      const data = {
         name: themeName,
-        description: 'Theme created with Theme Editor',
-        category: 'experimental',
-        fontFamily: themeJSON.fontFamily,
-        tailwindClasses: themeJSON.classes,
-        behaviorConfig: {
-          shouldOpenLinksInNewTab: true,
-          shouldShowLineNumbers: true,
-        },
-        fontConfig: {
-          headingFont: themeJSON.fontFamily,
-          bodyFont: themeJSON.fontFamily,
-          codeFont: 'Fira Code',
-        },
-        preview: {
-          bgColor: '#ffffff',
-          textColor: '#374151',
-          accentColor: '#3b82f6',
-          headingFont: themeJSON.fontFamily,
-          bodyFont: themeJSON.fontFamily,
-          sampleHeading: themeName,
-          sampleText: 'Theme created with Theme Editor',
-          style: 'default' as const,
-        },
-        exampleContent: '',
-        isLocal: true,
-        createdAt: Date.now(),
+        configs: configs as Record<string, Record<string, string | undefined>>,
+        selectedElement,
+        darkMode,
       }
-
-      // Add to existing themes
-      const updatedThemes = [...existingThemes, newTheme]
-      localStorage.setItem(LOCAL_THEMES_KEY, JSON.stringify(updatedThemes))
-
-      // Show notification
+      if (persistedId) {
+        await customThemeRepository.update(persistedId, data)
+      } else {
+        const created = await customThemeRepository.create(data)
+        setPersistedId(created.id)
+        navigate(`/theme-editor/${created.id}`, { replace: true })
+      }
       setSavedNotification(true)
       setTimeout(() => setSavedNotification(false), 2000)
     } catch (e) {
-      console.error('Failed to save local theme:', e)
+      console.error('Failed to save theme:', e)
     }
-  }, [themeName, themeJSON])
+  }, [themeName, configs, selectedElement, darkMode, persistedId, navigate])
 
   return (
     <div className={`h-screen flex flex-col overflow-hidden ${darkMode ? 'dark' : ''}`}>
@@ -346,11 +351,11 @@ export function ThemeEditorPage() {
               Replace Colors
             </button>
 
-            {/* Save to Local Themes */}
+            {/* Save Theme */}
             <button
-              onClick={saveToLocalThemes}
+              onClick={saveNow}
               className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-              title="Save theme to local storage (usable in /editor)"
+              title="Save theme"
             >
               {savedNotification ? (
                 <>
@@ -360,7 +365,7 @@ export function ThemeEditorPage() {
               ) : (
                 <>
                   <FaSave className="w-3 h-3" />
-                  Save Local
+                  Save
                 </>
               )}
             </button>

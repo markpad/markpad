@@ -4,27 +4,27 @@ import {
   FaFileAlt,
   FaPalette,
   FaCode,
-  FaDownload,
   FaShare,
   FaEye,
   FaArrowRight,
   FaGithub,
   FaMagic,
   FaRocket,
-  FaTags,
+  FaCopy,
+  FaWifi,
 } from 'react-icons/fa'
 
 /**
- * Home page - Landing page for Marklab
+ * Home page - Landing page for Markpad
  */
 export function HomePage() {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100">
       <Helmet>
-        <title>Marklab - Markdown Editor with Tailwind CSS</title>
+        <title>Markpad - Programmable Markdown Documents</title>
         <meta
           name="description"
-          content="Create beautiful, styled markdown documents with customizable Tailwind CSS classes. Export to HTML, PDF, or share directly."
+          content="Write markdown, use variables, apply themes, and generate dynamic documents instantly. Offline-first, no account required."
         />
       </Helmet>
 
@@ -37,16 +37,22 @@ export function HomePage() {
               <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg">
                 <FaFileAlt className="text-white text-sm" />
               </div>
-              <span className="text-white font-semibold text-lg">Marklab</span>
+              <span className="text-white font-semibold text-lg">Markpad</span>
             </Link>
 
             {/* Nav Links */}
             <nav className="hidden sm:flex items-center gap-1">
               <Link
-                to="/editor"
+                to="/documents"
                 className="px-3 py-1.5 text-sm text-gray-400 hover:text-white rounded-md hover:bg-gray-800 transition-colors"
               >
-                Editor
+                Documents
+              </Link>
+              <Link
+                to="/templates"
+                className="px-3 py-1.5 text-sm text-gray-400 hover:text-white rounded-md hover:bg-gray-800 transition-colors"
+              >
+                Templates
               </Link>
               <Link
                 to="/themes"
@@ -88,23 +94,22 @@ export function HomePage() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm mb-8">
               <FaMagic className="text-xs" />
-              <span>Style your markdown with Tailwind CSS</span>
+              <span>Offline-first · No account required</span>
             </div>
 
             {/* Headline */}
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-              Write in Markdown,
+              Markdown,
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                Style with Tailwind
+                but programmable
               </span>
             </h1>
 
             {/* Subheadline */}
             <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Marklab is a powerful markdown editor that lets you customize every element with
-              Tailwind CSS classes. Create beautiful documents, export to multiple formats, and
-              share with anyone.
+              Write markdown. Add variables. Apply themes. Generate documents from templates and
+              share them instantly — all from your browser.
             </p>
 
             {/* CTA Buttons */}
@@ -114,14 +119,14 @@ export function HomePage() {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors text-lg"
               >
                 <FaRocket />
-                Start Writing
+                Open Editor
               </Link>
               <Link
-                to="/themes"
+                to="/templates"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg border border-gray-700 transition-colors text-lg"
               >
-                <FaPalette />
-                Browse Themes
+                <FaCopy />
+                Browse Templates
               </Link>
             </div>
           </div>
@@ -137,38 +142,47 @@ export function HomePage() {
                   <div className="w-3 h-3 rounded-full bg-green-500/80" />
                 </div>
                 <div className="flex-1 text-center">
-                  <span className="text-gray-500 text-sm">marklab.pages.dev/editor</span>
+                  <span className="text-gray-500 text-sm">markpad.cc/editor</span>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-0 h-80">
                 {/* Editor Side */}
                 <div className="bg-gray-900 p-4 border-r border-gray-800 font-mono text-sm">
-                  <div className="text-purple-400"># Welcome to Marklab</div>
-                  <div className="text-gray-500 mt-2" />
-                  <div className="text-gray-300 mt-2">
-                    Write your content in **markdown** and see it styled live.
+                  <div className="text-gray-500">---</div>
+                  <div className="text-cyan-400">
+                    client: <span className="text-orange-300">ACME Corp</span>
                   </div>
-                  <div className="text-gray-500 mt-4" />
-                  <div className="text-purple-400 mt-2">## Features</div>
+                  <div className="text-cyan-400">
+                    date: <span className="text-orange-300">2026-03-15</span>
+                  </div>
+                  <div className="text-cyan-400">
+                    amount: <span className="text-orange-300">4,500.00</span>
+                  </div>
+                  <div className="text-gray-500">---</div>
                   <div className="text-gray-500 mt-2" />
-                  <div className="text-gray-300">- Real-time preview</div>
-                  <div className="text-gray-300">- Tailwind CSS styling</div>
-                  <div className="text-gray-300">- Multiple export formats</div>
-                  <div className="text-gray-300">- Theme gallery</div>
+                  <div className="text-purple-400 mt-1"># Invoice</div>
+                  <div className="text-gray-500 mt-2" />
+                  <div className="text-gray-300">{'Client: {{client}}'}</div>
+                  <div className="text-gray-300">{'Date: {{date}}'}</div>
+                  <div className="text-gray-300">{'Total: ${{amount}}'}</div>
+                  <div className="text-gray-500 mt-2" />
+                  <div className="text-gray-300">Thank you for your business.</div>
                 </div>
                 {/* Preview Side */}
                 <div className="bg-white p-6 text-gray-800">
-                  <h1 className="text-3xl font-bold text-gray-900 mb-4">Welcome to Marklab</h1>
-                  <p className="text-gray-600 mb-6">
-                    Write your content in <strong>markdown</strong> and see it styled live.
-                  </p>
-                  <h2 className="text-xl font-semibold text-gray-800 mb-3">Features</h2>
-                  <ul className="list-disc list-inside text-gray-600 space-y-1">
-                    <li>Real-time preview</li>
-                    <li>Tailwind CSS styling</li>
-                    <li>Multiple export formats</li>
-                    <li>Theme gallery</li>
-                  </ul>
+                  <h1 className="text-3xl font-bold text-gray-900 mb-4">Invoice</h1>
+                  <div className="space-y-1 text-gray-600 mb-6">
+                    <p>
+                      Client: <strong>ACME Corp</strong>
+                    </p>
+                    <p>
+                      Date: <strong>2026-03-15</strong>
+                    </p>
+                    <p>
+                      Total: <strong>$4,500.00</strong>
+                    </p>
+                  </div>
+                  <p className="text-gray-600">Thank you for your business.</p>
                 </div>
               </div>
             </div>
@@ -181,10 +195,11 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Everything you need to create beautiful documents
+              A document engine in your browser
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Marklab combines the simplicity of markdown with the power of Tailwind CSS.
+              Markdown simplicity meets programmable power. Variables, templates, themes, and
+              sharing — all offline-first.
             </p>
           </div>
 
@@ -196,8 +211,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Live Preview</h3>
               <p className="text-gray-400">
-                See your changes in real-time as you type. Split view shows markdown and preview
-                side by side.
+                See changes as you type. Variables resolve instantly in the preview pane — split
+                view keeps source and output side by side.
               </p>
             </div>
 
@@ -206,34 +221,34 @@ export function HomePage() {
               <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4">
                 <FaCode className="text-purple-400 text-xl" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Tailwind Styling</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">Variables</h3>
               <p className="text-gray-400">
-                Customize every element with Tailwind CSS classes. Full autocomplete support for all
-                utility classes.
+                Define data in YAML frontmatter, reference it with {'{{mustache}}'} syntax. Loops,
+                conditionals, and expressions built in.
               </p>
             </div>
 
             {/* Feature 3 */}
             <div className="p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-gray-700 transition-colors">
-              <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-4">
-                <FaPalette className="text-green-400 text-xl" />
+              <div className="w-12 h-12 bg-fuchsia-500/10 rounded-lg flex items-center justify-center mb-4">
+                <FaPalette className="text-fuchsia-400 text-xl" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Theme Gallery</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">Themes</h3>
               <p className="text-gray-400">
-                Choose from 25+ professionally designed themes. From minimalist to bold, find the
-                perfect style.
+                30+ built-in themes — from minimalist to brutalist. Tailwind CSS under the hood, so
+                you can customize anything.
               </p>
             </div>
 
             {/* Feature 4 */}
             <div className="p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-gray-700 transition-colors">
               <div className="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mb-4">
-                <FaDownload className="text-orange-400 text-xl" />
+                <FaCopy className="text-orange-400 text-xl" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Multiple Exports</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">Templates</h3>
               <p className="text-gray-400">
-                Export to Markdown, HTML, or PDF. Download styled HTML with embedded Tailwind for
-                standalone use.
+                Start from reusable templates — invoices, resumes, reports. Clone, customize, and
+                generate documents in seconds.
               </p>
             </div>
 
@@ -242,22 +257,22 @@ export function HomePage() {
               <div className="w-12 h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center mb-4">
                 <FaShare className="text-cyan-400 text-xl" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Publish & Share</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">Instant Sharing</h3>
               <p className="text-gray-400">
-                Generate shareable links to your documents. Anyone can view your styled markdown
-                without an account.
+                Generate a compressed URL that contains your entire document. No server, no account
+                — just a link.
               </p>
             </div>
 
             {/* Feature 6 */}
             <div className="p-6 bg-gray-900 rounded-xl border border-gray-800 hover:border-gray-700 transition-colors">
               <div className="w-12 h-12 bg-pink-500/10 rounded-lg flex items-center justify-center mb-4">
-                <FaTags className="text-pink-400 text-xl" />
+                <FaWifi className="text-pink-400 text-xl" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Frontmatter Variables</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">Offline-First</h3>
               <p className="text-gray-400">
-                Define variables in YAML frontmatter and use them with {'{{variable}}'} syntax.
-                Perfect for templates.
+                Everything runs in your browser. Documents are stored in IndexedDB — no server, no
+                sync, no latency.
               </p>
             </div>
           </div>
@@ -268,18 +283,27 @@ export function HomePage() {
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Ready to create something beautiful?
+            Start writing programmable documents
           </h2>
           <p className="text-gray-400 text-lg mb-10">
-            Start writing in markdown and style it with Tailwind CSS. No sign-up required.
+            No account required. Works instantly. Fully offline.
           </p>
-          <Link
-            to="/editor"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors text-lg"
-          >
-            Open Editor
-            <FaArrowRight />
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              to="/editor"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors text-lg"
+            >
+              Open Editor
+              <FaArrowRight />
+            </Link>
+            <Link
+              to="/templates"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors text-lg border border-gray-700"
+            >
+              <FaCopy />
+              Browse Templates
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -292,12 +316,15 @@ export function HomePage() {
                 <FaFileAlt className="text-white text-xs" />
               </div>
               <span className="text-gray-400 text-sm">
-                Marklab - Markdown Editor with Tailwind CSS
+                Markpad — Programmable Markdown Documents
               </span>
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-500">
               <Link to="/editor" className="hover:text-gray-300 transition-colors">
                 Editor
+              </Link>
+              <Link to="/templates" className="hover:text-gray-300 transition-colors">
+                Templates
               </Link>
               <Link to="/themes" className="hover:text-gray-300 transition-colors">
                 Themes

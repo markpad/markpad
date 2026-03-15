@@ -28,7 +28,8 @@ import {
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
 import type { EditionMode, AppState, TailwindClasses } from '../types'
-import { generateShareUrl, encodeState } from '../services/urlStateService'
+import { generateShareUrl } from '../services/urlStateService'
+import { documentRepository, templateRepository } from '../lib/repositories'
 import { ShareModal } from './ShareModal'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
 import {
@@ -38,6 +39,8 @@ import {
   copyHtmlToClipboard,
 } from '../utils/htmlGenerator'
 import { Toast } from './Toast'
+
+type EntityType = 'document' | 'template'
 
 interface HeaderProps {
   state: AppState
@@ -53,6 +56,7 @@ interface HeaderProps {
   onToggleDarkMode: () => void
   tailwindClasses: TailwindClasses
   fontFamily: string
+  entityType?: EntityType
   onUndo?: () => void
   onRedo?: () => void
   onInsertHeading?: (level: 1 | 2 | 3) => void
@@ -222,6 +226,7 @@ export function Header({
   onToggleDarkMode,
   tailwindClasses,
   fontFamily,
+  entityType = 'document',
   onUndo,
   onRedo,
   onInsertHeading,
@@ -243,6 +248,7 @@ export function Header({
   const [showToast, setShowToast] = useState(false)
   const [anyMenuOpen, setAnyMenuOpen] = useState(false)
   const [openMenuLabel, setOpenMenuLabel] = useState<string | null>(null)
+  const isTemplate = entityType === 'template'
 
   const showToastMessage = (message: string) => {
     setToastMessage(message)
@@ -308,30 +314,55 @@ export function Header({
     setShareModalOpen(true)
   }
 
-  // New document handler
-  const handleNewDocument = () => {
-    window.open('/editor?new=true', '_blank')
+  // New entity handler
+  const handleNewEntity = async () => {
+    if (isTemplate) {
+      const tmpl = await templateRepository.create({
+        title: 'Untitled Template',
+        content: '# New Template\n\nStart writing...',
+      })
+      window.open(`/template/${tmpl.id}`, '_blank')
+    } else {
+      const doc = await documentRepository.create({
+        title: 'Untitled Document',
+        content: '# New Document\n\nStart writing...',
+      })
+      window.open(`/editor/${doc.id}`, '_blank')
+    }
   }
 
-  // Duplicate document handler
-  const handleDuplicateDocument = () => {
-    const encoded = encodeState(state)
-    const url = `${window.location.origin}/editor#${encoded}`
-    window.open(url, '_blank')
+  // Duplicate entity handler
+  const handleDuplicateEntity = async () => {
+    if (isTemplate) {
+      const tmpl = await templateRepository.create({
+        title: `${state.documentTitle} (copy)`,
+        content: state.markdown,
+      })
+      window.open(`/template/${tmpl.id}`, '_blank')
+    } else {
+      const doc = await documentRepository.create({
+        title: `${state.documentTitle} (copy)`,
+        content: state.markdown,
+        tailwindClasses: state.tailwindClasses,
+        behaviorConfig: state.behaviorConfig,
+        fontConfig: state.fontConfig,
+      })
+      window.open(`/editor/${doc.id}`, '_blank')
+    }
   }
 
   const fileMenuItems: MenuItem[] = [
     {
-      label: 'New Document',
+      label: isTemplate ? 'New Template' : 'New Document',
       icon: <FaFileAlt />,
       shortcut: '⌘N',
-      onClick: handleNewDocument,
+      onClick: handleNewEntity,
     },
     {
       label: 'Duplicate',
       icon: <FaCopy />,
       shortcut: '⌘D',
-      onClick: handleDuplicateDocument,
+      onClick: handleDuplicateEntity,
     },
     { label: 'divider', divider: true },
     {
@@ -437,15 +468,20 @@ export function Header({
       {/* Top Row - Logo, Title, Share */}
       <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-gray-700">
         <div className="flex items-center gap-3">
-          {/* App Icon */}
+          {/* App Icon - links to list page */}
           <a
-            href="/themes"
-            className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg hover:shadow-lg hover:shadow-blue-500/20 transition-all"
+            href={isTemplate ? '/templates' : '/documents'}
+            className={`flex items-center justify-center w-10 h-10 bg-gradient-to-br rounded-lg hover:shadow-lg transition-all ${
+              isTemplate
+                ? 'from-purple-500 to-purple-600 hover:shadow-purple-500/20'
+                : 'from-blue-500 to-blue-600 hover:shadow-blue-500/20'
+            }`}
+            title={isTemplate ? 'My Templates' : 'My Documents'}
           >
             <FaFileAlt className="text-white text-lg" />
           </a>
 
-          {/* Document Title */}
+          {/* Entity Title */}
           <div className="flex flex-col">
             {isEditingTitle ? (
               <input
@@ -468,6 +504,11 @@ export function Header({
               >
                 {state.documentTitle}
               </button>
+            )}
+            {isTemplate && (
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-purple-500 dark:text-purple-400 px-2 -mt-0.5">
+                Template
+              </span>
             )}
           </div>
         </div>

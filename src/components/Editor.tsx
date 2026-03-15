@@ -6,12 +6,15 @@ import gfm from 'remark-gfm'
 import { Tooltip } from 'react-tooltip'
 import { FaPalette, FaTimes, FaDownload, FaMagic } from 'react-icons/fa'
 import { useAppState } from '../hooks/useAppState'
+import { useParams } from 'react-router-dom'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
 import {
   defaultTailwindClasses,
   defaultBehaviorConfig,
   defaultFontConfig,
 } from '../services/urlStateService'
+import { documentRepository, templateRepository } from '../lib/repositories'
+import debounce from '../utils/debounce'
 import { useLoopModal } from '../hooks/useLoopModal'
 import { useIfModal } from '../hooks/useIfModal'
 import { useImageModal } from '../hooks/useImageModal'
@@ -30,17 +33,28 @@ import type { EditionMode, TailwindClasses } from '../types'
 import type { ThemePreset } from '../data/themes.generated'
 
 type SidebarPanel = 'themes' | 'export' | 'variables'
+type EntityType = 'document' | 'template'
 
 interface EditorProps {
   initialMode?: EditionMode
   showStylePanelByDefault?: boolean
+  entityType?: EntityType
 }
 
 /**
  * Main editor layout component
  * Orchestrates all sub-components and manages layout state
  */
-export function Editor({ initialMode = 'split', showStylePanelByDefault = true }: EditorProps) {
+export function Editor({
+  initialMode = 'split',
+  showStylePanelByDefault = true,
+  entityType = 'document',
+}: EditorProps) {
+  const { id: docId } = useParams<{ id: string }>()
+  const isTemplate = entityType === 'template'
+  const isNewEntity = docId === 'new'
+  const entityId = isNewEntity ? undefined : docId
+
   const {
     state,
     setMarkdown,
@@ -51,12 +65,105 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
     setTailwindClasses,
     setBehaviorConfig,
     setFontConfig,
-  } = useAppState()
+    loadState,
+  } = useAppState({ docId: entityId })
+
+  const [docLoaded, setDocLoaded] = useState(false)
+  const [currentThemeId, setCurrentThemeId] = useState<string | undefined>()
+
+  // Load full entity state from IndexedDB if :id param present
+  useEffect(() => {
+    if (!entityId) {
+      setDocLoaded(true)
+      return
+    }
+
+    if (isTemplate) {
+      templateRepository.getById(entityId).then((tpl) => {
+        if (tpl) {
+          loadState({
+            markdown: tpl.content,
+            documentTitle: tpl.title,
+            tailwindClasses: state.tailwindClasses,
+            behaviorConfig: state.behaviorConfig,
+            fontConfig: state.fontConfig,
+          })
+          if (tpl.themeId) {
+            setCurrentThemeId(tpl.themeId)
+          }
+        }
+        setDocLoaded(true)
+      })
+    } else {
+      documentRepository.getById(entityId).then((doc) => {
+        if (doc) {
+          loadState({
+            markdown: doc.content,
+            documentTitle: doc.title,
+            tailwindClasses: doc.tailwindClasses,
+            behaviorConfig: doc.behaviorConfig,
+            fontConfig: doc.fontConfig,
+          })
+          if (doc.themeId) {
+            setCurrentThemeId(doc.themeId)
+          }
+        }
+        setDocLoaded(true)
+      })
+    }
+  }, [entityId, isTemplate, loadState])
+
+  // Auto-save full entity state to IndexedDB (debounced)
+  const debouncedSave = useRef(
+    debounce(
+      (
+        id: string,
+        content: string,
+        title: string,
+        tailwindClasses: TailwindClasses,
+        behaviorConfig: typeof state.behaviorConfig,
+        fontConfig: typeof state.fontConfig,
+        themeId?: string
+      ) => {
+        if (isTemplate) {
+          templateRepository.update(id, { content, title, themeId }).catch(console.error)
+        } else {
+          documentRepository
+            .update(id, { content, title, tailwindClasses, behaviorConfig, fontConfig, themeId })
+            .catch(console.error)
+        }
+      },
+      1500
+    )
+  ).current
+
+  useEffect(() => {
+    if (entityId && docLoaded) {
+      debouncedSave(
+        entityId,
+        state.markdown,
+        state.documentTitle,
+        state.tailwindClasses,
+        state.behaviorConfig,
+        state.fontConfig,
+        currentThemeId
+      )
+    }
+  }, [
+    entityId,
+    docLoaded,
+    state.markdown,
+    state.documentTitle,
+    state.tailwindClasses,
+    state.behaviorConfig,
+    state.fontConfig,
+    currentThemeId,
+    debouncedSave,
+  ])
 
   const [editionMode, setEditionMode] = useState<EditionMode>(initialMode)
   const [showStylePanel, setShowStylePanel] = useState(showStylePanelByDefault)
   const [activeSidebarPanel, setActiveSidebarPanel] = useState<SidebarPanel>('themes')
-  const [currentThemeId, setCurrentThemeId] = useState<string | undefined>()
   const [customThemeName, setCustomThemeName] = useState('Custom Theme')
   const [syncScroll, setSyncScroll] = useState(false)
   const [darkMode, setDarkMode] = useState(() => {
@@ -335,7 +442,9 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
     <div className={`flex flex-col h-screen ${darkMode ? 'dark' : ''}`}>
       <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
         <Helmet>
-          <title>{state.documentTitle} - Marklab</title>
+          <title>
+            {state.documentTitle} - {isTemplate ? 'Template' : 'Markpad'}
+          </title>
           <meta
             name="description"
             content="Markdown editor with customizable Tailwind CSS classes."
@@ -349,6 +458,7 @@ export function Editor({ initialMode = 'split', showStylePanelByDefault = true }
           onEditionModeChange={setEditionMode}
           htmlContent={htmlContent}
           onDocumentTitleChange={setDocumentTitle}
+          entityType={entityType}
           showLineNumbers={state.behaviorConfig.shouldShowLineNumbers}
           onToggleLineNumbers={() =>
             updateBehaviorConfig(
