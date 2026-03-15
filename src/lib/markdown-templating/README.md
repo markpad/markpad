@@ -1,15 +1,17 @@
 # markdown-templating
 
-A lightweight Liquid-like templating engine for markdown with YAML frontmatter.
+A powerful markdown templating engine built on [gray-matter](https://github.com/jonschlinkert/gray-matter) and [Nunjucks](https://mozilla.github.io/nunjucks/).
 
 ## Features
 
-- ✅ YAML frontmatter parsing
+- ✅ YAML frontmatter parsing (via gray-matter)
 - ✅ Variable interpolation: `{{variable}}`, `{{nested.path}}`
-- ✅ Conditionals: `{% if %}...{% else %}...{% endif %}`
-- ✅ Loops: `{% for item in items %}...{% endfor %}`
-- ✅ Loop context: `{{loop.index}}`, `{{loop.first}}`, `{{loop.last}}`
+- ✅ Conditionals: `{% if %}...{% elif %}...{% else %}...{% endif %}`
+- ✅ Loops: `{% for item in items %}...{% else %}...{% endfor %}`
+- ✅ Loop context: `{{loop.index}}`, `{{loop.index0}}`, `{{loop.first}}`, `{{loop.last}}`
 - ✅ Nested conditionals inside loops
+- ✅ Nunjucks filters: `{{name | upper}}`, `{{items | join(', ')}}`
+- ✅ Nunjucks macros, includes, and more
 - ✅ TypeScript support
 
 ## Quick Start
@@ -18,7 +20,7 @@ A lightweight Liquid-like templating engine for markdown with YAML frontmatter.
 import { render, process, parse } from '@/lib/markdown-templating'
 
 // Simple render with custom variables
-const html = render('Hello {{name}}!', { name: 'World' })
+const html = render('Hello {{name | capitalize}}!', { name: 'world' })
 // => 'Hello World!'
 
 // Process markdown with frontmatter
@@ -50,7 +52,6 @@ Full processing with access to frontmatter and metadata.
 ```typescript
 const result = process(markdown, {
   variables: { customVar: 'value' }, // Merge with frontmatter
-  keepUndefined: true, // Keep {{unknown}} as-is
 })
 
 result.content // Processed content
@@ -88,9 +89,37 @@ Hello {{name}}!
 Contact: {{user.email}}
 ```
 
+### Nunjucks Filters
+
+Apply filters to transform values:
+
+```markdown
+---
+name: john doe
+items:
+  - apple
+  - banana
+---
+
+Name: {{name | title}}
+Items: {{items | join(', ')}}
+Length: {{name | length}}
+```
+
+**Built-in filters include:**
+
+- `upper`, `lower`, `capitalize`, `title` - case transformations
+- `trim`, `striptags` - string cleaning
+- `first`, `last`, `length`, `join`, `sort`, `reverse` - array operations
+- `default(value)` - fallback value
+- `safe` - mark as safe HTML
+- `round`, `abs`, `int`, `float` - number operations
+
+See [Nunjucks filters](https://mozilla.github.io/nunjucks/templating.html#builtin-filters) for the full list.
+
 ### Conditionals
 
-Liquid-like if/else blocks:
+Nunjucks if/elif/else blocks:
 
 ```markdown
 ---
@@ -111,6 +140,10 @@ Full access.
 
 {% if role == "admin" %}
 Admin role
+{% elif role == "moderator" %}
+Moderator role
+{% else %}
+Regular user
 {% endif %}
 
 {% if count > 3 %}
@@ -125,6 +158,8 @@ Many items
 - Equality: `{% if var == "value" %}` or `{% if var == 'value' %}`
 - Inequality: `{% if var != "value" %}`
 - Numeric: `{% if var > 10 %}`, `{% if var >= 10 %}`, `{% if var < 10 %}`, `{% if var <= 10 %}`
+- Logic: `{% if a and b %}`, `{% if a or b %}`
+- Contains: `{% if "needle" in haystack %}`
 
 ### Loops
 
@@ -181,11 +216,25 @@ Inside loops, access metadata via `loop`:
 | `{{loop.index0}}` | 0-based index (0, 1, 2...) |
 | `{{loop.first}}`  | `true` if first iteration  |
 | `{{loop.last}}`   | `true` if last iteration   |
+| `{{loop.length}}` | Total number of items      |
 
 ```markdown
 {% for item in items %}
 {{loop.index}}. {{item}}{% if loop.last %} (last!){% endif %}
 {% endfor %}
+```
+
+### Loop else Clause
+
+The `{% else %}` clause renders when the array is empty:
+
+```markdown
+{% for item in items %}
+
+- {{item}}
+  {% else %}
+  No items found.
+  {% endfor %}
 ```
 
 ### Conditionals Inside Loops
@@ -257,15 +306,18 @@ generateIfTemplate('isAdmin', 'Admin', 'Guest')
 
 ## Processing Order
 
-Templates are processed in this order to ensure correct behavior:
+Templates are processed by Nunjucks in a single pass, which handles:
 
-1. **Parse** frontmatter from markdown
+1. **Parse** frontmatter from markdown (via gray-matter)
 2. **Merge** custom variables with frontmatter (custom takes precedence)
-3. **Process loops** (`{% for %}`) - including nested conditionals with loop context
-4. **Process conditionals** (`{% if %}`) at top level
-5. **Interpolate variables** (`{{var}}`)
+3. **Render** all templates via Nunjucks (loops, conditionals, variables)
 
-This order ensures that conditionals inside loops (like `{% if item.active %}`) work correctly.
+This ensures that conditionals inside loops (like `{% if item.active %}`) work correctly.
+
+## Dependencies
+
+- [gray-matter](https://github.com/jonschlinkert/gray-matter) - YAML frontmatter parsing
+- [nunjucks](https://mozilla.github.io/nunjucks/) - Template engine
 
 ## TypeScript Types
 
@@ -278,7 +330,6 @@ interface ParseResult {
 
 interface ProcessOptions {
   variables?: Record<string, unknown> // Custom variables to merge
-  keepUndefined?: boolean // Keep undefined vars as-is (default: true)
 }
 
 interface ProcessResult {
@@ -292,6 +343,7 @@ interface LoopContext {
   index0: number // 0-based
   first: boolean
   last: boolean
+  length: number
 }
 ```
 

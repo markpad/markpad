@@ -20,8 +20,6 @@ export interface ParseResult {
 export interface ProcessOptions {
   /** Custom variables to merge with frontmatter data */
   variables?: Record<string, unknown>
-  /** If true, leave undefined variables as-is. If false, replace with empty string */
-  keepUndefined?: boolean
 }
 
 /**
@@ -48,4 +46,6 @@ export interface LoopContext {
   first: boolean
   /** True if last iteration */
   last: boolean
+  /** Total number of items in the array */
+  length: number
 }

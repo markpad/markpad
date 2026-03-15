@@ -1,3 +1,4 @@
+import nunjucks from 'nunjucks'
 import { getNestedValue } from './variables'
 
 /**
@@ -87,43 +88,27 @@ export function evaluate(expression: string, data: Record<string, unknown>): boo
 }
 
 /**
- * Process conditionals in content using Liquid-like syntax
+ * Process conditionals in content using Nunjucks
  *
- * Supports:
+ * Supports all Nunjucks conditional syntax:
  * - `{% if condition %}...{% endif %}`
  * - `{% if condition %}...{% else %}...{% endif %}`
+ * - `{% if condition %}...{% elif other %}...{% endif %}`
  *
  * @example
- * process('{% if isAdmin %}Admin{% endif %}', { isAdmin: true }) // 'Admin'
- * process('{% if isAdmin %}Admin{% else %}User{% endif %}', { isAdmin: false }) // 'User'
+ * processConditionals('{% if isAdmin %}Admin{% endif %}', { isAdmin: true }) // 'Admin'
+ * processConditionals('{% if isAdmin %}Admin{% else %}User{% endif %}', { isAdmin: false }) // 'User'
  *
  * @param content - The content with conditional placeholders
  * @param data - The data containing values
  * @returns The content with conditionals resolved
  */
 export function processConditionals(content: string, data: Record<string, unknown>): string {
-  // Match {% if expression %}...{% else %}...{% endif %} or {% if expression %}...{% endif %}
-  const ifPattern = /\{%\s*if\s+([\s\S]*?)\s*%\}([\s\S]*?)\{%\s*endif\s*%\}/g
-
-  let result = content
-  let match: RegExpExecArray | null
-
-  while ((match = ifPattern.exec(result)) !== null) {
-    const [fullMatch, expression, innerContent] = match
-
-    // Split inner content on {% else %} if present
-    const elseParts = innerContent.split(/\{%\s*else\s*%\}/)
-    const trueBranch = elseParts[0]
-    const falseBranch = elseParts.length > 1 ? elseParts[1] : ''
-
-    const conditionResult = evaluate(expression, data)
-    const replacement = conditionResult ? trueBranch.trim() : falseBranch.trim()
-
-    result = result.replace(fullMatch, replacement)
-    ifPattern.lastIndex = 0 // Reset since string changed
+  try {
+    return nunjucks.renderString(content, data)
+  } catch {
+    return content
   }
-
-  return result
 }
 
 /**

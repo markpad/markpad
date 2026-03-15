@@ -111,13 +111,14 @@ Content`
       expect(result).toBe('Author: John Doe (john@example.com)')
     })
 
-    it('should leave undefined variables as-is', () => {
+    it('should replace undefined variables with empty string', () => {
       const content = 'Hello {{name}}, your score is {{score}}'
       const data = { name: 'Alice' }
 
       const result = interpolateVariables(content, data)
 
-      expect(result).toBe('Hello Alice, your score is {{score}}')
+      // Nunjucks replaces undefined variables with empty string
+      expect(result).toBe('Hello Alice, your score is ')
     })
 
     it('should handle variables with spaces around braces', () => {
@@ -443,6 +444,15 @@ I am a developer.
       const content = '{% if skills %}Has skills{% else %}No skills{% endif %}'
 
       expect(processConditionals(content, { skills: ['JS'] })).toBe('Has skills')
+      // Nunjucks (like Jinja2/Python) considers empty arrays truthy
+      // Use {% if skills | length %} to check for empty arrays
+      expect(processConditionals(content, { skills: [] })).toBe('Has skills')
+    })
+
+    it('should check array length for emptiness', () => {
+      const content = '{% if skills | length %}Has skills{% else %}No skills{% endif %}'
+
+      expect(processConditionals(content, { skills: ['JS'] })).toBe('Has skills')
       expect(processConditionals(content, { skills: [] })).toBe('No skills')
     })
 
@@ -457,8 +467,10 @@ Skills:
 
       const result = processConditionals(content, data)
 
+      // Nunjucks processes both conditionals and loops in one pass
       expect(result).toContain('Skills:')
-      expect(result).toContain('{% for skill in skills %}')
+      expect(result).toContain('- JavaScript')
+      expect(result).toContain('- TypeScript')
     })
   })
 

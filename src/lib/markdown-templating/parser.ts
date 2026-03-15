@@ -1,6 +1,9 @@
 import yaml from 'js-yaml'
 import type { ParseResult } from './types'
 
+// Regex to match frontmatter: starts with ---, captures YAML, ends with ---
+const FRONTMATTER_REGEX = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/
+
 /**
  * Parse frontmatter from markdown content
  *
@@ -17,31 +20,28 @@ import type { ParseResult } from './types'
  * @returns Object with parsed content, frontmatter data, and original markdown
  */
 export function parse(markdown: string): ParseResult {
-  // Match frontmatter block: starts with ---, ends with ---
-  const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/
-
-  const match = markdown.match(frontmatterRegex)
-
-  if (!match) {
-    return {
-      content: markdown,
-      frontmatter: {},
-      raw: markdown,
-    }
-  }
-
-  const yamlContent = match[1]
-  const content = markdown.slice(match[0].length)
-
   try {
-    const data = yaml.load(yamlContent) as Record<string, unknown>
+    const match = markdown.match(FRONTMATTER_REGEX)
+
+    if (!match) {
+      return {
+        content: markdown,
+        frontmatter: {},
+        raw: markdown,
+      }
+    }
+
+    const yamlContent = match[1]
+    const content = markdown.slice(match[0].length)
+    const frontmatter = yaml.load(yamlContent) as Record<string, unknown>
+
     return {
       content,
-      frontmatter: data || {},
+      frontmatter: frontmatter || {},
       raw: markdown,
     }
   } catch {
-    // If YAML parsing fails, return original content with empty data
+    // If parsing fails, return original content with empty data
     return {
       content: markdown,
       frontmatter: {},
@@ -60,6 +60,6 @@ export function serialize(data: Record<string, unknown>): string {
   if (Object.keys(data).length === 0) {
     return ''
   }
-  const yamlString = yaml.dump(data, { indent: 2, lineWidth: -1 })
-  return `---\n${yamlString}---\n`
+  const yamlStr = yaml.dump(data, { lineWidth: -1 })
+  return `---\n${yamlStr}---\n`
 }
