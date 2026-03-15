@@ -11,6 +11,51 @@ const env = new nunjucks.Environment(null, {
 })
 
 /**
+ * Fix markdown tables that have blank lines between rows
+ * (This happens when Nunjucks loops add extra whitespace)
+ *
+ * @param content - The rendered content
+ * @returns Content with fixed table formatting
+ */
+function fixMarkdownTables(content: string): string {
+  const lines = content.split('\n')
+  const result: string[] = []
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+    const trimmedLine = line.trim()
+
+    // Check if this is a blank line between table rows
+    if (trimmedLine === '') {
+      // Look back to find last non-empty line
+      let lastNonEmpty = result.length - 1
+      while (lastNonEmpty >= 0 && result[lastNonEmpty].trim() === '') {
+        lastNonEmpty--
+      }
+
+      // Look ahead to find next non-empty line
+      let nextNonEmpty = i + 1
+      while (nextNonEmpty < lines.length && lines[nextNonEmpty].trim() === '') {
+        nextNonEmpty++
+      }
+
+      const prevIsTableRow = lastNonEmpty >= 0 && result[lastNonEmpty].trim().startsWith('|')
+      const nextIsTableRow =
+        nextNonEmpty < lines.length && lines[nextNonEmpty].trim().startsWith('|')
+
+      // Skip blank line if it's between table rows
+      if (prevIsTableRow && nextIsTableRow) {
+        continue
+      }
+    }
+
+    result.push(line)
+  }
+
+  return result.join('\n')
+}
+
+/**
  * Process a markdown template with frontmatter and Nunjucks templating
  *
  * Uses Nunjucks (Jinja2-like) syntax:
@@ -49,6 +94,8 @@ export function process(markdown: string, options: ProcessOptions = {}): Process
   let processedContent: string
   try {
     processedContent = env.renderString(content, data)
+    // Fix table formatting broken by Nunjucks whitespace
+    processedContent = fixMarkdownTables(processedContent)
   } catch (error) {
     // If template rendering fails, return original content
     console.warn('Template rendering error:', error)
