@@ -7,25 +7,23 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }))
 
-// Mock localStorage
-const localStorageMock = (() => {
-  let store: Record<string, string> = {}
-  return {
-    getItem: jest.fn((key: string) => store[key] || null),
-    setItem: jest.fn((key: string, value: string) => {
-      store[key] = value
-    }),
-    removeItem: jest.fn((key: string) => {
-      delete store[key]
-    }),
-    clear: jest.fn(() => {
-      store = {}
-    }),
-  }
-})()
+// Mock localStorage — plain functions survive CRA's resetMocks: true
+const localStorageStore: Record<string, string> = {}
+const localStorageMock = {
+  getItem: (key: string) => localStorageStore[key] || null,
+  setItem: jest.fn((key: string, value: string) => {
+    localStorageStore[key] = value
+  }),
+  removeItem: (key: string) => {
+    delete localStorageStore[key]
+  },
+  clear: () => {
+    Object.keys(localStorageStore).forEach((key) => delete localStorageStore[key])
+  },
+}
 Object.defineProperty(window, 'localStorage', { value: localStorageMock })
 
-// Reference for tests
+// Reference data for tests
 const mockTemplates = [
   {
     id: 'template-1',
@@ -53,61 +51,67 @@ const mockTemplates = [
   },
 ]
 
-// Reference for assertions
+// Mock functions for assertions (implementations set in beforeEach)
 const mockRefresh = jest.fn()
 const mockSetFilter = jest.fn()
 const mockSetSearchQuery = jest.fn()
+const mockSeedSystemTemplates = jest.fn()
+const mockDocCreate = jest.fn()
 
-// Mock useTemplates with inline data to avoid hoisting issues
+// Mock useTemplates — use plain function to survive resetMocks
 jest.mock('./useTemplates', () => ({
   __esModule: true,
   useTemplates: () => ({
-    templates: [
-      {
-        id: 'template-1',
-        title: 'Blog Post',
-        description: 'A blog post template',
-        content: '# Blog Title\n\nContent here...',
-        isSystem: true,
-        version: 1,
-        themeId: null,
-        category: 'writing',
-        createdAt: new Date('2024-01-01'),
-        updatedAt: new Date('2024-01-15'),
-      },
-      {
-        id: 'template-2',
-        title: 'My Custom Template',
-        description: 'Custom template',
-        content: '# Custom\n\nYour content...',
-        isSystem: false,
-        version: 1,
-        themeId: 'theme-1',
-        category: null,
-        createdAt: new Date('2024-01-10'),
-        updatedAt: new Date('2024-01-20'),
-      },
-    ],
+    templates: mockTemplates,
     loading: false,
     error: null,
     filter: 'all',
     searchQuery: '',
-    setFilter: jest.fn(),
-    setSearchQuery: jest.fn(),
-    refresh: jest.fn(() => Promise.resolve()),
+    setFilter: mockSetFilter,
+    setSearchQuery: mockSetSearchQuery,
+    refresh: mockRefresh,
   }),
 }))
 
-// Mock seedService (uses __mocks__/seedService.ts)
-jest.mock('../services/seedService')
+// Mock seedService — delegate to jest.fn ref
+jest.mock('../services/seedService', () => ({
+  __esModule: true,
+  seedSystemTemplates: (...args: any[]) => mockSeedSystemTemplates(...args),
+}))
 
-// Mock documentRepository (uses __mocks__/index.ts)
-jest.mock('../lib/repositories')
+// Mock documentRepository — delegate to jest.fn ref
+jest.mock('../lib/repositories', () => ({
+  __esModule: true,
+  documentRepository: {
+    create: (...args: any[]) => mockDocCreate(...args),
+  },
+}))
 
 describe('useTemplatesPage', () => {
   beforeEach(() => {
     localStorageMock.clear()
     jest.clearAllMocks()
+
+    // Re-set spy implementations (cleared by CRA's resetMocks: true)
+    ;(localStorageMock.setItem as jest.Mock).mockImplementation((key: string, value: string) => {
+      localStorageStore[key] = value
+    })
+
+    mockRefresh.mockImplementation(() => Promise.resolve())
+    mockSetFilter.mockImplementation(() => {})
+    mockSetSearchQuery.mockImplementation(() => {})
+    mockSeedSystemTemplates.mockImplementation(() => Promise.resolve())
+    mockDocCreate.mockImplementation((input: any) =>
+      Promise.resolve({
+        id: 'new-doc-id',
+        title: input.title,
+        content: input.content,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        starred: false,
+        trashedAt: null,
+      })
+    )
   })
 
   describe('initial state', () => {
@@ -133,13 +137,12 @@ describe('useTemplatesPage', () => {
     })
 
     it('should seed system templates on mount', async () => {
-      const { seedSystemTemplates } = require('../services/seedService')
       renderHook(() => useTemplatesPage())
 
       await waitFor(() => {
-        expect(seedSystemTemplates).toHaveBeenCalled()
-        expect(mockRefresh).toHaveBeenCalled()
+        expect(mockSeedSystemTemplates).toHaveBeenCalled()
       })
+      expect(mockRefresh).toHaveBeenCalled()
     })
   })
 
@@ -179,8 +182,7 @@ describe('useTemplatesPage', () => {
         await result.current.handleUseTemplate(template as any)
       })
 
-      const { documentRepository } = require('../lib/repositories')
-      expect(documentRepository.create).toHaveBeenCalledWith({
+      expect(mockDocCreate).toHaveBeenCalledWith({
         title: 'Blog Post — New',
         content: '# Blog Title\n\nContent here...',
         themeId: null,
@@ -199,8 +201,7 @@ describe('useTemplatesPage', () => {
         await result.current.handleUseTemplate(template as any)
       })
 
-      const { documentRepository } = require('../lib/repositories')
-      expect(documentRepository.create).toHaveBeenCalledWith(
+      expect(mockDocCreate).toHaveBeenCalledWith(
         expect.objectContaining({
           themeId: 'theme-1',
         })

@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import {
@@ -11,12 +12,11 @@ import {
   FaList,
   FaSearch,
   FaFileImport,
-  FaPalette,
-  FaGithub,
-  FaCopy,
+  FaChevronDown,
 } from 'react-icons/fa'
 import { useDocumentsPage, DocumentViewFilter } from '../../hooks/useDocumentsPage'
 import { DocumentCard } from './DocumentCard'
+import { PageNavLinks } from '../shared'
 
 const FILTER_LABELS: Record<DocumentViewFilter, string> = {
   all: 'My Documents',
@@ -30,6 +30,73 @@ const FILTER_ICONS: Record<DocumentViewFilter, React.ReactNode> = {
   starred: <FaStar className="text-sm" />,
   recent: <FaClock className="text-sm" />,
   trash: <FaTrash className="text-sm" />,
+}
+
+function NewDocumentDropdown({
+  onNewDocument,
+  onImportFile,
+}: {
+  onNewDocument: () => void
+  onImportFile: () => void
+}) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  return (
+    <div className="p-3 relative" ref={ref}>
+      <div className="flex">
+        <button
+          onClick={onNewDocument}
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-l-lg transition-colors"
+        >
+          <FaPlus className="text-xs" />
+          New Document
+        </button>
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="flex items-center justify-center px-2 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-r-lg border-l border-blue-400 transition-colors"
+          aria-label="More options"
+        >
+          <FaChevronDown className="text-[10px]" />
+        </button>
+      </div>
+
+      {open && (
+        <div className="absolute left-3 right-3 top-full mt-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-50 overflow-hidden">
+          <button
+            onClick={() => {
+              setOpen(false)
+              onNewDocument()
+            }}
+            className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          >
+            <FaPlus className="text-xs text-gray-500 dark:text-gray-400" />
+            New Document
+          </button>
+          <button
+            onClick={() => {
+              setOpen(false)
+              onImportFile()
+            }}
+            className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+          >
+            <FaFileImport className="text-xs text-gray-500 dark:text-gray-400" />
+            Import from computer
+          </button>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export function DocumentsPage() {
@@ -92,28 +159,7 @@ export function DocumentsPage() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
-            <button
-              onClick={handleImportFile}
-              className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <FaFileImport className="text-xs" />
-              Import
-            </button>
-            <Link
-              to="/themes"
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-              title="Theme Gallery"
-            >
-              <FaPalette className="text-lg" />
-            </Link>
-            <a
-              href="https://github.com/teles/marklab"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-            >
-              <FaGithub className="text-lg" />
-            </a>
+            <PageNavLinks />
           </div>
         </div>
       </header>
@@ -121,15 +167,7 @@ export function DocumentsPage() {
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
         <aside className="w-56 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col overflow-y-auto">
-          <div className="p-3">
-            <button
-              onClick={handleNewDocument}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
-            >
-              <FaPlus className="text-xs" />
-              New Document
-            </button>
-          </div>
+          <NewDocumentDropdown onNewDocument={handleNewDocument} onImportFile={handleImportFile} />
 
           <nav className="flex-1 px-2 py-1">
             {sidebarItems.map((item) => (
@@ -146,23 +184,6 @@ export function DocumentsPage() {
                 {item.label}
               </button>
             ))}
-
-            <div className="border-t border-gray-200 dark:border-gray-700 my-3" />
-
-            <Link
-              to="/templates"
-              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors mb-0.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
-            >
-              <FaCopy className="text-sm" />
-              Templates
-            </Link>
-            <Link
-              to="/themes"
-              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors mb-0.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
-            >
-              <FaPalette className="text-sm" />
-              Themes
-            </Link>
           </nav>
         </aside>
 

@@ -53,13 +53,9 @@ const MarkdownConverter: React.FC = () => {
     th: 'border border-gray-200 p-1',
   })
 
-  const saveMarkdownToLocalStorage = (content: string): void => {
-    localStorage.setItem('markdown', content)
-  }
-
   useEffect(() => {
-    saveMarkdownToLocalStorage(markdown)
-  }, [markdown, saveMarkdownToLocalStorage])
+    localStorage.setItem('markdown', markdown)
+  }, [markdown])
 
   interface BehaviorConfig {
     shouldOpenLinksInNewTab: boolean

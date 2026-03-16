@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-node-access, testing-library/no-container, jest/no-conditional-expect */
 import { render, screen, fireEvent } from '@testing-library/react'
 import { LinkModal } from './LinkModal'
 import type { UseLinkModalResult } from '../hooks/useLinkModal'

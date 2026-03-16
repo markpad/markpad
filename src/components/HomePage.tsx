@@ -164,6 +164,7 @@ export function HomePage() {
                   <div className="text-gray-500 mt-2" />
                   <div className="text-gray-300">{'Client: {{client}}'}</div>
                   <div className="text-gray-300">{'Date: {{date}}'}</div>
+                  {/* eslint-disable-next-line no-template-curly-in-string */}
                   <div className="text-gray-300">{'Total: ${{amount}}'}</div>
                   <div className="text-gray-500 mt-2" />
                   <div className="text-gray-300">Thank you for your business.</div>

@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-node-access, testing-library/no-wait-for-multiple-assertions */
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Header } from './Header'

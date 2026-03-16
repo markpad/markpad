@@ -1,5 +1,6 @@
+/* eslint-disable testing-library/no-wait-for-multiple-assertions */
 import { renderHook, act, waitFor } from '@testing-library/react'
-import { useThemesPage, SidebarFilter } from './useThemesPage'
+import { useThemesPage } from './useThemesPage'
 
 // Mock react-router-dom
 const mockNavigate = jest.fn()
@@ -7,25 +8,23 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }))
 
-// Mock localStorage
-const localStorageMock = (() => {
-  let store: Record<string, string> = {}
-  return {
-    getItem: jest.fn((key: string) => store[key] || null),
-    setItem: jest.fn((key: string, value: string) => {
-      store[key] = value
-    }),
-    removeItem: jest.fn((key: string) => {
-      delete store[key]
-    }),
-    clear: jest.fn(() => {
-      store = {}
-    }),
-  }
-})()
+// Mock localStorage — use plain functions to survive CRA's resetMocks: true
+const localStorageStore: Record<string, string> = {}
+const localStorageMock = {
+  getItem: (key: string) => localStorageStore[key] || null,
+  setItem: jest.fn((key: string, value: string) => {
+    localStorageStore[key] = value
+  }),
+  removeItem: (key: string) => {
+    delete localStorageStore[key]
+  },
+  clear: () => {
+    Object.keys(localStorageStore).forEach((key) => delete localStorageStore[key])
+  },
+}
 Object.defineProperty(window, 'localStorage', { value: localStorageMock })
 
-// Reference for tests
+// Reference data for tests
 const mockCustomThemes = [
   {
     id: 'custom-1',
@@ -45,47 +44,6 @@ const mockCustomThemes = [
   },
 ]
 
-// Mock customThemeRepository - mock data must be inline due to hoisting
-jest.mock('../lib/repositories', () => ({
-  __esModule: true,
-  customThemeRepository: {
-    getAll: jest.fn(() =>
-      Promise.resolve([
-        {
-          id: 'custom-1',
-          name: 'My Dark Theme',
-          configs: { body: { bgColor: 'bg-gray-900' }, h1: { textColor: 'text-white' } },
-          basedOnPresetId: 'dracula',
-          createdAt: new Date('2024-01-01'),
-          updatedAt: new Date('2024-01-15'),
-        },
-        {
-          id: 'custom-2',
-          name: 'Light Clean',
-          configs: { body: { bgColor: 'bg-white' }, h1: { textColor: 'text-gray-900' } },
-          basedOnPresetId: null,
-          createdAt: new Date('2024-01-10'),
-          updatedAt: new Date('2024-01-20'),
-        },
-      ])
-    ),
-    create: jest.fn((input: { name: string }) =>
-      Promise.resolve({
-        id: 'new-custom-id',
-        name: input.name,
-        configs: {},
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      })
-    ),
-    delete: jest.fn(() => Promise.resolve()),
-  },
-}))
-
-// Mock useStyleSidebar - uses __mocks__/useStyleSidebar.ts
-jest.mock('./useStyleSidebar')
-
-// Reference for tests
 const mockFavoriteThemes = [
   {
     id: 'github-readme',
@@ -100,7 +58,42 @@ const mockFavoriteThemes = [
   },
 ]
 
-// Mock theme-editor types
+// Mock functions for assertions (implementations set in beforeEach because CRA resetMocks: true)
+const mockToggleFavorite = jest.fn()
+const mockIsFavorite = jest.fn()
+const mockRepoGetAll = jest.fn()
+const mockRepoCreate = jest.fn()
+const mockRepoDelete = jest.fn()
+
+// Mock useStyleSidebar — use plain function (not jest.fn) so it survives resetMocks
+jest.mock('./useStyleSidebar', () => ({
+  __esModule: true,
+  useStyleSidebar: () => ({
+    favoriteThemes: mockFavoriteThemes,
+    toggleFavorite: mockToggleFavorite,
+    isFavorite: mockIsFavorite,
+    activeTab: 'themes' as const,
+    setActiveTab: () => {},
+    searchQuery: '',
+    setSearchQuery: () => {},
+    localThemes: [],
+    saveTheme: () => {},
+    deleteLocalTheme: () => {},
+    filteredThemes: [],
+  }),
+}))
+
+// Mock customThemeRepository — delegate to jest.fn refs so tests can assert calls
+jest.mock('../lib/repositories', () => ({
+  __esModule: true,
+  customThemeRepository: {
+    getAll: (...args: any[]) => mockRepoGetAll(...args),
+    create: (...args: any[]) => mockRepoCreate(...args),
+    delete: (...args: any[]) => mockRepoDelete(...args),
+  },
+}))
+
+// Mock theme-editor types — plain values, no jest.fn needed
 jest.mock('../components/theme-editor/types', () => ({
   __esModule: true,
   ELEMENT_SCHEMAS: {
@@ -108,13 +101,13 @@ jest.mock('../components/theme-editor/types', () => ({
     h1: { defaults: { textColor: 'text-gray-900' } },
     p: { defaults: { textColor: 'text-gray-700' } },
   },
-  classesToConfig: jest.fn(() => ({})),
+  classesToConfig: () => ({}),
 }))
 
-// Mock urlStateService
+// Mock urlStateService — plain values
 jest.mock('../services/urlStateService', () => ({
   __esModule: true,
-  encodeState: jest.fn(() => 'encoded-state'),
+  encodeState: () => 'encoded-state',
   defaultDocumentTitle: 'Untitled Document',
   defaultBehaviorConfig: {},
 }))
@@ -123,6 +116,26 @@ describe('useThemesPage', () => {
   beforeEach(() => {
     localStorageMock.clear()
     jest.clearAllMocks()
+
+    // Re-set setItem spy implementation (cleared by resetMocks)
+    ;(localStorageMock.setItem as jest.Mock).mockImplementation((key: string, value: string) => {
+      localStorageStore[key] = value
+    })
+
+    // Re-set implementations cleared by CRA's resetMocks: true
+    mockIsFavorite.mockImplementation((id: string) => id === 'github-readme')
+    mockToggleFavorite.mockImplementation(() => {})
+    mockRepoGetAll.mockImplementation(() => Promise.resolve(mockCustomThemes))
+    mockRepoCreate.mockImplementation((input: { name: string }) =>
+      Promise.resolve({
+        id: 'new-custom-id',
+        name: input.name,
+        configs: {},
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+    )
+    mockRepoDelete.mockImplementation(() => Promise.resolve())
   })
 
   describe('initial state', () => {
@@ -253,7 +266,6 @@ describe('useThemesPage', () => {
         result.current.handleSidebarFilterClick('my-themes')
       })
 
-      // displayThemes returns [] for my-themes, use filteredCustomThemes instead
       expect(result.current.displayThemes).toEqual([])
     })
 
@@ -305,7 +317,6 @@ describe('useThemesPage', () => {
         result.current.setCategoryTab('serif')
       })
 
-      // Filtered by category - mockFavoriteThemes has category 'serif'
       expect(result.current.displayThemes).toEqual(mockFavoriteThemes)
     })
   })
@@ -365,7 +376,6 @@ describe('useThemesPage', () => {
     })
 
     it('should create custom theme and navigate to editor when editing', async () => {
-      const { customThemeRepository } = require('../lib/repositories')
       const { result } = renderHook(() => useThemesPage())
       const theme = mockFavoriteThemes[0]
 
@@ -373,12 +383,11 @@ describe('useThemesPage', () => {
         await result.current.handleEditTheme(theme as any)
       })
 
-      expect(customThemeRepository.create).toHaveBeenCalled()
+      expect(mockRepoCreate).toHaveBeenCalled()
       expect(mockNavigate).toHaveBeenCalledWith('/theme-editor/new-custom-id')
     })
 
     it('should delete custom theme and update state', async () => {
-      const { customThemeRepository } = require('../lib/repositories')
       const { result } = renderHook(() => useThemesPage())
 
       await waitFor(() => {
@@ -389,7 +398,7 @@ describe('useThemesPage', () => {
         await result.current.handleDeleteCustomTheme('custom-1')
       })
 
-      expect(customThemeRepository.delete).toHaveBeenCalledWith('custom-1')
+      expect(mockRepoDelete).toHaveBeenCalledWith('custom-1')
       expect(result.current.customThemes).toHaveLength(1)
       expect(result.current.customThemes[0].id).toBe('custom-2')
     })

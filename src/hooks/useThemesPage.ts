@@ -71,7 +71,11 @@ export function useThemesPage(): UseThemesPageReturn {
   const [categoryTab, setCategoryTab] = useState<ThemeCategory>('all')
   const styleSidebar = useStyleSidebar()
   // Provide defaults in case hook returns undefined values
-  const favoriteThemes = styleSidebar?.favoriteThemes ?? []
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const favoriteThemes = useMemo(
+    () => styleSidebar?.favoriteThemes ?? [],
+    [styleSidebar?.favoriteThemes]
+  )
   const toggleFavorite = styleSidebar?.toggleFavorite ?? (() => {})
   const isFavorite = styleSidebar?.isFavorite ?? (() => false)
 

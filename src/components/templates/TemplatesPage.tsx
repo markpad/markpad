@@ -6,14 +6,13 @@ import {
   FaTh,
   FaList,
   FaSearch,
-  FaPalette,
-  FaGithub,
   FaLock,
   FaUser,
   FaLayerGroup,
 } from 'react-icons/fa'
 import { useTemplatesPage, TemplateViewFilter } from '../../hooks/useTemplatesPage'
 import { TemplateCard } from './TemplateCard'
+import { PageNavLinks } from '../shared'
 
 const FILTER_LABELS: Record<TemplateViewFilter, string> = {
   all: 'All Templates',
@@ -82,28 +81,7 @@ export function TemplatesPage() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
-            <Link
-              to="/documents"
-              className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <FaFileAlt className="text-xs" />
-              Documents
-            </Link>
-            <Link
-              to="/themes"
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-              title="Theme Gallery"
-            >
-              <FaPalette className="text-lg" />
-            </Link>
-            <a
-              href="https://github.com/teles/markpad"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-            >
-              <FaGithub className="text-lg" />
-            </a>
+            <PageNavLinks />
           </div>
         </div>
       </header>
@@ -137,24 +115,6 @@ export function TemplatesPage() {
               </button>
             ))}
           </nav>
-
-          {/* Links at bottom */}
-          <div className="p-3 border-t border-gray-200 dark:border-gray-700">
-            <Link
-              to="/documents"
-              className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <FaFileAlt className="text-sm" />
-              My Documents
-            </Link>
-            <Link
-              to="/themes"
-              className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <FaPalette className="text-sm" />
-              Themes
-            </Link>
-          </div>
         </aside>
 
         {/* Main content */}

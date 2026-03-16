@@ -111,6 +111,7 @@ export function Editor({
         setDocLoaded(true)
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityId, isTemplate, loadState])
 
   // Auto-save full entity state to IndexedDB (debounced)

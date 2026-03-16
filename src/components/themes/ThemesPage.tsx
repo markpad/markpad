@@ -6,11 +6,9 @@ import {
   FaList,
   FaSearch,
   FaPalette,
-  FaGithub,
   FaHeart,
   FaRegHeart,
   FaEdit,
-  FaCopy,
   FaStar,
   FaUser,
   FaLayerGroup,
@@ -20,6 +18,7 @@ import type { ThemePreset } from '../../data/themes.generated'
 import type { MarkpadCustomTheme } from '../../lib/repositories/types'
 import { useThemesPage, SidebarFilter } from '../../hooks/useThemesPage'
 import { getTextColorClass, getFontClass } from './themeUtils'
+import { PageNavLinks } from '../shared'
 
 export function ThemesPage() {
   const navigate = useNavigate()
@@ -38,7 +37,6 @@ export function ThemesPage() {
     headerTitle,
     sidebarItems,
     categoryTabs,
-    favoriteThemes,
     isFavorite,
     toggleFavorite,
     handleSidebarFilterClick,
@@ -104,28 +102,7 @@ export function ThemesPage() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
-            <Link
-              to="/documents"
-              className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <FaFileAlt className="text-xs" />
-              Documents
-            </Link>
-            <Link
-              to="/templates"
-              className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <FaCopy className="text-xs" />
-              Templates
-            </Link>
-            <a
-              href="https://github.com/teles/markpad"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-            >
-              <FaGithub className="text-lg" />
-            </a>
+            <PageNavLinks />
           </div>
         </div>
       </header>
@@ -163,23 +140,6 @@ export function ThemesPage() {
                 )}
               </button>
             ))}
-
-            <div className="border-t border-gray-200 dark:border-gray-700 my-3" />
-
-            <Link
-              to="/documents"
-              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors mb-0.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
-            >
-              <FaFileAlt className="text-sm" />
-              My Documents
-            </Link>
-            <Link
-              to="/templates"
-              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-lg transition-colors mb-0.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
-            >
-              <FaCopy className="text-sm" />
-              Templates
-            </Link>
           </nav>
         </aside>
 

@@ -1,4 +1,5 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+/* eslint-disable testing-library/no-node-access, testing-library/no-container, jest/no-conditional-expect */
+import { render, screen, fireEvent } from '@testing-library/react'
 import { IfModal } from './IfModal'
 import type { UseIfModalResult } from '../hooks/useIfModal'
 

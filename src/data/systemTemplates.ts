@@ -11,12 +11,6 @@ const textVar = (label: string, defaultValue: string): VariableSchema => ({
   default: defaultValue,
 })
 
-const textareaVar = (label: string, defaultValue: string): VariableSchema => ({
-  type: 'textarea',
-  label,
-  default: defaultValue,
-})
-
 const listVar = (label: string, defaultValue: string[]): VariableSchema => ({
   type: 'list',
   label,

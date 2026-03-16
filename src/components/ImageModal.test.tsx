@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-node-access, testing-library/no-container, jest/no-conditional-expect */
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { ImageModal } from './ImageModal'
 import type { UseImageModalResult } from '../hooks/useImageModal'

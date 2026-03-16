@@ -1,4 +1,4 @@
-import { renderHook, act, waitFor } from '@testing-library/react'
+import { renderHook, act } from '@testing-library/react'
 import { useDocumentsPage } from './useDocumentsPage'
 
 // Mock react-router-dom
@@ -7,25 +7,23 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }))
 
-// Mock localStorage
-const localStorageMock = (() => {
-  let store: Record<string, string> = {}
-  return {
-    getItem: jest.fn((key: string) => store[key] || null),
-    setItem: jest.fn((key: string, value: string) => {
-      store[key] = value
-    }),
-    removeItem: jest.fn((key: string) => {
-      delete store[key]
-    }),
-    clear: jest.fn(() => {
-      store = {}
-    }),
-  }
-})()
+// Mock localStorage — plain functions survive CRA's resetMocks: true
+const localStorageStore: Record<string, string> = {}
+const localStorageMock = {
+  getItem: (key: string) => localStorageStore[key] || null,
+  setItem: jest.fn((key: string, value: string) => {
+    localStorageStore[key] = value
+  }),
+  removeItem: (key: string) => {
+    delete localStorageStore[key]
+  },
+  clear: () => {
+    Object.keys(localStorageStore).forEach((key) => delete localStorageStore[key])
+  },
+}
 Object.defineProperty(window, 'localStorage', { value: localStorageMock })
 
-// Reference for tests
+// Reference data for tests
 const mockDocuments = [
   {
     id: 'doc-1',
@@ -45,18 +43,9 @@ const mockDocuments = [
     starred: true,
     trashedAt: null,
   },
-  {
-    id: 'doc-3',
-    title: 'Trashed Document',
-    content: '# Trashed',
-    createdAt: new Date('2024-01-01'),
-    updatedAt: new Date('2024-01-05'),
-    starred: false,
-    trashedAt: new Date('2024-01-06'),
-  },
 ]
 
-// These are references used for test assertions
+// Mock functions for assertions (implementations set in beforeEach)
 const mockCreate = jest.fn()
 const mockToggleStar = jest.fn()
 const mockMoveToTrash = jest.fn()
@@ -64,63 +53,56 @@ const mockRestoreFromTrash = jest.fn()
 const mockPermanentDelete = jest.fn()
 const mockSetFilter = jest.fn()
 const mockSetSearchQuery = jest.fn()
+const mockRefresh = jest.fn()
 
-// Mock useDocuments with inline data to avoid hoisting issues
-jest.mock('./useDocuments', () => {
-  const documents = [
-    {
-      id: 'doc-1',
-      title: 'First Document',
-      content: '# Hello World',
-      createdAt: new Date('2024-01-01'),
-      updatedAt: new Date('2024-01-15'),
-      starred: false,
-      trashedAt: null,
-    },
-    {
-      id: 'doc-2',
-      title: 'Starred Document',
-      content: '# Starred',
-      createdAt: new Date('2024-01-05'),
-      updatedAt: new Date('2024-01-10'),
-      starred: true,
-      trashedAt: null,
-    },
-  ]
-
-  return {
-    useDocuments: () => ({
-      documents,
-      loading: false,
-      error: null,
-      filter: 'all',
-      searchQuery: '',
-      setFilter: jest.fn(),
-      setSearchQuery: jest.fn(),
-      create: jest.fn((title: string, content: string) =>
-        Promise.resolve({
-          id: 'new-doc-id',
-          title,
-          content,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          starred: false,
-          trashedAt: null,
-        })
-      ),
-      toggleStar: jest.fn(() => Promise.resolve()),
-      moveToTrash: jest.fn(() => Promise.resolve()),
-      restoreFromTrash: jest.fn(() => Promise.resolve()),
-      permanentDelete: jest.fn(() => Promise.resolve()),
-      refresh: jest.fn(),
-    }),
-  }
-})
+// Mock useDocuments — use plain function to survive resetMocks
+jest.mock('./useDocuments', () => ({
+  __esModule: true,
+  useDocuments: () => ({
+    documents: mockDocuments,
+    loading: false,
+    error: null,
+    filter: 'all',
+    searchQuery: '',
+    setFilter: mockSetFilter,
+    setSearchQuery: mockSetSearchQuery,
+    create: mockCreate,
+    toggleStar: mockToggleStar,
+    moveToTrash: mockMoveToTrash,
+    restoreFromTrash: mockRestoreFromTrash,
+    permanentDelete: mockPermanentDelete,
+    refresh: mockRefresh,
+  }),
+}))
 
 describe('useDocumentsPage', () => {
   beforeEach(() => {
     localStorageMock.clear()
     jest.clearAllMocks()
+
+    // Re-set spy implementations (cleared by CRA's resetMocks: true)
+    ;(localStorageMock.setItem as jest.Mock).mockImplementation((key: string, value: string) => {
+      localStorageStore[key] = value
+    })
+
+    mockCreate.mockImplementation((title: string, content: string) =>
+      Promise.resolve({
+        id: 'new-doc-id',
+        title,
+        content,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        starred: false,
+        trashedAt: null,
+      })
+    )
+    mockToggleStar.mockImplementation(() => Promise.resolve())
+    mockMoveToTrash.mockImplementation(() => Promise.resolve())
+    mockRestoreFromTrash.mockImplementation(() => Promise.resolve())
+    mockPermanentDelete.mockImplementation(() => Promise.resolve())
+    mockSetFilter.mockImplementation(() => {})
+    mockSetSearchQuery.mockImplementation(() => {})
+    mockRefresh.mockImplementation(() => {})
   })
 
   describe('initial state', () => {
@@ -140,7 +122,7 @@ describe('useDocumentsPage', () => {
     it('should expose documents from useDocuments', () => {
       const { result } = renderHook(() => useDocumentsPage())
 
-      expect(result.current.documents).toHaveLength(2) // excludes trashed
+      expect(result.current.documents).toHaveLength(2)
       expect(result.current.loading).toBe(false)
       expect(result.current.error).toBeNull()
     })

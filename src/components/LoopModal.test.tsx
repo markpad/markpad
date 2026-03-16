@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-node-access, jest/no-conditional-expect */
 import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LoopModal } from './LoopModal'
