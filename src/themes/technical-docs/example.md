@@ -1,6 +1,6 @@
 # API Reference
 
-Complete reference for the Marklab REST API v2.0.
+Complete reference for the Markpad REST API v2.0.
 
 ## Authentication
 

@@ -12,11 +12,12 @@
     "@types/prismjs": "1.26.6",
     "@types/react": "18.3.28",
     "@types/react-dom": "18.3.7",
-    "buffer": "^6.0.3",
-    "gray-matter": "^4.0.3",
-    "idb": "^8.0.3",
+    "buffer": "6.0.3",
+    "gray-matter": "4.0.3",
+    "html2pdf.js": "0.14.0",
+    "idb": "8.0.3",
     "js-yaml": "4.1.1",
-    "nunjucks": "^3.2.4",
+    "nunjucks": "3.2.4",
     "pako": "2.1.0",
     "prismjs": "1.30.0",
     "react": "18.3.1",
@@ -82,32 +83,32 @@
     "packageExtensions": {
       "css-minimizer-webpack-plugin": {
         "dependencies": {
-          "ajv": "^8.0.0"
+          "ajv": "8.0.0"
         }
       },
       "mini-css-extract-plugin": {
         "dependencies": {
-          "ajv": "^8.0.0"
+          "ajv": "8.0.0"
         }
       },
       "eslint-webpack-plugin": {
         "dependencies": {
-          "ajv": "^8.0.0"
+          "ajv": "8.0.0"
         }
       },
       "webpack-dev-middleware": {
         "dependencies": {
-          "ajv": "^8.0.0"
+          "ajv": "8.0.0"
         }
       },
       "webpack-dev-server": {
         "dependencies": {
-          "ajv": "^8.0.0"
+          "ajv": "8.0.0"
         }
       },
       "schema-utils": {
         "dependencies": {
-          "ajv": "^8.0.0"
+          "ajv": "8.0.0"
         }
       }
     },
@@ -118,8 +119,8 @@
   },
   "devDependencies": {
     "@testing-library/dom": "10.4.1",
-    "@types/js-yaml": "^4.0.9",
-    "@types/nunjucks": "^3.2.6",
+    "@types/js-yaml": "4.0.9",
+    "@types/nunjucks": "3.2.6",
     "@types/pako": "2.0.4",
     "@types/react-helmet": "6.1.11",
     "@types/react-modal": "3.16.3",

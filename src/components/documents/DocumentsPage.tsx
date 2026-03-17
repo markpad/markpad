@@ -16,7 +16,14 @@ import {
 } from 'react-icons/fa'
 import { useDocumentsPage, DocumentViewFilter } from '../../hooks/useDocumentsPage'
 import { DocumentCard } from './DocumentCard'
-import { PageNavLinks } from '../shared'
+import {
+  PageNavLinks,
+  EmptyState,
+  DocumentsIllustration,
+  SearchIllustration,
+  TrashIllustration,
+  StarIllustration,
+} from '../shared'
 
 const FILTER_LABELS: Record<DocumentViewFilter, string> = {
   all: 'My Documents',
@@ -234,44 +241,36 @@ export function DocumentsPage() {
 
             {/* Empty state */}
             {!loading && documents.length === 0 && (
-              <div className="flex flex-col items-center justify-center py-20 text-center">
-                <div className="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-2xl flex items-center justify-center mb-4">
-                  {filter === 'trash' ? (
-                    <FaTrash className="text-2xl text-gray-400 dark:text-gray-600" />
-                  ) : filter === 'starred' ? (
-                    <FaStar className="text-2xl text-gray-400 dark:text-gray-600" />
-                  ) : (
-                    <FaFileAlt className="text-2xl text-gray-400 dark:text-gray-600" />
-                  )}
-                </div>
-                <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  {filter === 'trash'
-                    ? 'Trash is empty'
-                    : filter === 'starred'
-                      ? 'No starred documents'
-                      : searchQuery
-                        ? 'No results found'
-                        : 'No documents yet'}
-                </h2>
-                <p className="text-sm text-gray-500 mb-6 max-w-sm">
-                  {filter === 'trash'
-                    ? 'Documents you delete will appear here.'
-                    : filter === 'starred'
-                      ? 'Star documents to find them quickly.'
-                      : searchQuery
-                        ? `No documents match "${searchQuery}".`
-                        : 'Create your first document to get started.'}
-                </p>
-                {filter === 'all' && !searchQuery && (
-                  <button
-                    onClick={handleNewDocument}
-                    className="flex items-center gap-2 px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
-                  >
-                    <FaPlus className="text-xs" />
-                    Create Document
-                  </button>
+              <>
+                {filter === 'trash' ? (
+                  <EmptyState
+                    illustration={<TrashIllustration className="w-full h-full" />}
+                    title="Trash is empty"
+                    description="Documents you delete will appear here. They can be restored or permanently removed."
+                  />
+                ) : filter === 'starred' ? (
+                  <EmptyState
+                    illustration={<StarIllustration className="w-full h-full" />}
+                    title="No starred documents"
+                    description="Star your most important documents to find them quickly. Click the star icon on any document card."
+                  />
+                ) : searchQuery ? (
+                  <EmptyState
+                    illustration={<SearchIllustration className="w-full h-full" />}
+                    title="No results found"
+                    description={`No documents match "${searchQuery}". Try a different search term or clear the search.`}
+                    secondaryAction={{ label: 'Clear search', onClick: () => setSearchQuery('') }}
+                  />
+                ) : (
+                  <EmptyState
+                    illustration={<DocumentsIllustration className="w-full h-full" />}
+                    title="No documents yet"
+                    description="Create your first markdown document to get started. You can also import existing .md files from your computer."
+                    action={{ label: 'Create Document', onClick: handleNewDocument }}
+                    secondaryAction={{ label: 'Import from computer', onClick: handleImportFile }}
+                  />
                 )}
-              </div>
+              </>
             )}
 
             {/* Document cards */}
