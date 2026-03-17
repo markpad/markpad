@@ -21,6 +21,7 @@ import { useLoopModal } from '../hooks/useLoopModal'
 import { useIfModal } from '../hooks/useIfModal'
 import { useImageModal } from '../hooks/useImageModal'
 import { useLinkModal } from '../hooks/useLinkModal'
+import { useImportModal } from '../hooks/useImportModal'
 import { Header } from './Header'
 import { MarkdownEditor, MarkdownEditorHandle } from './editor/MarkdownEditor'
 import { MarkdownPreview } from './preview/MarkdownPreview'
@@ -31,6 +32,7 @@ import { LoopModal } from './LoopModal'
 import { IfModal } from './IfModal'
 import { ImageModal } from './ImageModal'
 import { LinkModal } from './LinkModal'
+import { ImportModal } from './ImportModal'
 import type { EditionMode, TailwindClasses } from '../types'
 import type { ThemePreset } from '../data/themes.generated'
 
@@ -218,6 +220,7 @@ export function Editor({
   const ifModal = useIfModal(state.markdown)
   const imageModal = useImageModal()
   const linkModal = useLinkModal()
+  const importModal = useImportModal()
 
   // Persist dark mode preference
   useEffect(() => {
@@ -486,6 +489,18 @@ export function Editor({
     [state.markdown, setMarkdown]
   )
 
+  // Handle import (file or URL)
+  const handleImport = useCallback(
+    (content: string, title?: string) => {
+      setMarkdown(content)
+      if (title) {
+        setDocumentTitle(title)
+      }
+      importModal.close()
+    },
+    [setMarkdown, setDocumentTitle, importModal]
+  )
+
   // Handle link insertion
   const handleInsertLink = useCallback(
     (linkCode: string) => {
@@ -557,6 +572,7 @@ export function Editor({
           onInsertTable={() => editorRef.current?.insertTable()}
           onInsertLoop={() => loopModal.open()}
           onInsertIf={() => ifModal.open()}
+          onImport={() => importModal.open()}
         />
 
         <div className="flex flex-1 overflow-hidden">
@@ -693,6 +709,9 @@ export function Editor({
 
         {/* Link Modal */}
         <LinkModal linkModal={linkModal} onInsertLink={handleInsertLink} />
+
+        {/* Import Modal */}
+        <ImportModal importModal={importModal} onImport={handleImport} />
       </div>
     </div>
   )
