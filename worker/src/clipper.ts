@@ -1,7 +1,8 @@
 import { Readability } from '@mozilla/readability'
 import { parseHTML } from 'linkedom'
 import TurndownService from 'turndown'
-import type { ClipRequest, ClipResponse, ClipErrorResponse } from './types'
+import type { ClipRequest, ClipResponse } from './types'
+import { errors, type ProblemDetail } from './errors'
 
 export function isValidUrl(url: string): boolean {
   try {
@@ -9,6 +10,23 @@ export function isValidUrl(url: string): boolean {
     return ['http:', 'https:'].includes(parsed.protocol)
   } catch {
     return false
+  }
+}
+
+class FetchError extends Error {
+  constructor(
+    public statusCode: number,
+    message: string
+  ) {
+    super(message)
+    this.name = 'FetchError'
+  }
+}
+
+class ContentTypeError extends Error {
+  constructor(public contentType: string) {
+    super(`Unsupported content type: ${contentType}`)
+    this.name = 'ContentTypeError'
   }
 }
 
@@ -22,12 +40,12 @@ async function fetchHtml(url: string): Promise<string> {
   })
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch URL: HTTP ${response.status}`)
+    throw new FetchError(response.status, `Failed to fetch URL: HTTP ${response.status}`)
   }
 
   const contentType = response.headers.get('Content-Type') || ''
   if (!contentType.includes('text/html') && !contentType.includes('application/xhtml+xml')) {
-    throw new Error('URL did not return HTML content')
+    throw new ContentTypeError(contentType)
   }
 
   return response.text()
@@ -73,7 +91,7 @@ function htmlToMarkdown(html: string): string {
 }
 
 export function jsonResponse(
-  data: ClipResponse | ClipErrorResponse,
+  data: ClipResponse | ProblemDetail,
   status: number,
   origin: string
 ): Response {
@@ -86,44 +104,71 @@ export function jsonResponse(
   })
 }
 
+function errorResponse(error: ProblemDetail, origin: string): Response {
+  return jsonResponse(error, error.status, origin)
+}
+
 export async function clipUrl(request: Request, origin: string): Promise<Response> {
+  const requestUrl = request.url
   let body: ClipRequest
 
   try {
     body = await request.json<ClipRequest>()
-  } catch {
-    return jsonResponse({ error: 'Invalid JSON body' }, 400, origin)
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : undefined
+    return errorResponse(errors.invalidJson(detail, requestUrl), origin)
   }
 
   const { url } = body
 
   if (!url || typeof url !== 'string') {
-    return jsonResponse({ error: 'Missing required field: url' }, 400, origin)
+    return errorResponse(errors.missingUrl(requestUrl), origin)
   }
 
   if (!isValidUrl(url)) {
-    return jsonResponse(
-      { error: 'Invalid URL. Only http and https protocols are supported.' },
-      400,
-      origin
-    )
+    return errorResponse(errors.invalidUrl(undefined, requestUrl), origin)
   }
 
   let html: string
   try {
     html = await fetchHtml(url)
   } catch (error) {
+    if (error instanceof FetchError) {
+      return errorResponse(errors.fetchFailed(error.statusCode, error.message, requestUrl), origin)
+    }
+    if (error instanceof ContentTypeError) {
+      return errorResponse(errors.unsupportedContentType(error.contentType, requestUrl), origin)
+    }
     const message = error instanceof Error ? error.message : 'Failed to fetch URL'
-    return jsonResponse({ error: message }, 502, origin)
+    return errorResponse(errors.internalError(message, requestUrl), origin)
   }
 
-  const article = extractArticle(html, url)
+  let article: {
+    title: string
+    content: string
+    byline: string | null
+    excerpt: string | null
+    siteName: string | null
+  } | null
+
+  try {
+    article = extractArticle(html, url)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : undefined
+    return errorResponse(errors.parseError(message, requestUrl), origin)
+  }
 
   if (!article) {
-    return jsonResponse({ error: 'Could not extract readable content from this URL' }, 422, origin)
+    return errorResponse(errors.extractionFailed(undefined, requestUrl), origin)
   }
 
-  const markdown = htmlToMarkdown(article.content)
+  let markdown: string
+  try {
+    markdown = htmlToMarkdown(article.content)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : undefined
+    return errorResponse(errors.parseError(message, requestUrl), origin)
+  }
 
   const response: ClipResponse = {
     markdown,

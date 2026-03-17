@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { isValidUrl, jsonResponse } from './clipper'
+import { errors, type ProblemDetail } from './errors'
 
 describe('Clipper', () => {
   describe('isValidUrl', () => {
@@ -53,15 +54,20 @@ describe('Clipper', () => {
   })
 
   describe('jsonResponse', () => {
-    it('should return JSON with correct status', async () => {
-      const response = jsonResponse({ error: 'test' }, 400, 'https://markpad.cc')
+    it('should return JSON with correct status for ProblemDetail', async () => {
+      const error = errors.invalidUrl(undefined, 'http://localhost:8787/clip')
+      const response = jsonResponse(error, 400, 'https://markpad.cc')
 
       expect(response.status).toBe(400)
       expect(response.headers.get('Content-Type')).toBe('application/json')
       expect(response.headers.get('Access-Control-Allow-Origin')).toBe('https://markpad.cc')
 
-      const body = await response.json()
-      expect(body).toEqual({ error: 'test' })
+      const body = (await response.json()) as ProblemDetail
+      expect(body.type).toBe('https://markpad.cc/errors/INVALID_URL')
+      expect(body.title).toBe('Invalid URL')
+      expect(body.code).toBe('INVALID_URL')
+      expect(body.status).toBe(400)
+      expect(body.instance).toBe('http://localhost:8787/clip')
     })
 
     it('should return 200 by default with ClipResponse', async () => {
@@ -86,7 +92,8 @@ describe('Clipper', () => {
     })
 
     it('should set the correct CORS origin', async () => {
-      const response = jsonResponse({ error: 'test' }, 400, 'http://localhost:3000')
+      const error = errors.notFound(undefined, 'http://localhost:8787/unknown')
+      const response = jsonResponse(error, 404, 'http://localhost:3000')
       expect(response.headers.get('Access-Control-Allow-Origin')).toBe('http://localhost:3000')
     })
   })

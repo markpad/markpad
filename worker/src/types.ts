@@ -21,6 +21,7 @@ export interface ClipResponse {
   metadata: ClipMetadata
 }
 
+// Deprecated: Use ProblemDetail from errors.ts instead
 export interface ClipErrorResponse {
   error: string
 }
