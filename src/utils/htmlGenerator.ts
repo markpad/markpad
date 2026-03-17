@@ -177,11 +177,6 @@ export async function exportPdf(options: HtmlGeneratorOptions): Promise<void> {
   iframeDoc.querySelectorAll('style').forEach((style) => {
     extractedCss += style.textContent + '\n'
   })
-  // Also extract linked stylesheets (Google Fonts)
-  let fontLinks = ''
-  iframeDoc.querySelectorAll('link[rel="stylesheet"]').forEach((link) => {
-    fontLinks += link.outerHTML + '\n'
-  })
 
   const bodyClass = iframeDoc.body.className
   const bodyStyle = iframeDoc.body.getAttribute('style') || ''
