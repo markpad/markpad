@@ -75,6 +75,27 @@ jest.mock('./useDocuments', () => ({
   }),
 }))
 
+// Mock useImportModal
+const mockImportModalOpen = jest.fn()
+const mockImportModalClose = jest.fn()
+const mockImportModalReset = jest.fn()
+const mockFileImportReset = jest.fn()
+const mockUrlImportReset = jest.fn()
+
+jest.mock('./useImportModal', () => ({
+  __esModule: true,
+  useImportModal: () => ({
+    isOpen: false,
+    open: mockImportModalOpen,
+    close: mockImportModalClose,
+    activeTab: 'file' as const,
+    setActiveTab: jest.fn(),
+    fileImport: { status: 'idle', error: null, result: null, reset: mockFileImportReset },
+    urlImport: { status: 'idle', error: null, result: null, url: '', reset: mockUrlImportReset },
+    reset: mockImportModalReset,
+  }),
+}))
+
 describe('useDocumentsPage', () => {
   beforeEach(() => {
     localStorageMock.clear()
@@ -185,112 +206,46 @@ describe('useDocumentsPage', () => {
   })
 
   describe('handleImportFile', () => {
-    it('should create file input and set up handlers', () => {
-      const createElementSpy = jest.spyOn(document, 'createElement')
-      const clickSpy = jest.fn()
-
+    it('should open the import modal', () => {
       const { result } = renderHook(() => useDocumentsPage())
-
-      // Mock the input element
-      const mockInput = {
-        type: '',
-        accept: '',
-        onchange: null as ((e: any) => void) | null,
-        click: clickSpy,
-      }
-      createElementSpy.mockReturnValue(mockInput as any)
 
       act(() => {
         result.current.handleImportFile()
       })
 
-      expect(createElementSpy).toHaveBeenCalledWith('input')
-      expect(mockInput.type).toBe('file')
-      expect(mockInput.accept).toBe('.md,.markdown,.txt')
-      expect(clickSpy).toHaveBeenCalled()
-
-      createElementSpy.mockRestore()
+      expect(mockImportModalOpen).toHaveBeenCalled()
     })
+  })
 
-    it('should create document from imported file', async () => {
-      const createElementSpy = jest.spyOn(document, 'createElement')
-
+  describe('handleImportContent', () => {
+    it('should create document from imported content and navigate', async () => {
       const { result } = renderHook(() => useDocumentsPage())
-
-      let capturedOnchange: ((e: any) => void) | null = null
-      const mockInput = {
-        type: '',
-        accept: '',
-        set onchange(fn: ((e: any) => void) | null) {
-          capturedOnchange = fn
-        },
-        get onchange() {
-          return capturedOnchange
-        },
-        click: jest.fn(),
-      }
-      createElementSpy.mockReturnValue(mockInput as any)
-
-      act(() => {
-        result.current.handleImportFile()
-      })
-
-      // Simulate file selection
-      const mockFile = {
-        name: 'test-document.md',
-        text: jest.fn().mockResolvedValue('# Imported Content'),
-      }
 
       await act(async () => {
-        if (capturedOnchange) {
-          await capturedOnchange({
-            target: { files: [mockFile] },
-          })
-        }
+        await result.current.handleImportContent('# Imported Content', 'My Article')
       })
 
-      expect(mockFile.text).toHaveBeenCalled()
-      expect(mockCreate).toHaveBeenCalledWith('test-document', '# Imported Content')
+      expect(mockCreate).toHaveBeenCalledWith('My Article', '# Imported Content')
+      expect(mockImportModalClose).toHaveBeenCalled()
       expect(mockNavigate).toHaveBeenCalledWith('/editor/new-doc-id')
-
-      createElementSpy.mockRestore()
     })
 
-    it('should not create document if no file selected', async () => {
-      const createElementSpy = jest.spyOn(document, 'createElement')
-
+    it('should use default title when none provided', async () => {
       const { result } = renderHook(() => useDocumentsPage())
 
-      let capturedOnchange: ((e: any) => void) | null = null
-      const mockInput = {
-        type: '',
-        accept: '',
-        set onchange(fn: ((e: any) => void) | null) {
-          capturedOnchange = fn
-        },
-        get onchange() {
-          return capturedOnchange
-        },
-        click: jest.fn(),
-      }
-      createElementSpy.mockReturnValue(mockInput as any)
-
-      act(() => {
-        result.current.handleImportFile()
-      })
-
-      // Simulate no file selected
       await act(async () => {
-        if (capturedOnchange) {
-          await capturedOnchange({
-            target: { files: null },
-          })
-        }
+        await result.current.handleImportContent('# Content')
       })
 
-      expect(mockCreate).not.toHaveBeenCalled()
+      expect(mockCreate).toHaveBeenCalledWith('Imported Document', '# Content')
+    })
 
-      createElementSpy.mockRestore()
+    it('should expose importModal', () => {
+      const { result } = renderHook(() => useDocumentsPage())
+
+      expect(result.current.importModal).toBeDefined()
+      expect(typeof result.current.importModal.open).toBe('function')
+      expect(typeof result.current.importModal.close).toBe('function')
     })
   })
 
