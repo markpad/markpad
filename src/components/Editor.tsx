@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet'
 import { renderToStaticMarkup } from 'react-dom/server'
 import Markdown from 'react-markdown'
 import gfm from 'remark-gfm'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Tooltip } from 'react-tooltip'
 import { FaPalette, FaTimes, FaDownload, FaMagic } from 'react-icons/fa'
 import { useAppState } from '../hooks/useAppState'
@@ -70,6 +72,7 @@ export function Editor({
 
   const [docLoaded, setDocLoaded] = useState(false)
   const [currentThemeId, setCurrentThemeId] = useState<string | undefined>()
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'unsaved' | 'saving' | 'saved'>('idle')
 
   // Load full entity state from IndexedDB if :id param present
   useEffect(() => {
@@ -117,7 +120,7 @@ export function Editor({
   // Auto-save full entity state to IndexedDB (debounced)
   const debouncedSave = useRef(
     debounce(
-      (
+      async (
         id: string,
         content: string,
         title: string,
@@ -126,17 +129,52 @@ export function Editor({
         fontConfig: typeof state.fontConfig,
         themeId?: string
       ) => {
-        if (isTemplate) {
-          templateRepository.update(id, { content, title, themeId }).catch(console.error)
-        } else {
-          documentRepository
-            .update(id, { content, title, tailwindClasses, behaviorConfig, fontConfig, themeId })
-            .catch(console.error)
+        setSaveStatus('saving')
+        try {
+          if (isTemplate) {
+            await templateRepository.update(id, { content, title, themeId })
+          } else {
+            await documentRepository.update(id, {
+              content,
+              title,
+              tailwindClasses,
+              behaviorConfig,
+              fontConfig,
+              themeId,
+            })
+          }
+          setSaveStatus('saved')
+        } catch (err) {
+          console.error(err)
+          setSaveStatus('unsaved')
         }
       },
       1500
     )
   ).current
+
+  // Track content changes → unsaved
+  const hasLoadedOnce = useRef(false)
+  useEffect(() => {
+    if (!docLoaded) return
+    // Skip the first change right after loading
+    if (!hasLoadedOnce.current) {
+      hasLoadedOnce.current = true
+      return
+    }
+    if (entityId) {
+      setSaveStatus('unsaved')
+    }
+  }, [
+    state.markdown,
+    state.documentTitle,
+    state.tailwindClasses,
+    state.behaviorConfig,
+    state.fontConfig,
+    currentThemeId,
+    docLoaded,
+    entityId,
+  ])
 
   useEffect(() => {
     if (entityId && docLoaded) {
@@ -269,8 +307,40 @@ export function Editor({
       blockquote: ({ node, ...props }: any) => (
         <blockquote className={state.tailwindClasses.blockquote} {...props} />
       ),
-      code: ({ node, ...props }: any) => <code className={state.tailwindClasses.code} {...props} />,
-      pre: ({ node, ...props }: any) => <pre className={state.tailwindClasses.pre} {...props} />,
+      code: ({ node, inline, className, children, ...props }: any) => {
+        const match = /language-(\w+)/.exec(className || '')
+        const language = match ? match[1] : ''
+        const content = String(children)
+        const isInline =
+          inline === true || (inline !== false && !className && !content.includes('\n'))
+
+        if (isInline) {
+          return (
+            <code className={state.tailwindClasses.code} {...props}>
+              {children}
+            </code>
+          )
+        }
+
+        return (
+          <SyntaxHighlighter
+            style={oneLight}
+            language={language}
+            PreTag="div"
+            customStyle={{
+              margin: 0,
+              borderRadius: '0.375rem',
+              fontSize: '0.875rem',
+            }}
+            {...props}
+          >
+            {content.replace(/\n$/, '')}
+          </SyntaxHighlighter>
+        )
+      },
+      pre: ({ node, ...props }: any) => (
+        <pre className={`not-prose ${state.tailwindClasses.pre}`} {...props} />
+      ),
     }
 
     // Process markdown to remove frontmatter before rendering HTML
@@ -460,6 +530,7 @@ export function Editor({
           htmlContent={htmlContent}
           onDocumentTitleChange={setDocumentTitle}
           entityType={entityType}
+          saveStatus={entityId ? saveStatus : 'idle'}
           showLineNumbers={state.behaviorConfig.shouldShowLineNumbers}
           onToggleLineNumbers={() =>
             updateBehaviorConfig(

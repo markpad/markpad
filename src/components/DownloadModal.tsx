@@ -1,7 +1,15 @@
-import { FaTimes, FaDownload, FaMarkdown, FaCode, FaFileCode, FaCheck } from 'react-icons/fa'
+import {
+  FaTimes,
+  FaDownload,
+  FaMarkdown,
+  FaCode,
+  FaFileCode,
+  FaCheck,
+  FaFilePdf,
+} from 'react-icons/fa'
 import type { TailwindClasses } from '../types'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
-import { generateStyledHtml, downloadFile } from '../utils/htmlGenerator'
+import { generateStyledHtml, downloadFile, exportPdf } from '../utils/htmlGenerator'
 
 interface DownloadModalProps {
   isOpen: boolean
@@ -55,6 +63,16 @@ export function DownloadModal({
       fontFamily,
     })
     handleDownloadFile(styledHtml, `${documentTitle}-styled.html`, 'text/html')
+  }
+
+  const handleExportPdf = () => {
+    exportPdf({
+      documentTitle,
+      htmlContent,
+      tailwindClasses,
+      fontFamily,
+    })
+    onClose()
   }
 
   return (
@@ -148,6 +166,30 @@ export function DownloadModal({
               <p className="font-medium text-gray-900 dark:text-gray-100">Styled HTML</p>
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 Complete with Tailwind CSS & fonts (.html)
+              </p>
+            </div>
+          </button>
+
+          {/* PDF Section Header */}
+          <div className="flex items-center gap-2 mb-2 mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+            <FaFilePdf className="text-gray-400 dark:text-gray-500" />
+            <span className="text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+              PDF
+            </span>
+          </div>
+
+          {/* PDF Option */}
+          <button
+            onClick={handleExportPdf}
+            className="w-full flex items-center gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-red-300 dark:hover:border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all group"
+          >
+            <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 group-hover:bg-red-100 dark:group-hover:bg-red-900/40 rounded-lg flex items-center justify-center transition-colors">
+              <FaFilePdf className="text-gray-600 dark:text-gray-400 group-hover:text-red-600 dark:group-hover:text-red-400 text-lg" />
+            </div>
+            <div className="text-left flex-1">
+              <p className="font-medium text-gray-900 dark:text-gray-100">Save as PDF</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Print dialog with Save as PDF option
               </p>
             </div>
           </button>

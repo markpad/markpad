@@ -4,6 +4,7 @@ import { FaArrowLeft, FaLink, FaDownload, FaFilePdf, FaSun, FaMoon, FaMagic } fr
 import { Tooltip } from 'react-tooltip'
 import { Toast } from '../Toast'
 import { DownloadModal } from '../DownloadModal'
+import { exportPdf } from '../../utils/htmlGenerator'
 import type { TailwindClasses } from '../../types'
 
 interface PublishedHeaderProps {
@@ -58,7 +59,12 @@ export function PublishedHeader({
   }
 
   const handlePrint = () => {
-    window.print()
+    exportPdf({
+      documentTitle,
+      htmlContent: getHtmlContent(),
+      tailwindClasses,
+      fontFamily,
+    })
   }
 
   const getHtmlContent = () => {
@@ -156,7 +162,7 @@ export function PublishedHeader({
             href={editorUrl}
             className="flex items-center gap-2 px-4 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
           >
-            Edit in Marklab
+            Edit in Markpad
           </a>
         </div>
       </div>

@@ -25,6 +25,7 @@ import {
   FaRedo,
   FaMarkdown,
   FaFileCode,
+  FaFilePdf,
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
 import type { EditionMode, AppState, TailwindClasses } from '../types'
@@ -37,6 +38,7 @@ import {
   downloadFile,
   copyToClipboard,
   copyHtmlToClipboard,
+  exportPdf,
 } from '../utils/htmlGenerator'
 import { Toast } from './Toast'
 
@@ -70,6 +72,7 @@ interface HeaderProps {
   onInsertTable?: () => void
   onInsertLoop?: () => void
   onInsertIf?: () => void
+  saveStatus?: 'idle' | 'unsaved' | 'saving' | 'saved'
 }
 
 interface MenuItem {
@@ -240,6 +243,7 @@ export function Header({
   onInsertTable,
   onInsertLoop,
   onInsertIf,
+  saveStatus = 'idle',
 }: HeaderProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [shareModalOpen, setShareModalOpen] = useState(false)
@@ -288,6 +292,10 @@ export function Header({
 
   const handleExportHtmlStyled = () => {
     downloadFile(generateStyledHtml(htmlOptions), `${state.documentTitle}-styled.html`, 'text/html')
+  }
+
+  const handleExportPdf = () => {
+    exportPdf(htmlOptions)
   }
 
   // Copy handlers
@@ -381,6 +389,8 @@ export function Header({
         },
         { label: 'divider', divider: true },
         { label: 'HTML (Styled)', icon: <FaFileCode />, onClick: handleExportHtmlStyled },
+        { label: 'divider', divider: true },
+        { label: 'PDF', icon: <FaFilePdf />, onClick: handleExportPdf },
       ],
     },
     {
@@ -505,11 +515,65 @@ export function Header({
                 {state.documentTitle}
               </button>
             )}
-            {isTemplate && (
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-purple-500 dark:text-purple-400 px-2 -mt-0.5">
-                Template
-              </span>
-            )}
+            <div className="flex items-center gap-2 px-2 -mt-0.5">
+              {isTemplate && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-purple-500 dark:text-purple-400">
+                  Template
+                </span>
+              )}
+              {saveStatus !== 'idle' && (
+                <span
+                  className={`text-[9px] font-medium inline-flex items-center gap-1 px-1.5 py-px rounded-full border transition-all duration-300 ${
+                    saveStatus === 'saved'
+                      ? 'text-green-500/70 dark:text-green-500/50 bg-green-50/50 dark:bg-green-900/20 border-green-200/60 dark:border-green-800/40'
+                      : saveStatus === 'saving'
+                        ? 'text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
+                        : 'text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-800/40 border-gray-200 dark:border-gray-700'
+                  }`}
+                >
+                  {saveStatus === 'saved' && (
+                    <>
+                      <svg
+                        className="w-2 h-2"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={3}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      Saved offline
+                    </>
+                  )}
+                  {saveStatus === 'saving' && (
+                    <>
+                      <svg className="w-2 h-2 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth={4}
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                        />
+                      </svg>
+                      Saving…
+                    </>
+                  )}
+                  {saveStatus === 'unsaved' && (
+                    <>
+                      <span className="w-1 h-1 rounded-full bg-current" />
+                      Unsaved
+                    </>
+                  )}
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
