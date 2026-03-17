@@ -26,6 +26,7 @@ import {
   FaMarkdown,
   FaFileCode,
   FaFilePdf,
+  FaFileImport,
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
 import type { EditionMode, AppState, TailwindClasses } from '../types'
@@ -72,6 +73,7 @@ interface HeaderProps {
   onInsertTable?: () => void
   onInsertLoop?: () => void
   onInsertIf?: () => void
+  onImport?: () => void
   saveStatus?: 'idle' | 'unsaved' | 'saving' | 'saved'
 }
 
@@ -243,6 +245,7 @@ export function Header({
   onInsertTable,
   onInsertLoop,
   onInsertIf,
+  onImport,
   saveStatus = 'idle',
 }: HeaderProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
@@ -374,6 +377,12 @@ export function Header({
       onClick: handleDuplicateEntity,
     },
     { label: 'divider', divider: true },
+    {
+      label: 'Import…',
+      icon: <FaFileImport />,
+      shortcut: '⌘I',
+      onClick: onImport,
+    },
     {
       label: 'Export',
       icon: <FaFileExport />,

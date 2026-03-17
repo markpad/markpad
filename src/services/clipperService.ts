@@ -12,7 +12,20 @@ export interface ClipResult {
   metadata: ClipMetadata
 }
 
-const WORKER_URL = process.env.REACT_APP_CLIPPER_URL || 'https://markpad-worker.markpad.workers.dev'
+const WORKER_URL =
+  process.env.REACT_APP_CLIPPER_URL || 'https://markpad-worker.josetelesmaciel.workers.dev'
+
+/**
+ * Error response from the worker (RFC 7807 ProblemDetail).
+ */
+interface ProblemDetail {
+  type: string
+  title: string
+  status: number
+  detail?: string
+  code: string
+  timestamp: string
+}
 
 /**
  * Clip an article from a URL using the Markpad Web Clipper worker.
@@ -28,7 +41,10 @@ export async function clipFromUrl(url: string): Promise<ClipResult> {
   const data = await response.json()
 
   if (!response.ok) {
-    throw new Error(data.error || `Failed to clip URL (HTTP ${response.status})`)
+    const problem = data as ProblemDetail
+    throw new Error(
+      problem.detail || problem.title || `Failed to clip URL (HTTP ${response.status})`
+    )
   }
 
   return data as ClipResult
