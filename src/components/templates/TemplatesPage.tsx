@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa'
 import { useTemplatesPage, TemplateViewFilter } from '../../hooks/useTemplatesPage'
 import { TemplateCard } from './TemplateCard'
-import { PageNavLinks } from '../shared'
+import { PageNavLinks, EmptyState, TemplatesIllustration, SearchIllustration } from '../shared'
 
 const FILTER_LABELS: Record<TemplateViewFilter, string> = {
   all: 'All Templates',
@@ -164,28 +164,27 @@ export function TemplatesPage() {
 
             {/* Empty state */}
             {!loading && templates.length === 0 && (
-              <div className="flex flex-col items-center justify-center py-20 text-center">
-                <div className="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-2xl flex items-center justify-center mb-4">
-                  <FaLayerGroup className="text-2xl text-gray-400 dark:text-gray-600" />
-                </div>
-                <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  {searchQuery ? 'No results found' : 'No templates yet'}
-                </h2>
-                <p className="text-sm text-gray-500 mb-6 max-w-sm">
-                  {searchQuery
-                    ? `No templates match "${searchQuery}".`
-                    : 'Create your first template to get started.'}
-                </p>
-                {!searchQuery && (
-                  <button
-                    onClick={handleNewTemplate}
-                    className="flex items-center gap-2 px-5 py-2.5 bg-purple-500 hover:bg-purple-600 text-white text-sm font-medium rounded-lg transition-colors"
-                  >
-                    <FaPlus className="text-xs" />
-                    Create Template
-                  </button>
+              <>
+                {searchQuery ? (
+                  <EmptyState
+                    illustration={<SearchIllustration className="w-full h-full" />}
+                    title="No results found"
+                    description={`No templates match "${searchQuery}". Try a different search term or clear the search.`}
+                    secondaryAction={{ label: 'Clear search', onClick: () => setSearchQuery('') }}
+                  />
+                ) : (
+                  <EmptyState
+                    illustration={<TemplatesIllustration className="w-full h-full" />}
+                    title="No templates yet"
+                    description="Templates let you create reusable document layouts with variables. Great for invoices, reports, cover letters, and more."
+                    action={{
+                      label: 'Create Template',
+                      onClick: handleNewTemplate,
+                      color: 'bg-purple-500 hover:bg-purple-600',
+                    }}
+                  />
                 )}
-              </div>
+              </>
             )}
 
             {/* Template cards */}

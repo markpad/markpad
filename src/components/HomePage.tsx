@@ -21,10 +21,10 @@ export function HomePage() {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100">
       <Helmet>
-        <title>Markpad - Programmable Markdown Documents</title>
+        <title>Markpad - Markdown with Variables and Templates</title>
         <meta
           name="description"
-          content="Write markdown, use variables, apply themes, and generate dynamic documents instantly. Offline-first, no account required."
+          content="Write once, reuse everywhere. Create documents with variables, templates, and themes — entirely in your browser, no account required."
         />
       </Helmet>
 
@@ -99,17 +99,17 @@ export function HomePage() {
 
             {/* Headline */}
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-              Markdown,
+              Markdown with
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                but programmable
+                variables and templates
               </span>
             </h1>
 
             {/* Subheadline */}
             <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Write markdown. Add variables. Apply themes. Generate documents from templates and
-              share them instantly — all from your browser.
+              Write Markdown. Define your data once, reuse it everywhere. Generate documents from
+              templates and share them instantly — all from your browser.
             </p>
 
             {/* CTA Buttons */}
@@ -196,11 +196,11 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              A document engine in your browser
+              Everything you need to create reusable documents
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Markdown simplicity meets programmable power. Variables, templates, themes, and
-              sharing — all offline-first.
+              Variables, templates, themes, and instant sharing. Simple tools that work together —
+              no setup, no accounts.
             </p>
           </div>
 
@@ -212,8 +212,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Live Preview</h3>
               <p className="text-gray-400">
-                See changes as you type. Variables resolve instantly in the preview pane — split
-                view keeps source and output side by side.
+                See your document update as you type. Variables resolve instantly in a side-by-side
+                preview.
               </p>
             </div>
 
@@ -224,8 +224,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Variables</h3>
               <p className="text-gray-400">
-                Define data in YAML frontmatter, reference it with {'{{mustache}}'} syntax. Loops,
-                conditionals, and expressions built in.
+                Define data once at the top of your document and reuse it anywhere with{' '}
+                {'{{curly braces}}'}. Supports loops and conditionals too.
               </p>
             </div>
 
@@ -236,8 +236,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Themes</h3>
               <p className="text-gray-400">
-                30+ built-in themes — from minimalist to brutalist. Tailwind CSS under the hood, so
-                you can customize anything.
+                Choose from 30+ visual styles — apply them instantly to change how your document
+                looks. Fully customizable.
               </p>
             </div>
 
@@ -248,8 +248,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Templates</h3>
               <p className="text-gray-400">
-                Start from reusable templates — invoices, resumes, reports. Clone, customize, and
-                generate documents in seconds.
+                Create reusable document structures for invoices, reports, or notes. Clone a
+                template and fill in the details.
               </p>
             </div>
 
@@ -260,8 +260,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Instant Sharing</h3>
               <p className="text-gray-400">
-                Generate a compressed URL that contains your entire document. No server, no account
-                — just a link.
+                Generate a single link that contains your entire document. Share it with anyone — no
+                server needed.
               </p>
             </div>
 
@@ -272,8 +272,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Offline-First</h3>
               <p className="text-gray-400">
-                Everything runs in your browser. Documents are stored in IndexedDB — no server, no
-                sync, no latency.
+                Everything stays in your browser. Your documents are saved locally — no server, no
+                cloud, no latency.
               </p>
             </div>
           </div>
@@ -284,10 +284,10 @@ export function HomePage() {
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Start writing programmable documents
+            Start creating reusable documents
           </h2>
           <p className="text-gray-400 text-lg mb-10">
-            No account required. Works instantly. Fully offline.
+            No account. No setup. Opens in your browser and works offline.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
@@ -317,7 +317,7 @@ export function HomePage() {
                 <FaFileAlt className="text-white text-xs" />
               </div>
               <span className="text-gray-400 text-sm">
-                Markpad — Programmable Markdown Documents
+                Markpad — Markdown with Variables and Templates
               </span>
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-500">

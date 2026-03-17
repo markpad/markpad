@@ -38,8 +38,8 @@ import {
   downloadFile,
   copyToClipboard,
   copyHtmlToClipboard,
-  exportPdf,
 } from '../utils/htmlGenerator'
+import { useExportPdf } from '../hooks/useExportPdf'
 import { Toast } from './Toast'
 
 type EntityType = 'document' | 'template'
@@ -252,6 +252,7 @@ export function Header({
   const [showToast, setShowToast] = useState(false)
   const [anyMenuOpen, setAnyMenuOpen] = useState(false)
   const [openMenuLabel, setOpenMenuLabel] = useState<string | null>(null)
+  const pdfExport = useExportPdf()
   const isTemplate = entityType === 'template'
 
   const showToastMessage = (message: string) => {
@@ -295,7 +296,7 @@ export function Header({
   }
 
   const handleExportPdf = () => {
-    exportPdf(htmlOptions)
+    pdfExport.handleExportPdf(htmlOptions)
   }
 
   // Copy handlers

@@ -1,4 +1,4 @@
-# Marklab
+# Markpad
 
 A powerful Markdown editor with Tailwind CSS styling, frontmatter support, and variable interpolation.
 
@@ -22,7 +22,7 @@ Check out the live demo at [marklab.pages.dev](https://marklab.pages.dev).
 
 ```bash
 # Clone the repository
-git clone https://github.com/teles/marklab.git
+git clone https://github.com/teles/markpad.git
 
 # Install dependencies
 pnpm install
@@ -33,7 +33,7 @@ pnpm start
 
 ## Frontmatter & Variables
 
-Marklab supports YAML frontmatter with variable interpolation. Define variables in the frontmatter and use them anywhere in your document with `{{variableName}}` syntax.
+Markpad supports YAML frontmatter with variable interpolation. Define variables in the frontmatter and use them anywhere in your document with `{{variableName}}` syntax.
 
 ### Example
 
@@ -123,5 +123,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-**Marklab** — Markdown Editor with Tailwind CSS  
+**Markpad** — Markdown Editor with Tailwind CSS  
 A project by [@teles](https://github.com/teles)

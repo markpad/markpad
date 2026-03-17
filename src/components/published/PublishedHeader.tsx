@@ -4,7 +4,7 @@ import { FaArrowLeft, FaLink, FaDownload, FaFilePdf, FaSun, FaMoon, FaMagic } fr
 import { Tooltip } from 'react-tooltip'
 import { Toast } from '../Toast'
 import { DownloadModal } from '../DownloadModal'
-import { exportPdf } from '../../utils/htmlGenerator'
+import { useExportPdf } from '../../hooks/useExportPdf'
 import type { TailwindClasses } from '../../types'
 
 interface PublishedHeaderProps {
@@ -40,6 +40,7 @@ export function PublishedHeader({
 }: PublishedHeaderProps) {
   const [showToast, setShowToast] = useState(false)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
+  const pdfExport = useExportPdf()
 
   const currentUrl = window.location.href
 
@@ -59,7 +60,7 @@ export function PublishedHeader({
   }
 
   const handlePrint = () => {
-    exportPdf({
+    pdfExport.handleExportPdf({
       documentTitle,
       htmlContent: getHtmlContent(),
       tailwindClasses,

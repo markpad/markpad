@@ -24,7 +24,7 @@ A markdown editor with live preview and Tailwind CSS styling.
 ### Installation
 
 ```bash
-git clone https://github.com/teles/marklab.git
+git clone https://github.com/teles/markpad.git
 cd marklab
 npm install
 npm start

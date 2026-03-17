@@ -18,7 +18,13 @@ import type { ThemePreset } from '../../data/themes.generated'
 import type { MarkpadCustomTheme } from '../../lib/repositories/types'
 import { useThemesPage, SidebarFilter } from '../../hooks/useThemesPage'
 import { getTextColorClass, getFontClass } from './themeUtils'
-import { PageNavLinks } from '../shared'
+import {
+  PageNavLinks,
+  EmptyState,
+  ThemesIllustration,
+  SearchIllustration,
+  StarredThemesIllustration,
+} from '../shared'
 
 export function ThemesPage() {
   const navigate = useNavigate()
@@ -214,17 +220,25 @@ export function ThemesPage() {
             {sidebarFilter === 'my-themes' && (
               <>
                 {filteredCustomThemes.length === 0 ? (
-                  <EmptyState
-                    message={
-                      searchQuery
-                        ? `No custom themes match "${searchQuery}".`
-                        : "You haven't created any custom themes yet."
-                    }
-                    actionLabel={searchQuery ? 'Clear search' : 'Create your first theme'}
-                    onAction={
-                      searchQuery ? () => setSearchQuery('') : () => navigate('/theme-editor/new')
-                    }
-                  />
+                  searchQuery ? (
+                    <EmptyState
+                      illustration={<SearchIllustration className="w-full h-full" />}
+                      title="No results found"
+                      description={`No custom themes match "${searchQuery}". Try a different search term.`}
+                      secondaryAction={{ label: 'Clear search', onClick: () => setSearchQuery('') }}
+                    />
+                  ) : (
+                    <EmptyState
+                      illustration={<ThemesIllustration className="w-full h-full" />}
+                      title="No custom themes yet"
+                      description="Create your own themes by customizing colors, fonts, and spacing. Start from scratch or base it on an existing theme."
+                      action={{
+                        label: 'Create your first theme',
+                        onClick: () => navigate('/theme-editor/new'),
+                        color: 'bg-fuchsia-500 hover:bg-fuchsia-600',
+                      }}
+                    />
+                  )
                 ) : viewMode === 'grid' ? (
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {filteredCustomThemes.map((theme) => (
@@ -255,17 +269,34 @@ export function ThemesPage() {
             {sidebarFilter !== 'my-themes' && (
               <>
                 {displayThemes.length === 0 ? (
-                  <EmptyState
-                    message={
-                      searchQuery
-                        ? `No themes match "${searchQuery}".`
-                        : sidebarFilter === 'starred'
-                          ? 'No starred themes yet. Star themes to find them quickly.'
-                          : 'No themes in this category.'
-                    }
-                    actionLabel="Clear filters"
-                    onAction={() => handleSidebarFilterClick('all')}
-                  />
+                  searchQuery ? (
+                    <EmptyState
+                      illustration={<SearchIllustration className="w-full h-full" />}
+                      title="No results found"
+                      description={`No themes match "${searchQuery}". Try a different search term.`}
+                      secondaryAction={{ label: 'Clear search', onClick: () => setSearchQuery('') }}
+                    />
+                  ) : sidebarFilter === 'starred' ? (
+                    <EmptyState
+                      illustration={<StarredThemesIllustration className="w-full h-full" />}
+                      title="No starred themes"
+                      description="Star your favorite themes to find them quickly. Click the heart icon on any theme card."
+                      secondaryAction={{
+                        label: 'Browse all themes',
+                        onClick: () => handleSidebarFilterClick('all'),
+                      }}
+                    />
+                  ) : (
+                    <EmptyState
+                      illustration={<ThemesIllustration className="w-full h-full" />}
+                      title="No themes in this category"
+                      description="Try a different category or browse all themes."
+                      secondaryAction={{
+                        label: 'View all themes',
+                        onClick: () => handleSidebarFilterClick('all'),
+                      }}
+                    />
+                  )
                 ) : viewMode === 'grid' ? (
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {displayThemes.map((theme) => (
@@ -298,34 +329,6 @@ export function ThemesPage() {
           </div>
         </main>
       </div>
-    </div>
-  )
-}
-
-// ── Empty State ────────────────────────────────────────────────────
-
-function EmptyState({
-  message,
-  actionLabel,
-  onAction,
-}: {
-  message: string
-  actionLabel: string
-  onAction: () => void
-}) {
-  return (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
-      <div className="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-2xl flex items-center justify-center mb-4">
-        <FaPalette className="text-2xl text-gray-400 dark:text-gray-600" />
-      </div>
-      <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">No themes found</h2>
-      <p className="text-sm text-gray-500 mb-6 max-w-sm">{message}</p>
-      <button
-        onClick={onAction}
-        className="text-fuchsia-500 dark:text-fuchsia-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-300 text-sm"
-      >
-        {actionLabel}
-      </button>
     </div>
   )
 }

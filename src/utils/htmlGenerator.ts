@@ -1,6 +1,6 @@
 import type { TailwindClasses } from '../types'
 
-interface HtmlGeneratorOptions {
+export interface HtmlGeneratorOptions {
   documentTitle: string
   htmlContent: string
   tailwindClasses: TailwindClasses

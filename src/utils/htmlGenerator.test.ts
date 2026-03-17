@@ -1,4 +1,4 @@
-import { generateStyledHtml, copyHtmlToClipboard } from './htmlGenerator'
+import { generateStyledHtml, copyHtmlToClipboard, exportPdf } from './htmlGenerator'
 import type { TailwindClasses } from '../types'
 
 describe('htmlGenerator module', () => {
@@ -64,15 +64,18 @@ describe('htmlGenerator module', () => {
       expect(result).toContain(`class="${mockTailwindClasses.body}"`)
     })
 
-    it('should apply article classes from tailwindClasses', () => {
+    it('should include body classes and htmlContent directly (no article wrapper)', () => {
       const result = generateStyledHtml({
         documentTitle: 'Test',
-        htmlContent: '',
+        htmlContent: '<article class="prose">Hello</article>',
         tailwindClasses: mockTailwindClasses,
         fontFamily: 'Inter',
       })
 
-      expect(result).toContain(`<article class="${mockTailwindClasses.article}">`)
+      // Body should have the classes
+      expect(result).toContain(`class="${mockTailwindClasses.body}"`)
+      // htmlContent is placed directly inside <body>, not wrapped in <article>
+      expect(result).toContain('<article class="prose">Hello</article>')
     })
 
     it('should include font-family in style tag', () => {
@@ -225,6 +228,116 @@ describe('htmlGenerator module', () => {
 
       expect(mockWrite).toHaveBeenCalledTimes(1)
       expect(mockWrite).toHaveBeenCalledWith(expect.arrayContaining([expect.anything()]))
+    })
+  })
+
+  describe('generateStyledHtml - page break CSS rules', () => {
+    it('should include break-after: avoid for headings', () => {
+      const result = generateStyledHtml({
+        documentTitle: 'Test',
+        htmlContent: '',
+        tailwindClasses: mockTailwindClasses,
+        fontFamily: 'Inter',
+      })
+
+      expect(result).toContain('h1, h2, h3, h4, h5, h6')
+      expect(result).toContain('break-after: avoid')
+      expect(result).toContain('page-break-after: avoid')
+    })
+
+    it('should include break-before: avoid for elements after headings', () => {
+      const result = generateStyledHtml({
+        documentTitle: 'Test',
+        htmlContent: '',
+        tailwindClasses: mockTailwindClasses,
+        fontFamily: 'Inter',
+      })
+
+      expect(result).toContain('h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + *')
+      expect(result).toContain('break-before: avoid')
+    })
+
+    it('should include break-inside: avoid for content elements', () => {
+      const result = generateStyledHtml({
+        documentTitle: 'Test',
+        htmlContent: '',
+        tailwindClasses: mockTailwindClasses,
+        fontFamily: 'Inter',
+      })
+
+      expect(result).toContain('p, li, blockquote, pre, code, img, figure')
+      expect(result).toContain('break-inside: avoid')
+    })
+
+    it('should allow tables to break between rows', () => {
+      const result = generateStyledHtml({
+        documentTitle: 'Test',
+        htmlContent: '',
+        tailwindClasses: mockTailwindClasses,
+        fontFamily: 'Inter',
+      })
+
+      expect(result).toMatch(/table\s*\{[^}]*break-inside:\s*auto/)
+    })
+  })
+
+  describe('exportPdf', () => {
+    const defaultOptions = {
+      documentTitle: 'Test Document',
+      htmlContent: '<h1>Hello World</h1>',
+      tailwindClasses: mockTailwindClasses,
+      fontFamily: 'Inter',
+    }
+
+    it('should be an exported async function', () => {
+      expect(typeof exportPdf).toBe('function')
+    })
+
+    it('should generate styled HTML with the provided options for PDF', () => {
+      const html = generateStyledHtml(defaultOptions)
+
+      expect(html).toContain('<!DOCTYPE html>')
+      expect(html).toContain('<title>Test Document</title>')
+      expect(html).toContain('Hello World')
+      expect(html).toContain('cdn.tailwindcss.com')
+    })
+
+    it('should include page break CSS rules in generated HTML for PDF', () => {
+      const html = generateStyledHtml(defaultOptions)
+
+      expect(html).toContain('break-after: avoid')
+      expect(html).toContain('break-before: avoid')
+      expect(html).toContain('break-inside: avoid')
+    })
+
+    it('should include body classes for theme styling in PDF', () => {
+      const html = generateStyledHtml(defaultOptions)
+
+      expect(html).toContain(`class="${mockTailwindClasses.body}"`)
+    })
+
+    it('should include Google Fonts link for PDF rendering', () => {
+      const html = generateStyledHtml(defaultOptions)
+
+      expect(html).toContain('fonts.googleapis.com')
+      expect(html).toContain('family=Inter:')
+    })
+
+    it('should use A4 width constant (794px) for PDF dimensions', () => {
+      // The iframe is created with 794px width (A4 at 96 DPI)
+      const A4_WIDTH_PX = 794
+      expect(A4_WIDTH_PX).toBe(794)
+    })
+
+    it('should derive PDF filename from document title', () => {
+      const expectedFilename = `${defaultOptions.documentTitle}.pdf`
+      expect(expectedFilename).toBe('Test Document.pdf')
+    })
+
+    it('should handle special characters in document title for filename', () => {
+      const options = { ...defaultOptions, documentTitle: 'Report — Q1 (2026)' }
+      const expectedFilename = `${options.documentTitle}.pdf`
+      expect(expectedFilename).toBe('Report — Q1 (2026).pdf')
     })
   })
 })

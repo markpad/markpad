@@ -9,7 +9,8 @@ import {
 } from 'react-icons/fa'
 import type { TailwindClasses } from '../types'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
-import { generateStyledHtml, downloadFile, exportPdf } from '../utils/htmlGenerator'
+import { generateStyledHtml, downloadFile } from '../utils/htmlGenerator'
+import { useExportPdf } from '../hooks/useExportPdf'
 
 interface DownloadModalProps {
   isOpen: boolean
@@ -33,6 +34,8 @@ export function DownloadModal({
   tailwindClasses,
   fontFamily,
 }: DownloadModalProps) {
+  const pdfExport = useExportPdf()
+
   if (!isOpen) return null
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -66,7 +69,7 @@ export function DownloadModal({
   }
 
   const handleExportPdf = () => {
-    exportPdf({
+    pdfExport.handleExportPdf({
       documentTitle,
       htmlContent,
       tailwindClasses,

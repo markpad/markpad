@@ -1,7 +1,8 @@
 import { FaDownload, FaMarkdown, FaCode, FaFileCode, FaCheck, FaFilePdf } from 'react-icons/fa'
 import type { TailwindClasses } from '../../types'
 import { processMarkdownWithFrontmatter } from '../../utils/frontmatter'
-import { generateStyledHtml, downloadFile, exportPdf } from '../../utils/htmlGenerator'
+import { generateStyledHtml, downloadFile } from '../../utils/htmlGenerator'
+import { useExportPdf } from '../../hooks/useExportPdf'
 
 interface ExportPanelProps {
   documentTitle: string
@@ -21,6 +22,8 @@ export function ExportPanel({
   tailwindClasses,
   fontFamily,
 }: ExportPanelProps) {
+  const pdfExport = useExportPdf()
+
   const handleDownloadMarkdownOriginal = () => {
     downloadFile(markdown, `${documentTitle}.md`, 'text/markdown')
   }
@@ -41,7 +44,7 @@ export function ExportPanel({
   }
 
   const handleExportPdf = () => {
-    exportPdf({
+    pdfExport.handleExportPdf({
       documentTitle,
       htmlContent,
       tailwindClasses,

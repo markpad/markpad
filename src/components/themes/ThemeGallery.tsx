@@ -52,7 +52,7 @@ export function ThemeGallery() {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100">
       <Helmet>
-        <title>Theme Gallery - Marklab</title>
+        <title>Theme Gallery - Markpad</title>
         <meta
           name="description"
           content="Browse and apply pre-configured Tailwind CSS themes for your markdown."
@@ -68,7 +68,7 @@ export function ThemeGallery() {
               <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg">
                 <FaFileAlt className="text-white text-sm" />
               </div>
-              <span className="text-white font-semibold text-lg">Marklab</span>
+              <span className="text-white font-semibold text-lg">Markpad</span>
             </a>
 
             {/* Nav Links */}
@@ -199,7 +199,7 @@ export function ThemeGallery() {
       {/* Footer */}
       <footer className="border-t border-gray-800 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between text-sm text-gray-500">
-          <p>© 2026 Marklab</p>
+          <p>© 2026 Markpad</p>
           <div className="flex items-center gap-6">
             <a href="#docs" className="hover:text-gray-300 transition-colors">
               Documentation

@@ -229,8 +229,8 @@ export function PublishedPage() {
     <div className={`h-screen flex flex-col ${darkMode ? 'dark' : ''}`}>
       <div className="h-screen flex flex-col bg-white dark:bg-gray-900">
         <Helmet>
-          <title>{state.documentTitle} - Marklab</title>
-          <meta name="description" content={`${state.documentTitle} - Published with Marklab`} />
+          <title>{state.documentTitle} - Markpad</title>
+          <meta name="description" content={`${state.documentTitle} - Published with Markpad`} />
           <style>{`
           @media print {
             header, footer, .no-print {
@@ -308,7 +308,7 @@ export function PublishedPage() {
                 href="/"
                 className="text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
               >
-                Marklab
+                Markpad
               </a>
             </footer>
           </div>
