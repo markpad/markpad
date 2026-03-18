@@ -8,6 +8,10 @@ import {
   FaCheckCircle,
   FaExclamationCircle,
   FaFile,
+  FaPlus,
+  FaExclamationTriangle,
+  FaDownload,
+  FaExternalLinkAlt,
 } from 'react-icons/fa'
 import type { UseImportModalResult } from '../hooks/useImportModal'
 import { ACCEPTED_EXTENSIONS, MAX_FILE_SIZE, formatFileSize } from '../hooks/useFileImport'
@@ -25,18 +29,28 @@ interface ImportModalProps {
   context: ImportContext
   /** Callback when content is imported (markdown content, optional title, action) */
   onImport: (content: string, title: string | undefined, action: ImportAction) => void
+  /** Current document title (for editor context, to show in overwrite option) */
+  currentDocumentTitle?: string
 }
 
 /**
  * Modal for importing markdown content from file or URL.
  * Two tabs: "My Computer" (drag & drop / file picker) and "Web URL" (web clipper).
  */
-export function ImportModal({ importModal, context, onImport }: ImportModalProps) {
+export function ImportModal({
+  importModal,
+  context,
+  onImport,
+  currentDocumentTitle,
+}: ImportModalProps) {
   const { isOpen, close, activeTab, setActiveTab, fileImport, urlImport } = importModal
 
-  // Default action based on context
-  const defaultAction: ImportAction = context === 'editor' ? 'replace' : 'createAndOpen'
-  const [action, setAction] = useState<ImportAction>(defaultAction)
+  // Track selected action based on context
+  // For documents: 'createAndOpen' (default) or 'createNew'
+  // For editor: 'createNew' (default) or 'replace'
+  const [selectedAction, setSelectedAction] = useState<ImportAction>(
+    context === 'documents' ? 'createAndOpen' : 'createNew'
+  )
 
   if (!isOpen) return null
 
@@ -49,10 +63,10 @@ export function ImportModal({ importModal, context, onImport }: ImportModalProps
   const handleImport = () => {
     if (activeTab === 'file' && fileImport.result) {
       const title = fileImport.result.fileName.replace(/\.(md|markdown|txt)$/, '')
-      onImport(fileImport.result.content, title, action)
+      onImport(fileImport.result.content, title, selectedAction)
       close()
     } else if (activeTab === 'url' && urlImport.result) {
-      onImport(urlImport.result.content, urlImport.result.title, action)
+      onImport(urlImport.result.content, urlImport.result.title, selectedAction)
       close()
     }
   }
@@ -113,28 +127,149 @@ export function ImportModal({ importModal, context, onImport }: ImportModalProps
         </div>
 
         {/* Footer */}
-        <div className="flex flex-col gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30">
-          {/* Action selector */}
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600 dark:text-gray-400">Action:</span>
-            <select
-              value={action}
-              onChange={(e) => setAction(e.target.value as ImportAction)}
-              className="flex-1 px-3 py-1.5 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-            >
-              {context === 'editor' ? (
+        <div className="flex flex-col gap-4 px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30">
+          {/* Action selector - only shown when there's content to import */}
+          {canImport && (
+            <div className="space-y-3">
+              <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Choose import action
+              </p>
+
+              {/* Documents context options */}
+              {context === 'documents' && (
                 <>
-                  <option value="replace">Overwrite current document</option>
-                  <option value="createNew">Create new document</option>
-                </>
-              ) : (
-                <>
-                  <option value="createAndOpen">Create and open</option>
-                  <option value="createNew">Create without opening</option>
+                  {/* Option 1: Import & Open (Recommended) */}
+                  <label
+                    className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+                      selectedAction === 'createAndOpen'
+                        ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="importAction"
+                      value="createAndOpen"
+                      checked={selectedAction === 'createAndOpen'}
+                      onChange={() => setSelectedAction('createAndOpen')}
+                      className="mt-0.5 text-orange-500 focus:ring-orange-500"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                          Import & Open
+                        </span>
+                        <span className="text-xs font-medium text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/40 px-2 py-0.5 rounded-full uppercase">
+                          Recommended
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Create a new document and open it in the editor.
+                      </p>
+                    </div>
+                    <FaExternalLinkAlt className="text-gray-400 dark:text-gray-500 mt-0.5" />
+                  </label>
+
+                  {/* Option 2: Import Only */}
+                  <label
+                    className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+                      selectedAction === 'createNew'
+                        ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="importAction"
+                      value="createNew"
+                      checked={selectedAction === 'createNew'}
+                      onChange={() => setSelectedAction('createNew')}
+                      className="mt-0.5 text-orange-500 focus:ring-orange-500"
+                    />
+                    <div className="flex-1">
+                      <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Import Only
+                      </span>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Create a new document without opening it. You can access it later from your
+                        documents list.
+                      </p>
+                    </div>
+                    <FaDownload className="text-gray-400 dark:text-gray-500 mt-0.5" />
+                  </label>
                 </>
               )}
-            </select>
-          </div>
+
+              {/* Editor context options */}
+              {context === 'editor' && (
+                <>
+                  {/* Option 1: Import into New Document (Recommended) */}
+                  <label
+                    className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+                      selectedAction === 'createNew'
+                        ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="importAction"
+                      value="createNew"
+                      checked={selectedAction === 'createNew'}
+                      onChange={() => setSelectedAction('createNew')}
+                      className="mt-0.5 text-orange-500 focus:ring-orange-500"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                          Import into New Document
+                        </span>
+                        <span className="text-xs font-medium text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/40 px-2 py-0.5 rounded-full uppercase">
+                          Recommended
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        This will create a separate file in the current folder. Existing data
+                        remains safe.
+                      </p>
+                    </div>
+                    <FaPlus className="text-gray-400 dark:text-gray-500 mt-0.5" />
+                  </label>
+
+                  {/* Option 2: Overwrite Current Document */}
+                  <label
+                    className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+                      selectedAction === 'replace'
+                        ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="importAction"
+                      value="replace"
+                      checked={selectedAction === 'replace'}
+                      onChange={() => setSelectedAction('replace')}
+                      className="mt-0.5 text-orange-500 focus:ring-orange-500"
+                    />
+                    <div className="flex-1">
+                      <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        Overwrite Current Document
+                      </span>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        This will{' '}
+                        <span className="text-red-600 dark:text-red-400 font-medium">
+                          replace all current content
+                        </span>{' '}
+                        in "{currentDocumentTitle || 'Untitled'}". This action cannot be undone.
+                      </p>
+                    </div>
+                    <FaExclamationTriangle className="text-amber-500 mt-0.5" />
+                  </label>
+                </>
+              )}
+            </div>
+          )}
 
           {/* Info and buttons */}
           <div className="flex items-center justify-between">
@@ -146,6 +281,7 @@ export function ImportModal({ importModal, context, onImport }: ImportModalProps
               )}
               {activeTab === 'url' && <span>Articles, blog posts, documentation pages</span>}
             </div>
+
             <div className="flex gap-2">
               <button
                 onClick={close}

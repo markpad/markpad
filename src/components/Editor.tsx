@@ -722,7 +722,12 @@ export function Editor({
         <LinkModal linkModal={linkModal} onInsertLink={handleInsertLink} />
 
         {/* Import Modal */}
-        <ImportModal importModal={importModal} context="editor" onImport={handleImport} />
+        <ImportModal
+          importModal={importModal}
+          context="editor"
+          onImport={handleImport}
+          currentDocumentTitle={state.documentTitle}
+        />
       </div>
     </div>
   )
