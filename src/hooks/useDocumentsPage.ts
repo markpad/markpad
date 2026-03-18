@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDocuments } from './useDocuments'
 import { useImportModal, type UseImportModalResult } from './useImportModal'
 import type { MarkpadDocument } from '../lib/repositories'
+import type { ImportAction } from '../components/ImportModal'
 
 const VIEW_MODE_STORAGE_KEY = 'markpad-view-mode'
 
@@ -33,7 +34,11 @@ export interface UseDocumentsPageReturn {
 
   // Import modal
   importModal: UseImportModalResult
-  handleImportContent: (content: string, title?: string) => Promise<void>
+  handleImportContent: (
+    content: string,
+    title: string | undefined,
+    action: ImportAction
+  ) => Promise<void>
 }
 
 export function useDocumentsPage(): UseDocumentsPageReturn {
@@ -81,11 +86,15 @@ export function useDocumentsPage(): UseDocumentsPageReturn {
   }, [importModal])
 
   const handleImportContent = useCallback(
-    async (content: string, title?: string) => {
+    async (content: string, title: string | undefined, action: ImportAction) => {
       const docTitle = title || 'Imported Document'
       const doc = await create(docTitle, content)
       importModal.close()
-      navigate(`/editor/${doc.id}`)
+
+      // Only navigate if action is createAndOpen
+      if (action === 'createAndOpen') {
+        navigate(`/editor/${doc.id}`)
+      }
     },
     [create, navigate, importModal]
   )

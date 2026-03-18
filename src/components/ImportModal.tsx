@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   FaTimes,
   FaFileUpload,
@@ -11,19 +12,31 @@ import {
 import type { UseImportModalResult } from '../hooks/useImportModal'
 import { ACCEPTED_EXTENSIONS, MAX_FILE_SIZE, formatFileSize } from '../hooks/useFileImport'
 
+/** Import action types */
+export type ImportAction = 'replace' | 'createNew' | 'createAndOpen'
+
+/** Context where ImportModal is used */
+export type ImportContext = 'editor' | 'documents'
+
 interface ImportModalProps {
   /** Import modal state and handlers from useImportModal hook */
   importModal: UseImportModalResult
-  /** Callback when content is imported (markdown content, optional title) */
-  onImport: (content: string, title?: string) => void
+  /** Context where the modal is used (affects available actions) */
+  context: ImportContext
+  /** Callback when content is imported (markdown content, optional title, action) */
+  onImport: (content: string, title: string | undefined, action: ImportAction) => void
 }
 
 /**
  * Modal for importing markdown content from file or URL.
  * Two tabs: "My Computer" (drag & drop / file picker) and "Web URL" (web clipper).
  */
-export function ImportModal({ importModal, onImport }: ImportModalProps) {
+export function ImportModal({ importModal, context, onImport }: ImportModalProps) {
   const { isOpen, close, activeTab, setActiveTab, fileImport, urlImport } = importModal
+
+  // Default action based on context
+  const defaultAction: ImportAction = context === 'editor' ? 'replace' : 'createAndOpen'
+  const [action, setAction] = useState<ImportAction>(defaultAction)
 
   if (!isOpen) return null
 
@@ -36,10 +49,10 @@ export function ImportModal({ importModal, onImport }: ImportModalProps) {
   const handleImport = () => {
     if (activeTab === 'file' && fileImport.result) {
       const title = fileImport.result.fileName.replace(/\.(md|markdown|txt)$/, '')
-      onImport(fileImport.result.content, title)
+      onImport(fileImport.result.content, title, action)
       close()
     } else if (activeTab === 'url' && urlImport.result) {
-      onImport(urlImport.result.content, urlImport.result.title)
+      onImport(urlImport.result.content, urlImport.result.title, action)
       close()
     }
   }
@@ -100,29 +113,39 @@ export function ImportModal({ importModal, onImport }: ImportModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30">
-          <div className="text-xs text-gray-500 dark:text-gray-400">
-            {activeTab === 'file' && (
-              <span>
-                Max {formatFileSize(MAX_FILE_SIZE)} · {ACCEPTED_EXTENSIONS.join(', ')}
-              </span>
-            )}
-            {activeTab === 'url' && <span>Articles, blog posts, documentation pages</span>}
+        <div className="flex flex-col gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30">
+          {/* Action selector */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600 dark:text-gray-400">Action:</span>
+            <select
+              value={action}
+              onChange={(e) => setAction(e.target.value as ImportAction)}
+              className="flex-1 px-3 py-1.5 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            >
+              {context === 'editor' ? (
+                <>
+                  <option value="replace">Overwrite current document</option>
+                  <option value="createNew">Create new document</option>
+                </>
+              ) : (
+                <>
+                  <option value="createAndOpen">Create and open</option>
+                  <option value="createNew">Create without opening</option>
+                </>
+              )}
+            </select>
           </div>
-          <div className="flex gap-2">
-            <button
-              onClick={close}
-              className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleImport}
-              disabled={!canImport}
-              className="px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed rounded-lg transition-colors"
-            >
-              Import
-            </button>
+
+          {/* Info and buttons */}
+          <div className="flex items-center justify-between">
+            <div className="text-xs text-gray-500 dark:text-gray-400">
+              {activeTab === 'file' && (
+                <span>
+                  Max {formatFileSize(MAX_FILE_SIZE)} · {ACCEPTED_EXTENSIONS.join(', ')}
+              >
+                Import
+              </button>
+            </div>
           </div>
         </div>
       </div>

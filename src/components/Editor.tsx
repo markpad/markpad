@@ -8,7 +8,7 @@ import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Tooltip } from 'react-tooltip'
 import { FaPalette, FaTimes, FaDownload, FaMagic } from 'react-icons/fa'
 import { useAppState } from '../hooks/useAppState'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
 import {
   defaultTailwindClasses,
@@ -32,7 +32,7 @@ import { LoopModal } from './LoopModal'
 import { IfModal } from './IfModal'
 import { ImageModal } from './ImageModal'
 import { LinkModal } from './LinkModal'
-import { ImportModal } from './ImportModal'
+import { ImportModal, ImportAction } from './ImportModal'
 import type { EditionMode, TailwindClasses } from '../types'
 import type { ThemePreset } from '../data/themes.generated'
 
@@ -489,16 +489,27 @@ export function Editor({
     [state.markdown, setMarkdown]
   )
 
+  const navigate = useNavigate()
+
   // Handle import (file or URL)
   const handleImport = useCallback(
-    (content: string, title?: string) => {
-      setMarkdown(content)
-      if (title) {
-        setDocumentTitle(title)
+    async (content: string, title: string | undefined, action: ImportAction) => {
+      if (action === 'replace') {
+        // Overwrite current document
+        setMarkdown(content)
+        if (title) {
+          setDocumentTitle(title)
+        }
+      } else {
+        // Create new document (createNew or createAndOpen)
+        const docTitle = title || 'Imported Document'
+        const repo = entityType === 'template' ? templateRepository : documentRepository
+        const newDoc = await repo.create(docTitle, content)
+        navigate(`/editor/${newDoc.id}`)
       }
       importModal.close()
     },
-    [setMarkdown, setDocumentTitle, importModal]
+    [setMarkdown, setDocumentTitle, entityType, navigate, importModal]
   )
 
   // Handle link insertion
@@ -711,7 +722,7 @@ export function Editor({
         <LinkModal linkModal={linkModal} onInsertLink={handleInsertLink} />
 
         {/* Import Modal */}
-        <ImportModal importModal={importModal} onImport={handleImport} />
+        <ImportModal importModal={importModal} context="editor" onImport={handleImport} />
       </div>
     </div>
   )

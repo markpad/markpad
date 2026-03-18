@@ -218,11 +218,15 @@ describe('useDocumentsPage', () => {
   })
 
   describe('handleImportContent', () => {
-    it('should create document from imported content and navigate', async () => {
+    it('should create document and navigate when action is createAndOpen', async () => {
       const { result } = renderHook(() => useDocumentsPage())
 
       await act(async () => {
-        await result.current.handleImportContent('# Imported Content', 'My Article')
+        await result.current.handleImportContent(
+          '# Imported Content',
+          'My Article',
+          'createAndOpen'
+        )
       })
 
       expect(mockCreate).toHaveBeenCalledWith('My Article', '# Imported Content')
@@ -230,11 +234,23 @@ describe('useDocumentsPage', () => {
       expect(mockNavigate).toHaveBeenCalledWith('/editor/new-doc-id')
     })
 
+    it('should create document without navigating when action is createNew', async () => {
+      const { result } = renderHook(() => useDocumentsPage())
+
+      await act(async () => {
+        await result.current.handleImportContent('# Imported Content', 'My Article', 'createNew')
+      })
+
+      expect(mockCreate).toHaveBeenCalledWith('My Article', '# Imported Content')
+      expect(mockImportModalClose).toHaveBeenCalled()
+      expect(mockNavigate).not.toHaveBeenCalled()
+    })
+
     it('should use default title when none provided', async () => {
       const { result } = renderHook(() => useDocumentsPage())
 
       await act(async () => {
-        await result.current.handleImportContent('# Content')
+        await result.current.handleImportContent('# Content', undefined, 'createAndOpen')
       })
 
       expect(mockCreate).toHaveBeenCalledWith('Imported Document', '# Content')

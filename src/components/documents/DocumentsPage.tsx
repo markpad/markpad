@@ -310,7 +310,7 @@ export function DocumentsPage() {
       </div>
 
       {/* Import Modal */}
-      <ImportModal importModal={importModal} onImport={handleImportContent} />
+      <ImportModal importModal={importModal} context="documents" onImport={handleImportContent} />
     </>
   )
 }
