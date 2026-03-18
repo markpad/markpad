@@ -142,6 +142,21 @@ export function ImportModal({ importModal, context, onImport }: ImportModalProps
               {activeTab === 'file' && (
                 <span>
                   Max {formatFileSize(MAX_FILE_SIZE)} · {ACCEPTED_EXTENSIONS.join(', ')}
+                </span>
+              )}
+              {activeTab === 'url' && <span>Articles, blog posts, documentation pages</span>}
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={close}
+                className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleImport}
+                disabled={!canImport}
+                className="px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed rounded-lg transition-colors"
               >
                 Import
               </button>

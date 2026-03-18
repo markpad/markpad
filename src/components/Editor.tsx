@@ -504,7 +504,7 @@ export function Editor({
         // Create new document (createNew or createAndOpen)
         const docTitle = title || 'Imported Document'
         const repo = entityType === 'template' ? templateRepository : documentRepository
-        const newDoc = await repo.create(docTitle, content)
+        const newDoc = await repo.create({ title: docTitle, content })
         navigate(`/editor/${newDoc.id}`)
       }
       importModal.close()
