@@ -51,7 +51,7 @@ async function fetchHtml(url: string): Promise<string> {
   return response.text()
 }
 
-function extractArticle(
+export function extractArticle(
   html: string,
   url: string
 ): {
@@ -60,8 +60,13 @@ function extractArticle(
   byline: string | null
   excerpt: string | null
   siteName: string | null
+  h1: string | null
 } | null {
   const { document } = parseHTML(html)
+
+  // Capture the original <h1> before Readability mutates the DOM
+  const h1Element = document.querySelector('h1')
+  const h1 = h1Element?.textContent?.trim() || null
 
   // Set the document URL for Readability to resolve relative URLs
   // linkedom doesn't support setting documentURI directly, so we use a base tag
@@ -70,10 +75,13 @@ function extractArticle(
   document.head.appendChild(base)
 
   const reader = new Readability(document)
-  return reader.parse()
+  const result = reader.parse()
+  if (!result) return null
+
+  return { ...result, h1 }
 }
 
-function htmlToMarkdown(html: string): string {
+export function htmlToMarkdown(html: string): string {
   const turndown = new TurndownService({
     headingStyle: 'atx',
     codeBlockStyle: 'fenced',
@@ -149,6 +157,7 @@ export async function clipUrl(request: Request, origin: string): Promise<Respons
     byline: string | null
     excerpt: string | null
     siteName: string | null
+    h1: string | null
   } | null
 
   try {
@@ -164,7 +173,11 @@ export async function clipUrl(request: Request, origin: string): Promise<Respons
 
   let markdown: string
   try {
-    markdown = htmlToMarkdown(article.content)
+    // Readability strips the <h1> from content, so prepend it back
+    const contentWithHeading = article.h1
+      ? `<h1>${article.h1}</h1>${article.content}`
+      : article.content
+    markdown = htmlToMarkdown(contentWithHeading)
   } catch (error) {
     const message = error instanceof Error ? error.message : undefined
     return errorResponse(errors.parseError(message, requestUrl), origin)
