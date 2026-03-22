@@ -33,13 +33,13 @@ function App() {
         <Route
           path="/editor/:id"
           element={
-            <Editor initialMode="split" showStylePanelByDefault={true} entityType="document" />
+            <Editor initialMode="split" showStylePanelByDefault={false} entityType="document" />
           }
         />
         <Route
           path="/editor"
           element={
-            <Editor initialMode="split" showStylePanelByDefault={true} entityType="document" />
+            <Editor initialMode="split" showStylePanelByDefault={false} entityType="document" />
           }
         />
 
@@ -47,13 +47,13 @@ function App() {
         <Route
           path="/template/:id"
           element={
-            <Editor initialMode="split" showStylePanelByDefault={true} entityType="template" />
+            <Editor initialMode="split" showStylePanelByDefault={false} entityType="template" />
           }
         />
         <Route
           path="/template/new"
           element={
-            <Editor initialMode="split" showStylePanelByDefault={true} entityType="template" />
+            <Editor initialMode="split" showStylePanelByDefault={false} entityType="template" />
           }
         />
 
