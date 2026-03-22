@@ -35,9 +35,16 @@ export function parse(markdown: string): ParseResult {
     const content = markdown.slice(match[0].length)
     const frontmatter = yaml.load(yamlContent) as Record<string, unknown>
 
+    // Ensure frontmatter is always an object, not a scalar value
+    // This prevents the bug where spreading a string creates indexed properties
+    const safeFrontmatter =
+      frontmatter && typeof frontmatter === 'object' && !Array.isArray(frontmatter)
+        ? frontmatter
+        : {}
+
     return {
       content,
-      frontmatter: frontmatter || {},
+      frontmatter: safeFrontmatter,
       raw: markdown,
     }
   } catch {

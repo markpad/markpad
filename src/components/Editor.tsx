@@ -51,7 +51,7 @@ interface EditorProps {
  */
 export function Editor({
   initialMode = 'split',
-  showStylePanelByDefault = true,
+  showStylePanelByDefault = false,
   entityType = 'document',
 }: EditorProps) {
   const { id: docId } = useParams<{ id: string }>()

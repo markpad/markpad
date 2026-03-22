@@ -39,7 +39,7 @@ export function useMarkdownEditor({
       const textarea = textareaRef.current
       // Use requestAnimationFrame to ensure DOM is updated
       requestAnimationFrame(() => {
-        textarea.focus()
+        textarea.focus({ preventScroll: true })
         textarea.setSelectionRange(pendingCursorPosition, pendingCursorPosition)
         setPendingCursorPosition(null)
       })

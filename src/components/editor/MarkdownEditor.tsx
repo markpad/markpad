@@ -62,7 +62,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
             options.cursorOffset !== undefined
               ? selectionStart + options.cursorOffset
               : selectionStart + text.length
-          textarea.focus()
+          textarea.focus({ preventScroll: true })
           textarea.setSelectionRange(newPos, newPos)
         })
       },
@@ -85,7 +85,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
 
         requestAnimationFrame(() => {
           const newPos = selectionStart + prefix.length + selectedText.length + suffix.length
-          textarea.focus()
+          textarea.focus({ preventScroll: true })
           textarea.setSelectionRange(newPos, newPos)
         })
       },
@@ -111,7 +111,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
       setCursorPosition: (position: number) => {
         const textarea = textareaRef.current
         if (textarea) {
-          textarea.focus()
+          textarea.focus({ preventScroll: true })
           textarea.setSelectionRange(position, position)
         }
       },

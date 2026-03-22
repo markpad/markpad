@@ -85,6 +85,52 @@ Content`
       expect(result.data).toEqual({})
       expect(result.content).toBe(markdown)
     })
+
+    it('should treat scalar YAML values as empty object to prevent character-splitting bug', () => {
+      // Bug: When frontmatter contains only a scalar value (string/number),
+      // yaml.load() returns that value instead of an object.
+      // If we then spread it ({ ...string }), each character becomes a numbered property.
+      const markdown = `---
+Just some text here
+---
+
+Content below`
+
+      const result = parseFrontmatter(markdown)
+
+      // Should return empty object, not the string
+      expect(result.data).toEqual({})
+      expect(typeof result.data).toBe('object')
+      expect(Array.isArray(result.data)).toBe(false)
+      // Verify it's not an indexed object (which would indicate the bug)
+      expect(Object.keys(result.data)).toEqual([])
+    })
+
+    it('should handle numeric scalar frontmatter', () => {
+      const markdown = `---
+42
+---
+
+Content`
+
+      const result = parseFrontmatter(markdown)
+
+      expect(result.data).toEqual({})
+    })
+
+    it('should handle array scalar frontmatter', () => {
+      const markdown = `---
+- item1
+- item2
+---
+
+Content`
+
+      const result = parseFrontmatter(markdown)
+
+      // Array is also not a valid frontmatter object
+      expect(result.data).toEqual({})
+    })
   })
 
   describe('interpolateVariables', () => {
