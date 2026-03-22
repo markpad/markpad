@@ -621,8 +621,8 @@ export function Editor({
 
           {/* Style Panel Toggle - Google Docs style icon bar */}
           <div
-            className={`flex flex-col items-center bg-gray-50 dark:bg-gray-800 border-l border-gray-300 dark:border-gray-700 transition-all ${
-              showStylePanel ? 'w-0 overflow-hidden' : 'w-12 py-2'
+            className={`flex flex-col items-center bg-gray-50 dark:bg-gray-800 border-l border-gray-300 dark:border-gray-700 overflow-hidden transition-all duration-300 ease-out ${
+              showStylePanel ? 'w-0 py-0 opacity-0' : 'w-12 py-2 opacity-100'
             }`}
           >
             {!showStylePanel && (
@@ -666,16 +666,27 @@ export function Editor({
           </div>
 
           {/* Side Panel */}
-          {showStylePanel && (
-            <div className="w-80 border-l border-gray-300 dark:border-gray-700 flex-shrink-0 relative">
-              {/* Close button */}
-              <button
-                onClick={() => setShowStylePanel(false)}
-                className="absolute top-1 right-1 z-10 p-1.5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors"
-                title="Close panel"
-              >
-                <FaTimes className="text-sm" />
-              </button>
+          <div
+            className={`border-l border-gray-300 dark:border-gray-700 flex-shrink-0 relative overflow-hidden transition-all duration-300 ease-out ${
+              showStylePanel ? 'w-80 opacity-100 translate-x-0' : 'w-0 opacity-0 translate-x-2'
+            }`}
+            aria-hidden={!showStylePanel}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setShowStylePanel(false)}
+              className={`absolute top-1 right-1 z-10 p-1.5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors duration-200 ${
+                showStylePanel ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+              title="Close panel"
+            >
+              <FaTimes className="text-sm" />
+            </button>
+            <div
+              className={`h-full transition-opacity duration-200 ${
+                showStylePanel ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
               {activeSidebarPanel === 'themes' && (
                 <StylePanel
                   tailwindClasses={state.tailwindClasses}
@@ -706,7 +717,7 @@ export function Editor({
                 />
               )}
             </div>
-          )}
+          </div>
         </div>
 
         {/* Loop Modal */}
