@@ -1,5 +1,5 @@
 import pako from 'pako'
-import type { AppState, TailwindClasses, BehaviorConfig } from '../types'
+import type { AppState, TailwindClasses } from '../types'
 
 /**
  * Service for encoding/decoding application state to/from URL using pako compression
@@ -153,14 +153,6 @@ export const defaultTailwindClasses: TailwindClasses = {
   pre: 'bg-gray-100 p-4 rounded overflow-x-auto',
   body: 'bg-white p-4',
   article: 'prose prose-slate max-w-none',
-}
-
-/**
- * Default behavior configuration
- */
-export const defaultBehaviorConfig: BehaviorConfig = {
-  shouldOpenLinksInNewTab: true,
-  shouldShowLineNumbers: true,
 }
 
 /**

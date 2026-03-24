@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import type { AppState, TailwindClasses, BehaviorConfig, FontConfig } from '../types'
+import type { AppState, TailwindClasses, FontConfig } from '../types'
 import {
   getStateFromUrl,
   updateUrlWithState,
   defaultTailwindClasses,
-  defaultBehaviorConfig,
   defaultFontConfig,
   defaultDocumentTitle,
 } from '../services/urlStateService'
@@ -22,8 +21,6 @@ interface UseAppStateReturn {
   setDocumentTitle: (title: string) => void
   setTailwindClasses: (tailwindClasses: TailwindClasses) => void
   updateTailwindClass: (element: keyof TailwindClasses, value: string) => void
-  setBehaviorConfig: (behaviorConfig: BehaviorConfig) => void
-  updateBehaviorConfig: <K extends keyof BehaviorConfig>(key: K, value: BehaviorConfig[K]) => void
   setFontConfig: (fontConfig: FontConfig) => void
   updateFontConfig: <K extends keyof FontConfig>(key: K, value: FontConfig[K]) => void
   resetToDefaults: () => void
@@ -50,7 +47,6 @@ export function useAppState(options?: UseAppStateOptions): UseAppStateReturn {
         markdown: '',
         documentTitle: defaultDocumentTitle,
         tailwindClasses: defaultTailwindClasses,
-        behaviorConfig: defaultBehaviorConfig,
         fontConfig: defaultFontConfig,
       }
     }
@@ -71,7 +67,6 @@ export function useAppState(options?: UseAppStateOptions): UseAppStateReturn {
       markdown: savedMarkdown ?? initialMarkdown,
       documentTitle: defaultDocumentTitle,
       tailwindClasses: defaultTailwindClasses,
-      behaviorConfig: defaultBehaviorConfig,
       fontConfig: defaultFontConfig,
     }
   }
@@ -121,29 +116,11 @@ export function useAppState(options?: UseAppStateOptions): UseAppStateReturn {
     }))
   }, [])
 
-  const setBehaviorConfig = useCallback((behaviorConfig: BehaviorConfig) => {
-    setState((prev) => ({ ...prev, behaviorConfig }))
-  }, [])
-
-  const updateBehaviorConfig = useCallback(
-    <K extends keyof BehaviorConfig>(key: K, value: BehaviorConfig[K]) => {
-      setState((prev) => ({
-        ...prev,
-        behaviorConfig: {
-          ...prev.behaviorConfig,
-          [key]: value,
-        },
-      }))
-    },
-    []
-  )
-
   const resetToDefaults = useCallback(() => {
     setState({
       markdown: initialMarkdown,
       documentTitle: defaultDocumentTitle,
       tailwindClasses: defaultTailwindClasses,
-      behaviorConfig: defaultBehaviorConfig,
       fontConfig: defaultFontConfig,
     })
   }, [])
@@ -175,8 +152,6 @@ export function useAppState(options?: UseAppStateOptions): UseAppStateReturn {
     setDocumentTitle,
     setTailwindClasses,
     updateTailwindClass,
-    setBehaviorConfig,
-    updateBehaviorConfig,
     setFontConfig,
     updateFontConfig,
     resetToDefaults,

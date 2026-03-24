@@ -2,14 +2,14 @@ import Markdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import type { TailwindClasses, BehaviorConfig, FontConfig } from '../../types'
+import type { TailwindClasses, FontConfig } from '../../types'
 import { useMemo, useCallback } from 'react'
 import { processMarkdownWithFrontmatter } from '../../utils/frontmatter'
+import { useUserSettings } from '../../hooks/useUserSettings'
 
 interface MarkdownPreviewProps {
   markdown: string
   tailwindClasses: TailwindClasses
-  behaviorConfig: BehaviorConfig
   fontConfig: FontConfig
   onScroll?: (scrollTop: number, scrollHeight: number, clientHeight: number) => void
   scrollRef?: React.RefObject<HTMLDivElement>
@@ -22,11 +22,12 @@ interface MarkdownPreviewProps {
 export function MarkdownPreview({
   markdown,
   tailwindClasses,
-  behaviorConfig,
   fontConfig,
   onScroll,
   scrollRef,
 }: MarkdownPreviewProps) {
+  const { settings } = useUserSettings()
+
   // Handle scroll for sync
   const handleScroll = useCallback(
     (e: React.UIEvent<HTMLDivElement>) => {
@@ -53,8 +54,8 @@ export function MarkdownPreview({
           aria-label="Link"
           className={tailwindClasses.a}
           {...props}
-          target={behaviorConfig.shouldOpenLinksInNewTab ? '_blank' : undefined}
-          rel={behaviorConfig.shouldOpenLinksInNewTab ? 'noopener noreferrer' : undefined}
+          target={settings.editor.openLinksInNewTab ? '_blank' : undefined}
+          rel={settings.editor.openLinksInNewTab ? 'noopener noreferrer' : undefined}
         />
       ),
       img: ({ node, ...props }: any) => <img alt="" className={tailwindClasses.img} {...props} />,
@@ -109,7 +110,7 @@ export function MarkdownPreview({
         </pre>
       ),
     }),
-    [tailwindClasses, behaviorConfig.shouldOpenLinksInNewTab]
+    [tailwindClasses, settings.editor.openLinksInNewTab]
   )
 
   // Process frontmatter and interpolate variables

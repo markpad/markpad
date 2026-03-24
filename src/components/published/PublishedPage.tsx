@@ -7,6 +7,7 @@ import pako from 'pako'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { decodeState } from '../../services/urlStateService'
+import { useUserSettings } from '../../hooks/useUserSettings'
 import { PublishedHeader } from './PublishedHeader'
 import { VariableWizard } from './VariableWizard'
 import {
@@ -60,19 +61,12 @@ export function PublishedPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [state, setState] = useState<AppState | null>(null)
   const [error, setError] = useState(false)
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem('darkMode')
-    return saved === 'true'
-  })
+  const { settings, updateEditorSetting } = useUserSettings()
+  const darkMode = settings.editor.darkMode
   const [showWizard, setShowWizard] = useState(false)
   const [variableDefinitions, setVariableDefinitions] = useState<VariableDefinitions | null>(null)
   const [variableValues, setVariableValues] = useState<VariableValues>({})
   const articleRef = useRef<HTMLElement>(null)
-
-  // Persist dark mode preference
-  useEffect(() => {
-    localStorage.setItem('darkMode', darkMode.toString())
-  }, [darkMode])
 
   // Decode main state from pako param
   useEffect(() => {
@@ -167,8 +161,8 @@ export function PublishedPage() {
         aria-label="Link"
         className={state.tailwindClasses.a}
         {...props}
-        target={state.behaviorConfig.shouldOpenLinksInNewTab ? '_blank' : undefined}
-        rel={state.behaviorConfig.shouldOpenLinksInNewTab ? 'noopener noreferrer' : undefined}
+        target={settings.editor.openLinksInNewTab ? '_blank' : undefined}
+        rel={settings.editor.openLinksInNewTab ? 'noopener noreferrer' : undefined}
       />
     ),
     img: ({ node, ...props }: any) => (
@@ -263,7 +257,7 @@ export function PublishedPage() {
           tailwindClasses={state.tailwindClasses}
           fontFamily={state.fontConfig.fontFamily}
           darkMode={darkMode}
-          onToggleDarkMode={() => setDarkMode(!darkMode)}
+          onToggleDarkMode={() => updateEditorSetting('darkMode', !darkMode)}
           hasVariables={variableDefinitions !== null}
           showWizard={showWizard}
           onToggleWizard={() => setShowWizard(!showWizard)}

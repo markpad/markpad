@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { FaArrowLeft, FaSun, FaMoon } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
+import { useUserSettings } from '../../hooks/useUserSettings'
 
 interface AppHeaderProps {
   /** Page title displayed next to back button */
@@ -12,10 +13,6 @@ interface AppHeaderProps {
   showBackButton?: boolean
   /** Back link destination (default: /) */
   backTo?: string
-  /** Dark mode state */
-  darkMode: boolean
-  /** Toggle dark mode callback */
-  onToggleDarkMode: () => void
   /** Left side content (after title) */
   leftContent?: ReactNode
   /** Right side action buttons */
@@ -33,12 +30,13 @@ export function AppHeader({
   titleIcon,
   showBackButton = true,
   backTo = '/',
-  darkMode,
-  onToggleDarkMode,
   leftContent,
   rightContent,
   iconButtons,
 }: AppHeaderProps) {
+  const { settings, updateEditorSetting } = useUserSettings()
+  const darkMode = settings.editor.darkMode
+
   return (
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
       <Tooltip id="header-tooltip" />
@@ -70,7 +68,7 @@ export function AppHeader({
 
           {/* Dark Mode Toggle */}
           <button
-            onClick={onToggleDarkMode}
+            onClick={() => updateEditorSetting('darkMode', !darkMode)}
             className="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             data-tooltip-id="header-tooltip"
             data-tooltip-content={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}

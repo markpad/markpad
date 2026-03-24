@@ -356,7 +356,6 @@ export function Header({
         title: `${state.documentTitle} (copy)`,
         content: state.markdown,
         tailwindClasses: state.tailwindClasses,
-        behaviorConfig: state.behaviorConfig,
         fontConfig: state.fontConfig,
       })
       window.open(`/editor/${doc.id}`, '_blank')

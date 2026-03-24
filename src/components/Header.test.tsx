@@ -2,7 +2,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Header } from './Header'
-import type { AppState, TailwindClasses, BehaviorConfig, FontConfig } from '../types'
+import type { AppState, TailwindClasses, FontConfig } from '../types'
 
 // Mock ResizeObserver for react-tooltip
 global.ResizeObserver = class ResizeObserver {
@@ -64,11 +64,6 @@ describe('Header Component', () => {
     article: 'max-w-4xl mx-auto p-8',
   }
 
-  const mockBehaviorConfig: BehaviorConfig = {
-    shouldShowLineNumbers: true,
-    shouldOpenLinksInNewTab: true,
-  }
-
   const mockFontConfig: FontConfig = {
     fontFamily: 'Inter',
   }
@@ -77,7 +72,6 @@ describe('Header Component', () => {
     markdown: '# Hello World\n\nThis is a test document.',
     documentTitle: 'Test Document',
     tailwindClasses: mockTailwindClasses,
-    behaviorConfig: mockBehaviorConfig,
     fontConfig: mockFontConfig,
   }
 

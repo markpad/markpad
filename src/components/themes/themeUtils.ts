@@ -5,6 +5,9 @@
  * Filters out size classes (text-xl, text-2xl) and alignment (text-center)
  */
 export function getTextColorClass(classes: string): string {
+  // If no classes provided, return default
+  if (!classes) return ''
+
   const textClasses = classes.split(' ').filter((c) => c.startsWith('text-'))
   // Filter out size classes and alignment - keep only color classes
   const colorClass = textClasses.find(
@@ -13,7 +16,9 @@ export function getTextColorClass(classes: string): string {
         /^text-(xs|sm|base|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|8xl|9xl|center|left|right|justify|wrap|nowrap|ellipsis|clip)$/
       )
   )
-  return colorClass || 'text-gray-700'
+
+  // If no color class found, but classes exist, it might be using inheritance or a default color
+  return colorClass || ''
 }
 
 /**

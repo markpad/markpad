@@ -109,7 +109,6 @@ jest.mock('../services/urlStateService', () => ({
   __esModule: true,
   encodeState: () => 'encoded-state',
   defaultDocumentTitle: 'Untitled Document',
-  defaultBehaviorConfig: {},
 }))
 
 describe('useThemesPage', () => {

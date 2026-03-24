@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import type { TailwindClasses, BehaviorConfig, FontConfig } from '../../types'
+import type { TailwindClasses, FontConfig } from '../../types'
 import { GOOGLE_FONTS } from '../../types'
 import { TailwindClassInput } from './TailwindClassInput'
 import { ThemeCardCompact } from '../themes/ThemeCardCompact'
 import { useStyleSidebar } from '../../hooks/useStyleSidebar'
+import { useUserSettings } from '../../hooks/useUserSettings'
 import { ThemePreset, themePresets } from '../../data/themes.generated'
 import {
   FaChevronDown,
@@ -20,14 +21,12 @@ import {
 // Style panel props interface
 interface StylePanelProps {
   tailwindClasses: TailwindClasses
-  behaviorConfig: BehaviorConfig
   fontConfig: FontConfig
   currentThemeId?: string
   isCustomTheme?: boolean
   customThemeName?: string
   onCustomThemeNameChange?: (name: string) => void
   onTailwindClassChange: (element: keyof TailwindClasses, value: string) => void
-  onBehaviorConfigChange: <K extends keyof BehaviorConfig>(key: K, value: BehaviorConfig[K]) => void
   onFontConfigChange: <K extends keyof FontConfig>(key: K, value: FontConfig[K]) => void
   onApplyTheme: (theme: ThemePreset) => void
   onResetToDefault?: () => void
@@ -100,19 +99,18 @@ function TabButton({
  */
 export function StylePanel({
   tailwindClasses,
-  behaviorConfig,
   fontConfig,
   currentThemeId,
   isCustomTheme = false,
   customThemeName = 'Custom Theme',
   onCustomThemeNameChange,
   onTailwindClassChange,
-  onBehaviorConfigChange,
   onFontConfigChange,
   onApplyTheme,
   onResetToDefault,
   onSaveCustomTheme,
 }: StylePanelProps) {
+  const { settings, updateEditorSetting } = useUserSettings()
   const {
     activeTab,
     setActiveTab,
@@ -428,9 +426,9 @@ export function StylePanel({
                 <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
                   <input
                     type="checkbox"
-                    checked={behaviorConfig.shouldOpenLinksInNewTab}
+                    checked={settings.editor.openLinksInNewTab}
                     onChange={(e) => {
-                      onBehaviorConfigChange('shouldOpenLinksInNewTab', e.target.checked)
+                      updateEditorSetting('openLinksInNewTab', e.target.checked)
                     }}
                     className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-400"
                   />

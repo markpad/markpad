@@ -10,7 +10,6 @@ export interface MarkpadDocument {
   content: string
   themeId?: string
   tailwindClasses: TailwindClasses
-  behaviorConfig: BehaviorConfig
   fontConfig: FontConfig
   variables: Record<string, unknown>
   templateId?: string
@@ -19,6 +18,8 @@ export interface MarkpadDocument {
   trashedAt?: Date | null
   createdAt: Date
   updatedAt: Date
+  // Legacy support for migration - will be removed soon
+  behaviorConfig?: BehaviorConfig
 }
 
 export type CreateDocumentInput = Pick<MarkpadDocument, 'title' | 'content'> &
@@ -27,11 +28,11 @@ export type CreateDocumentInput = Pick<MarkpadDocument, 'title' | 'content'> &
       MarkpadDocument,
       | 'themeId'
       | 'tailwindClasses'
-      | 'behaviorConfig'
       | 'fontConfig'
       | 'variables'
       | 'templateId'
       | 'templateVersion'
+      | 'behaviorConfig'
     >
   >
 
@@ -42,7 +43,6 @@ export type UpdateDocumentInput = Partial<
     | 'content'
     | 'themeId'
     | 'tailwindClasses'
-    | 'behaviorConfig'
     | 'fontConfig'
     | 'variables'
     | 'starred'
@@ -80,23 +80,44 @@ export interface MarkpadTemplate {
   description: string
   content: string
   themeId?: string
+  tailwindClasses?: TailwindClasses
+  fontConfig?: FontConfig
   variablesSchema: Record<string, VariableSchema>
   category?: string
   isSystem: boolean
   version: number
   createdAt: Date
   updatedAt: Date
+  // Legacy support for migration
+  behaviorConfig?: BehaviorConfig
 }
 
 export type CreateTemplateInput = Pick<MarkpadTemplate, 'title' | 'content'> &
   Partial<
-    Pick<MarkpadTemplate, 'description' | 'themeId' | 'variablesSchema' | 'category' | 'isSystem'>
+    Pick<
+      MarkpadTemplate,
+      | 'description'
+      | 'themeId'
+      | 'tailwindClasses'
+      | 'fontConfig'
+      | 'variablesSchema'
+      | 'category'
+      | 'isSystem'
+      | 'behaviorConfig'
+    >
   >
 
 export type UpdateTemplateInput = Partial<
   Pick<
     MarkpadTemplate,
-    'title' | 'content' | 'description' | 'themeId' | 'variablesSchema' | 'category'
+    | 'title'
+    | 'content'
+    | 'description'
+    | 'themeId'
+    | 'tailwindClasses'
+    | 'fontConfig'
+    | 'variablesSchema'
+    | 'category'
   >
 >
 

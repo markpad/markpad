@@ -10,11 +10,7 @@ import { FaPalette, FaTimes, FaDownload, FaMagic } from 'react-icons/fa'
 import { useAppState } from '../hooks/useAppState'
 import { useParams, useNavigate } from 'react-router-dom'
 import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
-import {
-  defaultTailwindClasses,
-  defaultBehaviorConfig,
-  defaultFontConfig,
-} from '../services/urlStateService'
+import { defaultTailwindClasses, defaultFontConfig } from '../services/urlStateService'
 import { documentRepository, templateRepository } from '../lib/repositories'
 import debounce from '../utils/debounce'
 import { useLoopModal } from '../hooks/useLoopModal'
@@ -22,6 +18,7 @@ import { useIfModal } from '../hooks/useIfModal'
 import { useImageModal } from '../hooks/useImageModal'
 import { useLinkModal } from '../hooks/useLinkModal'
 import { useImportModal } from '../hooks/useImportModal'
+import { useUserSettings } from '../hooks/useUserSettings'
 import { Header } from './Header'
 import { MarkdownEditor, MarkdownEditorHandle } from './editor/MarkdownEditor'
 import { MarkdownPreview } from './preview/MarkdownPreview'
@@ -64,13 +61,13 @@ export function Editor({
     setMarkdown,
     setDocumentTitle,
     updateTailwindClass,
-    updateBehaviorConfig,
     updateFontConfig,
     setTailwindClasses,
-    setBehaviorConfig,
     setFontConfig,
     loadState,
   } = useAppState({ docId: entityId })
+
+  const { settings, updateEditorSetting } = useUserSettings()
 
   const [docLoaded, setDocLoaded] = useState(false)
   const [currentThemeId, setCurrentThemeId] = useState<string | undefined>()
@@ -86,12 +83,17 @@ export function Editor({
     if (isTemplate) {
       templateRepository.getById(entityId).then((tpl) => {
         if (tpl) {
+          // Merge behaviorConfig into user settings if present (migration)
+          if (tpl.behaviorConfig) {
+            updateEditorSetting('showLineNumbers', tpl.behaviorConfig.shouldShowLineNumbers)
+            updateEditorSetting('openLinksInNewTab', tpl.behaviorConfig.shouldOpenLinksInNewTab)
+          }
+
           loadState({
             markdown: tpl.content,
             documentTitle: tpl.title,
-            tailwindClasses: state.tailwindClasses,
-            behaviorConfig: state.behaviorConfig,
-            fontConfig: state.fontConfig,
+            tailwindClasses: tpl.tailwindClasses ?? defaultTailwindClasses,
+            fontConfig: tpl.fontConfig ?? defaultFontConfig,
           })
           if (tpl.themeId) {
             setCurrentThemeId(tpl.themeId)
@@ -102,11 +104,16 @@ export function Editor({
     } else {
       documentRepository.getById(entityId).then((doc) => {
         if (doc) {
+          // Merge behaviorConfig into user settings if present (migration)
+          if (doc.behaviorConfig) {
+            updateEditorSetting('showLineNumbers', doc.behaviorConfig.shouldShowLineNumbers)
+            updateEditorSetting('openLinksInNewTab', doc.behaviorConfig.shouldOpenLinksInNewTab)
+          }
+
           loadState({
             markdown: doc.content,
             documentTitle: doc.title,
             tailwindClasses: doc.tailwindClasses,
-            behaviorConfig: doc.behaviorConfig,
             fontConfig: doc.fontConfig,
           })
           if (doc.themeId) {
@@ -127,7 +134,6 @@ export function Editor({
         content: string,
         title: string,
         tailwindClasses: TailwindClasses,
-        behaviorConfig: typeof state.behaviorConfig,
         fontConfig: typeof state.fontConfig,
         themeId?: string
       ) => {
@@ -140,7 +146,6 @@ export function Editor({
               content,
               title,
               tailwindClasses,
-              behaviorConfig,
               fontConfig,
               themeId,
             })
@@ -171,7 +176,6 @@ export function Editor({
     state.markdown,
     state.documentTitle,
     state.tailwindClasses,
-    state.behaviorConfig,
     state.fontConfig,
     currentThemeId,
     docLoaded,
@@ -185,7 +189,6 @@ export function Editor({
         state.markdown,
         state.documentTitle,
         state.tailwindClasses,
-        state.behaviorConfig,
         state.fontConfig,
         currentThemeId
       )
@@ -196,21 +199,15 @@ export function Editor({
     state.markdown,
     state.documentTitle,
     state.tailwindClasses,
-    state.behaviorConfig,
     state.fontConfig,
     currentThemeId,
     debouncedSave,
   ])
 
-  const [editionMode, setEditionMode] = useState<EditionMode>(initialMode)
+  const [editionMode, setEditionMode] = useState<EditionMode>(settings.editor.defaultView)
   const [showStylePanel, setShowStylePanel] = useState(showStylePanelByDefault)
   const [activeSidebarPanel, setActiveSidebarPanel] = useState<SidebarPanel>('themes')
   const [customThemeName, setCustomThemeName] = useState('Custom Theme')
-  const [syncScroll, setSyncScroll] = useState(false)
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem('darkMode')
-    return saved === 'true'
-  })
 
   // Check if current theme is custom (modified from preset or default)
   const isCustomTheme = !currentThemeId
@@ -221,11 +218,6 @@ export function Editor({
   const imageModal = useImageModal()
   const linkModal = useLinkModal()
   const importModal = useImportModal()
-
-  // Persist dark mode preference
-  useEffect(() => {
-    localStorage.setItem('darkMode', darkMode.toString())
-  }, [darkMode])
 
   // Ref for editor formatting methods
   const editorRef = useRef<MarkdownEditorHandle>(null)
@@ -288,7 +280,7 @@ export function Editor({
         <a
           className={state.tailwindClasses.a}
           {...props}
-          target={state.behaviorConfig.shouldOpenLinksInNewTab ? '_blank' : undefined}
+          target={settings.editor.openLinksInNewTab ? '_blank' : undefined}
         />
       ),
       img: ({ node, ...props }: any) => (
@@ -356,7 +348,7 @@ export function Editor({
         </Markdown>
       </article>
     )
-  }, [state.markdown, state.tailwindClasses, state.behaviorConfig.shouldOpenLinksInNewTab])
+  }, [state.markdown, state.tailwindClasses, settings.editor.openLinksInNewTab])
 
   const handleTailwindClassChange = (element: keyof TailwindClasses, value: string) => {
     updateTailwindClass(element, value)
@@ -378,19 +370,10 @@ export function Editor({
   // Handle resetting to default theme
   const handleResetToDefault = useCallback(() => {
     setTailwindClasses(defaultTailwindClasses)
-    setBehaviorConfig({
-      ...defaultBehaviorConfig,
-      shouldShowLineNumbers: state.behaviorConfig.shouldShowLineNumbers,
-    })
     setFontConfig(defaultFontConfig)
     setCurrentThemeId('standard-blue')
     setCustomThemeName('Custom Theme')
-  }, [
-    setTailwindClasses,
-    setBehaviorConfig,
-    setFontConfig,
-    state.behaviorConfig.shouldShowLineNumbers,
-  ])
+  }, [setTailwindClasses, setFontConfig])
 
   // Handle saving custom theme as a preset
   const handleSaveCustomTheme = useCallback(
@@ -399,12 +382,11 @@ export function Editor({
       return {
         name: themeName,
         tailwindClasses: state.tailwindClasses,
-        behaviorConfig: state.behaviorConfig,
         fontConfig: state.fontConfig,
         fontFamily: state.fontConfig.fontFamily,
       }
     },
-    [state.tailwindClasses, state.behaviorConfig, state.fontConfig]
+    [state.tailwindClasses, state.fontConfig]
   )
 
   // Handle loop insertion
@@ -536,7 +518,7 @@ export function Editor({
   )
 
   return (
-    <div className={`flex flex-col h-screen ${darkMode ? 'dark' : ''}`}>
+    <div className={`flex flex-col h-screen ${settings.editor.darkMode ? 'dark' : ''}`}>
       <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
         <Helmet>
           <title>
@@ -557,17 +539,14 @@ export function Editor({
           onDocumentTitleChange={setDocumentTitle}
           entityType={entityType}
           saveStatus={entityId ? saveStatus : 'idle'}
-          showLineNumbers={state.behaviorConfig.shouldShowLineNumbers}
+          showLineNumbers={settings.editor.showLineNumbers}
           onToggleLineNumbers={() =>
-            updateBehaviorConfig(
-              'shouldShowLineNumbers',
-              !state.behaviorConfig.shouldShowLineNumbers
-            )
+            updateEditorSetting('showLineNumbers', !settings.editor.showLineNumbers)
           }
-          syncScroll={syncScroll}
-          onToggleSyncScroll={() => setSyncScroll(!syncScroll)}
-          darkMode={darkMode}
-          onToggleDarkMode={() => setDarkMode(!darkMode)}
+          syncScroll={settings.editor.syncScroll}
+          onToggleSyncScroll={() => updateEditorSetting('syncScroll', !settings.editor.syncScroll)}
+          darkMode={settings.editor.darkMode}
+          onToggleDarkMode={() => updateEditorSetting('darkMode', !settings.editor.darkMode)}
           tailwindClasses={state.tailwindClasses}
           fontFamily={state.fontConfig.fontFamily}
           onUndo={() => document.execCommand('undo')}
@@ -598,8 +577,12 @@ export function Editor({
                   ref={editorRef}
                   markdown={state.markdown}
                   setMarkdown={setMarkdown}
-                  showLineNumbers={state.behaviorConfig.shouldShowLineNumbers}
-                  onScroll={syncScroll && editionMode === 'split' ? handleEditorScroll : undefined}
+                  showLineNumbers={settings.editor.showLineNumbers}
+                  onScroll={
+                    settings.editor.syncScroll && editionMode === 'split'
+                      ? handleEditorScroll
+                      : undefined
+                  }
                 />
               </div>
             )}
@@ -610,9 +593,12 @@ export function Editor({
                 <MarkdownPreview
                   markdown={state.markdown}
                   tailwindClasses={state.tailwindClasses}
-                  behaviorConfig={state.behaviorConfig}
                   fontConfig={state.fontConfig}
-                  onScroll={syncScroll && editionMode === 'split' ? handlePreviewScroll : undefined}
+                  onScroll={
+                    settings.editor.syncScroll && editionMode === 'split'
+                      ? handlePreviewScroll
+                      : undefined
+                  }
                   scrollRef={previewScrollRef}
                 />
               </div>
@@ -690,14 +676,12 @@ export function Editor({
               {activeSidebarPanel === 'themes' && (
                 <StylePanel
                   tailwindClasses={state.tailwindClasses}
-                  behaviorConfig={state.behaviorConfig}
                   fontConfig={state.fontConfig}
                   currentThemeId={currentThemeId}
                   isCustomTheme={isCustomTheme}
                   customThemeName={customThemeName}
                   onCustomThemeNameChange={setCustomThemeName}
                   onTailwindClassChange={handleTailwindClassChange}
-                  onBehaviorConfigChange={updateBehaviorConfig}
                   onFontConfigChange={updateFontConfig}
                   onApplyTheme={handleApplyTheme}
                   onResetToDefault={handleResetToDefault}

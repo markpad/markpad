@@ -1,10 +1,6 @@
 import { openDB, DBSchema, IDBPDatabase } from 'idb'
 import type { MarkpadDocument, MarkpadTemplate, MarkpadCustomTheme } from '../types'
-import {
-  defaultTailwindClasses,
-  defaultBehaviorConfig,
-  defaultFontConfig,
-} from '../../../services/urlStateService'
+import { defaultTailwindClasses, defaultFontConfig } from '../../../services/urlStateService'
 
 interface MarkpadDB extends DBSchema {
   documents: {
@@ -54,7 +50,6 @@ export async function getDB(): Promise<IDBPDatabase<MarkpadDB>> {
               const updated = {
                 ...doc,
                 tailwindClasses: defaultTailwindClasses,
-                behaviorConfig: defaultBehaviorConfig,
                 fontConfig: doc.fontFamily ? { fontFamily: doc.fontFamily } : defaultFontConfig,
               }
               delete updated.fontFamily

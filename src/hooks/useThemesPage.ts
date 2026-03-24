@@ -9,11 +9,7 @@ import {
 import type { ThemePreset, ThemeCategory } from '../data/themes.generated'
 import type { MarkpadCustomTheme } from '../lib/repositories/types'
 import { useStyleSidebar } from './useStyleSidebar'
-import {
-  encodeState,
-  defaultDocumentTitle,
-  defaultBehaviorConfig,
-} from '../services/urlStateService'
+import { encodeState, defaultDocumentTitle } from '../services/urlStateService'
 import { customThemeRepository } from '../lib/repositories'
 import { ELEMENT_SCHEMAS, classesToConfig } from '../components/theme-editor/types'
 import type { ThemeElement } from '../components/theme-editor/types'
@@ -131,7 +127,6 @@ export function useThemesPage(): UseThemesPageReturn {
         markdown: theme.exampleContent,
         documentTitle: defaultDocumentTitle,
         tailwindClasses: theme.tailwindClasses,
-        behaviorConfig: defaultBehaviorConfig,
         fontConfig: theme.fontConfig,
       }
       const encoded = encodeState(state)

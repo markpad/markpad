@@ -5,11 +5,7 @@ import type {
   CreateDocumentInput,
   UpdateDocumentInput,
 } from '../types'
-import {
-  defaultTailwindClasses,
-  defaultBehaviorConfig,
-  defaultFontConfig,
-} from '../../../services/urlStateService'
+import { defaultTailwindClasses, defaultFontConfig } from '../../../services/urlStateService'
 
 export function createIndexedDBDocumentRepository(): DocumentRepository {
   return {
@@ -34,7 +30,6 @@ export function createIndexedDBDocumentRepository(): DocumentRepository {
         content: input.content,
         themeId: input.themeId,
         tailwindClasses: input.tailwindClasses ?? defaultTailwindClasses,
-        behaviorConfig: input.behaviorConfig ?? defaultBehaviorConfig,
         fontConfig: input.fontConfig ?? defaultFontConfig,
         variables: input.variables ?? {},
         templateId: input.templateId,

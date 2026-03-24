@@ -15,6 +15,7 @@ import {
 } from 'react-icons/fa'
 import { useParams, useNavigate } from 'react-router-dom'
 import { AppHeader } from '../shared/AppHeader'
+import { useUserSettings } from '../../hooks/useUserSettings'
 import {
   type ThemeElement,
   type ElementConfig,
@@ -45,6 +46,8 @@ export function ThemeEditorPage() {
   const { id: themeId } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const isNewTheme = !themeId || themeId === 'new'
+  const { settings } = useUserSettings()
+  const darkMode = settings.editor.darkMode
 
   const [isLoaded, setIsLoaded] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
@@ -67,7 +70,6 @@ export function ThemeEditorPage() {
     Media: false,
   })
   const [copied, setCopied] = useState(false)
-  const [darkMode, setDarkMode] = useState(getDarkModeFromStorage())
   const [showThemeSelector, setShowThemeSelector] = useState(false)
   const [showReplaceColors, setShowReplaceColors] = useState(false)
   const [inspectMode, setInspectMode] = useState(false)
@@ -81,7 +83,6 @@ export function ThemeEditorPage() {
           setThemeName(theme.name)
           setConfigs(theme.configs as Record<ThemeElement, ElementConfig>)
           setSelectedElement((theme.selectedElement as ThemeElement) || 'h1')
-          setDarkMode(theme.darkMode)
         }
         setIsLoaded(true)
         // Small delay so initial load doesn't trigger auto-save
@@ -319,8 +320,6 @@ export function ThemeEditorPage() {
       <AppHeader
         title="Theme Editor"
         titleIcon={<FaPalette className="w-4 h-4 text-blue-500" />}
-        darkMode={darkMode}
-        onToggleDarkMode={() => setDarkMode(!darkMode)}
         leftContent={
           <input
             type="text"
