@@ -1,14 +1,7 @@
-import type { FontConfig } from '@/types'
 import { ThemeCardCompact } from '@/components/themes/ThemeCardCompact'
 import { useStyleSidebar } from '@/hooks/useStyleSidebar'
 import { ThemePreset, themePresets } from '@/data/themes.generated'
-import {
-  FaPalette,
-  FaSearch,
-  FaTimes,
-  FaHeart,
-  FaSave,
-} from 'react-icons/fa'
+import { FaPalette, FaSearch, FaTimes, FaHeart, FaSave } from 'react-icons/fa'
 
 // Style panel props interface
 interface StylePanelProps {
@@ -141,9 +134,7 @@ export function StylePanel({
                       ? 'text-red-500 dark:text-red-400'
                       : 'text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400'
                   }`}
-                  title={
-                    isFavorite(currentTheme.id) ? 'Remove from favorites' : 'Add to favorites'
-                  }
+                  title={isFavorite(currentTheme.id) ? 'Remove from favorites' : 'Add to favorites'}
                 >
                   {isFavorite(currentTheme.id) ? (
                     <FaHeart className="w-4 h-4" />
@@ -208,9 +199,7 @@ export function StylePanel({
                 onApply={() => onApplyTheme(theme)}
                 onToggleFavorite={() => toggleFavorite(theme.id)}
                 onDelete={
-                  'isLocal' in theme && theme.isLocal
-                    ? () => deleteLocalTheme(theme.id)
-                    : undefined
+                  'isLocal' in theme && theme.isLocal ? () => deleteLocalTheme(theme.id) : undefined
                 }
               />
             ))}

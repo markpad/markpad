@@ -48,7 +48,7 @@ interface EditorProps {
  * Orchestrates all sub-components and manages layout state
  */
 export function Editor({
-  initialMode = 'split',
+  initialMode: _initialMode = 'split',
   showStylePanelByDefault = false,
   entityType = 'document',
 }: EditorProps) {

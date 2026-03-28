@@ -823,7 +823,7 @@ export function configToClasses(config: ElementConfig, element: ThemeElement): s
 }
 
 // Parse Tailwind class string back to ElementConfig
-export function classesToConfig(classString: string, element: ThemeElement): ElementConfig {
+export function classesToConfig(classString: string, _element: ThemeElement): ElementConfig {
   const classes = classString.split(' ').filter(Boolean)
   const config: ElementConfig = {}
   const recognized: string[] = []

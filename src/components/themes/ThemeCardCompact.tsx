@@ -1,4 +1,3 @@
-import React from 'react'
 import { ThemePreset } from '@/data/themes.generated'
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
 import type { TailwindClasses } from '@/types'

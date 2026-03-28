@@ -277,7 +277,7 @@ const MarkdownConverter: React.FC = () => {
             className={`flex flex-col z-20 h-max border  rounded-md ${isEditionSelectionOpen ? 'overflow-visible bg-white h-content gap-1 p-1 m-[-4px]' : 'overflow-hidden max-h-10'}  `}
           >
             {editionButtons
-              .sort((a, b) => (a.edition === editionMode ? -1 : 1))
+              .sort((a, _b) => (a.edition === editionMode ? -1 : 1))
               .map((button, index) => (
                 <BarButton
                   key={index}

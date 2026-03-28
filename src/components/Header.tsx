@@ -117,7 +117,7 @@ function MenuDropdown({ label, items, anyMenuOpen, isActive, onMenuOpenChange }:
     }
   }, [isActive])
 
-  const renderMenuItem = (item: MenuItem, index: number, isSubmenu = false) => {
+  const renderMenuItem = (item: MenuItem, index: number, _isSubmenu = false) => {
     // Divider-only item
     if (item.label === 'divider' && item.divider) {
       return <div key={index} className="border-t border-gray-200 dark:border-gray-700 my-1" />

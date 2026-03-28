@@ -1,4 +1,3 @@
-import React from 'react'
 import { render } from '@testing-library/react'
 
 // Mock heavy components that depend on ESM-only modules (react-markdown, react-syntax-highlighter)
