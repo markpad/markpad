@@ -13,7 +13,7 @@ export interface ClipResult {
 }
 
 const WORKER_URL =
-  process.env.REACT_APP_CLIPPER_URL || 'https://markpad-worker.josetelesmaciel.workers.dev'
+  import.meta.env.VITE_CLIPPER_URL || 'https://markpad-worker.josetelesmaciel.workers.dev'
 
 /**
  * Error response from the worker (RFC 7807 ProblemDetail).

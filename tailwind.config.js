@@ -1,11 +1,13 @@
+import typography from '@tailwindcss/typography'
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+export default {
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './index.html'],
   darkMode: 'class',
   theme: {
     extend: {},
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [typography],
   safelist: [
     // Allow all text colors for dynamic styling (with dark mode variants)
     { pattern: /^text-/, variants: ['dark', 'hover'] },

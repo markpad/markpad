@@ -2,12 +2,12 @@
   "name": "markpad",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@tailwindcss/typography": "0.5.19",
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/react": "14.3.1",
     "@testing-library/user-event": "14.6.1",
-    "@types/jest": "29.5.14",
     "@types/node": "25.3.5",
     "@types/prismjs": "1.26.6",
     "@types/react": "18.3.28",
@@ -27,7 +27,6 @@
     "react-markdown": "9.1.0",
     "react-modal": "3.16.3",
     "react-router-dom": "6.30.3",
-    "react-scripts": "5.0.1",
     "react-select": "5.10.2",
     "react-simple-code-editor": "0.14.1",
     "react-syntax-highlighter": "15.6.6",
@@ -39,10 +38,11 @@
   },
   "packageManager": "pnpm@10.22.0",
   "scripts": {
-    "start": "pnpm run generate:themes && react-scripts start",
-    "build": "pnpm run generate:themes && react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "dev": "pnpm run generate:themes && vite",
+    "build": "pnpm run generate:themes && tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
     "generate:themes": "node scripts/generateThemes.js",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
@@ -51,8 +51,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "prettier"
     ],
     "rules": {
       "@typescript-eslint/space-before-function-paren": "off",
@@ -67,56 +66,6 @@
       "jsx-a11y/anchor-has-content": "off"
     }
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "pnpm": {
-    "packageExtensions": {
-      "css-minimizer-webpack-plugin": {
-        "dependencies": {
-          "ajv": "8.0.0"
-        }
-      },
-      "mini-css-extract-plugin": {
-        "dependencies": {
-          "ajv": "8.0.0"
-        }
-      },
-      "eslint-webpack-plugin": {
-        "dependencies": {
-          "ajv": "8.0.0"
-        }
-      },
-      "webpack-dev-middleware": {
-        "dependencies": {
-          "ajv": "8.0.0"
-        }
-      },
-      "webpack-dev-server": {
-        "dependencies": {
-          "ajv": "8.0.0"
-        }
-      },
-      "schema-utils": {
-        "dependencies": {
-          "ajv": "8.0.0"
-        }
-      }
-    },
-    "onlyBuiltDependencies": [
-      "core-js",
-      "core-js-pure"
-    ]
-  },
   "devDependencies": {
     "@testing-library/dom": "10.4.1",
     "@types/js-yaml": "4.0.9",
@@ -125,9 +74,16 @@
     "@types/react-helmet": "6.1.11",
     "@types/react-modal": "3.16.3",
     "@types/react-syntax-highlighter": "15.5.13",
+    "@vitejs/plugin-react": "4.3.4",
+    "@vitest/ui": "2.1.8",
     "eslint": "8.57.1",
     "eslint-config-prettier": "9.1.2",
     "eslint-plugin-prettier": "5.5.5",
-    "prettier": "3.8.1"
+    "jsdom": "25.0.1",
+    "prettier": "3.8.1",
+    "autoprefixer": "10.4.20",
+    "postcss": "8.4.49",
+    "vite": "6.0.11",
+    "vitest": "2.1.8"
   }
 }
