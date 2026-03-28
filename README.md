@@ -1,127 +1,172 @@
 # Markpad
 
-A powerful Markdown editor with Tailwind CSS styling, frontmatter support, and variable interpolation.
+A Markdown editor with live preview, a theme gallery, document management, frontmatter variables, and Nunjucks-powered templating — all running in the browser.
 
-## Demo
+**Live at:** [markpad.cc](https://markpad.cc)
 
-Check out the live demo at [marklab.pages.dev](https://marklab.pages.dev).
+---
 
 ## Features
 
-- **Live Preview:** See your changes in real-time as you type with split view
-- **Tailwind CSS Styling:** Customize every element with Tailwind CSS classes and full autocomplete support
-- **Theme Gallery:** Choose from 25+ professionally designed themes
-- **Frontmatter & Variables:** Use YAML frontmatter with `{{variable}}` interpolation
-- **Multiple Exports:** Export to Markdown, HTML, or PDF with embedded styles
-- **Publish & Share:** Generate shareable links to your documents
-- **URL State:** Your entire document state is encoded in the URL for easy bookmarking
+### Editor
+
+- **Live split-view preview** — changes render instantly as you type
+- **Syntax-highlighted editor** powered by [react-simple-code-editor](https://github.com/react-simple/react-simple-code-editor) and [Prism.js](https://prismjs.com)
+- **GitHub Flavored Markdown** (GFM) — tables, strikethrough, task lists, autolinks
+- **Toolbar** for headings, bold, italic, links, images, blockquotes, and code blocks
+- **Dark mode** toggle
+
+### Themes
+
+- **25+ built-in themes** — Standard Blue, Dracula, Nord, GitHub Readme, Monokai, Cyberpunk, and many more
+- Theme gallery with search, favorites, and category filters
+- Per-theme dark mode support via `dark:` Tailwind variants
+
+### Document Management
+
+- **IndexedDB persistence** — documents survive page refreshes without a backend
+- Create, rename, star, trash, and permanently delete documents
+- Template library with system templates and custom user templates
+
+### Frontmatter & Variable Interpolation
+
+- Define variables in YAML frontmatter, use them anywhere with `{{variableName}}` syntax
+- Nested variables: `{{company.name}}`
+- Rendered in the live preview and on published pages; the frontmatter block itself is hidden
+
+### Nunjucks Templating
+
+- **`{% if condition %}…{% endif %}`** — conditional blocks
+- **`{% for item in list %}…{% endfor %}`** — loop blocks
+- Visual modals guide you through building conditions and loops
+
+### Import & Export
+
+- **URL import** — paste a URL and fetch its content via the [markclipper](https://github.com/markpad/markclipper) web service
+- **File import** — drag & drop or pick a `.md` file
+- **Export to Markdown** — source with frontmatter preserved
+- **Export to styled HTML** — self-contained HTML with Tailwind classes inlined
+- **Export to PDF** — rendered via html2pdf.js
+
+### Publish & Share
+
+- **Publish to web** — document is encoded in the URL; anyone with the link can read the styled page, no login required
+
+---
+
+## Tech Stack
+
+| Layer               | Library                                    |
+| ------------------- | ------------------------------------------ |
+| Framework           | React 18 + TypeScript                      |
+| Build               | Vite 6                                     |
+| Styling             | Tailwind CSS 3 + `@tailwindcss/typography` |
+| Markdown            | react-markdown + remark-gfm                |
+| Templating          | Nunjucks                                   |
+| Frontmatter         | gray-matter + js-yaml                      |
+| Persistence         | IndexedDB via idb                          |
+| Syntax highlighting | Prism.js + react-syntax-highlighter        |
+| Testing             | Vitest + Testing Library                   |
+| Package manager     | pnpm 10                                    |
+
+---
 
 ## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org) ≥ 20
+- [pnpm](https://pnpm.io) ≥ 10
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/teles/markpad.git
-
-# Install dependencies
+git clone https://github.com/markpad/markpad.git
+cd markpad
 pnpm install
-
-# Start the development server
-pnpm start
+pnpm dev
 ```
 
-## Frontmatter & Variables
+Open [http://localhost:3000](http://localhost:3000).
 
-Markpad supports YAML frontmatter with variable interpolation. Define variables in the frontmatter and use them anywhere in your document with `{{variableName}}` syntax.
+### Environment Variables
 
-### Example
+Create a `.env.local` file in the project root (all variables are optional):
 
-```markdown
----
-title: My Document
-author: John Doe
-date: 2026-03-10
-company:
-  name: Acme Corp
-  role: Senior Developer
----
-
-# {{title}}
-
-Written by **{{author}}** on {{date}}.
-
-Currently working at {{company.name}} as {{company.role}}.
+```env
+# URL of the web clipper API (defaults to the hosted markclipper instance)
+VITE_CLIPPER_URL=https://markpad-worker.josetelesmaciel.workers.dev
 ```
 
-### How it works
+---
 
-1. Add YAML frontmatter at the beginning of your markdown (between `---` delimiters)
-2. Define your variables as key-value pairs
-3. Use `{{variableName}}` syntax anywhere in your content
-4. Variables are replaced in the Live Preview and published pages
-5. Nested variables like `{{author.name}}` are supported
-6. Undefined variables are displayed as-is
-
-### Tips
-
-- Frontmatter is preserved when downloading markdown files
-- The frontmatter block itself is hidden in the preview
-- Great for templates, resumes, blog posts, and reusable documents
-
-## Usage
-
-### Markdown Editing
-
-Use the toolbar buttons or keyboard shortcuts:
-
-- **H1-H3:** Click buttons or type `#`, `##`, `###`
-- **Bold:** Click B or `**text**`
-- **Italic:** Click I or `_text_`
-- **Link:** Click link icon or `[text](url)`
-- **Image:** Click image icon or `![alt](url)`
-
-### Style Customization
-
-1. Open the Styles panel on the right
-2. Select any markdown element (h1, p, blockquote, etc.)
-3. Add or remove Tailwind CSS classes
-4. See changes instantly in the preview
-
-### Exporting
-
-Click the download button to export:
-
-- **Markdown:** Original source with frontmatter
-- **Simple HTML:** Plain HTML without styles
-- **Styled HTML:** Complete HTML with Tailwind CSS
-
-### Publishing
-
-1. Click File → Publish to Web
-2. Copy the generated shareable link
-3. Anyone with the link can view your styled document
-
-## Contributing
-
-We welcome contributions! Feel free to open issues or create pull requests.
+## Development
 
 ```bash
-# Run linting
-pnpm lint
+# Start dev server (also regenerates themes from src/themes/)
+pnpm dev
 
 # Run tests
 pnpm test
 
-# Build for production
+# Run tests with UI
+pnpm test:ui
+
+# Type-check
+tsc --noEmit
+
+# Lint
+pnpm lint
+
+# Format
+pnpm format
+
+# Regenerate src/data/themes.generated.ts from src/themes/*/config.json
+pnpm generate:themes
+
+# Production build
 pnpm build
 ```
 
-## License
+### Adding a Theme
 
-This project is licensed under the [MIT License](LICENSE).
+1. Create `src/themes/<your-theme-name>/config.json` following the schema of any existing theme
+2. Run `pnpm generate:themes` — this rebuilds `src/data/themes.generated.ts`
+3. The new theme will appear in the gallery immediately
 
 ---
 
-**Markpad** — Markdown Editor with Tailwind CSS  
-A project by [@teles](https://github.com/teles)
+## Frontmatter Example
+
+```markdown
+---
+title: My Report
+author: Jane Doe
+date: 2026-03-28
+company:
+  name: Acme Corp
+  role: Lead Engineer
+---
+
+# {{title}}
+
+By **{{author}}** · {{date}}
+
+Working at {{company.name}} as {{company.role}}.
+```
+
+---
+
+## Contributing
+
+Pull requests and issues are welcome.
+
+1. Fork the repo and create a branch (`git checkout -b feat/my-feature`)
+2. Make your changes with tests where appropriate
+3. Open a pull request — commits follow [Conventional Commits](https://www.conventionalcommits.org) for automatic versioning via semantic-release
+
+---
+
+## License
+
+[MIT](LICENSE) © [teles](https://github.com/teles)
