@@ -1,8 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import { themePresets, ThemePreset, ThemePreview } from '@/data/themes.generated'
 
-export type SidebarTab = 'themes' | 'advanced'
-
 interface LocalTheme extends ThemePreset {
   isLocal: true
   createdAt: number
@@ -12,7 +10,6 @@ const LOCAL_THEMES_KEY = 'marklab-local-themes'
 const FAVORITE_THEMES_KEY = 'marklab-favorite-themes'
 
 export function useStyleSidebar() {
-  const [activeTab, setActiveTab] = useState<SidebarTab>('themes')
   const [searchQuery, setSearchQuery] = useState('')
   const [localThemes, setLocalThemes] = useState<LocalTheme[]>([])
   const [favoriteThemeIds, setFavoriteThemeIds] = useState<string[]>([])
@@ -136,8 +133,6 @@ export function useStyleSidebar() {
   }, [searchQuery, localThemes])
 
   return {
-    activeTab,
-    setActiveTab,
     searchQuery,
     setSearchQuery,
     localThemes,

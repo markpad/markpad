@@ -30,8 +30,9 @@ import { IfModal } from '@/components/IfModal'
 import { ImageModal } from '@/components/ImageModal'
 import { LinkModal } from '@/components/LinkModal'
 import { ImportModal, ImportAction } from '@/components/ImportModal'
-import type { EditionMode, TailwindClasses } from '@/types'
+import type { EditionMode } from '@/types'
 import type { ThemePreset } from '@/data/themes.generated'
+import { getThemeById } from '@/data/themes.generated'
 
 type SidebarPanel = 'themes' | 'export' | 'variables'
 type EntityType = 'document' | 'template'
@@ -56,16 +57,8 @@ export function Editor({
   const isNewEntity = docId === 'new'
   const entityId = isNewEntity ? undefined : docId
 
-  const {
-    state,
-    setMarkdown,
-    setDocumentTitle,
-    updateTailwindClass,
-    updateFontConfig,
-    setTailwindClasses,
-    setFontConfig,
-    loadState,
-  } = useAppState({ docId: entityId })
+  const { state, setMarkdown, setDocumentTitle, setTailwindClasses, setFontConfig, loadState } =
+    useAppState({ docId: entityId })
 
   const { settings, updateEditorSetting } = useUserSettings()
 
@@ -89,14 +82,17 @@ export function Editor({
             updateEditorSetting('openLinksInNewTab', tpl.behaviorConfig.shouldOpenLinksInNewTab)
           }
 
+          // Resolve theme: prefer themeId, fallback to legacy tailwindClasses
+          const resolvedTheme = tpl.themeId ? getThemeById(tpl.themeId) : null
           loadState({
             markdown: tpl.content,
             documentTitle: tpl.title,
-            tailwindClasses: tpl.tailwindClasses ?? defaultTailwindClasses,
-            fontConfig: tpl.fontConfig ?? defaultFontConfig,
+            tailwindClasses:
+              resolvedTheme?.tailwindClasses ?? tpl.tailwindClasses ?? defaultTailwindClasses,
+            fontConfig: resolvedTheme?.fontConfig ?? tpl.fontConfig ?? defaultFontConfig,
           })
-          if (tpl.themeId) {
-            setCurrentThemeId(tpl.themeId)
+          if (resolvedTheme) {
+            setCurrentThemeId(resolvedTheme.id)
           }
         }
         setDocLoaded(true)
@@ -110,15 +106,20 @@ export function Editor({
             updateEditorSetting('openLinksInNewTab', doc.behaviorConfig.shouldOpenLinksInNewTab)
           }
 
+          // Resolve theme: prefer themeId (source of truth), fallback to legacy tailwindClasses
+          const resolvedTheme = doc.themeId ? getThemeById(doc.themeId) : null
           loadState({
             markdown: doc.content,
             documentTitle: doc.title,
-            tailwindClasses: doc.tailwindClasses,
-            fontConfig: doc.fontConfig,
+            tailwindClasses:
+              resolvedTheme?.tailwindClasses ?? doc.tailwindClasses ?? defaultTailwindClasses,
+            fontConfig: resolvedTheme?.fontConfig ?? doc.fontConfig ?? defaultFontConfig,
           })
-          if (doc.themeId) {
-            setCurrentThemeId(doc.themeId)
+          if (resolvedTheme) {
+            setCurrentThemeId(resolvedTheme.id)
           }
+          // If no valid themeId (legacy doc with only tailwindClasses), currentThemeId stays
+          // undefined → shown as custom in StylePanel
         }
         setDocLoaded(true)
       })
@@ -126,38 +127,24 @@ export function Editor({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityId, isTemplate, loadState])
 
-  // Auto-save full entity state to IndexedDB (debounced)
+  // Auto-save to IndexedDB (debounced)
+  // Only persists content, title, and themeId — styling is derived from themeId at load time.
+  // Legacy tailwindClasses/fontConfig stored in old documents are never overwritten here.
   const debouncedSave = useRef(
-    debounce(
-      async (
-        id: string,
-        content: string,
-        title: string,
-        tailwindClasses: TailwindClasses,
-        fontConfig: typeof state.fontConfig,
-        themeId?: string
-      ) => {
-        setSaveStatus('saving')
-        try {
-          if (isTemplate) {
-            await templateRepository.update(id, { content, title, themeId })
-          } else {
-            await documentRepository.update(id, {
-              content,
-              title,
-              tailwindClasses,
-              fontConfig,
-              themeId,
-            })
-          }
-          setSaveStatus('saved')
-        } catch (err) {
-          console.error(err)
-          setSaveStatus('unsaved')
+    debounce(async (id: string, content: string, title: string, themeId?: string) => {
+      setSaveStatus('saving')
+      try {
+        if (isTemplate) {
+          await templateRepository.update(id, { content, title, themeId })
+        } else {
+          await documentRepository.update(id, { content, title, themeId })
         }
-      },
-      1500
-    )
+        setSaveStatus('saved')
+      } catch (err) {
+        console.error(err)
+        setSaveStatus('unsaved')
+      }
+    }, 1500)
   ).current
 
   // Track content changes → unsaved
@@ -172,37 +159,13 @@ export function Editor({
     if (entityId) {
       setSaveStatus('unsaved')
     }
-  }, [
-    state.markdown,
-    state.documentTitle,
-    state.tailwindClasses,
-    state.fontConfig,
-    currentThemeId,
-    docLoaded,
-    entityId,
-  ])
+  }, [state.markdown, state.documentTitle, currentThemeId, docLoaded, entityId])
 
   useEffect(() => {
     if (entityId && docLoaded) {
-      debouncedSave(
-        entityId,
-        state.markdown,
-        state.documentTitle,
-        state.tailwindClasses,
-        state.fontConfig,
-        currentThemeId
-      )
+      debouncedSave(entityId, state.markdown, state.documentTitle, currentThemeId)
     }
-  }, [
-    entityId,
-    docLoaded,
-    state.markdown,
-    state.documentTitle,
-    state.tailwindClasses,
-    state.fontConfig,
-    currentThemeId,
-    debouncedSave,
-  ])
+  }, [entityId, docLoaded, state.markdown, state.documentTitle, currentThemeId, debouncedSave])
 
   const [editionMode, setEditionMode] = useState<EditionMode>(settings.editor.defaultView)
   const [showStylePanel, setShowStylePanel] = useState(showStylePanelByDefault)
@@ -349,11 +312,6 @@ export function Editor({
       </article>
     )
   }, [state.markdown, state.tailwindClasses, settings.editor.openLinksInNewTab])
-
-  const handleTailwindClassChange = (element: keyof TailwindClasses, value: string) => {
-    updateTailwindClass(element, value)
-    setCurrentThemeId(undefined) // Clear theme when manually edited - makes it custom
-  }
 
   // Handle applying a theme
   const handleApplyTheme = useCallback(
@@ -675,14 +633,10 @@ export function Editor({
             >
               {activeSidebarPanel === 'themes' && (
                 <StylePanel
-                  tailwindClasses={state.tailwindClasses}
-                  fontConfig={state.fontConfig}
                   currentThemeId={currentThemeId}
                   isCustomTheme={isCustomTheme}
                   customThemeName={customThemeName}
                   onCustomThemeNameChange={setCustomThemeName}
-                  onTailwindClassChange={handleTailwindClassChange}
-                  onFontConfigChange={updateFontConfig}
                   onApplyTheme={handleApplyTheme}
                   onResetToDefault={handleResetToDefault}
                   onSaveCustomTheme={handleSaveCustomTheme}

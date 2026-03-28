@@ -5,7 +5,8 @@ import type {
   CreateDocumentInput,
   UpdateDocumentInput,
 } from '@/lib/repositories/types'
-import { defaultTailwindClasses, defaultFontConfig } from '@/services/urlStateService'
+
+const DEFAULT_THEME_ID = 'standard-blue'
 
 export function createIndexedDBDocumentRepository(): DocumentRepository {
   return {
@@ -28,9 +29,9 @@ export function createIndexedDBDocumentRepository(): DocumentRepository {
         id: crypto.randomUUID(),
         title: input.title,
         content: input.content,
-        themeId: input.themeId,
-        tailwindClasses: input.tailwindClasses ?? defaultTailwindClasses,
-        fontConfig: input.fontConfig ?? defaultFontConfig,
+        // New documents use themeId as the single source of truth for styling.
+        // Legacy tailwindClasses/fontConfig are NOT stored for new documents.
+        themeId: input.themeId ?? DEFAULT_THEME_ID,
         variables: input.variables ?? {},
         templateId: input.templateId,
         templateVersion: input.templateVersion,

@@ -8,9 +8,12 @@ export interface MarkpadDocument {
   id: string
   title: string
   content: string
+  /** Preferred styling reference. New documents always have this set. */
   themeId?: string
-  tailwindClasses: TailwindClasses
-  fontConfig: FontConfig
+  /** @deprecated Legacy field — kept for backward compatibility with old documents. Prefer themeId. */
+  tailwindClasses?: TailwindClasses
+  /** @deprecated Legacy field — kept for backward compatibility with old documents. Prefer themeId. */
+  fontConfig?: FontConfig
   variables: Record<string, unknown>
   templateId?: string
   templateVersion?: number
