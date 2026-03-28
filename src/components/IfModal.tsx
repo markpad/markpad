@@ -1,5 +1,5 @@
 import { FaTimes, FaCodeBranch } from 'react-icons/fa'
-import type { UseIfModalResult, ComparisonOperator } from '../hooks/useIfModal'
+import type { UseIfModalResult, ComparisonOperator } from '@/hooks/useIfModal'
 
 interface IfModalProps {
   /** IF modal state and handlers from useIfModal hook */

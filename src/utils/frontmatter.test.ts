@@ -9,7 +9,7 @@ import {
   extractArrayVariables,
   generateLoopTemplate,
   addArrayToFrontmatter,
-} from './frontmatter'
+} from '@/utils/frontmatter'
 
 describe('frontmatter module', () => {
   describe('parseFrontmatter', () => {

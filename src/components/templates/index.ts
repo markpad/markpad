@@ -1,2 +1,2 @@
-export { TemplatesPage } from './TemplatesPage'
-export { TemplateCard } from './TemplateCard'
+export { TemplatesPage } from '@/components/templates/TemplatesPage'
+export { TemplateCard } from '@/components/templates/TemplateCard'

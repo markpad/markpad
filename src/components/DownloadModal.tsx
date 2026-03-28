@@ -7,10 +7,10 @@ import {
   FaCheck,
   FaFilePdf,
 } from 'react-icons/fa'
-import type { TailwindClasses } from '../types'
-import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
-import { generateStyledHtml, downloadFile } from '../utils/htmlGenerator'
-import { useExportPdf } from '../hooks/useExportPdf'
+import type { TailwindClasses } from '@/types'
+import { processMarkdownWithFrontmatter } from '@/utils/frontmatter'
+import { generateStyledHtml, downloadFile } from '@/utils/htmlGenerator'
+import { useExportPdf } from '@/hooks/useExportPdf'
 
 interface DownloadModalProps {
   isOpen: boolean

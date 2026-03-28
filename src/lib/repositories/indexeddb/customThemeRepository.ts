@@ -1,10 +1,10 @@
-import { getDB } from './db'
+import { getDB } from '@/lib/repositories/indexeddb/db'
 import type {
   MarkpadCustomTheme,
   CreateCustomThemeInput,
   UpdateCustomThemeInput,
   CustomThemeRepository,
-} from '../types'
+} from '@/lib/repositories/types'
 
 function generateId(): string {
   return `theme-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`

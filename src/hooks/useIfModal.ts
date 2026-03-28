@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react'
-import { parseFrontmatter, generateIfTemplate } from '../utils/frontmatter'
+import { parseFrontmatter, generateIfTemplate } from '@/utils/frontmatter'
 
 export type ComparisonOperator = 'truthy' | 'not' | '==' | '!=' | '>' | '<' | '>=' | '<='
 

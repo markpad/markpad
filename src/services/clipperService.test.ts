@@ -1,4 +1,4 @@
-import { buildClippedDocument, ClipResult } from './clipperService'
+import { buildClippedDocument, ClipResult } from '@/services/clipperService'
 
 describe('clipperService', () => {
   describe('buildClippedDocument', () => {

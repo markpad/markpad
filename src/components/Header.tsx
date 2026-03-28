@@ -29,19 +29,19 @@ import {
   FaFileImport,
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
-import type { EditionMode, AppState, TailwindClasses } from '../types'
-import { generateShareUrl } from '../services/urlStateService'
-import { documentRepository, templateRepository } from '../lib/repositories'
-import { ShareModal } from './ShareModal'
-import { processMarkdownWithFrontmatter } from '../utils/frontmatter'
+import type { EditionMode, AppState, TailwindClasses } from '@/types'
+import { generateShareUrl } from '@/services/urlStateService'
+import { documentRepository, templateRepository } from '@/lib/repositories'
+import { ShareModal } from '@/components/ShareModal'
+import { processMarkdownWithFrontmatter } from '@/utils/frontmatter'
 import {
   generateStyledHtml,
   downloadFile,
   copyToClipboard,
   copyHtmlToClipboard,
-} from '../utils/htmlGenerator'
-import { useExportPdf } from '../hooks/useExportPdf'
-import { Toast } from './Toast'
+} from '@/utils/htmlGenerator'
+import { useExportPdf } from '@/hooks/useExportPdf'
+import { Toast } from '@/components/Toast'
 
 type EntityType = 'document' | 'template'
 

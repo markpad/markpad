@@ -2,10 +2,10 @@ import { useState, RefObject } from 'react'
 import { Link } from 'react-router-dom'
 import { FaArrowLeft, FaLink, FaDownload, FaFilePdf, FaSun, FaMoon, FaMagic } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
-import { Toast } from '../Toast'
-import { DownloadModal } from '../DownloadModal'
-import { useExportPdf } from '../../hooks/useExportPdf'
-import type { TailwindClasses } from '../../types'
+import { Toast } from '@/components/Toast'
+import { DownloadModal } from '@/components/DownloadModal'
+import { useExportPdf } from '@/hooks/useExportPdf'
+import type { TailwindClasses } from '@/types'
 
 interface PublishedHeaderProps {
   documentTitle: string

@@ -18,7 +18,7 @@ import {
   extractArrayVariables as extractArrayVariablesLib,
   generateLoopTemplate as generateLoopTemplateLib,
   generateIfTemplate as generateIfTemplateLib,
-} from '../lib/markdown-templating'
+} from '@/lib/markdown-templating'
 
 // Re-export types with backward-compatible names
 export interface FrontmatterResult {

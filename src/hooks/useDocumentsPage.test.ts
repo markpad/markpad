@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { useDocumentsPage } from './useDocumentsPage'
+import { useDocumentsPage } from '@/hooks/useDocumentsPage'
 
 // Mock react-router-dom
 const mockNavigate = jest.fn()

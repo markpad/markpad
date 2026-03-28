@@ -1,5 +1,5 @@
 import nunjucks from 'nunjucks'
-import { getNestedValue } from './variables'
+import { getNestedValue } from '@/lib/markdown-templating/variables'
 
 /**
  * Check if a value is truthy in template context

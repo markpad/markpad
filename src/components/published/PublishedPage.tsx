@@ -6,23 +6,23 @@ import gfm from 'remark-gfm'
 import pako from 'pako'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { decodeState } from '../../services/urlStateService'
-import { useUserSettings } from '../../hooks/useUserSettings'
-import { PublishedHeader } from './PublishedHeader'
-import { VariableWizard } from './VariableWizard'
+import { decodeState } from '@/services/urlStateService'
+import { useUserSettings } from '@/hooks/useUserSettings'
+import { PublishedHeader } from '@/components/published/PublishedHeader'
+import { VariableWizard } from '@/components/published/VariableWizard'
 import {
   parseFrontmatter,
   interpolateVariables,
   processConditionals,
   processLoops,
-} from '../../utils/frontmatter'
+} from '@/utils/frontmatter'
 import {
   parseVariableDefinitions,
   getDefaultValues,
   mergeVariablesWithFrontmatter,
-} from './variableTypes'
-import type { VariableDefinitions, VariableValues } from './variableTypes'
-import type { AppState } from '../../types'
+} from '@/components/published/variableTypes'
+import type { VariableDefinitions, VariableValues } from '@/components/published/variableTypes'
+import type { AppState } from '@/types'
 
 // Encode variable values to URL-safe string
 function encodeVariableValues(values: VariableValues): string {

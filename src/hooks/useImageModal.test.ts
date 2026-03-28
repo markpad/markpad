@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { useImageModal } from './useImageModal'
+import { useImageModal } from '@/hooks/useImageModal'
 
 describe('useImageModal', () => {
   describe('Initial State', () => {

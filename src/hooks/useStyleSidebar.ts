@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
-import { themePresets, ThemePreset, ThemePreview } from '../data/themes.generated'
+import { themePresets, ThemePreset, ThemePreview } from '@/data/themes.generated'
 
 export type SidebarTab = 'themes' | 'advanced'
 

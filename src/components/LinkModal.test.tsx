@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/no-node-access, testing-library/no-container, jest/no-conditional-expect */
 import { render, screen, fireEvent } from '@testing-library/react'
-import { LinkModal } from './LinkModal'
-import type { UseLinkModalResult } from '../hooks/useLinkModal'
+import { LinkModal } from '@/components/LinkModal'
+import type { UseLinkModalResult } from '@/hooks/useLinkModal'
 
 // Mock UseLinkModalResult for testing
 const createMockLinkModal = (overrides?: Partial<UseLinkModalResult>): UseLinkModalResult => ({

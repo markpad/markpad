@@ -23,11 +23,11 @@
  */
 
 // Main API
-export { process, render, updateFrontmatter } from './processor'
-export { parse, serialize } from './parser'
+export { process, render, updateFrontmatter } from '@/lib/markdown-templating/processor'
+export { parse, serialize } from '@/lib/markdown-templating/parser'
 
 // Variable utilities
-export { interpolate, getNestedValue } from './variables'
+export { interpolate, getNestedValue } from '@/lib/markdown-templating/variables'
 
 // Conditional utilities
 export {
@@ -35,10 +35,10 @@ export {
   evaluate as evaluateCondition,
   isTruthy,
   generateIfTemplate,
-} from './conditionals'
+} from '@/lib/markdown-templating/conditionals'
 
 // Loop utilities
-export { processLoops, extractArrayVariables, generateLoopTemplate } from './loops'
+export { processLoops, extractArrayVariables, generateLoopTemplate } from '@/lib/markdown-templating/loops'
 
 // Types
-export type { ParseResult, ProcessOptions, ProcessResult, LoopContext } from './types'
+export type { ParseResult, ProcessOptions, ProcessResult, LoopContext } from '@/lib/markdown-templating/types'

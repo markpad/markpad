@@ -1,11 +1,11 @@
-import { getDB } from './db'
+import { getDB } from '@/lib/repositories/indexeddb/db'
 import type {
   MarkpadDocument,
   DocumentRepository,
   CreateDocumentInput,
   UpdateDocumentInput,
-} from '../types'
-import { defaultTailwindClasses, defaultFontConfig } from '../../../services/urlStateService'
+} from '@/lib/repositories/types'
+import { defaultTailwindClasses, defaultFontConfig } from '@/services/urlStateService'
 
 export function createIndexedDBDocumentRepository(): DocumentRepository {
   return {

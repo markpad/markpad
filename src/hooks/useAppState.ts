@@ -1,14 +1,14 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import type { AppState, TailwindClasses, FontConfig } from '../types'
+import type { AppState, TailwindClasses, FontConfig } from '@/types'
 import {
   getStateFromUrl,
   updateUrlWithState,
   defaultTailwindClasses,
   defaultFontConfig,
   defaultDocumentTitle,
-} from '../services/urlStateService'
-import debounce from '../utils/debounce'
-import initialMarkdown from '../initialMarkdown'
+} from '@/services/urlStateService'
+import debounce from '@/utils/debounce'
+import initialMarkdown from '@/initialMarkdown'
 
 interface UseAppStateOptions {
   /** When set, disables pako URL persistence (state is persisted to IndexedDB instead) */

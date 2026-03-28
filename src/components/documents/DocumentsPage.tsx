@@ -14,9 +14,9 @@ import {
   FaFileImport,
   FaChevronDown,
 } from 'react-icons/fa'
-import { useDocumentsPage, DocumentViewFilter } from '../../hooks/useDocumentsPage'
-import { ImportModal } from '../ImportModal'
-import { DocumentCard } from './DocumentCard'
+import { useDocumentsPage, DocumentViewFilter } from '@/hooks/useDocumentsPage'
+import { ImportModal } from '@/components/ImportModal'
+import { DocumentCard } from '@/components/documents/DocumentCard'
 import {
   PageNavLinks,
   EmptyState,
@@ -24,7 +24,7 @@ import {
   SearchIllustration,
   TrashIllustration,
   StarIllustration,
-} from '../shared'
+} from '@/components/shared'
 
 const FILTER_LABELS: Record<DocumentViewFilter, string> = {
   all: 'My Documents',

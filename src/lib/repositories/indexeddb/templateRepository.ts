@@ -1,10 +1,10 @@
-import { getDB } from './db'
+import { getDB } from '@/lib/repositories/indexeddb/db'
 import type {
   MarkpadTemplate,
   TemplateRepository,
   CreateTemplateInput,
   UpdateTemplateInput,
-} from '../types'
+} from '@/lib/repositories/types'
 
 export function createIndexedDBTemplateRepository(): TemplateRepository {
   return {

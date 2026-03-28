@@ -1,6 +1,6 @@
 // Repository types - abstract interface that can be backed by IndexedDB or API
 
-import type { TailwindClasses, BehaviorConfig, FontConfig } from '../../types'
+import type { TailwindClasses, BehaviorConfig, FontConfig } from '@/types'
 
 // ─── Documents ───────────────────────────────────────────────────────────────
 

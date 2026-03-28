@@ -17,10 +17,10 @@ import {
   FaCopy,
   FaDownload,
 } from 'react-icons/fa'
-import initialMarkdown from './initialMarkdown'
-import BarButton from './components/BarButton'
-import ConfigFieldset from './components/ConfigFieldset'
-import ClassesSelector from './components/ClassesSelector'
+import initialMarkdown from '@/initialMarkdown'
+import BarButton from '@/components/BarButton'
+import ConfigFieldset from '@/components/ConfigFieldset'
+import ClassesSelector from '@/components/ClassesSelector'
 
 type TailwindClasses = Record<string, string>
 

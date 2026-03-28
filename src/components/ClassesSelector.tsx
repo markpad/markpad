@@ -1,5 +1,5 @@
 import CreatableSelect from 'react-select/creatable'
-import allTailwindClassesList from '../tailwindClasses'
+import allTailwindClassesList from '@/tailwindClasses'
 import React from 'react'
 
 interface ClassesSelectorProps {

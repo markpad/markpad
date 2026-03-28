@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react'
-import { useUrlImport, validateUrl } from './useUrlImport'
-import { clipFromUrl, buildClippedDocument } from '../services/clipperService'
+import { useUrlImport, validateUrl } from '@/hooks/useUrlImport'
+import { clipFromUrl, buildClippedDocument } from '@/services/clipperService'
 
 jest.mock('../services/clipperService', () => ({
   clipFromUrl: jest.fn(),

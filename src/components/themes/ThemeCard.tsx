@@ -1,7 +1,7 @@
 import { FaCheck, FaHeart, FaRegHeart } from 'react-icons/fa'
-import type { ThemePreset } from '../../data/themes.generated'
-import type { TailwindClasses } from '../../types'
-import { getTextColorClass, getFontClass } from './themeUtils'
+import type { ThemePreset } from '@/data/themes.generated'
+import type { TailwindClasses } from '@/types'
+import { getTextColorClass, getFontClass } from '@/components/themes/themeUtils'
 
 interface ThemeCardProps {
   theme: ThemePreset

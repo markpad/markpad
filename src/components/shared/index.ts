@@ -1,6 +1,6 @@
-export { AppHeader } from './AppHeader'
-export { PageNavLinks } from './PageNavLinks'
-export { EmptyState } from './EmptyState'
+export { AppHeader } from '@/components/shared/AppHeader'
+export { PageNavLinks } from '@/components/shared/PageNavLinks'
+export { EmptyState } from '@/components/shared/EmptyState'
 export {
   DocumentsIllustration,
   SearchIllustration,
@@ -9,4 +9,4 @@ export {
   TemplatesIllustration,
   ThemesIllustration,
   StarredThemesIllustration,
-} from './EmptyStateIllustrations'
+} from '@/components/shared/EmptyStateIllustrations'

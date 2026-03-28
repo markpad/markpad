@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { FaTimes, FaSync, FaPlus, FaCode } from 'react-icons/fa'
-import type { UseLoopModalResult } from '../hooks/useLoopModal'
+import type { UseLoopModalResult } from '@/hooks/useLoopModal'
 
 interface LoopModalProps {
   /** Loop modal state and handlers from useLoopModal hook */

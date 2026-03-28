@@ -1,4 +1,4 @@
-import type { CreateTemplateInput, VariableSchema } from '../lib/repositories'
+import type { CreateTemplateInput, VariableSchema } from '@/lib/repositories'
 
 /**
  * System templates that ship with Markpad.

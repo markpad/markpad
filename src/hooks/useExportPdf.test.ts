@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { useExportPdf } from './useExportPdf'
+import { useExportPdf } from '@/hooks/useExportPdf'
 
 // Mock the exportPdf utility
 const mockExportPdf = jest.fn()

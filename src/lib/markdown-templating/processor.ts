@@ -1,6 +1,6 @@
 import nunjucks from 'nunjucks'
-import { parse, serialize } from './parser'
-import type { ProcessOptions, ProcessResult } from './types'
+import { parse, serialize } from '@/lib/markdown-templating/parser'
+import type { ProcessOptions, ProcessResult } from '@/lib/markdown-templating/types'
 
 // Configure Nunjucks environment
 // autoescape: false - we're rendering markdown, not HTML

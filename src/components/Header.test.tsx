@@ -1,8 +1,8 @@
 /* eslint-disable testing-library/no-node-access, testing-library/no-wait-for-multiple-assertions */
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Header } from './Header'
-import type { AppState, TailwindClasses, FontConfig } from '../types'
+import { Header } from '@/components/Header'
+import type { AppState, TailwindClasses, FontConfig } from '@/types'
 
 // Mock ResizeObserver for react-tooltip
 global.ResizeObserver = class ResizeObserver {

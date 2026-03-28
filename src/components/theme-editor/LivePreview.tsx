@@ -1,7 +1,7 @@
 import { useMemo, useCallback, type MouseEvent } from 'react'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { type ThemeElement, type ElementConfig, configToClasses, SAMPLE_MARKDOWN } from './types'
+import { type ThemeElement, type ElementConfig, configToClasses, SAMPLE_MARKDOWN } from '@/components/theme-editor/types'
 
 interface LivePreviewProps {
   configs: Record<ThemeElement, ElementConfig>

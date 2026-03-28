@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/no-wait-for-multiple-assertions */
 import { renderHook, act, waitFor } from '@testing-library/react'
-import { useThemesPage } from './useThemesPage'
+import { useThemesPage } from '@/hooks/useThemesPage'
 
 // Mock react-router-dom
 const mockNavigate = jest.fn()

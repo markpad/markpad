@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { useIfModal } from './useIfModal'
+import { useIfModal } from '@/hooks/useIfModal'
 
 const MARKDOWN_WITH_FRONTMATTER = `---
 showAdvanced: true

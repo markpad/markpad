@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { documentRepository, type MarkpadDocument } from '../lib/repositories'
+import { documentRepository, type MarkpadDocument } from '@/lib/repositories'
 
 type ViewFilter = 'all' | 'starred' | 'recent' | 'trash'
 

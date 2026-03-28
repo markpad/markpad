@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { FaArrowLeft, FaSun, FaMoon } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
-import { useUserSettings } from '../../hooks/useUserSettings'
+import { useUserSettings } from '@/hooks/useUserSettings'
 
 interface AppHeaderProps {
   /** Page title displayed next to back button */

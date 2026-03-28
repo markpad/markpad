@@ -2,11 +2,11 @@ import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { FaSearch, FaFileAlt, FaHeart } from 'react-icons/fa'
-import { ThemeCard } from './ThemeCard'
-import { filterThemesByCategory, searchThemes, THEME_CATEGORIES } from '../../data/themes.generated'
-import type { ThemePreset, ThemeCategory } from '../../data/themes.generated'
-import { encodeState, defaultDocumentTitle } from '../../services/urlStateService'
-import { useStyleSidebar } from '../../hooks/useStyleSidebar'
+import { ThemeCard } from '@/components/themes/ThemeCard'
+import { filterThemesByCategory, searchThemes, THEME_CATEGORIES } from '@/data/themes.generated'
+import type { ThemePreset, ThemeCategory } from '@/data/themes.generated'
+import { encodeState, defaultDocumentTitle } from '@/services/urlStateService'
+import { useStyleSidebar } from '@/hooks/useStyleSidebar'
 
 /**
  * Theme Gallery page - displays pre-configured theme presets

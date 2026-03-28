@@ -1,12 +1,12 @@
 import './App.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import Editor from './components/Editor'
-import { ThemesPage } from './components/themes/ThemesPage'
-import { PublishedPage } from './components/published'
-import { HomePage } from './components/HomePage'
-import { ThemeEditorPage } from './components/theme-editor'
-import { DocumentsPage } from './components/documents'
-import { TemplatesPage } from './components/templates'
+import Editor from '@/components/Editor'
+import { ThemesPage } from '@/components/themes/ThemesPage'
+import { PublishedPage } from '@/components/published'
+import { HomePage } from '@/components/HomePage'
+import { ThemeEditorPage } from '@/components/theme-editor'
+import { DocumentsPage } from '@/components/documents'
+import { TemplatesPage } from '@/components/templates'
 
 function App() {
   return (

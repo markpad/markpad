@@ -1,5 +1,5 @@
 import pako from 'pako'
-import type { ThemeElement, ElementConfig } from './types'
+import type { ThemeElement, ElementConfig } from '@/components/theme-editor/types'
 
 /**
  * Theme Editor state that gets persisted to URL

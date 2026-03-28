@@ -1,6 +1,6 @@
 import { useMemo, useCallback, useState, useEffect, useRef } from 'react'
 import { FaMagic, FaPlus, FaTrash, FaChevronDown, FaChevronRight } from 'react-icons/fa'
-import { parseFrontmatter } from '../../utils/frontmatter'
+import { parseFrontmatter } from '@/utils/frontmatter'
 import {
   parseVariableDefinitions,
   getDefaultValues,
@@ -8,7 +8,7 @@ import {
   type VariableValues,
   type VariableValue,
   type ObjectFieldSchema,
-} from '../published/variableTypes'
+} from '@/components/published/variableTypes'
 import yaml from 'js-yaml'
 
 interface VariablesPanelProps {

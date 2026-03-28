@@ -1,9 +1,9 @@
 import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDocuments } from './useDocuments'
-import { useImportModal, type UseImportModalResult } from './useImportModal'
-import type { MarkpadDocument } from '../lib/repositories'
-import type { ImportAction } from '../components/ImportModal'
+import { useDocuments } from '@/hooks/useDocuments'
+import { useImportModal, type UseImportModalResult } from '@/hooks/useImportModal'
+import type { MarkpadDocument } from '@/lib/repositories'
+import type { ImportAction } from '@/components/ImportModal'
 
 const VIEW_MODE_STORAGE_KEY = 'markpad-view-mode'
 

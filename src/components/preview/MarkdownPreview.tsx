@@ -2,10 +2,10 @@ import Markdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import type { TailwindClasses, FontConfig } from '../../types'
+import type { TailwindClasses, FontConfig } from '@/types'
 import { useMemo, useCallback } from 'react'
-import { processMarkdownWithFrontmatter } from '../../utils/frontmatter'
-import { useUserSettings } from '../../hooks/useUserSettings'
+import { processMarkdownWithFrontmatter } from '@/utils/frontmatter'
+import { useUserSettings } from '@/hooks/useUserSettings'
 
 interface MarkdownPreviewProps {
   markdown: string

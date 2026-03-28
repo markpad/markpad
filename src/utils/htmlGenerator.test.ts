@@ -1,5 +1,5 @@
-import { generateStyledHtml, copyHtmlToClipboard, exportPdf } from './htmlGenerator'
-import type { TailwindClasses } from '../types'
+import { generateStyledHtml, copyHtmlToClipboard, exportPdf } from '@/utils/htmlGenerator'
+import type { TailwindClasses } from '@/types'
 
 describe('htmlGenerator module', () => {
   const mockTailwindClasses: TailwindClasses = {

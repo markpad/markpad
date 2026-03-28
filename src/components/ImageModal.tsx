@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { FaTimes, FaImage, FaClock, FaTrash, FaSearch } from 'react-icons/fa'
-import type { UseImageModalResult } from '../hooks/useImageModal'
+import type { UseImageModalResult } from '@/hooks/useImageModal'
 
 interface ImageModalProps {
   /** Image modal state and handlers from useImageModal hook */

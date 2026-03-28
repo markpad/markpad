@@ -1,6 +1,6 @@
 import { openDB, DBSchema, IDBPDatabase } from 'idb'
-import type { MarkpadDocument, MarkpadTemplate, MarkpadCustomTheme } from '../types'
-import { defaultTailwindClasses, defaultFontConfig } from '../../../services/urlStateService'
+import type { MarkpadDocument, MarkpadTemplate, MarkpadCustomTheme } from '@/lib/repositories/types'
+import { defaultTailwindClasses, defaultFontConfig } from '@/services/urlStateService'
 
 interface MarkpadDB extends DBSchema {
   documents: {

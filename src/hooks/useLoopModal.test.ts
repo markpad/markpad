@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { useLoopModal } from './useLoopModal'
+import { useLoopModal } from '@/hooks/useLoopModal'
 
 describe('useLoopModal', () => {
   const markdownWithArrays = `---

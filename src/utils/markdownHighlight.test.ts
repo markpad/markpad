@@ -1,4 +1,4 @@
-import { highlightMarkdown, markdownHighlightClasses } from './markdownHighlight'
+import { highlightMarkdown, markdownHighlightClasses } from '@/utils/markdownHighlight'
 
 describe('markdownHighlight', () => {
   describe('escapeHtml', () => {

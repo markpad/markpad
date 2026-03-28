@@ -10,9 +10,9 @@ import {
   FaUser,
   FaLayerGroup,
 } from 'react-icons/fa'
-import { useTemplatesPage, TemplateViewFilter } from '../../hooks/useTemplatesPage'
-import { TemplateCard } from './TemplateCard'
-import { PageNavLinks, EmptyState, TemplatesIllustration, SearchIllustration } from '../shared'
+import { useTemplatesPage, TemplateViewFilter } from '@/hooks/useTemplatesPage'
+import { TemplateCard } from '@/components/templates/TemplateCard'
+import { PageNavLinks, EmptyState, TemplatesIllustration, SearchIllustration } from '@/components/shared'
 
 const FILTER_LABELS: Record<TemplateViewFilter, string> = {
   all: 'All Templates',

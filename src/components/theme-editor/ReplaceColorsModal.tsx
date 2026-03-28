@@ -7,7 +7,7 @@ import {
   COLOR_INTENSITIES,
   parseColorClass,
   buildColorClass,
-} from './types'
+} from '@/components/theme-editor/types'
 
 // Tailwind color values for swatches
 const TAILWIND_COLORS: Record<string, Record<string, string>> = {

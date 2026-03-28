@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { useImportModal } from './useImportModal'
+import { useImportModal } from '@/hooks/useImportModal'
 
 // Mock the sub-hooks to isolate the orchestrator
 jest.mock('./useFileImport', () => ({

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { FaTimes, FaLink, FaClock, FaTrash, FaSearch } from 'react-icons/fa'
-import type { UseLinkModalResult } from '../hooks/useLinkModal'
+import type { UseLinkModalResult } from '@/hooks/useLinkModal'
 
 interface LinkModalProps {
   /** Link modal state and handlers from useLinkModal hook */

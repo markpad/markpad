@@ -1,5 +1,5 @@
 import pako from 'pako'
-import type { AppState, TailwindClasses } from '../types'
+import type { AppState, TailwindClasses } from '@/types'
 
 /**
  * Service for encoding/decoding application state to/from URL using pako compression

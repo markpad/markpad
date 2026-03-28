@@ -36,7 +36,7 @@ import {
   COLOR_INTENSITIES,
   buildColorClass,
   parseColorClass,
-} from './types'
+} from '@/components/theme-editor/types'
 
 interface ElementConfigPanelProps {
   element: ThemeElement

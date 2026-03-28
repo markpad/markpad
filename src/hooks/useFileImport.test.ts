@@ -5,7 +5,7 @@ import {
   formatFileSize,
   ACCEPTED_EXTENSIONS,
   MAX_FILE_SIZE,
-} from './useFileImport'
+} from '@/hooks/useFileImport'
 
 describe('useFileImport', () => {
   describe('utility functions', () => {

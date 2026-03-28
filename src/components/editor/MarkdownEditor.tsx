@@ -1,6 +1,6 @@
 import { useCallback, useImperativeHandle, forwardRef, useRef, useEffect } from 'react'
 import Editor from 'react-simple-code-editor'
-import { highlightMarkdown } from '../../utils/markdownHighlight'
+import { highlightMarkdown } from '@/utils/markdownHighlight'
 
 export interface MarkdownEditorHandle {
   insertHeading: (level: 1 | 2 | 3) => void

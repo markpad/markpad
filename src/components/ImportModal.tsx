@@ -13,8 +13,8 @@ import {
   FaDownload,
   FaExternalLinkAlt,
 } from 'react-icons/fa'
-import type { UseImportModalResult } from '../hooks/useImportModal'
-import { ACCEPTED_EXTENSIONS, MAX_FILE_SIZE, formatFileSize } from '../hooks/useFileImport'
+import type { UseImportModalResult } from '@/hooks/useImportModal'
+import { ACCEPTED_EXTENSIONS, MAX_FILE_SIZE, formatFileSize } from '@/hooks/useFileImport'
 
 /** Import action types */
 export type ImportAction = 'replace' | 'createNew' | 'createAndOpen'

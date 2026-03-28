@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useTemplates } from './useTemplates'
-import { documentRepository } from '../lib/repositories'
-import type { MarkpadTemplate } from '../lib/repositories'
-import { seedSystemTemplates } from '../services/seedService'
+import { useTemplates } from '@/hooks/useTemplates'
+import { documentRepository } from '@/lib/repositories'
+import type { MarkpadTemplate } from '@/lib/repositories'
+import { seedSystemTemplates } from '@/services/seedService'
 
 const VIEW_MODE_STORAGE_KEY = 'markpad-templates-view'
 

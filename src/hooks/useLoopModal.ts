@@ -4,7 +4,7 @@ import {
   extractArrayVariables,
   generateLoopTemplate,
   addArrayToFrontmatter,
-} from '../utils/frontmatter'
+} from '@/utils/frontmatter'
 
 export interface LoopConfig {
   /** The array variable name (e.g., "skills" or "jobs") */

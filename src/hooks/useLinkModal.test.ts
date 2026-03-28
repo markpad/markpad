@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { useLinkModal } from './useLinkModal'
+import { useLinkModal } from '@/hooks/useLinkModal'
 
 describe('useLinkModal', () => {
   describe('Initial State', () => {

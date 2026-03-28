@@ -1,5 +1,5 @@
 import yaml from 'js-yaml'
-import type { ParseResult } from './types'
+import type { ParseResult } from '@/lib/markdown-templating/types'
 
 // Regex to match frontmatter: starts with ---, captures YAML, ends with ---
 const FRONTMATTER_REGEX = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/

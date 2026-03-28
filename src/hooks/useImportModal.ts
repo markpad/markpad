@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
-import { useFileImport } from './useFileImport'
-import { useUrlImport } from './useUrlImport'
+import { useFileImport } from '@/hooks/useFileImport'
+import { useUrlImport } from '@/hooks/useUrlImport'
 
 export type ImportTab = 'file' | 'url'
 

@@ -1,8 +1,8 @@
 /* eslint-disable testing-library/no-node-access, jest/no-conditional-expect */
 import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { LoopModal } from './LoopModal'
-import type { UseLoopModalResult } from '../hooks/useLoopModal'
+import { LoopModal } from '@/components/LoopModal'
+import type { UseLoopModalResult } from '@/hooks/useLoopModal'
 
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {

@@ -1,2 +1,2 @@
-export { PublishedHeader } from './PublishedHeader'
-export { PublishedPage } from './PublishedPage'
+export { PublishedHeader } from '@/components/published/PublishedHeader'
+export { PublishedPage } from '@/components/published/PublishedPage'

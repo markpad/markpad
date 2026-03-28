@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react'
-import { useTailwindAutocomplete } from '../../hooks/useTailwindAutocomplete'
+import { useTailwindAutocomplete } from '@/hooks/useTailwindAutocomplete'
 import { FaTimes } from 'react-icons/fa'
 
 interface TailwindClassInputProps {

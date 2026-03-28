@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useRef, useEffect, type KeyboardEvent } from 'react'
-import allTailwindClassesList from '../tailwindClasses'
-import type { SelectOption } from '../types'
+import allTailwindClassesList from '@/tailwindClasses'
+import type { SelectOption } from '@/types'
 
 interface UseTailwindAutocompleteProps {
   value: string

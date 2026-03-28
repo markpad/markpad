@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
-import { clipFromUrl, buildClippedDocument } from '../services/clipperService'
-import type { ClipResult } from '../services/clipperService'
+import { clipFromUrl, buildClippedDocument } from '@/services/clipperService'
+import type { ClipResult } from '@/services/clipperService'
 
 export type UrlImportStatus = 'idle' | 'loading' | 'success' | 'error'
 

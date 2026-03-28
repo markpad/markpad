@@ -14,17 +14,17 @@ import {
   FaLayerGroup,
   FaTrash,
 } from 'react-icons/fa'
-import type { ThemePreset } from '../../data/themes.generated'
-import type { MarkpadCustomTheme } from '../../lib/repositories/types'
-import { useThemesPage, SidebarFilter } from '../../hooks/useThemesPage'
-import { getTextColorClass, getFontClass } from './themeUtils'
+import type { ThemePreset } from '@/data/themes.generated'
+import type { MarkpadCustomTheme } from '@/lib/repositories/types'
+import { useThemesPage, SidebarFilter } from '@/hooks/useThemesPage'
+import { getTextColorClass, getFontClass } from '@/components/themes/themeUtils'
 import {
   PageNavLinks,
   EmptyState,
   ThemesIllustration,
   SearchIllustration,
   StarredThemesIllustration,
-} from '../shared'
+} from '@/components/shared'
 
 export function ThemesPage() {
   const navigate = useNavigate()

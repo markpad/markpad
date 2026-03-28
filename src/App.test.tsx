@@ -38,7 +38,7 @@ jest.mock('./components/templates', () => ({
 }))
 
 // eslint-disable-next-line import/first
-import App from './App'
+import App from '@/App'
 
 test('renders without crashing', () => {
   const { container } = render(<App />)

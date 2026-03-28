@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import type { TailwindClasses, FontConfig } from '../../types'
-import { GOOGLE_FONTS } from '../../types'
-import { TailwindClassInput } from './TailwindClassInput'
-import { ThemeCardCompact } from '../themes/ThemeCardCompact'
-import { useStyleSidebar } from '../../hooks/useStyleSidebar'
-import { useUserSettings } from '../../hooks/useUserSettings'
-import { ThemePreset, themePresets } from '../../data/themes.generated'
+import type { TailwindClasses, FontConfig } from '@/types'
+import { GOOGLE_FONTS } from '@/types'
+import { TailwindClassInput } from '@/components/style/TailwindClassInput'
+import { ThemeCardCompact } from '@/components/themes/ThemeCardCompact'
+import { useStyleSidebar } from '@/hooks/useStyleSidebar'
+import { useUserSettings } from '@/hooks/useUserSettings'
+import { ThemePreset, themePresets } from '@/data/themes.generated'
 import {
   FaChevronDown,
   FaChevronRight,

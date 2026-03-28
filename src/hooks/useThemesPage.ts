@@ -5,14 +5,14 @@ import {
   filterThemesByCategory,
   searchThemes,
   THEME_CATEGORIES,
-} from '../data/themes.generated'
-import type { ThemePreset, ThemeCategory } from '../data/themes.generated'
-import type { MarkpadCustomTheme } from '../lib/repositories/types'
-import { useStyleSidebar } from './useStyleSidebar'
-import { encodeState, defaultDocumentTitle } from '../services/urlStateService'
-import { customThemeRepository } from '../lib/repositories'
-import { ELEMENT_SCHEMAS, classesToConfig } from '../components/theme-editor/types'
-import type { ThemeElement } from '../components/theme-editor/types'
+} from '@/data/themes.generated'
+import type { ThemePreset, ThemeCategory } from '@/data/themes.generated'
+import type { MarkpadCustomTheme } from '@/lib/repositories/types'
+import { useStyleSidebar } from '@/hooks/useStyleSidebar'
+import { encodeState, defaultDocumentTitle } from '@/services/urlStateService'
+import { customThemeRepository } from '@/lib/repositories'
+import { ELEMENT_SCHEMAS, classesToConfig } from '@/components/theme-editor/types'
+import type { ThemeElement } from '@/components/theme-editor/types'
 
 export type SidebarFilter = 'all' | 'system' | 'starred' | 'my-themes'
 

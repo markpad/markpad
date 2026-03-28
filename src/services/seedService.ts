@@ -1,5 +1,5 @@
-import { templateRepository } from '../lib/repositories'
-import { systemTemplates } from '../data/systemTemplates'
+import { templateRepository } from '@/lib/repositories'
+import { systemTemplates } from '@/data/systemTemplates'
 
 let seeded = false
 

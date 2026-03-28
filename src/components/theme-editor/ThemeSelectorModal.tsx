@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { FaTimes, FaSearch, FaCheck } from 'react-icons/fa'
-import { themePresets, type ThemePreset } from '../../data/themes.generated'
+import { themePresets, type ThemePreset } from '@/data/themes.generated'
 
 interface ThemeSelectorModalProps {
   isOpen: boolean

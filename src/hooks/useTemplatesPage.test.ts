@@ -1,5 +1,5 @@
 import { renderHook, act, waitFor } from '@testing-library/react'
-import { useTemplatesPage } from './useTemplatesPage'
+import { useTemplatesPage } from '@/hooks/useTemplatesPage'
 
 // Mock react-router-dom
 const mockNavigate = jest.fn()

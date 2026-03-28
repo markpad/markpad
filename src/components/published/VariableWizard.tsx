@@ -13,8 +13,8 @@ import type {
   VariableValues,
   VariableValue,
   ObjectFieldSchema,
-} from './variableTypes'
-import { getDefaultValues } from './variableTypes'
+} from '@/components/published/variableTypes'
+import { getDefaultValues } from '@/components/published/variableTypes'
 
 interface VariableWizardProps {
   definitions: VariableDefinitions

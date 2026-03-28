@@ -1,5 +1,5 @@
 import { FaFileAlt, FaCopy, FaEdit, FaLock } from 'react-icons/fa'
-import type { MarkpadTemplate } from '../../lib/repositories'
+import type { MarkpadTemplate } from '@/lib/repositories'
 
 function formatRelativeDate(date: Date): string {
   const now = new Date()

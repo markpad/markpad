@@ -1,7 +1,7 @@
-import { createIndexedDBDocumentRepository } from './indexeddb/documentRepository'
-import { createIndexedDBTemplateRepository } from './indexeddb/templateRepository'
-import { createIndexedDBCustomThemeRepository } from './indexeddb/customThemeRepository'
-import type { DocumentRepository, TemplateRepository, CustomThemeRepository } from './types'
+import { createIndexedDBDocumentRepository } from '@/lib/repositories/indexeddb/documentRepository'
+import { createIndexedDBTemplateRepository } from '@/lib/repositories/indexeddb/templateRepository'
+import { createIndexedDBCustomThemeRepository } from '@/lib/repositories/indexeddb/customThemeRepository'
+import type { DocumentRepository, TemplateRepository, CustomThemeRepository } from '@/lib/repositories/types'
 
 // Switch implementations here when migrating to API
 export const documentRepository: DocumentRepository = createIndexedDBDocumentRepository()
@@ -24,4 +24,4 @@ export type {
   CustomThemeRepository,
   CreateCustomThemeInput,
   UpdateCustomThemeInput,
-} from './types'
+} from '@/lib/repositories/types'

@@ -1,5 +1,5 @@
 import nunjucks from 'nunjucks'
-import type { LoopContext } from './types'
+import type { LoopContext } from '@/lib/markdown-templating/types'
 
 /**
  * Process loops in content using Nunjucks

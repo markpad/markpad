@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
-import { exportPdf } from '../utils/htmlGenerator'
-import type { TailwindClasses } from '../types'
+import { exportPdf } from '@/utils/htmlGenerator'
+import type { TailwindClasses } from '@/types'
 
 export type PdfExportStatus = 'idle' | 'exporting' | 'done' | 'error'
 

@@ -14,8 +14,8 @@ import {
   FaSave,
 } from 'react-icons/fa'
 import { useParams, useNavigate } from 'react-router-dom'
-import { AppHeader } from '../shared/AppHeader'
-import { useUserSettings } from '../../hooks/useUserSettings'
+import { AppHeader } from '@/components/shared/AppHeader'
+import { useUserSettings } from '@/hooks/useUserSettings'
 import {
   type ThemeElement,
   type ElementConfig,
@@ -23,14 +23,14 @@ import {
   ELEMENT_SCHEMAS,
   configToClasses,
   classesToConfig,
-} from './types'
-import { ElementConfigPanel } from './ElementConfigPanel'
-import { LivePreview } from './LivePreview'
-import { ThemeSelectorModal } from './ThemeSelectorModal'
-import { ReplaceColorsModal } from './ReplaceColorsModal'
-import { customThemeRepository } from '../../lib/repositories'
-import debounce from '../../utils/debounce'
-import type { ThemePreset } from '../../data/themes.generated'
+} from '@/components/theme-editor/types'
+import { ElementConfigPanel } from '@/components/theme-editor/ElementConfigPanel'
+import { LivePreview } from '@/components/theme-editor/LivePreview'
+import { ThemeSelectorModal } from '@/components/theme-editor/ThemeSelectorModal'
+import { ReplaceColorsModal } from '@/components/theme-editor/ReplaceColorsModal'
+import { customThemeRepository } from '@/lib/repositories'
+import debounce from '@/utils/debounce'
+import type { ThemePreset } from '@/data/themes.generated'
 
 // Initialize configs with defaults
 function getInitialConfigs(): Record<ThemeElement, ElementConfig> {

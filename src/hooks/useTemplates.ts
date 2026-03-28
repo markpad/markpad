@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { templateRepository, type MarkpadTemplate } from '../lib/repositories'
+import { templateRepository, type MarkpadTemplate } from '@/lib/repositories'
 
 type TemplateFilter = 'all' | 'system' | 'custom'
 

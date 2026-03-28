@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/no-node-access, testing-library/no-container, jest/no-conditional-expect */
 import { render, screen, fireEvent } from '@testing-library/react'
-import { IfModal } from './IfModal'
-import type { UseIfModalResult } from '../hooks/useIfModal'
+import { IfModal } from '@/components/IfModal'
+import type { UseIfModalResult } from '@/hooks/useIfModal'
 
 // Mock UseIfModalResult for testing
 const createMockIfModal = (overrides?: Partial<UseIfModalResult>): UseIfModalResult => ({

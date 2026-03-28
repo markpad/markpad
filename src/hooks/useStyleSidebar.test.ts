@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { useStyleSidebar } from './useStyleSidebar'
+import { useStyleSidebar } from '@/hooks/useStyleSidebar'
 
 // Mock localStorage
 const localStorageMock = (() => {

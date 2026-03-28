@@ -1,4 +1,4 @@
-import type { TailwindClasses } from '../types'
+import type { TailwindClasses } from '@/types'
 
 export interface HtmlGeneratorOptions {
   documentTitle: string
