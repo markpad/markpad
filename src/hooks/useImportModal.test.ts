@@ -2,43 +2,43 @@ import { renderHook, act } from '@testing-library/react'
 import { useImportModal } from '@/hooks/useImportModal'
 
 // Mock the sub-hooks to isolate the orchestrator
-jest.mock('./useFileImport', () => ({
+vi.mock('./useFileImport', () => ({
   useFileImport: () => ({
     status: 'idle',
     error: null,
     result: null,
-    importFile: jest.fn(),
-    openFilePicker: jest.fn(),
+    importFile: vi.fn(),
+    openFilePicker: vi.fn(),
     reset: mockFileReset,
     fileInputRef: { current: null },
-    handleFileInputChange: jest.fn(),
-    handleDrop: jest.fn(),
+    handleFileInputChange: vi.fn(),
+    handleDrop: vi.fn(),
     isDragging: false,
-    handleDragEnter: jest.fn(),
-    handleDragLeave: jest.fn(),
-    handleDragOver: jest.fn(),
+    handleDragEnter: vi.fn(),
+    handleDragLeave: vi.fn(),
+    handleDragOver: vi.fn(),
   }),
 }))
 
-jest.mock('./useUrlImport', () => ({
+vi.mock('./useUrlImport', () => ({
   useUrlImport: () => ({
     status: 'idle',
     error: null,
     result: null,
     url: '',
-    setUrl: jest.fn(),
-    importFromUrl: jest.fn(),
+    setUrl: vi.fn(),
+    importFromUrl: vi.fn(),
     isValidUrl: false,
     reset: mockUrlReset,
   }),
 }))
 
-const mockFileReset = jest.fn()
-const mockUrlReset = jest.fn()
+const mockFileReset = vi.fn()
+const mockUrlReset = vi.fn()
 
 describe('useImportModal', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   describe('initial state', () => {

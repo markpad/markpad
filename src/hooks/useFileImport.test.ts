@@ -237,8 +237,8 @@ describe('useFileImport', () => {
     describe('drag-and-drop handlers', () => {
       function createDragEvent(files: File[] = []) {
         return {
-          preventDefault: jest.fn(),
-          stopPropagation: jest.fn(),
+          preventDefault: vi.fn(),
+          stopPropagation: vi.fn(),
           dataTransfer: { files },
         } as unknown as React.DragEvent
       }

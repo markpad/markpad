@@ -1,20 +1,19 @@
+import type { MockedFunction } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useUrlImport, validateUrl } from '@/hooks/useUrlImport'
 import { clipFromUrl, buildClippedDocument } from '@/services/clipperService'
 
-jest.mock('../services/clipperService', () => ({
-  clipFromUrl: jest.fn(),
-  buildClippedDocument: jest.fn(),
+vi.mock('../services/clipperService', () => ({
+  clipFromUrl: vi.fn(),
+  buildClippedDocument: vi.fn(),
 }))
 
-const mockClipFromUrl = clipFromUrl as jest.MockedFunction<typeof clipFromUrl>
-const mockBuildClippedDocument = buildClippedDocument as jest.MockedFunction<
-  typeof buildClippedDocument
->
+const mockClipFromUrl = clipFromUrl as MockedFunction<typeof clipFromUrl>
+const mockBuildClippedDocument = buildClippedDocument as MockedFunction<typeof buildClippedDocument>
 
 describe('useUrlImport', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   describe('validateUrl', () => {

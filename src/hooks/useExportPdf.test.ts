@@ -2,9 +2,9 @@ import { renderHook, act } from '@testing-library/react'
 import { useExportPdf } from '@/hooks/useExportPdf'
 
 // Mock the exportPdf utility
-const mockExportPdf = jest.fn()
-jest.mock('../utils/htmlGenerator', () => ({
-  ...jest.requireActual('../utils/htmlGenerator'),
+const mockExportPdf = vi.fn()
+vi.mock('../utils/htmlGenerator', async () => ({
+  ...((await vi.importActual('../utils/htmlGenerator')) as Record<string, unknown>),
   exportPdf: (...args: unknown[]) => mockExportPdf(...args),
 }))
 

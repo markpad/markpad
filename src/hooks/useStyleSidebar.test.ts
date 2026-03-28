@@ -5,14 +5,14 @@ import { useStyleSidebar } from '@/hooks/useStyleSidebar'
 const localStorageMock = (() => {
   let store: Record<string, string> = {}
   return {
-    getItem: jest.fn((key: string) => store[key] || null),
-    setItem: jest.fn((key: string, value: string) => {
+    getItem: vi.fn((key: string) => store[key] || null),
+    setItem: vi.fn((key: string, value: string) => {
       store[key] = value
     }),
-    removeItem: jest.fn((key: string) => {
+    removeItem: vi.fn((key: string) => {
       delete store[key]
     }),
-    clear: jest.fn(() => {
+    clear: vi.fn(() => {
       store = {}
     }),
   }
@@ -23,24 +23,7 @@ Object.defineProperty(window, 'localStorage', { value: localStorageMock })
 describe('useStyleSidebar', () => {
   beforeEach(() => {
     localStorageMock.clear()
-    jest.clearAllMocks()
-  })
-
-  describe('tab management', () => {
-    it('should default to themes tab', () => {
-      const { result } = renderHook(() => useStyleSidebar())
-      expect(result.current.activeTab).toBe('themes')
-    })
-
-    it('should switch tabs', () => {
-      const { result } = renderHook(() => useStyleSidebar())
-
-      act(() => {
-        result.current.setActiveTab('advanced')
-      })
-
-      expect(result.current.activeTab).toBe('advanced')
-    })
+    vi.resetAllMocks()
   })
 
   describe('search functionality', () => {

@@ -12,28 +12,28 @@ global.ResizeObserver = class ResizeObserver {
 }
 
 // Mock the dependencies
-jest.mock('../services/urlStateService', () => ({
-  generateShareUrl: jest.fn(() => 'https://example.com/share/abc123'),
+vi.mock('../services/urlStateService', () => ({
+  generateShareUrl: vi.fn(() => 'https://example.com/share/abc123'),
 }))
 
-jest.mock('./ShareModal', () => ({
+vi.mock('./ShareModal', () => ({
   ShareModal: ({ isOpen, shareUrl }: { isOpen: boolean; shareUrl: string }) =>
     isOpen ? <div data-testid="share-modal">{shareUrl}</div> : null,
 }))
 
 // Mock clipboard API
 const mockClipboard = {
-  writeText: jest.fn().mockResolvedValue(undefined),
+  writeText: vi.fn().mockResolvedValue(undefined),
 }
 Object.assign(navigator, { clipboard: mockClipboard })
 
 // Mock window.alert
-const mockAlert = jest.fn()
+const mockAlert = vi.fn()
 window.alert = mockAlert
 
 // Mock URL.createObjectURL and URL.revokeObjectURL
-const mockCreateObjectURL = jest.fn(() => 'blob:test')
-const mockRevokeObjectURL = jest.fn()
+const mockCreateObjectURL = vi.fn(() => 'blob:test')
+const mockRevokeObjectURL = vi.fn()
 URL.createObjectURL = mockCreateObjectURL
 URL.revokeObjectURL = mockRevokeObjectURL
 
@@ -78,21 +78,21 @@ describe('Header Component', () => {
   const defaultProps = {
     state: mockState,
     editionMode: 'split' as const,
-    onEditionModeChange: jest.fn(),
+    onEditionModeChange: vi.fn(),
     htmlContent: '<h1>Hello World</h1><p>This is a test document.</p>',
-    onDocumentTitleChange: jest.fn(),
+    onDocumentTitleChange: vi.fn(),
     showLineNumbers: true,
-    onToggleLineNumbers: jest.fn(),
+    onToggleLineNumbers: vi.fn(),
     syncScroll: false,
-    onToggleSyncScroll: jest.fn(),
+    onToggleSyncScroll: vi.fn(),
     darkMode: false,
-    onToggleDarkMode: jest.fn(),
+    onToggleDarkMode: vi.fn(),
     tailwindClasses: mockTailwindClasses,
     fontFamily: 'Inter',
   }
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   describe('Menu Structure', () => {
@@ -288,7 +288,7 @@ describe('Header Component', () => {
     })
 
     it('should call onInsertHeading when heading button is clicked', async () => {
-      const onInsertHeading = jest.fn()
+      const onInsertHeading = vi.fn()
       render(<Header {...defaultProps} onInsertHeading={onInsertHeading} />)
 
       await userEvent.click(screen.getByText('H1'))
@@ -297,7 +297,7 @@ describe('Header Component', () => {
     })
 
     it('should call onInsertBold when bold button is clicked', async () => {
-      const onInsertBold = jest.fn()
+      const onInsertBold = vi.fn()
       render(<Header {...defaultProps} onInsertBold={onInsertBold} />)
 
       // Find bold button by its data-tooltip-id attribute

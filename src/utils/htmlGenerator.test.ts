@@ -1,3 +1,4 @@
+import type { Mock } from 'vitest'
 import { generateStyledHtml, copyHtmlToClipboard, exportPdf } from '@/utils/htmlGenerator'
 import type { TailwindClasses } from '@/types'
 
@@ -164,16 +165,16 @@ describe('htmlGenerator module', () => {
   })
 
   describe('copyHtmlToClipboard', () => {
-    let mockWrite: jest.Mock
-    let mockClipboardItem: jest.Mock
+    let mockWrite: Mock
+    let mockClipboardItem: Mock
 
     beforeEach(() => {
       // Mock ClipboardItem
-      mockClipboardItem = jest.fn((items) => items)
+      mockClipboardItem = vi.fn((items) => items)
       global.ClipboardItem = mockClipboardItem as any
 
       // Mock navigator.clipboard.write
-      mockWrite = jest.fn().mockResolvedValue(undefined)
+      mockWrite = vi.fn().mockResolvedValue(undefined)
       Object.assign(navigator, {
         clipboard: {
           write: mockWrite,

@@ -1,9 +1,10 @@
+import type { Mock } from 'vitest'
 import { renderHook, act, waitFor } from '@testing-library/react'
 import { useTemplatesPage } from '@/hooks/useTemplatesPage'
 
 // Mock react-router-dom
-const mockNavigate = jest.fn()
-jest.mock('react-router-dom', () => ({
+const mockNavigate = vi.fn()
+vi.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }))
 
@@ -11,7 +12,7 @@ jest.mock('react-router-dom', () => ({
 const localStorageStore: Record<string, string> = {}
 const localStorageMock = {
   getItem: (key: string) => localStorageStore[key] || null,
-  setItem: jest.fn((key: string, value: string) => {
+  setItem: vi.fn((key: string, value: string) => {
     localStorageStore[key] = value
   }),
   removeItem: (key: string) => {
@@ -52,14 +53,14 @@ const mockTemplates = [
 ]
 
 // Mock functions for assertions (implementations set in beforeEach)
-const mockRefresh = jest.fn()
-const mockSetFilter = jest.fn()
-const mockSetSearchQuery = jest.fn()
-const mockSeedSystemTemplates = jest.fn()
-const mockDocCreate = jest.fn()
+const mockRefresh = vi.fn()
+const mockSetFilter = vi.fn()
+const mockSetSearchQuery = vi.fn()
+const mockSeedSystemTemplates = vi.fn()
+const mockDocCreate = vi.fn()
 
 // Mock useTemplates — use plain function to survive resetMocks
-jest.mock('./useTemplates', () => ({
+vi.mock('./useTemplates', () => ({
   __esModule: true,
   useTemplates: () => ({
     templates: mockTemplates,
@@ -73,14 +74,14 @@ jest.mock('./useTemplates', () => ({
   }),
 }))
 
-// Mock seedService — delegate to jest.fn ref
-jest.mock('../services/seedService', () => ({
+// Mock seedService — delegate to vi.fn ref
+vi.mock('../services/seedService', () => ({
   __esModule: true,
   seedSystemTemplates: (...args: any[]) => mockSeedSystemTemplates(...args),
 }))
 
-// Mock documentRepository — delegate to jest.fn ref
-jest.mock('../lib/repositories', () => ({
+// Mock documentRepository — delegate to vi.fn ref
+vi.mock('../lib/repositories', () => ({
   __esModule: true,
   documentRepository: {
     create: (...args: any[]) => mockDocCreate(...args),
@@ -90,10 +91,10 @@ jest.mock('../lib/repositories', () => ({
 describe('useTemplatesPage', () => {
   beforeEach(() => {
     localStorageMock.clear()
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
     // Re-set spy implementations (cleared by CRA's resetMocks: true)
-    ;(localStorageMock.setItem as jest.Mock).mockImplementation((key: string, value: string) => {
+    ;(localStorageMock.setItem as Mock).mockImplementation((key: string, value: string) => {
       localStorageStore[key] = value
     })
 

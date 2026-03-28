@@ -1,10 +1,11 @@
 /* eslint-disable testing-library/no-wait-for-multiple-assertions */
+import type { Mock } from 'vitest'
 import { renderHook, act, waitFor } from '@testing-library/react'
 import { useThemesPage } from '@/hooks/useThemesPage'
 
 // Mock react-router-dom
-const mockNavigate = jest.fn()
-jest.mock('react-router-dom', () => ({
+const mockNavigate = vi.fn()
+vi.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }))
 
@@ -12,7 +13,7 @@ jest.mock('react-router-dom', () => ({
 const localStorageStore: Record<string, string> = {}
 const localStorageMock = {
   getItem: (key: string) => localStorageStore[key] || null,
-  setItem: jest.fn((key: string, value: string) => {
+  setItem: vi.fn((key: string, value: string) => {
     localStorageStore[key] = value
   }),
   removeItem: (key: string) => {
@@ -59,14 +60,14 @@ const mockFavoriteThemes = [
 ]
 
 // Mock functions for assertions (implementations set in beforeEach because CRA resetMocks: true)
-const mockToggleFavorite = jest.fn()
-const mockIsFavorite = jest.fn()
-const mockRepoGetAll = jest.fn()
-const mockRepoCreate = jest.fn()
-const mockRepoDelete = jest.fn()
+const mockToggleFavorite = vi.fn()
+const mockIsFavorite = vi.fn()
+const mockRepoGetAll = vi.fn()
+const mockRepoCreate = vi.fn()
+const mockRepoDelete = vi.fn()
 
 // Mock useStyleSidebar — use plain function (not jest.fn) so it survives resetMocks
-jest.mock('./useStyleSidebar', () => ({
+vi.mock('./useStyleSidebar', () => ({
   __esModule: true,
   useStyleSidebar: () => ({
     favoriteThemes: mockFavoriteThemes,
@@ -83,8 +84,8 @@ jest.mock('./useStyleSidebar', () => ({
   }),
 }))
 
-// Mock customThemeRepository — delegate to jest.fn refs so tests can assert calls
-jest.mock('../lib/repositories', () => ({
+// Mock customThemeRepository — delegate to vi.fn refs so tests can assert calls
+vi.mock('../lib/repositories', () => ({
   __esModule: true,
   customThemeRepository: {
     getAll: (...args: any[]) => mockRepoGetAll(...args),
@@ -93,8 +94,8 @@ jest.mock('../lib/repositories', () => ({
   },
 }))
 
-// Mock theme-editor types — plain values, no jest.fn needed
-jest.mock('../components/theme-editor/types', () => ({
+// Mock theme-editor types — plain values, no vi.fn needed
+vi.mock('../components/theme-editor/types', () => ({
   __esModule: true,
   ELEMENT_SCHEMAS: {
     body: { defaults: { bgColor: 'bg-white' } },
@@ -105,7 +106,7 @@ jest.mock('../components/theme-editor/types', () => ({
 }))
 
 // Mock urlStateService — plain values
-jest.mock('../services/urlStateService', () => ({
+vi.mock('../services/urlStateService', () => ({
   __esModule: true,
   encodeState: () => 'encoded-state',
   defaultDocumentTitle: 'Untitled Document',
@@ -114,10 +115,10 @@ jest.mock('../services/urlStateService', () => ({
 describe('useThemesPage', () => {
   beforeEach(() => {
     localStorageMock.clear()
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
     // Re-set setItem spy implementation (cleared by resetMocks)
-    ;(localStorageMock.setItem as jest.Mock).mockImplementation((key: string, value: string) => {
+    ;(localStorageMock.setItem as Mock).mockImplementation((key: string, value: string) => {
       localStorageStore[key] = value
     })
 

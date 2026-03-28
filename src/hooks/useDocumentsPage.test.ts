@@ -1,9 +1,10 @@
+import type { Mock } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useDocumentsPage } from '@/hooks/useDocumentsPage'
 
 // Mock react-router-dom
-const mockNavigate = jest.fn()
-jest.mock('react-router-dom', () => ({
+const mockNavigate = vi.fn()
+vi.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }))
 
@@ -11,7 +12,7 @@ jest.mock('react-router-dom', () => ({
 const localStorageStore: Record<string, string> = {}
 const localStorageMock = {
   getItem: (key: string) => localStorageStore[key] || null,
-  setItem: jest.fn((key: string, value: string) => {
+  setItem: vi.fn((key: string, value: string) => {
     localStorageStore[key] = value
   }),
   removeItem: (key: string) => {
@@ -46,17 +47,17 @@ const mockDocuments = [
 ]
 
 // Mock functions for assertions (implementations set in beforeEach)
-const mockCreate = jest.fn()
-const mockToggleStar = jest.fn()
-const mockMoveToTrash = jest.fn()
-const mockRestoreFromTrash = jest.fn()
-const mockPermanentDelete = jest.fn()
-const mockSetFilter = jest.fn()
-const mockSetSearchQuery = jest.fn()
-const mockRefresh = jest.fn()
+const mockCreate = vi.fn()
+const mockToggleStar = vi.fn()
+const mockMoveToTrash = vi.fn()
+const mockRestoreFromTrash = vi.fn()
+const mockPermanentDelete = vi.fn()
+const mockSetFilter = vi.fn()
+const mockSetSearchQuery = vi.fn()
+const mockRefresh = vi.fn()
 
 // Mock useDocuments — use plain function to survive resetMocks
-jest.mock('./useDocuments', () => ({
+vi.mock('./useDocuments', () => ({
   __esModule: true,
   useDocuments: () => ({
     documents: mockDocuments,
@@ -76,20 +77,20 @@ jest.mock('./useDocuments', () => ({
 }))
 
 // Mock useImportModal
-const mockImportModalOpen = jest.fn()
-const mockImportModalClose = jest.fn()
-const mockImportModalReset = jest.fn()
-const mockFileImportReset = jest.fn()
-const mockUrlImportReset = jest.fn()
+const mockImportModalOpen = vi.fn()
+const mockImportModalClose = vi.fn()
+const mockImportModalReset = vi.fn()
+const mockFileImportReset = vi.fn()
+const mockUrlImportReset = vi.fn()
 
-jest.mock('./useImportModal', () => ({
+vi.mock('./useImportModal', () => ({
   __esModule: true,
   useImportModal: () => ({
     isOpen: false,
     open: mockImportModalOpen,
     close: mockImportModalClose,
     activeTab: 'file' as const,
-    setActiveTab: jest.fn(),
+    setActiveTab: vi.fn(),
     fileImport: { status: 'idle', error: null, result: null, reset: mockFileImportReset },
     urlImport: { status: 'idle', error: null, result: null, url: '', reset: mockUrlImportReset },
     reset: mockImportModalReset,
@@ -99,10 +100,10 @@ jest.mock('./useImportModal', () => ({
 describe('useDocumentsPage', () => {
   beforeEach(() => {
     localStorageMock.clear()
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
     // Re-set spy implementations (cleared by CRA's resetMocks: true)
-    ;(localStorageMock.setItem as jest.Mock).mockImplementation((key: string, value: string) => {
+    ;(localStorageMock.setItem as Mock).mockImplementation((key: string, value: string) => {
       localStorageStore[key] = value
     })
 

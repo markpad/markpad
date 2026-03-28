@@ -6,22 +6,22 @@ import type { UseImageModalResult } from '@/hooks/useImageModal'
 // Mock UseImageModalResult for testing
 const createMockImageModal = (overrides?: Partial<UseImageModalResult>): UseImageModalResult => ({
   isOpen: false,
-  open: jest.fn(),
-  close: jest.fn(),
+  open: vi.fn(),
+  close: vi.fn(),
   imageConfig: {
     url: '',
     altText: '',
   },
-  setImageConfig: jest.fn(),
-  generateImageCode: jest.fn(() => '![](https://example.com/image.jpg)'),
-  reset: jest.fn(),
+  setImageConfig: vi.fn(),
+  generateImageCode: vi.fn(() => '![](https://example.com/image.jpg)'),
+  reset: vi.fn(),
   isValidUrl: false,
   history: [],
-  addToHistory: jest.fn(),
-  removeFromHistory: jest.fn(),
-  loadFromHistory: jest.fn(),
+  addToHistory: vi.fn(),
+  removeFromHistory: vi.fn(),
+  loadFromHistory: vi.fn(),
   searchQuery: '',
-  setSearchQuery: jest.fn(),
+  setSearchQuery: vi.fn(),
   filteredHistory: [],
   ...overrides,
 })
@@ -31,39 +31,39 @@ describe('ImageModal', () => {
     it('should not render when isOpen is false', () => {
       const mockImageModal = createMockImageModal({ isOpen: false })
       const { container } = render(
-        <ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />
+        <ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />
       )
       expect(container.firstChild).toBeNull()
     })
 
     it('should render when isOpen is true', () => {
       const mockImageModal = createMockImageModal({ isOpen: true })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
       expect(screen.getByRole('heading', { name: 'Insert Image' })).toBeInTheDocument()
       expect(screen.getByText('Add an image to your markdown')).toBeInTheDocument()
     })
 
     it('should render URL input field', () => {
       const mockImageModal = createMockImageModal({ isOpen: true })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
       expect(screen.getByLabelText('Image URL')).toBeInTheDocument()
     })
 
     it('should render Alt Text input field', () => {
       const mockImageModal = createMockImageModal({ isOpen: true })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
       expect(screen.getByLabelText('Alt Text')).toBeInTheDocument()
     })
 
     it('should render preview section', () => {
       const mockImageModal = createMockImageModal({ isOpen: true })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
       expect(screen.getByText('Preview')).toBeInTheDocument()
     })
 
     it('should show placeholder when no URL', () => {
       const mockImageModal = createMockImageModal({ isOpen: true, isValidUrl: false })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
       expect(screen.getByText('Image preview will appear here')).toBeInTheDocument()
     })
 
@@ -73,7 +73,7 @@ describe('ImageModal', () => {
         imageConfig: { url: 'invalid-url', altText: '' },
         isValidUrl: false,
       })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
       expect(screen.getByText('Invalid URL')).toBeInTheDocument()
     })
   })
@@ -82,7 +82,7 @@ describe('ImageModal', () => {
     it('should call close when clicking backdrop', () => {
       const mockImageModal = createMockImageModal({ isOpen: true })
       const { container } = render(
-        <ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />
+        <ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />
       )
 
       const backdrop = container.querySelector('.fixed.inset-0.bg-black\\/50')
@@ -94,7 +94,7 @@ describe('ImageModal', () => {
 
     it('should call close when clicking X button', () => {
       const mockImageModal = createMockImageModal({ isOpen: true })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
 
       const closeButtons = screen.getAllByRole('button')
       const xButton = closeButtons.find((btn) => btn.querySelector('svg'))
@@ -106,7 +106,7 @@ describe('ImageModal', () => {
 
     it('should call close when clicking Cancel button', () => {
       const mockImageModal = createMockImageModal({ isOpen: true })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
 
       const cancelButton = screen.getByText('Cancel')
       fireEvent.click(cancelButton)
@@ -114,12 +114,12 @@ describe('ImageModal', () => {
     })
 
     it('should call setImageConfig when changing URL', () => {
-      const mockSetImageConfig = jest.fn()
+      const mockSetImageConfig = vi.fn()
       const mockImageModal = createMockImageModal({
         isOpen: true,
         setImageConfig: mockSetImageConfig,
       })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
 
       const urlInput = screen.getByLabelText('Image URL')
       fireEvent.change(urlInput, { target: { value: 'https://example.com/image.jpg' } })
@@ -128,12 +128,12 @@ describe('ImageModal', () => {
     })
 
     it('should call setImageConfig when changing alt text', () => {
-      const mockSetImageConfig = jest.fn()
+      const mockSetImageConfig = vi.fn()
       const mockImageModal = createMockImageModal({
         isOpen: true,
         setImageConfig: mockSetImageConfig,
       })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
 
       const altTextInput = screen.getByLabelText('Alt Text')
       fireEvent.change(altTextInput, { target: { value: 'A beautiful sunset' } })
@@ -148,7 +148,7 @@ describe('ImageModal', () => {
         isOpen: true,
         imageConfig: { url: '', altText: '' },
       })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
 
       const insertButton = screen.getByRole('button', { name: 'Insert Image' })
       expect(insertButton).toBeDisabled()
@@ -159,15 +159,15 @@ describe('ImageModal', () => {
         isOpen: true,
         imageConfig: { url: 'https://example.com/image.jpg', altText: '' },
       })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
 
       const insertButton = screen.getByRole('button', { name: 'Insert Image' })
       expect(insertButton).not.toBeDisabled()
     })
 
     it('should call onInsertImage with generated code when insert clicked', () => {
-      const mockOnInsertImage = jest.fn()
-      const mockGenerateImageCode = jest.fn(() => '![Sunset](https://example.com/sunset.jpg)')
+      const mockOnInsertImage = vi.fn()
+      const mockGenerateImageCode = vi.fn(() => '![Sunset](https://example.com/sunset.jpg)')
       const mockImageModal = createMockImageModal({
         isOpen: true,
         imageConfig: { url: 'https://example.com/sunset.jpg', altText: 'Sunset' },
@@ -187,7 +187,7 @@ describe('ImageModal', () => {
         isOpen: true,
         imageConfig: { url: 'https://example.com/image.jpg', altText: 'Test' },
       })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
 
       const insertButton = screen.getByRole('button', { name: 'Insert Image' })
       fireEvent.click(insertButton)
@@ -204,7 +204,7 @@ describe('ImageModal', () => {
         imageConfig: { url: 'https://example.com/image.jpg', altText: 'Test image' },
         isValidUrl: true,
       })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
 
       const image = screen.getByAltText('Test image')
       expect(image).toBeInTheDocument()
@@ -217,7 +217,7 @@ describe('ImageModal', () => {
         imageConfig: { url: 'https://example.com/image.jpg', altText: '' },
         isValidUrl: true,
       })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
 
       const image = screen.getByAltText('Image preview')
       expect(image).toBeInTheDocument()
@@ -229,7 +229,7 @@ describe('ImageModal', () => {
         imageConfig: { url: 'https://example.com/broken.jpg', altText: 'Test' },
         isValidUrl: true,
       })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
 
       const image = screen.getByAltText('Test')
       fireEvent.error(image)
@@ -246,7 +246,7 @@ describe('ImageModal', () => {
         isOpen: true,
         imageConfig: { url: 'https://example.com/image.jpg', altText: '' },
       })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
 
       const urlInput = screen.getByLabelText('Image URL') as HTMLInputElement
       expect(urlInput.value).toBe('https://example.com/image.jpg')
@@ -257,7 +257,7 @@ describe('ImageModal', () => {
         isOpen: true,
         imageConfig: { url: '', altText: 'A beautiful landscape' },
       })
-      render(<ImageModal imageModal={mockImageModal} onInsertImage={jest.fn()} />)
+      render(<ImageModal imageModal={mockImageModal} onInsertImage={vi.fn()} />)
 
       const altTextInput = screen.getByLabelText('Alt Text') as HTMLInputElement
       expect(altTextInput.value).toBe('A beautiful landscape')

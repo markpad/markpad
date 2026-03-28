@@ -6,8 +6,8 @@ import type { UseIfModalResult } from '@/hooks/useIfModal'
 // Mock UseIfModalResult for testing
 const createMockIfModal = (overrides?: Partial<UseIfModalResult>): UseIfModalResult => ({
   isOpen: false,
-  open: jest.fn(),
-  close: jest.fn(),
+  open: vi.fn(),
+  close: vi.fn(),
   availableVariables: ['showAdvanced', 'user.age', 'user.name', 'isDraft'],
   ifConfig: {
     variableName: '',
@@ -15,9 +15,9 @@ const createMockIfModal = (overrides?: Partial<UseIfModalResult>): UseIfModalRes
     compareValue: '',
     contentTemplate: 'Content to show when condition is true',
   },
-  setIfConfig: jest.fn(),
-  generateIfCode: jest.fn(() => '{% if showAdvanced %}\nAdvanced content\n{% endif %}'),
-  reset: jest.fn(),
+  setIfConfig: vi.fn(),
+  generateIfCode: vi.fn(() => '{% if showAdvanced %}\nAdvanced content\n{% endif %}'),
+  reset: vi.fn(),
   preview: '{% if showAdvanced %}\nAdvanced content\n{% endif %}',
   ...overrides,
 })
@@ -26,13 +26,13 @@ describe('IfModal', () => {
   describe('Rendering', () => {
     it('should not render when isOpen is false', () => {
       const mockIfModal = createMockIfModal({ isOpen: false })
-      const { container } = render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      const { container } = render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
       expect(container.firstChild).toBeNull()
     })
 
     it('should render when isOpen is true', () => {
       const mockIfModal = createMockIfModal({ isOpen: true })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
       expect(screen.getByRole('heading', { name: 'Insert Conditional' })).toBeInTheDocument()
       expect(screen.getByText('Show content based on conditions')).toBeInTheDocument()
     })
@@ -42,7 +42,7 @@ describe('IfModal', () => {
         isOpen: true,
         availableVariables: ['showAdvanced', 'user.age', 'isDraft'],
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const select = screen.getByLabelText('Variable to Check')
       expect(select).toBeInTheDocument()
@@ -59,13 +59,13 @@ describe('IfModal', () => {
         isOpen: true,
         availableVariables: [],
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
       expect(screen.getByText('No variables found in frontmatter')).toBeInTheDocument()
     })
 
     it('should display all operator options', () => {
       const mockIfModal = createMockIfModal({ isOpen: true })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const operatorSelect = screen.getByLabelText('Comparison Type')
       const options = within(operatorSelect as HTMLSelectElement).getAllByRole('option')
@@ -86,7 +86,7 @@ describe('IfModal', () => {
   describe('User Interactions', () => {
     it('should call close when clicking backdrop', () => {
       const mockIfModal = createMockIfModal({ isOpen: true })
-      const { container } = render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      const { container } = render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       // Click on backdrop (the outer div with bg-black/50)
       const backdrop = container.querySelector('.fixed.inset-0.bg-black\\/50')
@@ -98,7 +98,7 @@ describe('IfModal', () => {
 
     it('should call close when clicking X button', () => {
       const mockIfModal = createMockIfModal({ isOpen: true })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const closeButton = screen
         .getAllByRole('button')
@@ -111,7 +111,7 @@ describe('IfModal', () => {
 
     it('should call close when clicking Cancel button', () => {
       const mockIfModal = createMockIfModal({ isOpen: true })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const cancelButton = screen.getByText('Cancel')
       fireEvent.click(cancelButton)
@@ -119,12 +119,12 @@ describe('IfModal', () => {
     })
 
     it('should call setIfConfig when changing variable', () => {
-      const mockSetIfConfig = jest.fn()
+      const mockSetIfConfig = vi.fn()
       const mockIfModal = createMockIfModal({
         isOpen: true,
         setIfConfig: mockSetIfConfig,
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const select = screen.getByLabelText('Variable to Check')
       fireEvent.change(select, { target: { value: 'showAdvanced' } })
@@ -133,12 +133,12 @@ describe('IfModal', () => {
     })
 
     it('should call setIfConfig when changing operator', () => {
-      const mockSetIfConfig = jest.fn()
+      const mockSetIfConfig = vi.fn()
       const mockIfModal = createMockIfModal({
         isOpen: true,
         setIfConfig: mockSetIfConfig,
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const operatorSelect = screen.getByLabelText('Comparison Type')
       fireEvent.change(operatorSelect, { target: { value: '==' } })
@@ -156,7 +156,7 @@ describe('IfModal', () => {
           contentTemplate: 'Adult content',
         },
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       expect(screen.getByLabelText('Compare To')).toBeInTheDocument()
     })
@@ -171,13 +171,13 @@ describe('IfModal', () => {
           contentTemplate: 'Content',
         },
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       expect(screen.queryByLabelText('Compare To')).not.toBeInTheDocument()
     })
 
     it('should call setIfConfig when changing compare value', () => {
-      const mockSetIfConfig = jest.fn()
+      const mockSetIfConfig = vi.fn()
       const mockIfModal = createMockIfModal({
         isOpen: true,
         setIfConfig: mockSetIfConfig,
@@ -188,7 +188,7 @@ describe('IfModal', () => {
           contentTemplate: 'Content',
         },
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const compareInput = screen.getByLabelText('Compare To')
       fireEvent.change(compareInput, { target: { value: '18' } })
@@ -197,12 +197,12 @@ describe('IfModal', () => {
     })
 
     it('should call setIfConfig when changing content template', () => {
-      const mockSetIfConfig = jest.fn()
+      const mockSetIfConfig = vi.fn()
       const mockIfModal = createMockIfModal({
         isOpen: true,
         setIfConfig: mockSetIfConfig,
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const contentTextarea = screen.getByLabelText('Content to Show')
       fireEvent.change(contentTextarea, { target: { value: 'New content' } })
@@ -222,7 +222,7 @@ describe('IfModal', () => {
           contentTemplate: 'Content',
         },
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const insertButton = screen.getByRole('button', { name: 'Insert Conditional' })
       expect(insertButton).toBeDisabled()
@@ -238,7 +238,7 @@ describe('IfModal', () => {
           contentTemplate: 'Content',
         },
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const insertButton = screen.getByRole('button', { name: 'Insert Conditional' })
       expect(insertButton).not.toBeDisabled()
@@ -254,7 +254,7 @@ describe('IfModal', () => {
           contentTemplate: 'Content',
         },
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const insertButton = screen.getByRole('button', { name: 'Insert Conditional' })
       expect(insertButton).toBeDisabled()
@@ -270,15 +270,15 @@ describe('IfModal', () => {
           contentTemplate: 'Content',
         },
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const insertButton = screen.getByRole('button', { name: 'Insert Conditional' })
       expect(insertButton).not.toBeDisabled()
     })
 
     it('should call onInsertIf with generated code when insert clicked', () => {
-      const mockOnInsertIf = jest.fn()
-      const mockGenerateIfCode = jest.fn(() => '{% if user.age >= 18 %}\nAdult\n{% endif %}')
+      const mockOnInsertIf = vi.fn()
+      const mockGenerateIfCode = vi.fn(() => '{% if user.age >= 18 %}\nAdult\n{% endif %}')
       const mockIfModal = createMockIfModal({
         isOpen: true,
         generateIfCode: mockGenerateIfCode,
@@ -308,7 +308,7 @@ describe('IfModal', () => {
           contentTemplate: 'Content',
         },
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       const insertButton = screen.getByRole('button', { name: 'Insert Conditional' })
       fireEvent.click(insertButton)
@@ -324,7 +324,7 @@ describe('IfModal', () => {
         isOpen: true,
         preview: '{% if showAdvanced %}\nAdvanced content\n{% endif %}',
       })
-      render(<IfModal ifModal={mockIfModal} onInsertIf={jest.fn()} />)
+      render(<IfModal ifModal={mockIfModal} onInsertIf={vi.fn()} />)
 
       expect(screen.getByText('Preview')).toBeInTheDocument()
       // Check for the preview content in a pre tag
