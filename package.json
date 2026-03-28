@@ -67,6 +67,12 @@
     }
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^12.0.6",
+    "@semantic-release/npm": "^13.1.5",
+    "@semantic-release/release-notes-generator": "^14.1.0",
     "@testing-library/dom": "10.4.1",
     "@types/js-yaml": "4.0.9",
     "@types/nunjucks": "3.2.6",
@@ -76,13 +82,14 @@
     "@types/react-syntax-highlighter": "15.5.13",
     "@vitejs/plugin-react": "4.3.4",
     "@vitest/ui": "2.1.8",
+    "autoprefixer": "10.4.20",
     "eslint": "8.57.1",
     "eslint-config-prettier": "9.1.2",
     "eslint-plugin-prettier": "5.5.5",
     "jsdom": "25.0.1",
-    "prettier": "3.8.1",
-    "autoprefixer": "10.4.20",
     "postcss": "8.4.49",
+    "prettier": "3.8.1",
+    "semantic-release": "^25.0.3",
     "vite": "6.0.11",
     "vitest": "2.1.8"
   }
