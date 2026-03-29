@@ -41,6 +41,8 @@
     "dev": "pnpm run generate:themes && vite",
     "build": "pnpm run generate:themes && tsc && vite build",
     "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "generate:themes": "node scripts/generateThemes.js",
@@ -73,6 +75,11 @@
     "@semantic-release/github": "12.0.6",
     "@semantic-release/npm": "13.1.5",
     "@semantic-release/release-notes-generator": "14.1.0",
+    "@storybook/addon-essentials": "8.6.3",
+    "@storybook/addon-interactions": "8.6.3",
+    "@storybook/blocks": "8.6.3",
+    "@storybook/react": "8.6.3",
+    "@storybook/react-vite": "8.6.3",
     "@testing-library/dom": "10.4.1",
     "@types/js-yaml": "4.0.9",
     "@types/nunjucks": "3.2.6",
@@ -90,6 +97,7 @@
     "postcss": "8.4.49",
     "prettier": "3.8.1",
     "semantic-release": "25.0.3",
+    "storybook": "8.6.3",
     "vite": "6.0.11",
     "vitest": "2.1.8"
   }
