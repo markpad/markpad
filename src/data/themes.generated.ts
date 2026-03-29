@@ -605,7 +605,8 @@ export const themePresets: ThemePreset[] = [
       "article": "prose prose-slate dark:prose-invert max-w-4xl mx-auto"
     },
     "fontConfig": {
-      "fontFamily": "Inter"
+      "fontFamily": "Inter",
+      "headingFontFamily": "Raleway"
     },
     "preview": {
       "sampleHeading": "Landing Page",
@@ -728,7 +729,8 @@ export const themePresets: ThemePreset[] = [
       "article": "prose prose-slate max-w-none"
     },
     "fontConfig": {
-      "fontFamily": "Playfair Display"
+      "fontFamily": "Playfair Display",
+      "headingFontFamily": "Merriweather"
     },
     "preview": {
       "sampleHeading": "Modern Serif",
@@ -851,7 +853,8 @@ export const themePresets: ThemePreset[] = [
       "article": "prose dark:prose-invert max-w-none"
     },
     "fontConfig": {
-      "fontFamily": "Playfair Display"
+      "fontFamily": "Playfair Display",
+      "headingFontFamily": "Oswald"
     },
     "preview": {
       "sampleHeading": "The Daily Chronicle",
@@ -1138,7 +1141,8 @@ export const themePresets: ThemePreset[] = [
       "article": "prose max-w-none dark:prose-invert"
     },
     "fontConfig": {
-      "fontFamily": "Merriweather"
+      "fontFamily": "Merriweather",
+      "headingFontFamily": "Playfair Display"
     },
     "preview": {
       "sampleHeading": "Sepia Reader",

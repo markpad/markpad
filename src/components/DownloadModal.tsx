@@ -20,6 +20,7 @@ interface DownloadModalProps {
   htmlContent: string
   tailwindClasses: TailwindClasses
   fontFamily: string
+  headingFontFamily?: string
 }
 
 /**
@@ -33,6 +34,7 @@ export function DownloadModal({
   htmlContent,
   tailwindClasses,
   fontFamily,
+  headingFontFamily,
 }: DownloadModalProps) {
   const pdfExport = useExportPdf()
 
@@ -64,6 +66,7 @@ export function DownloadModal({
       htmlContent,
       tailwindClasses,
       fontFamily,
+      headingFontFamily,
     })
     handleDownloadFile(styledHtml, `${documentTitle}-styled.html`, 'text/html')
   }
@@ -74,6 +77,7 @@ export function DownloadModal({
       htmlContent,
       tailwindClasses,
       fontFamily,
+      headingFontFamily,
     })
     onClose()
   }

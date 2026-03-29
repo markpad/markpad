@@ -14,7 +14,8 @@ interface ThemeCardCompactProps {
 
 // Compact preview that fits in sidebar - same logic as ThemeCard but compact
 export function CompactPreview({ theme }: { theme: ThemePreset }) {
-  const { preview, tailwindClasses, fontFamily } = theme
+  const { preview, tailwindClasses, fontFamily, fontConfig } = theme
+  const headingFontFamily = fontConfig.headingFontFamily
 
   return (
     <div
@@ -22,15 +23,31 @@ export function CompactPreview({ theme }: { theme: ThemePreset }) {
       style={{ fontFamily }}
     >
       {preview.style === 'brutalist' ? (
-        <CompactBrutalistPreview preview={preview} classes={tailwindClasses} />
+        <CompactBrutalistPreview
+          preview={preview}
+          classes={tailwindClasses}
+          headingFontFamily={headingFontFamily}
+        />
       ) : preview.style === 'minimal' ? (
-        <CompactMinimalPreview preview={preview} classes={tailwindClasses} />
+        <CompactMinimalPreview
+          preview={preview}
+          classes={tailwindClasses}
+          headingFontFamily={headingFontFamily}
+        />
       ) : preview.style === 'mono' ? (
         <CompactMonoPreview preview={preview} classes={tailwindClasses} />
       ) : preview.style === 'serif' ? (
-        <CompactSerifPreview preview={preview} classes={tailwindClasses} />
+        <CompactSerifPreview
+          preview={preview}
+          classes={tailwindClasses}
+          headingFontFamily={headingFontFamily}
+        />
       ) : (
-        <CompactDefaultPreview preview={preview} classes={tailwindClasses} />
+        <CompactDefaultPreview
+          preview={preview}
+          classes={tailwindClasses}
+          headingFontFamily={headingFontFamily}
+        />
       )}
     </div>
   )
@@ -39,9 +56,11 @@ export function CompactPreview({ theme }: { theme: ThemePreset }) {
 function CompactDefaultPreview({
   preview,
   classes,
+  headingFontFamily,
 }: {
   preview: ThemePreset['preview']
   classes: TailwindClasses
+  headingFontFamily?: string
 }) {
   // Extract only color and font classes from h1/p
   const headingColor = getTextColorClass(classes.h1)
@@ -51,7 +70,10 @@ function CompactDefaultPreview({
 
   return (
     <div className="flex flex-col h-full justify-center space-y-1">
-      <h4 className={`text-sm font-semibold truncate ${headingColor} ${headingFont}`}>
+      <h4
+        className={`text-sm font-semibold truncate ${headingColor} ${headingFont}`}
+        style={headingFontFamily ? { fontFamily: headingFontFamily } : undefined}
+      >
         {preview.sampleHeading}
       </h4>
       <p className={`text-[10px] leading-snug line-clamp-2 ${textColor}`}>{preview.sampleText}</p>
@@ -66,9 +88,11 @@ function CompactDefaultPreview({
 function CompactSerifPreview({
   preview,
   classes,
+  headingFontFamily,
 }: {
   preview: ThemePreset['preview']
   classes: TailwindClasses
+  headingFontFamily?: string
 }) {
   const headingColor = getTextColorClass(classes.h1)
   const headingFont = getFontClass(classes.h1)
@@ -76,7 +100,10 @@ function CompactSerifPreview({
 
   return (
     <div className="flex flex-col h-full justify-center space-y-1">
-      <h4 className={`text-sm font-semibold italic truncate ${headingColor} ${headingFont}`}>
+      <h4
+        className={`text-sm font-semibold italic truncate ${headingColor} ${headingFont}`}
+        style={headingFontFamily ? { fontFamily: headingFontFamily } : undefined}
+      >
         {preview.sampleHeading}
       </h4>
       <p className={`text-[10px] leading-snug line-clamp-2 ${textColor} opacity-80`}>
@@ -89,9 +116,11 @@ function CompactSerifPreview({
 function CompactBrutalistPreview({
   preview,
   classes,
+  headingFontFamily,
 }: {
   preview: ThemePreset['preview']
   classes: TailwindClasses
+  headingFontFamily?: string
 }) {
   // Same logic as BrutalistPreview in ThemeCard
   const headingColor = getTextColorClass(classes.h1)
@@ -102,7 +131,10 @@ function CompactBrutalistPreview({
   return (
     <div className="flex flex-col h-full justify-center space-y-1.5">
       <div className="border-2 border-black px-2 py-1 inline-block self-start">
-        <span className={`font-black text-[11px] tracking-wide ${headingColor}`}>
+        <span
+          className={`font-black text-[11px] tracking-wide ${headingColor}`}
+          style={headingFontFamily ? { fontFamily: headingFontFamily } : undefined}
+        >
           {preview.sampleHeading}
         </span>
       </div>
@@ -120,9 +152,11 @@ function CompactBrutalistPreview({
 function CompactMinimalPreview({
   preview,
   classes,
+  headingFontFamily,
 }: {
   preview: ThemePreset['preview']
   classes: TailwindClasses
+  headingFontFamily?: string
 }) {
   // Same logic as MinimalistPreview in ThemeCard
   const headingColor = getTextColorClass(classes.h1)
@@ -130,7 +164,10 @@ function CompactMinimalPreview({
 
   return (
     <div className="flex flex-col items-center justify-center h-full text-center space-y-1.5">
-      <h4 className={`text-xs font-light tracking-[0.25em] uppercase ${headingColor}`}>
+      <h4
+        className={`text-xs font-light tracking-[0.25em] uppercase ${headingColor}`}
+        style={headingFontFamily ? { fontFamily: headingFontFamily } : undefined}
+      >
         {preview.sampleHeading}
       </h4>
       <p className={`text-[9px] tracking-[0.2em] uppercase opacity-70 ${textColor}`}>

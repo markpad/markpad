@@ -4,6 +4,7 @@
   "description": "Traditional newspaper broadsheet typography and layout.",
   "category": "serif",
   "fontFamily": "Playfair Display",
+  "headingFontFamily": "Oswald",
   "preview": {
     "sampleHeading": "The Daily Chronicle",
     "sampleText": "Traditional broadsheet typography meets the digital age.",

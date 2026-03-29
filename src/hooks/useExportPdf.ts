@@ -9,6 +9,7 @@ export interface PdfExportOptions {
   htmlContent: string
   tailwindClasses: TailwindClasses
   fontFamily: string
+  headingFontFamily?: string
 }
 
 interface UseExportPdfReturn {

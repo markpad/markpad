@@ -14,6 +14,7 @@ interface PublishedHeaderProps {
   articleRef: RefObject<HTMLElement | null>
   tailwindClasses: TailwindClasses
   fontFamily: string
+  headingFontFamily?: string
   darkMode: boolean
   onToggleDarkMode: () => void
   hasVariables?: boolean
@@ -32,6 +33,7 @@ export function PublishedHeader({
   articleRef,
   tailwindClasses,
   fontFamily,
+  headingFontFamily,
   darkMode,
   onToggleDarkMode,
   hasVariables = false,
@@ -184,6 +186,7 @@ export function PublishedHeader({
         htmlContent={getHtmlContent()}
         tailwindClasses={tailwindClasses}
         fontFamily={fontFamily}
+        headingFontFamily={headingFontFamily}
       />
     </header>
   )

@@ -4,6 +4,7 @@
   "description": "Warm sepia tones for comfortable extended reading sessions.",
   "category": "accessibility",
   "fontFamily": "Merriweather",
+  "headingFontFamily": "Playfair Display",
   "preview": {
     "sampleHeading": "Sepia Reader",
     "sampleText": "Warm sepia tones for a gentle, book-like reading experience.",

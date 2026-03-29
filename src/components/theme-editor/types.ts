@@ -414,11 +414,10 @@ export interface ElementSchema {
 // Which options are available for each element type
 export const ELEMENT_SCHEMAS: Record<ThemeElement, ElementSchema> = {
   body: {
-    availableOptions: ['bgColor', 'textColor', 'fontFamily', 'paddingX', 'paddingY'],
+    availableOptions: ['bgColor', 'textColor', 'paddingX', 'paddingY'],
     defaults: {
       bgColor: 'bg-white',
       textColor: 'text-gray-900',
-      fontFamily: 'font-sans',
       paddingX: '8',
       paddingY: '8',
     },

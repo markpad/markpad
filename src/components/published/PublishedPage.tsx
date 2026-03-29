@@ -256,6 +256,7 @@ export function PublishedPage() {
           articleRef={articleRef}
           tailwindClasses={state.tailwindClasses}
           fontFamily={state.fontConfig.fontFamily}
+          headingFontFamily={state.fontConfig.headingFontFamily}
           darkMode={darkMode}
           onToggleDarkMode={() => updateEditorSetting('darkMode', !darkMode)}
           hasVariables={variableDefinitions !== null}

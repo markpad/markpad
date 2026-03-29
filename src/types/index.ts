@@ -33,6 +33,7 @@ export interface BehaviorConfig {
 
 export interface FontConfig {
   fontFamily: string
+  headingFontFamily?: string
 }
 
 export const GOOGLE_FONTS = [

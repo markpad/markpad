@@ -4,6 +4,7 @@
   "description": "Elegant typography with soft gold accents and cream background.",
   "category": "serif",
   "fontFamily": "Playfair Display",
+  "headingFontFamily": "Merriweather",
   "preview": {
     "sampleHeading": "Modern Serif",
     "sampleText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.",

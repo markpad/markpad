@@ -1,13 +1,20 @@
 import { useMemo, useCallback, type MouseEvent } from 'react'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { type ThemeElement, type ElementConfig, configToClasses, SAMPLE_MARKDOWN } from '@/components/theme-editor/types'
+import {
+  type ThemeElement,
+  type ElementConfig,
+  configToClasses,
+  SAMPLE_MARKDOWN,
+} from '@/components/theme-editor/types'
 
 interface LivePreviewProps {
   configs: Record<ThemeElement, ElementConfig>
   highlightElement?: ThemeElement | null
   inspectMode?: boolean
   onSelectElement?: (element: ThemeElement) => void
+  headingFontFamily?: string
+  fontFamily?: string
 }
 
 export function LivePreview({
@@ -15,6 +22,8 @@ export function LivePreview({
   highlightElement,
   inspectMode,
   onSelectElement,
+  headingFontFamily,
+  fontFamily,
 }: LivePreviewProps) {
   // Generate class strings for all elements
   const classes = useMemo(() => {
@@ -54,7 +63,11 @@ export function LivePreview({
   )
 
   return (
-    <div className={`${classes.body} min-h-full`} onClick={handleInspectClick('body')}>
+    <div
+      className={`${classes.body} min-h-full`}
+      style={fontFamily ? { fontFamily } : undefined}
+      onClick={handleInspectClick('body')}
+    >
       <article
         className={`${classes.article}${getHighlightClasses('article')}${getInspectClasses()}`}
         onClick={handleInspectClick('article')}
@@ -65,6 +78,7 @@ export function LivePreview({
             h1: ({ children }) => (
               <h1
                 className={`${classes.h1}${getHighlightClasses('h1')}${getInspectClasses()}`}
+                style={headingFontFamily ? { fontFamily: headingFontFamily } : undefined}
                 onClick={handleInspectClick('h1')}
               >
                 {children}
@@ -73,6 +87,7 @@ export function LivePreview({
             h2: ({ children }) => (
               <h2
                 className={`${classes.h2}${getHighlightClasses('h2')}${getInspectClasses()}`}
+                style={headingFontFamily ? { fontFamily: headingFontFamily } : undefined}
                 onClick={handleInspectClick('h2')}
               >
                 {children}
@@ -81,6 +96,7 @@ export function LivePreview({
             h3: ({ children }) => (
               <h3
                 className={`${classes.h3}${getHighlightClasses('h3')}${getInspectClasses()}`}
+                style={headingFontFamily ? { fontFamily: headingFontFamily } : undefined}
                 onClick={handleInspectClick('h3')}
               >
                 {children}
@@ -89,6 +105,7 @@ export function LivePreview({
             h4: ({ children }) => (
               <h4
                 className={`${classes.h4}${getHighlightClasses('h4')}${getInspectClasses()}`}
+                style={headingFontFamily ? { fontFamily: headingFontFamily } : undefined}
                 onClick={handleInspectClick('h4')}
               >
                 {children}
@@ -97,6 +114,7 @@ export function LivePreview({
             h5: ({ children }) => (
               <h5
                 className={`${classes.h5}${getHighlightClasses('h5')}${getInspectClasses()}`}
+                style={headingFontFamily ? { fontFamily: headingFontFamily } : undefined}
                 onClick={handleInspectClick('h5')}
               >
                 {children}
@@ -105,6 +123,7 @@ export function LivePreview({
             h6: ({ children }) => (
               <h6
                 className={`${classes.h6}${getHighlightClasses('h6')}${getInspectClasses()}`}
+                style={headingFontFamily ? { fontFamily: headingFontFamily } : undefined}
                 onClick={handleInspectClick('h6')}
               >
                 {children}

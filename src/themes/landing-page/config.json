@@ -4,6 +4,7 @@
   "description": "Marketing-focused layout for hero sections, feature blocks, and clear CTAs.",
   "category": "sans-serif",
   "fontFamily": "Inter",
+  "headingFontFamily": "Raleway",
   "preview": {
     "sampleHeading": "Landing Page",
     "sampleText": "Built for conversion-focused product pages.",

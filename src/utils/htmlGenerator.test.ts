@@ -341,4 +341,67 @@ describe('htmlGenerator module', () => {
       expect(expectedFilename).toBe('Report — Q1 (2026).pdf')
     })
   })
+
+  describe('generateStyledHtml - dual font support', () => {
+    const baseOptions = {
+      documentTitle: 'Test',
+      htmlContent: '',
+      tailwindClasses: mockTailwindClasses,
+      fontFamily: 'Inter',
+    }
+
+    it('should load a single font link when headingFontFamily is not set', () => {
+      const result = generateStyledHtml(baseOptions)
+
+      const fontLinkCount = (result.match(/fonts\.googleapis\.com\/css2/g) || []).length
+      expect(fontLinkCount).toBe(1)
+      expect(result).toContain('family=Inter:')
+    })
+
+    it('should load two font links when headingFontFamily differs from fontFamily', () => {
+      const result = generateStyledHtml({
+        ...baseOptions,
+        fontFamily: 'Inter',
+        headingFontFamily: 'Playfair Display',
+      })
+
+      const fontLinkCount = (result.match(/fonts\.googleapis\.com\/css2/g) || []).length
+      expect(fontLinkCount).toBe(2)
+      expect(result).toContain('family=Inter:')
+      expect(result).toContain('family=Playfair+Display:')
+    })
+
+    it('should not add extra font link when headingFontFamily equals fontFamily', () => {
+      const result = generateStyledHtml({
+        ...baseOptions,
+        fontFamily: 'Roboto',
+        headingFontFamily: 'Roboto',
+      })
+
+      const fontLinkCount = (result.match(/fonts\.googleapis\.com\/css2/g) || []).length
+      expect(fontLinkCount).toBe(1)
+    })
+
+    it('should inject h1-h6 CSS rule when headingFontFamily differs from fontFamily', () => {
+      const result = generateStyledHtml({
+        ...baseOptions,
+        fontFamily: 'Inter',
+        headingFontFamily: 'Playfair Display',
+      })
+
+      expect(result).toMatch(
+        /h1,\s*h2,\s*h3,\s*h4,\s*h5,\s*h6\s*\{[^}]*font-family[^}]*Playfair Display[^}]*\}/
+      )
+    })
+
+    it('should not inject h1-h6 font-family rule when headingFontFamily is not set', () => {
+      const result = generateStyledHtml(baseOptions)
+
+      // The only h1-h6 rule should be the page-break rule, which does NOT contain font-family
+      const headingFontFamilyRuleMatch = result.match(
+        /h1,\s*h2,\s*h3,\s*h4,\s*h5,\s*h6\s*\{[^}]*font-family[^}]*\}/
+      )
+      expect(headingFontFamilyRuleMatch).toBeNull()
+    })
+  })
 })

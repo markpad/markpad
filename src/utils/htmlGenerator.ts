@@ -5,6 +5,7 @@ export interface HtmlGeneratorOptions {
   htmlContent: string
   tailwindClasses: TailwindClasses
   fontFamily: string
+  headingFontFamily?: string
 }
 
 /**
@@ -26,11 +27,24 @@ export function generateStyledHtml({
   htmlContent,
   tailwindClasses,
   fontFamily,
+  headingFontFamily,
 }: HtmlGeneratorOptions): string {
   const tailwindCdn = 'https://cdn.tailwindcss.com'
   const fontUrl = getFontUrl(fontFamily)
   // Extract main font name for CSS
   const mainFontName = fontFamily.split(',')[0].trim().replace(/["']/g, '')
+
+  const hasDualFont = headingFontFamily && headingFontFamily !== fontFamily
+  const headingFontName = hasDualFont
+    ? headingFontFamily!.split(',')[0].trim().replace(/["']/g, '')
+    : null
+  const headingFontLink = hasDualFont
+    ? `\n  <link href="${getFontUrl(headingFontFamily!)}" rel="stylesheet">`
+    : ''
+  const headingFontCss = hasDualFont
+    ? `\n    h1, h2, h3, h4, h5, h6 { font-family: '${headingFontName}', serif; }`
+    : ''
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,10 +54,10 @@ export function generateStyledHtml({
   <script src="${tailwindCdn}"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="${fontUrl}" rel="stylesheet">
+  <link href="${fontUrl}" rel="stylesheet">${headingFontLink}
   <style>
     html, body { min-height: 100%; height: 100%; }
-    body { font-family: '${mainFontName}', system-ui, sans-serif; }
+    body { font-family: '${mainFontName}', system-ui, sans-serif; }${headingFontCss}
     /* Prevent page breaks inside elements */
     h1, h2, h3, h4, h5, h6 {
       break-after: avoid; page-break-after: avoid;

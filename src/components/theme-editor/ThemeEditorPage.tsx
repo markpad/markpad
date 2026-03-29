@@ -16,6 +16,7 @@ import {
 import { useParams, useNavigate } from 'react-router-dom'
 import { AppHeader } from '@/components/shared/AppHeader'
 import { useUserSettings } from '@/hooks/useUserSettings'
+import { GOOGLE_FONTS } from '@/types'
 import {
   type ThemeElement,
   type ElementConfig,
@@ -55,6 +56,8 @@ export function ThemeEditorPage() {
   )
 
   const [themeName, setThemeName] = useState('My Custom Theme')
+  const [bodyFont, setBodyFont] = useState('Inter')
+  const [headingFont, setHeadingFont] = useState('')
   const [selectedElement, setSelectedElement] = useState<ThemeElement>('h1')
   const [configs, setConfigs] = useState<Record<ThemeElement, ElementConfig>>(getInitialConfigs())
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
@@ -184,7 +187,27 @@ export function ThemeEditorPage() {
     setConfigs(newConfigs)
     // Only update theme name if current name is the default
     setThemeName((prev) => (prev === 'My Custom Theme' ? theme.name : prev))
+    setBodyFont(theme.fontConfig.fontFamily)
+    setHeadingFont(theme.fontConfig.headingFontFamily ?? '')
   }, [])
+
+  // Load Google Fonts for live preview
+  useEffect(() => {
+    const fontsToLoad = [...new Set([bodyFont, headingFont].filter(Boolean))]
+    document.querySelectorAll('link[data-theme-editor-font]').forEach((el) => el.remove())
+    for (const font of fontsToLoad) {
+      if (font === 'system-ui') continue
+      const url = `https://fonts.googleapis.com/css2?family=${font.replace(/\s+/g, '+')}:wght@400;500;600;700&display=swap`
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.setAttribute('data-theme-editor-font', font)
+      document.head.appendChild(link)
+    }
+    return () => {
+      document.querySelectorAll('link[data-theme-editor-font]').forEach((el) => el.remove())
+    }
+  }, [bodyFont, headingFont])
 
   // Toggle category expansion
   const toggleCategory = (categoryName: string) => {
@@ -209,10 +232,11 @@ export function ThemeEditorPage() {
       name: themeName,
       description: 'Custom theme created with Theme Editor',
       category: 'custom',
-      fontFamily: 'Inter',
+      fontFamily: bodyFont,
+      ...(headingFont ? { headingFontFamily: headingFont } : {}),
       classes,
     }
-  }, [configs, themeName])
+  }, [configs, themeName, bodyFont, headingFont])
 
   // Generate YAML format (compatible with theme files)
   const generateYAML = useCallback(() => {
@@ -223,6 +247,7 @@ export function ThemeEditorPage() {
       `description: ${themeJSON.description}`,
       `category: ${themeJSON.category}`,
       `fontFamily: ${themeJSON.fontFamily}`,
+      ...(themeJSON.headingFontFamily ? [`headingFontFamily: ${themeJSON.headingFontFamily}`] : []),
       '',
       'preview:',
       "  bgColor: '#ffffff'",
@@ -505,6 +530,46 @@ export function ThemeEditorPage() {
             config={configs[selectedElement]}
             onChange={(config) => updateConfig(selectedElement, config)}
           />
+          {selectedElement === 'body' && (
+            <div className="px-4 pb-4 border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3">
+              <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Google Fonts
+              </h3>
+              <div>
+                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
+                  Body Font
+                </label>
+                <select
+                  value={bodyFont}
+                  onChange={(e) => setBodyFont(e.target.value)}
+                  className="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
+                >
+                  {GOOGLE_FONTS.map((f) => (
+                    <option key={f.value} value={f.value}>
+                      {f.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">
+                  Heading Font
+                </label>
+                <select
+                  value={headingFont}
+                  onChange={(e) => setHeadingFont(e.target.value)}
+                  className="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Same as body</option>
+                  {GOOGLE_FONTS.map((f) => (
+                    <option key={f.value} value={f.value}>
+                      {f.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right - Live Preview */}
@@ -523,6 +588,8 @@ export function ThemeEditorPage() {
               configs={configs}
               highlightElement={selectedElement}
               inspectMode={inspectMode}
+              fontFamily={bodyFont}
+              headingFontFamily={headingFont || undefined}
               onSelectElement={(element) => {
                 setSelectedElement(element)
               }}

@@ -10,6 +10,7 @@ interface ExportPanelProps {
   htmlContent: string
   tailwindClasses: TailwindClasses
   fontFamily: string
+  headingFontFamily?: string
 }
 
 /**
@@ -21,6 +22,7 @@ export function ExportPanel({
   htmlContent,
   tailwindClasses,
   fontFamily,
+  headingFontFamily,
 }: ExportPanelProps) {
   const pdfExport = useExportPdf()
 
@@ -39,6 +41,7 @@ export function ExportPanel({
       htmlContent,
       tailwindClasses,
       fontFamily,
+      headingFontFamily,
     })
     downloadFile(styledHtml, `${documentTitle}-styled.html`, 'text/html')
   }
@@ -49,6 +52,7 @@ export function ExportPanel({
       htmlContent,
       tailwindClasses,
       fontFamily,
+      headingFontFamily,
     })
   }
 

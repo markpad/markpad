@@ -40,14 +40,29 @@ export function MarkdownPreview({
   )
 
   // Memoize components to prevent unnecessary re-renders
-  const components = useMemo(
-    () => ({
-      h1: ({ node, ...props }: any) => <h1 {...props} className={tailwindClasses.h1} />,
-      h2: ({ node, ...props }: any) => <h2 {...props} className={tailwindClasses.h2} />,
-      h3: ({ node, ...props }: any) => <h3 {...props} className={tailwindClasses.h3} />,
-      h4: ({ node, ...props }: any) => <h4 {...props} className={tailwindClasses.h4} />,
-      h5: ({ node, ...props }: any) => <h5 {...props} className={tailwindClasses.h5} />,
-      h6: ({ node, ...props }: any) => <h6 {...props} className={tailwindClasses.h6} />,
+  const components = useMemo(() => {
+    const headingStyle = fontConfig.headingFontFamily
+      ? { fontFamily: fontConfig.headingFontFamily }
+      : undefined
+    return {
+      h1: ({ node, ...props }: any) => (
+        <h1 {...props} className={tailwindClasses.h1} style={headingStyle} />
+      ),
+      h2: ({ node, ...props }: any) => (
+        <h2 {...props} className={tailwindClasses.h2} style={headingStyle} />
+      ),
+      h3: ({ node, ...props }: any) => (
+        <h3 {...props} className={tailwindClasses.h3} style={headingStyle} />
+      ),
+      h4: ({ node, ...props }: any) => (
+        <h4 {...props} className={tailwindClasses.h4} style={headingStyle} />
+      ),
+      h5: ({ node, ...props }: any) => (
+        <h5 {...props} className={tailwindClasses.h5} style={headingStyle} />
+      ),
+      h6: ({ node, ...props }: any) => (
+        <h6 {...props} className={tailwindClasses.h6} style={headingStyle} />
+      ),
       p: ({ node, ...props }: any) => <p className={tailwindClasses.p} {...props} />,
       a: ({ node, ...props }: any) => (
         <a
@@ -109,9 +124,8 @@ export function MarkdownPreview({
           {children}
         </pre>
       ),
-    }),
-    [tailwindClasses, settings.editor.openLinksInNewTab]
-  )
+    }
+  }, [tailwindClasses, fontConfig.headingFontFamily, settings.editor.openLinksInNewTab])
 
   // Process frontmatter and interpolate variables
   const processedMarkdown = useMemo(() => {

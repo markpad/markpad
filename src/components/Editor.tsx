@@ -652,6 +652,7 @@ export function Editor({
                   htmlContent={htmlContent}
                   tailwindClasses={state.tailwindClasses}
                   fontFamily={state.fontConfig.fontFamily}
+                  headingFontFamily={state.fontConfig.headingFontFamily}
                 />
               )}
             </div>

@@ -37,7 +37,10 @@ function generateThemes() {
       category: config.category,
       fontFamily: config.fontFamily,
       tailwindClasses: config.classes,
-      fontConfig: { fontFamily: config.fontFamily },
+      fontConfig: {
+        fontFamily: config.fontFamily,
+        ...(config.headingFontFamily ? { headingFontFamily: config.headingFontFamily } : {}),
+      },
       preview: config.preview,
       exampleContent,
     }
