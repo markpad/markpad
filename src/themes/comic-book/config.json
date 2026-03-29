@@ -7,7 +7,7 @@
   "preview": {
     "sampleHeading": "COMIC BOOK!",
     "sampleText": "Bold panels and explosive action in every page.",
-    "style": "brutalist"
+    "style": "default"
   },
   "classes": {
     "h1": "text-5xl font-black mb-6 text-red-600 uppercase tracking-wider drop-shadow-[3px_3px_0px_rgba(0,0,0,0.8)]",
