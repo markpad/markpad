@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/markpad/markpad/compare/v1.2.0...v1.3.0) (2026-03-29)
+
+
+### Features
+
+* **typography:** add heading font family support across editor, preview, and export ([c79ff30](https://github.com/markpad/markpad/commit/c79ff30db50ccf987629796f6dc71ebf0efb304f))
+
 # [1.2.0](https://github.com/markpad/markpad/compare/v1.1.0...v1.2.0) (2026-03-29)
 
 
