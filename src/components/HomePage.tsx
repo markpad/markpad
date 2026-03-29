@@ -21,10 +21,10 @@ export function HomePage() {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100">
       <Helmet>
-        <title>Markpad - Markdown with Variables and Templates</title>
+        <title>Markpad - Reusable Markdown Documents</title>
         <meta
           name="description"
-          content="Write once, reuse everywhere. Create documents with variables, templates, and themes — entirely in your browser, no account required."
+          content="Create reusable Markdown documents with variables, templates, and themes. Work offline and share with a single link."
         />
       </Helmet>
 
@@ -66,7 +66,7 @@ export function HomePage() {
           {/* Right Side */}
           <div className="flex items-center gap-3">
             <a
-              href="https://github.com/teles/marklab"
+              href="https://github.com/markpad/markpad"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 text-gray-400 hover:text-white transition-colors"
@@ -77,7 +77,7 @@ export function HomePage() {
               to="/editor"
               className="px-4 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md transition-colors"
             >
-              Get Started
+              Open App
             </Link>
           </div>
         </div>
@@ -94,22 +94,22 @@ export function HomePage() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm mb-8">
               <FaMagic className="text-xs" />
-              <span>Offline-first · No account required</span>
+              <span>Offline-first | No account required</span>
             </div>
 
             {/* Headline */}
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-              Markdown with
+              Create reusable
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                variables and templates
+                Markdown documents
               </span>
             </h1>
 
             {/* Subheadline */}
             <p className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Write Markdown. Define your data once, reuse it everywhere. Generate documents from
-              templates and share them instantly — all from your browser.
+              Write once and personalize with data. Build invoices, reports, proposals, and notes
+              from templates, then share a polished page in seconds.
             </p>
 
             {/* CTA Buttons */}
@@ -119,14 +119,14 @@ export function HomePage() {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors text-lg"
               >
                 <FaRocket />
-                Open Editor
+                Start Writing
               </Link>
               <Link
                 to="/templates"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg border border-gray-700 transition-colors text-lg"
               >
                 <FaCopy />
-                Browse Templates
+                Explore Templates
               </Link>
             </div>
           </div>
@@ -196,11 +196,11 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Everything you need to create reusable documents
+              Built for repeatable writing workflows
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Variables, templates, themes, and instant sharing. Simple tools that work together —
-              no setup, no accounts.
+              From first draft to shared link, Markpad keeps your content structured, reusable, and
+              fast to ship.
             </p>
           </div>
 
@@ -212,8 +212,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Live Preview</h3>
               <p className="text-gray-400">
-                See your document update as you type. Variables resolve instantly in a side-by-side
-                preview.
+                Edit and preview side by side. See formatted output and resolved variables
+                immediately.
               </p>
             </div>
 
@@ -224,8 +224,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Variables</h3>
               <p className="text-gray-400">
-                Define data once at the top of your document and reuse it anywhere with{' '}
-                {'{{curly braces}}'}. Supports loops and conditionals too.
+                Keep data in frontmatter and reuse it with {'{{variable}}'} syntax, including
+                nested values.
               </p>
             </div>
 
@@ -236,8 +236,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Themes</h3>
               <p className="text-gray-400">
-                Choose from 30+ visual styles — apply them instantly to change how your document
-                looks. Fully customizable.
+                Pick from many built-in styles or create your own. Apply a complete visual system
+                in one click.
               </p>
             </div>
 
@@ -248,8 +248,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Templates</h3>
               <p className="text-gray-400">
-                Create reusable document structures for invoices, reports, or notes. Clone a
-                template and fill in the details.
+                Save repeatable structures for invoices, reports, and notes. Start from a template
+                instead of a blank page.
               </p>
             </div>
 
@@ -260,8 +260,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Instant Sharing</h3>
               <p className="text-gray-400">
-                Generate a single link that contains your entire document. Share it with anyone — no
-                server needed.
+                Publish to a single shareable URL. Recipients open a clean, read-only version
+                instantly.
               </p>
             </div>
 
@@ -272,8 +272,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Offline-First</h3>
               <p className="text-gray-400">
-                Everything stays in your browser. Your documents are saved locally — no server, no
-                cloud, no latency.
+                Your content is saved in your browser. No account, no mandatory cloud sync, no
+                friction.
               </p>
             </div>
           </div>
@@ -284,10 +284,10 @@ export function HomePage() {
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Start creating reusable documents
+            Write once, reuse everywhere
           </h2>
           <p className="text-gray-400 text-lg mb-10">
-            No account. No setup. Opens in your browser and works offline.
+            Open the editor and publish your first template-driven document in minutes.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
@@ -302,7 +302,7 @@ export function HomePage() {
               className="inline-flex items-center gap-2 px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors text-lg border border-gray-700"
             >
               <FaCopy />
-              Browse Templates
+              View Templates
             </Link>
           </div>
         </div>
@@ -317,7 +317,7 @@ export function HomePage() {
                 <FaFileAlt className="text-white text-xs" />
               </div>
               <span className="text-gray-400 text-sm">
-                Markpad — Markdown with Variables and Templates
+                Markpad | Reusable Markdown documents
               </span>
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-500">
@@ -331,7 +331,7 @@ export function HomePage() {
                 Themes
               </Link>
               <a
-                href="https://github.com/teles/marklab"
+                href="https://github.com/markpad/markpad"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-gray-300 transition-colors"
