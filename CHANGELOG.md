@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/markpad/markpad/compare/v1.0.0...v1.1.0) (2026-03-29)
+
+
+### Bug Fixes
+
+* **theme:** change style from 'brutalist' to 'default' in Comic Book theme preview ([110c9c1](https://github.com/markpad/markpad/commit/110c9c1c15016ee9412840d092d416e73de988aa))
+
+
+### Features
+
+* **theme:** enhance ThemeCard and ThemeCardCompact stories with argTypes and improved rendering logic ([d432730](https://github.com/markpad/markpad/commit/d432730e1865c3392afcd2defcc35663c2a4108c))
+
 # 1.0.0 (2026-03-28)
 
 
