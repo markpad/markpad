@@ -18,7 +18,7 @@ function CompactPreview({ theme }: { theme: ThemePreset }) {
 
   return (
     <div
-      className={`h-16 rounded overflow-hidden p-2 ${tailwindClasses.body}`}
+      className={`h-24 rounded overflow-hidden !p-3 ${tailwindClasses.body}`}
       style={{ fontFamily }}
     >
       {preview.style === 'brutalist' ? (
@@ -96,6 +96,8 @@ function CompactBrutalistPreview({
   // Same logic as BrutalistPreview in ThemeCard
   const headingColor = getTextColorClass(classes.h1)
   const textColor = getTextColorClass(classes.p)
+  const accentBg = getTextColorClass(classes.a).replace('text-', 'bg-')
+  const headingBg = headingColor.replace('text-', 'bg-')
 
   return (
     <div className="flex flex-col h-full justify-center space-y-1.5">
@@ -108,8 +110,8 @@ function CompactBrutalistPreview({
         {preview.sampleText}
       </p>
       <div className="flex gap-0.5">
-        <div className="h-2 flex-1 bg-yellow-400" />
-        <div className="h-2 flex-1 bg-blue-600" />
+        <div className={`h-2 flex-1 ${headingBg}`} />
+        <div className={`h-2 flex-1 ${accentBg}`} />
       </div>
     </div>
   )
