@@ -574,6 +574,47 @@ export const themePresets: ThemePreset[] = [
     "exampleContent": "# Accessibility First\n\n**Designing for everyone, without compromise.**\n\n## Why Accessibility Matters\n\nOne billion people worldwide live with some form of disability. Good design should work for **everyone**, regardless of ability.\n\n### WCAG Guidelines\n\nThis theme follows Web Content Accessibility Guidelines (WCAG) 2.1 AA standards:\n\n- **Contrast ratio**: 7:1 minimum\n- **Font size**: 18px base\n- **Clear hierarchy**: Bold headings\n- **Readable fonts**: Sans-serif\n\n> \"The power of the Web is in its universality. Access by everyone regardless of disability is an essential aspect.\"  \n> — Tim Berners-Lee\n\n## Key Features\n\n| Feature      | Standard | This Theme |\n| ------------ | -------- | ---------- |\n| Contrast     | 4.5:1    | 7:1+       |\n| Min Font     | 16px     | 18px       |\n| Line Height  | 1.5      | 1.75       |\n| Focus States | Required | Enhanced   |\n\n### Benefits\n\n1. **Better for low vision users**\n2. **Improved readability in bright light**\n3. **Reduces eye strain for everyone**\n4. **Works without color perception**\n\n## Code Example\n\n```css\n.high-contrast {\n  color: #000000;\n  background: #ffffff;\n  font-size: 1.125rem;\n  line-height: 1.75;\n}\n```\n\n## Resources\n\n- [WCAG Guidelines](https://www.w3.org/WAI/standards-guidelines/wcag/)\n- [A11y Project](https://www.a11yproject.com/)\n- [Color Contrast Checker](https://webaim.org/resources/contrastchecker/)\n\n![Inclusive design](https://picsum.photos/600/300?random=6)\n\n**Remember: Accessibility is not a feature, it's a requirement.**"
   },
   {
+    "id": "landing-page",
+    "name": "Landing Page",
+    "description": "Marketing-focused layout for hero sections, feature blocks, and clear CTAs.",
+    "category": "sans-serif",
+    "fontFamily": "Inter",
+    "tailwindClasses": {
+      "h1": "text-5xl md:text-6xl font-extrabold mb-6 text-slate-900 dark:text-slate-100 leading-tight tracking-tight",
+      "h2": "text-3xl md:text-4xl font-bold mb-5 mt-12 text-slate-900 dark:text-slate-100 leading-tight",
+      "h3": "text-2xl font-semibold mb-4 mt-8 text-slate-800 dark:text-slate-200",
+      "h4": "text-xl font-semibold mb-3 mt-6 text-slate-800 dark:text-slate-200",
+      "h5": "text-lg font-semibold mb-2 text-slate-700 dark:text-slate-300 uppercase tracking-wide",
+      "h6": "text-sm font-semibold mb-2 text-slate-600 dark:text-slate-400 uppercase tracking-widest",
+      "p": "mb-5 text-lg text-slate-700 dark:text-slate-300 leading-8",
+      "a": "inline-flex items-center gap-2 text-indigo-700 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 font-semibold underline decoration-2 underline-offset-4 transition-colors",
+      "img": "max-w-full my-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl",
+      "table": "table-auto my-8 w-full text-left overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700",
+      "strong": "font-bold text-slate-900 dark:text-slate-100",
+      "ul": "list-disc list-inside mb-6 space-y-2 marker:text-emerald-600 dark:marker:text-emerald-400",
+      "ol": "list-decimal list-outside ml-6 mb-6",
+      "li": "text-lg text-slate-700 dark:text-slate-300 leading-8",
+      "em": "italic text-slate-600 dark:text-slate-400",
+      "tr": "border-b border-slate-200 dark:border-slate-700 even:bg-slate-50 dark:even:bg-slate-800",
+      "td": "p-4 text-base text-slate-700 dark:text-slate-300",
+      "th": "p-4 text-sm uppercase tracking-wide font-semibold text-slate-900 dark:text-slate-100 bg-slate-100 dark:bg-slate-800",
+      "blockquote": "my-8 border-l-4 border-indigo-500 dark:border-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 text-slate-700 dark:text-slate-300 italic p-6 rounded-r-xl text-xl leading-relaxed",
+      "code": "bg-slate-100 dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 px-2 py-1 rounded-md font-mono text-sm",
+      "pre": "bg-slate-900 text-slate-100 p-6 rounded-2xl overflow-x-auto border border-slate-700 shadow-lg",
+      "body": "bg-gradient-to-b from-white via-slate-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 p-8 md:p-12",
+      "article": "prose prose-slate dark:prose-invert max-w-4xl mx-auto"
+    },
+    "fontConfig": {
+      "fontFamily": "Inter"
+    },
+    "preview": {
+      "sampleHeading": "Landing Page",
+      "sampleText": "Built for conversion-focused product pages.",
+      "style": "default"
+    },
+    "exampleContent": "---\nproductName: PulseBoard\ntagline: Launch better product updates without meetings\nheroCta: Start free\nsecondaryCta: Book a demo\ntrialDays: 14\nusers: 4200\nteams:\n  - Acme Labs\n  - Orbit Commerce\n  - Nova Health\n---\n\n# {{productName}}\n\n## {{tagline}}\n\nShip release notes, roadmaps, and changelogs in one place.  \nBuilt for product teams that need **clarity, speed, and alignment**.\n\n[{{heroCta}}](https://example.com/signup) [{{secondaryCta}}](https://example.com/demo)\n\n![Product dashboard](https://picsum.photos/1200/620?random=77)\n\n> \"PulseBoard gave us a launch rhythm our whole company can follow.\"\n> — Head of Product, {{teams[0]}}\n\n## Trusted by fast-moving teams\n\n- {{teams[0]}}\n- {{teams[1]}}\n- {{teams[2]}}\n- and **{{users}}+** active product users\n\n## Why teams switch to {{productName}}\n\n### 1. Publish updates in minutes\n\nTurn internal notes into customer-ready announcements without rebuilding content every sprint.\n\n### 2. Keep roadmap and releases connected\n\nLink initiatives, milestones, and shipped updates so everyone sees the full story.\n\n### 3. Reduce status meetings\n\nOne shared update page keeps product, engineering, support, and sales aligned.\n\n## Plans\n\n| Plan       | Best for                  | Price |\n| ---------- | ------------------------- | ----- |\n| Starter    | Small teams and pilots    | $29   |\n| Growth     | Scaling product teams     | $99   |\n| Enterprise | Multi-product organizations | Contact us |\n\n## Launch in one afternoon\n\nTry {{productName}} free for {{trialDays}} days. No credit card required.\n\n[{{heroCta}}](https://example.com/signup)"
+  },
+  {
     "id": "material-design",
     "name": "Material Design",
     "description": "Clean, modern theme following Google Material Design guidelines.",
