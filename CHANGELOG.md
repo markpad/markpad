@@ -1,3 +1,16 @@
+# [1.2.0](https://github.com/markpad/markpad/compare/v1.1.0...v1.2.0) (2026-03-29)
+
+
+### Bug Fixes
+
+* **storybook:** remove stale ThemeCard story ([2a78ceb](https://github.com/markpad/markpad/commit/2a78ceb5223dd009bd2758bd2420e89348b85591))
+
+
+### Features
+
+* **themes:** add landing-page preset for marketing content ([916457e](https://github.com/markpad/markpad/commit/916457e0a4e221b2accf761caf785f7451099e6f))
+* **themes:** improve dark-mode styling and unify theme preview rendering ([387e0ba](https://github.com/markpad/markpad/commit/387e0ba6012dce22bec166042734ccb03539f25a))
+
 # [1.1.0](https://github.com/markpad/markpad/compare/v1.0.0...v1.1.0) (2026-03-29)
 
 
