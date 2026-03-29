@@ -17,7 +17,8 @@ import {
 import type { ThemePreset } from '@/data/themes.generated'
 import type { MarkpadCustomTheme } from '@/lib/repositories/types'
 import { useThemesPage, SidebarFilter } from '@/hooks/useThemesPage'
-import { getTextColorClass, getFontClass } from '@/components/themes/themeUtils'
+import { getTextColorClass } from '@/components/themes/themeUtils'
+import { CompactPreview } from '@/components/themes/ThemeCardCompact'
 import {
   PageNavLinks,
   EmptyState,
@@ -350,10 +351,6 @@ function ThemeGridCard({
   onEdit,
   onToggleFavorite,
 }: ThemeCardActionProps) {
-  const { preview, tailwindClasses, fontFamily } = theme
-  const headingColor = getTextColorClass(tailwindClasses.h1)
-  const headingFont = getFontClass(tailwindClasses.h1)
-
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all group relative shadow-sm">
       {/* Favorite button */}
@@ -373,17 +370,7 @@ function ThemeGridCard({
       </button>
 
       {/* Preview Area */}
-      <div
-        className={`h-28 p-3 flex flex-col justify-end overflow-hidden ${tailwindClasses.body}`}
-        style={{ fontFamily }}
-      >
-        <h4 className={`text-sm truncate ${headingColor} ${headingFont}`}>
-          {preview.sampleHeading}
-        </h4>
-        <p className={`text-[10px] leading-snug line-clamp-2 mt-1 ${tailwindClasses.p}`}>
-          {preview.sampleText}
-        </p>
-      </div>
+      <CompactPreview theme={theme} />
 
       {/* Info */}
       <div className="p-3 border-t border-gray-200 dark:border-gray-700">

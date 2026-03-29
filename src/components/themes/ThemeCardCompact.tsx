@@ -13,12 +13,12 @@ interface ThemeCardCompactProps {
 }
 
 // Compact preview that fits in sidebar - same logic as ThemeCard but compact
-function CompactPreview({ theme }: { theme: ThemePreset }) {
+export function CompactPreview({ theme }: { theme: ThemePreset }) {
   const { preview, tailwindClasses, fontFamily } = theme
 
   return (
     <div
-      className={`h-24 rounded overflow-hidden !p-3 ${tailwindClasses.body}`}
+      className={`h-24 rounded overflow-hidden !p-3 ${tailwindClasses.body} !shadow-none !border-none`}
       style={{ fontFamily }}
     >
       {preview.style === 'brutalist' ? (

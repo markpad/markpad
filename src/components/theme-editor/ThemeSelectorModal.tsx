@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { FaTimes, FaSearch, FaCheck } from 'react-icons/fa'
 import { themePresets, type ThemePreset } from '@/data/themes.generated'
+import { CompactPreview } from '@/components/themes/ThemeCardCompact'
 
 interface ThemeSelectorModalProps {
   isOpen: boolean
@@ -105,24 +106,7 @@ export function ThemeSelectorModal({
                   }`}
                 >
                   {/* Theme Preview */}
-                  <div
-                    className={`h-20 rounded mb-2 overflow-hidden p-2 ${theme.tailwindClasses.body}`}
-                    style={{ fontFamily: theme.fontFamily }}
-                  >
-                    <div
-                      className={`truncate text-xs mb-1 ${theme.tailwindClasses.h1
-                        .split(' ')
-                        .filter((c) => c.startsWith('text-') || c.startsWith('font-'))
-                        .join(' ')}`}
-                    >
-                      {theme.preview.sampleHeading || 'Heading'}
-                    </div>
-                    <div
-                      className={`text-[9px] leading-tight line-clamp-2 ${theme.tailwindClasses.p}`}
-                    >
-                      {theme.preview.sampleText || 'Sample text preview...'}
-                    </div>
-                  </div>
+                  <CompactPreview theme={theme} />
                   {/* Theme Info */}
                   <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                     {theme.name}
