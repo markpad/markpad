@@ -6,7 +6,24 @@ import gfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Tooltip } from 'react-tooltip'
-import { FaPalette, FaTimes, FaDownload, FaMagic } from 'react-icons/fa'
+import {
+  FaPalette,
+  FaTimes,
+  FaDownload,
+  FaMagic,
+  FaEdit,
+  FaEye,
+  FaBold,
+  FaItalic,
+  FaLink,
+  FaImage,
+  FaListUl,
+  FaListOl,
+  FaQuoteLeft,
+  FaTable,
+  FaSync,
+  FaCodeBranch,
+} from 'react-icons/fa'
 import { useAppState } from '@/hooks/useAppState'
 import { useParams, useNavigate } from 'react-router-dom'
 import { processMarkdownWithFrontmatter } from '@/utils/frontmatter'
@@ -521,9 +538,14 @@ export function Editor({
           onInsertLoop={() => loopModal.open()}
           onInsertIf={() => ifModal.open()}
           onImport={() => importModal.open()}
+          onShowThemes={() => {
+            setActiveSidebarPanel('themes')
+            setShowStylePanel(true)
+          }}
         />
 
-        <div className="flex flex-1 overflow-hidden">
+        {/* ===== DESKTOP CONTENT (hidden on mobile) ===== */}
+        <div className="hidden md:flex flex-1 overflow-hidden">
           {/* Main content area */}
           <div className="flex flex-1 overflow-hidden">
             {/* Editor Panel */}
@@ -656,6 +678,194 @@ export function Editor({
                 />
               )}
             </div>
+          </div>
+        </div>
+
+        {/* ===== MOBILE CONTENT (hidden on desktop) ===== */}
+        <div className="md:hidden flex-1 overflow-hidden relative">
+          {/* Mobile Themes Overlay */}
+          {showStylePanel && (
+            <div className="absolute inset-0 z-40 bg-white dark:bg-gray-800 flex flex-col">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+                <span className="font-semibold text-gray-900 dark:text-gray-100 text-sm">
+                  Themes
+                </span>
+                <button
+                  onClick={() => setShowStylePanel(false)}
+                  className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-md"
+                >
+                  <FaTimes className="text-sm" />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto">
+                <StylePanel
+                  currentThemeId={currentThemeId}
+                  isCustomTheme={isCustomTheme}
+                  customThemeName={customThemeName}
+                  onCustomThemeNameChange={setCustomThemeName}
+                  onApplyTheme={handleApplyTheme}
+                  onResetToDefault={handleResetToDefault}
+                  onSaveCustomTheme={handleSaveCustomTheme}
+                />
+              </div>
+            </div>
+          )}
+          {/* Mobile Editor */}
+          {(editionMode === 'edit' || editionMode === 'split') && (
+            <MarkdownEditor
+              ref={editorRef}
+              markdown={state.markdown}
+              setMarkdown={setMarkdown}
+              showLineNumbers={settings.editor.showLineNumbers}
+            />
+          )}
+          {/* Mobile Preview */}
+          {editionMode === 'preview' && (
+            <MarkdownPreview
+              markdown={state.markdown}
+              tailwindClasses={state.tailwindClasses}
+              fontConfig={state.fontConfig}
+              scrollRef={previewScrollRef}
+            />
+          )}
+        </div>
+
+        {/* ===== MOBILE FORMATTING TOOLBAR (hidden on desktop) ===== */}
+        {(editionMode === 'edit' || editionMode === 'split') && (
+          <div className="md:hidden flex items-center overflow-x-auto bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-2 py-1 gap-0.5 flex-shrink-0">
+            <button
+              className="flex-shrink-0 px-2 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded font-bold text-xs"
+              onClick={() => editorRef.current?.insertHeading(1)}
+            >
+              H1
+            </button>
+            <button
+              className="flex-shrink-0 px-2 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded font-bold text-xs"
+              onClick={() => editorRef.current?.insertHeading(2)}
+            >
+              H2
+            </button>
+            <button
+              className="flex-shrink-0 px-2 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded font-bold text-xs"
+              onClick={() => editorRef.current?.insertHeading(3)}
+            >
+              H3
+            </button>
+            <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-1 flex-shrink-0" />
+            <button
+              className="flex-shrink-0 p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+              onClick={() => editorRef.current?.insertBold()}
+            >
+              <FaBold className="text-sm" />
+            </button>
+            <button
+              className="flex-shrink-0 p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+              onClick={() => editorRef.current?.insertItalic()}
+            >
+              <FaItalic className="text-sm" />
+            </button>
+            <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-1 flex-shrink-0" />
+            <button
+              className="flex-shrink-0 p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+              onClick={() => linkModal.open()}
+            >
+              <FaLink className="text-sm" />
+            </button>
+            <button
+              className="flex-shrink-0 p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+              onClick={() => imageModal.open()}
+            >
+              <FaImage className="text-sm" />
+            </button>
+            <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-1 flex-shrink-0" />
+            <button
+              className="flex-shrink-0 p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+              onClick={() => editorRef.current?.insertUnorderedList()}
+            >
+              <FaListUl className="text-sm" />
+            </button>
+            <button
+              className="flex-shrink-0 p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+              onClick={() => editorRef.current?.insertOrderedList()}
+            >
+              <FaListOl className="text-sm" />
+            </button>
+            <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-1 flex-shrink-0" />
+            <button
+              className="flex-shrink-0 p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+              onClick={() => editorRef.current?.insertQuote()}
+            >
+              <FaQuoteLeft className="text-sm" />
+            </button>
+            <button
+              className="flex-shrink-0 p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+              onClick={() => editorRef.current?.insertTable()}
+            >
+              <FaTable className="text-sm" />
+            </button>
+            {!isTemplate && (
+              <>
+                <div className="w-px h-5 bg-gray-200 dark:bg-gray-600 mx-1 flex-shrink-0" />
+                <button
+                  className="flex-shrink-0 p-2 text-gray-600 dark:text-gray-400 hover:bg-purple-50 dark:hover:bg-purple-900/30 hover:text-purple-600 dark:hover:text-purple-400 rounded"
+                  onClick={() => loopModal.open()}
+                >
+                  <FaSync className="text-sm" />
+                </button>
+                <button
+                  className="flex-shrink-0 p-2 text-gray-600 dark:text-gray-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 rounded"
+                  onClick={() => ifModal.open()}
+                >
+                  <FaCodeBranch className="text-sm" />
+                </button>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* ===== MOBILE FOOTER TAB BAR (hidden on desktop) ===== */}
+        <div className="md:hidden flex-shrink-0">
+          <div className="flex bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <button
+              onClick={() => setEditionMode('edit')}
+              className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-sm font-semibold tracking-wide transition-colors ${
+                editionMode === 'edit' || editionMode === 'split'
+                  ? 'bg-blue-500 text-white'
+                  : 'text-gray-500 dark:text-gray-400'
+              }`}
+            >
+              <FaEdit className="text-base" />
+              <span>EDIT</span>
+            </button>
+            <button
+              onClick={() => setEditionMode('preview')}
+              className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-sm font-semibold tracking-wide transition-colors ${
+                editionMode === 'preview'
+                  ? 'bg-blue-500 text-white'
+                  : 'text-gray-500 dark:text-gray-400'
+              }`}
+            >
+              <FaEye className="text-base" />
+              <span>PREVIEW</span>
+            </button>
+          </div>
+          <div className="bg-white dark:bg-gray-800 py-0.5 text-center text-[10px] text-gray-400 dark:text-gray-500 border-t border-gray-100 dark:border-gray-700">
+            {(saveStatus === 'saved' || saveStatus === 'idle') && (
+              <span className="inline-flex items-center gap-1">
+                <svg
+                  className="w-2.5 h-2.5 text-green-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={3}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                Saved offline
+              </span>
+            )}
+            {saveStatus === 'saving' && <span>Saving…</span>}
+            {saveStatus === 'unsaved' && <span>&#9679; Unsaved</span>}
           </div>
         </div>
 
