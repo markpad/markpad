@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/markpad/markpad/compare/v1.3.0...v1.4.0) (2026-04-05)
+
+
+### Features
+
+* **editor:** redesign mobile editor shell and navigation ([84a0467](https://github.com/markpad/markpad/commit/84a0467c226926eacfb99c791d6acc1bf6515110))
+
 # [1.3.0](https://github.com/markpad/markpad/compare/v1.2.0...v1.3.0) (2026-03-29)
 
 
