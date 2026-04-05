@@ -148,13 +148,13 @@ describe('Header Component', () => {
     it('should display the document title', () => {
       render(<Header {...defaultProps} />)
 
-      expect(screen.getByText('Test Document')).toBeInTheDocument()
+      expect(screen.getAllByText('Test Document').length).toBeGreaterThan(0)
     })
 
     it('should allow editing the title when clicked', async () => {
       render(<Header {...defaultProps} />)
 
-      const titleButton = screen.getByText('Test Document')
+      const titleButton = screen.getByRole('button', { name: 'Test Document' })
       await userEvent.click(titleButton)
 
       const input = screen.getByDisplayValue('Test Document')
@@ -165,7 +165,7 @@ describe('Header Component', () => {
     it('should call onDocumentTitleChange when title is edited', async () => {
       render(<Header {...defaultProps} />)
 
-      const titleButton = screen.getByText('Test Document')
+      const titleButton = screen.getByRole('button', { name: 'Test Document' })
       await userEvent.click(titleButton)
 
       const input = screen.getByDisplayValue('Test Document')
