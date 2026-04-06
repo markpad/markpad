@@ -115,7 +115,7 @@ export function HomePage() {
             {/* CTA Buttons */}
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
-                to="/editor"
+                to="/new"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors text-lg"
               >
                 <FaRocket />
@@ -224,8 +224,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Variables</h3>
               <p className="text-gray-400">
-                Keep data in frontmatter and reuse it with {'{{variable}}'} syntax, including
-                nested values.
+                Keep data in frontmatter and reuse it with {'{{variable}}'} syntax, including nested
+                values.
               </p>
             </div>
 
@@ -236,8 +236,8 @@ export function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Themes</h3>
               <p className="text-gray-400">
-                Pick from many built-in styles or create your own. Apply a complete visual system
-                in one click.
+                Pick from many built-in styles or create your own. Apply a complete visual system in
+                one click.
               </p>
             </div>
 
@@ -316,9 +316,7 @@ export function HomePage() {
               <div className="flex items-center justify-center w-6 h-6 bg-gradient-to-br from-blue-500 to-blue-600 rounded">
                 <FaFileAlt className="text-white text-xs" />
               </div>
-              <span className="text-gray-400 text-sm">
-                Markpad | Reusable Markdown documents
-              </span>
+              <span className="text-gray-400 text-sm">Markpad | Reusable Markdown documents</span>
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-500">
               <Link to="/editor" className="hover:text-gray-300 transition-colors">

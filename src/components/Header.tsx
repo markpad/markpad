@@ -79,6 +79,9 @@ interface HeaderProps {
   onImport?: () => void
   saveStatus?: 'idle' | 'unsaved' | 'saving' | 'saved'
   onShowThemes?: () => void
+  /** Try mode: called when user wants to persist the pako session as a document */
+  onSaveToDocument?: () => void
+  isSavingToDocument?: boolean
 }
 
 interface MenuItem {
@@ -357,6 +360,8 @@ export function Header({
   onImport,
   saveStatus = 'idle',
   onShowThemes,
+  onSaveToDocument,
+  isSavingToDocument = false,
 }: HeaderProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -486,6 +491,17 @@ export function Header({
       shortcut: '⌘D',
       onClick: handleDuplicateEntity,
     },
+    ...(onSaveToDocument
+      ? [
+          {
+            label: isSavingToDocument ? 'Saving…' : 'Save',
+            icon: <FaCheck />,
+            shortcut: '⌘S',
+            onClick: isSavingToDocument ? undefined : onSaveToDocument,
+          } as MenuItem,
+          { label: 'divider', divider: true } as MenuItem,
+        ]
+      : []),
     { label: 'divider', divider: true },
     {
       label: 'Import…',
@@ -650,7 +666,7 @@ export function Header({
 
       {/* === DESKTOP HEADER (hidden on mobile) === */}
       <div className="hidden md:flex md:flex-col">
-        {/* Top Row - Logo, Title, Share */}
+        {/* Top Row - Logo and Title */}
         <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-gray-700">
           <div className="flex items-center gap-3">
             {/* App Icon - links to list page */}

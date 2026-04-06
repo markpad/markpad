@@ -1,6 +1,7 @@
 import './App.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Editor from '@/components/Editor'
+import { TryPage } from '@/components/try/TryPage'
 import { ThemesPage } from '@/components/themes/ThemesPage'
 import { PublishedPage } from '@/components/published'
 import { HomePage } from '@/components/HomePage'
@@ -36,12 +37,12 @@ function App() {
             <Editor initialMode="split" showStylePanelByDefault={false} entityType="document" />
           }
         />
-        <Route
-          path="/editor"
-          element={
-            <Editor initialMode="split" showStylePanelByDefault={false} entityType="document" />
-          }
-        />
+
+        {/* /new is the ephemeral pako editor route */}
+        <Route path="/new" element={<TryPage />} />
+
+        {/* /editor requires an id; fallback to documents list */}
+        <Route path="/editor" element={<Navigate to="/documents" replace />} />
 
         {/* Template editor */}
         <Route

@@ -47,7 +47,7 @@ import { IfModal } from '@/components/IfModal'
 import { ImageModal } from '@/components/ImageModal'
 import { LinkModal } from '@/components/LinkModal'
 import { ImportModal, ImportAction } from '@/components/ImportModal'
-import type { EditionMode } from '@/types'
+import type { EditionMode, AppState } from '@/types'
 import type { ThemePreset } from '@/data/themes.generated'
 import { getThemeById } from '@/data/themes.generated'
 
@@ -58,6 +58,9 @@ interface EditorProps {
   initialMode?: EditionMode
   showStylePanelByDefault?: boolean
   entityType?: EntityType
+  /** When provided, the editor renders a "Save" button that converts the pako session to a persisted document */
+  onSaveToDocument?: (state: AppState) => void
+  isSavingToDocument?: boolean
 }
 
 /**
@@ -68,6 +71,8 @@ export function Editor({
   initialMode: _initialMode = 'split',
   showStylePanelByDefault = false,
   entityType = 'document',
+  onSaveToDocument,
+  isSavingToDocument = false,
 }: EditorProps) {
   const { id: docId } = useParams<{ id: string }>()
   const isTemplate = entityType === 'template'
@@ -448,6 +453,11 @@ export function Editor({
 
   const navigate = useNavigate()
 
+  // In try mode: save pako state as a persisted document
+  const handleSaveToDocument = useCallback(() => {
+    onSaveToDocument?.(state)
+  }, [state, onSaveToDocument])
+
   // Handle import (file or URL)
   const handleImport = useCallback(
     async (content: string, title: string | undefined, action: ImportAction) => {
@@ -542,6 +552,8 @@ export function Editor({
             setActiveSidebarPanel('themes')
             setShowStylePanel(true)
           }}
+          onSaveToDocument={onSaveToDocument ? handleSaveToDocument : undefined}
+          isSavingToDocument={isSavingToDocument}
         />
 
         {/* ===== DESKTOP CONTENT (hidden on mobile) ===== */}

@@ -179,8 +179,8 @@ export function PublishedPage() {
     )
   }
 
-  // Generate editor URL with the same state
-  const editorUrl = `/editor#${pakoParam}`
+  // Open in /new mode with the same pako state
+  const editorUrl = `/new#${pakoParam}`
   const headingStyle = state.fontConfig.headingFontFamily
     ? { fontFamily: state.fontConfig.headingFontFamily }
     : undefined

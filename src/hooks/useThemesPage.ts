@@ -130,7 +130,7 @@ export function useThemesPage(): UseThemesPageReturn {
         fontConfig: theme.fontConfig,
       }
       const encoded = encodeState(state)
-      navigate(`/editor#${encoded}`)
+      navigate(`/new#${encoded}`)
     },
     [navigate]
   )

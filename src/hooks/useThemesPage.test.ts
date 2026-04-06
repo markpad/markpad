@@ -372,7 +372,7 @@ describe('useThemesPage', () => {
         result.current.handleApplyTheme(theme as any)
       })
 
-      expect(mockNavigate).toHaveBeenCalledWith('/editor#encoded-state')
+      expect(mockNavigate).toHaveBeenCalledWith('/new#encoded-state')
     })
 
     it('should create custom theme and navigate to editor when editing', async () => {
