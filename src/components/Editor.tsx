@@ -493,8 +493,8 @@ export function Editor({
   )
 
   return (
-    <div className={`flex flex-col h-screen ${settings.editor.darkMode ? 'dark' : ''}`}>
-      <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
+    <div className={`flex flex-col h-dvh min-h-dvh ${settings.editor.darkMode ? 'dark' : ''}`}>
+      <div className="flex flex-col h-full min-h-0 bg-gray-100 dark:bg-gray-900">
         <Helmet>
           <title>
             {state.documentTitle} - {isTemplate ? 'Template' : 'Markpad'}
@@ -682,7 +682,7 @@ export function Editor({
         </div>
 
         {/* ===== MOBILE CONTENT (hidden on desktop) ===== */}
-        <div className="md:hidden flex-1 overflow-hidden relative">
+        <div className="md:hidden flex-1 min-h-0 overflow-hidden relative">
           {/* Mobile Themes Overlay */}
           {showStylePanel && (
             <div className="absolute inset-0 z-40 bg-white dark:bg-gray-800 flex flex-col">
@@ -824,7 +824,10 @@ export function Editor({
         )}
 
         {/* ===== MOBILE FOOTER TAB BAR (hidden on desktop) ===== */}
-        <div className="md:hidden flex-shrink-0">
+        <div
+          className="md:hidden flex-shrink-0"
+          style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+        >
           <div className="flex bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
             <button
               onClick={() => setEditionMode('edit')}
