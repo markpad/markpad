@@ -1,6 +1,7 @@
 import { useCallback, useImperativeHandle, forwardRef, useRef, useEffect } from 'react'
 import Editor from 'react-simple-code-editor'
 import { highlightMarkdown } from '@/utils/markdownHighlight'
+import { useVisualLineCount } from '@/hooks/useVisualLineCount'
 
 export interface MarkdownEditorHandle {
   insertHeading: (level: 1 | 2 | 3) => void
@@ -32,6 +33,12 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
   function MarkdownEditor({ markdown, setMarkdown, showLineNumbers = true, onScroll }, ref) {
     const editorRef = useRef<HTMLDivElement>(null)
     const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+    const lineNumbersRef = useRef<HTMLDivElement>(null)
+    const visualLineCount = useVisualLineCount({
+      markdown,
+      editorContainerRef: editorRef,
+      enabled: showLineNumbers,
+    })
 
     // Find and store the textarea reference inside the editor
     useEffect(() => {
@@ -120,13 +127,15 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
       },
     }))
 
-    // Calculate line numbers
-    const lineCount = markdown.split('\n').length
-
     // Handle scroll to notify parent
     const handleScroll = useCallback(
       (e: React.UIEvent<HTMLDivElement>) => {
         const target = e.currentTarget
+
+        if (lineNumbersRef.current) {
+          lineNumbersRef.current.scrollTop = target.scrollTop
+        }
+
         if (onScroll) {
           onScroll(target.scrollTop, target.scrollHeight, target.clientHeight)
         }
@@ -147,8 +156,11 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, MarkdownEditorPro
         {/* Editor Content */}
         <div className="flex flex-1 overflow-hidden">
           {showLineNumbers && (
-            <div className="py-3 px-2 bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 text-sm font-mono select-none border-r border-gray-200 dark:border-gray-700 min-w-[3rem] text-right overflow-hidden">
-              {Array.from({ length: lineCount }, (_, i) => (
+            <div
+              ref={lineNumbersRef}
+              className="line-numbers-scroll py-3 px-2 bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 text-sm font-mono select-none border-r border-gray-200 dark:border-gray-700 min-w-[3rem] text-right overflow-y-auto overflow-x-hidden"
+            >
+              {Array.from({ length: visualLineCount }, (_, i) => (
                 <div key={i} className="leading-6 h-6">
                   {i + 1}
                 </div>

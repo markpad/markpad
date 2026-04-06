@@ -59,3 +59,13 @@ code {
 .dark .markdown-editor-container textarea::placeholder {
   color: #6b7280;
 }
+
+/* Hide scrollbar for synced line numbers column */
+.line-numbers-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.line-numbers-scroll::-webkit-scrollbar {
+  display: none;
+}
