@@ -905,6 +905,48 @@ export const themePresets: ThemePreset[] = [
     "exampleContent": "# Nord Theme\n\nAn arctic, north-bluish palette for the modern developer.\n\n## Philosophy\n\nNord's design is inspired by the beauty and calmness of the **arctic**. Clean lines, subdued colors, and a focus on readability define this color scheme.\n\n### Principles\n\n1. Inspired by arctic landscapes\n2. Four distinct palette groups\n3. Smooth color transitions\n4. Universal adaptability\n\n> \"Clean, beautiful, and designed with care — just like Scandinavian architecture.\"\n\n## Palette Groups\n\n| Group       | Purpose          | Colors |\n| ----------- | ---------------- | ------ |\n| Polar Night | Background tones | 4      |\n| Snow Storm  | Text and UI      | 3      |\n| Frost       | Primary accents  | 4      |\n| Aurora      | Status colors    | 5      |\n\n## Code Example\n\n```javascript\nconst nordPalette = {\n  // Polar Night\n  nord0: '#2e3440',\n  nord1: '#3b4252',\n  nord2: '#434c5e',\n  nord3: '#4c566a',\n  // Snow Storm\n  nord4: '#d8dee9',\n  nord5: '#e5e9f0',\n  nord6: '#eceff4',\n  // Frost\n  nord7: '#8fbcbb',\n  nord8: '#88c0d0',\n  nord9: '#81a1c1',\n  nord10: '#5e81ac',\n}\n```\n\n### Resources\n\n- [Nord Website](https://www.nordtheme.com)\n- Available for _editors, terminals, and UI_\n- Community-maintained ports\n\n![Nordic landscape](https://picsum.photos/600/300?random=22)"
   },
   {
+    "id": "notebook-paper",
+    "name": "Notebook Paper",
+    "description": "Classic ruled notebook page with aligned baseline rhythm and margin line.",
+    "category": "serif",
+    "fontFamily": "PT Sans",
+    "tailwindClasses": {
+      "h1": "m-0 mb-[40px] text-[32px] leading-[40px] font-bold tracking-tight text-zinc-800",
+      "h2": "m-0 mt-[40px] text-[24px] leading-[40px] font-semibold text-zinc-800",
+      "h3": "m-0 mt-[40px] text-[20px] leading-[40px] font-semibold text-zinc-800",
+      "h4": "m-0 mt-[40px] text-[18px] leading-[40px] font-semibold text-zinc-800",
+      "h5": "m-0 mt-[40px] text-[16px] leading-[40px] font-semibold uppercase tracking-wide text-zinc-700",
+      "h6": "m-0 mt-[40px] text-[14px] leading-[40px] font-semibold uppercase tracking-[0.12em] text-zinc-600",
+      "p": "m-0 text-[20px] leading-[40px] text-zinc-800",
+      "a": "text-sky-700 underline decoration-sky-500 underline-offset-[6px] hover:text-sky-800",
+      "img": "max-w-full my-[40px] rounded-md border border-zinc-300",
+      "table": "table-auto my-[40px] w-full border-collapse bg-[#fcfbf8]",
+      "strong": "font-semibold text-zinc-900",
+      "ul": "list-disc pl-8 my-[40px]",
+      "ol": "list-decimal pl-8 my-[40px]",
+      "li": "m-0 text-[20px] leading-[40px] text-zinc-800",
+      "em": "italic text-zinc-700",
+      "tr": "border-b border-[#d5dbe5]",
+      "td": "border border-[#d5dbe5] px-3 py-2 align-top",
+      "th": "border border-[#d5dbe5] px-3 py-2 bg-[#eef2f7] text-left font-semibold text-zinc-800",
+      "blockquote": "my-[40px] border-l-4 border-[#e5a4a4] pl-4 text-[20px] leading-[40px] italic text-zinc-700 bg-white/50",
+      "code": "bg-[#ece7dc] px-1.5 py-0.5 rounded font-mono text-[0.9em] text-zinc-800",
+      "pre": "my-[40px] rounded-md border border-[#d8d1c3] bg-[#f1ede4] p-4 overflow-x-auto",
+      "body": "bg-local w-full min-h-full bg-[#f8f7f3] bg-local pl-12 pr-8 pt-[40px] pb-[40px] bg-[linear-gradient(to_right,transparent_31px,#e5a4a4_31px,#e5a4a4_32px,transparent_32px),repeating-linear-gradient(to_bottom,transparent_0px,transparent_39px,#9db7d7_39px,#9db7d7_40px)]",
+      "article": "max-w-3xl text-zinc-800"
+    },
+    "fontConfig": {
+      "fontFamily": "PT Sans",
+      "headingFontFamily": "Merriweather"
+    },
+    "preview": {
+      "sampleHeading": "Notebook Notes",
+      "sampleText": "Ruled lines and fixed rhythm for structured writing.",
+      "style": "serif"
+    },
+    "exampleContent": "# Como organizar conteudo em papel pautado\n\n## Introducao\n\nEsse layout funciona melhor quando o texto acompanha exatamente a distancia entre as linhas azuis do fundo.\n\nEm vez de confiar nas margens padrao do navegador, voce define cada bloco com uma altura de linha previsivel.\n\n## Boas praticas\n\nUse leading fixo, remova margens padrao e insira espacadores em multiplos da pauta.\n\n- Defina `leading-[40px]` para paragrafos e itens de lista.\n- Use titulos com o mesmo ritmo vertical para manter consistencia.\n- Reserve espacos maiores apenas entre secoes.\n\n> Quando o baseline e consistente, a leitura fica mais organizada e natural.\n\n### Checklist rapido\n\n1. Ajustar `body` com gradiente de caderno.\n2. Remover margens padrao dos elementos.\n3. Validar o alinhamento no preview e no export.\n\n| Elemento | Tamanho | Leading |\n| --- | --- | --- |\n| Titulo principal | 32px | 40px |\n| Subtitulo | 24px | 40px |\n| Paragrafo | 20px | 40px |"
+  },
+  {
     "id": "oceanic-night",
     "name": "Oceanic Night",
     "description": "Deep ocean blues with cyan accents - adapts to light and dark modes.",
