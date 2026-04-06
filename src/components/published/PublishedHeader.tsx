@@ -67,6 +67,7 @@ export function PublishedHeader({
       htmlContent: getHtmlContent(),
       tailwindClasses,
       fontFamily,
+      headingFontFamily,
     })
   }
 

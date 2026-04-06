@@ -24,6 +24,10 @@ import {
 import type { VariableDefinitions, VariableValues } from '@/components/published/variableTypes'
 import type { AppState } from '@/types'
 
+function normalizeFontFamily(fontFamily: string): string {
+  return fontFamily.split(',')[0].trim().replace(/["']/g, '')
+}
+
 // Encode variable values to URL-safe string
 function encodeVariableValues(values: VariableValues): string {
   try {
@@ -131,6 +135,36 @@ export function PublishedPage() {
     return interpolated
   }, [state, variableValues])
 
+  // Load Google Fonts used by this published document
+  useEffect(() => {
+    document.querySelectorAll('link[data-published-font]').forEach((el) => el.remove())
+
+    if (!state) return
+
+    const fontCandidates = [state.fontConfig.fontFamily, state.fontConfig.headingFontFamily]
+    const fontsToLoad = [
+      ...new Set(
+        fontCandidates
+          .filter((font): font is string => Boolean(font))
+          .map((font) => normalizeFontFamily(font))
+          .filter((font) => font && font !== 'system-ui')
+      ),
+    ]
+
+    for (const font of fontsToLoad) {
+      const url = `https://fonts.googleapis.com/css2?family=${font.replace(/\s+/g, '+')}:wght@400;500;600;700&display=swap`
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.setAttribute('data-published-font', font)
+      document.head.appendChild(link)
+    }
+
+    return () => {
+      document.querySelectorAll('link[data-published-font]').forEach((el) => el.remove())
+    }
+  }, [state?.fontConfig.fontFamily, state?.fontConfig.headingFontFamily])
+
   if (error) {
     return <Navigate to="/" replace />
   }
@@ -147,14 +181,29 @@ export function PublishedPage() {
 
   // Generate editor URL with the same state
   const editorUrl = `/editor#${pakoParam}`
+  const headingStyle = state.fontConfig.headingFontFamily
+    ? { fontFamily: state.fontConfig.headingFontFamily }
+    : undefined
 
   const components = {
-    h1: ({ node, ...props }: any) => <h1 {...props} className={state.tailwindClasses.h1} />,
-    h2: ({ node, ...props }: any) => <h2 {...props} className={state.tailwindClasses.h2} />,
-    h3: ({ node, ...props }: any) => <h3 {...props} className={state.tailwindClasses.h3} />,
-    h4: ({ node, ...props }: any) => <h4 {...props} className={state.tailwindClasses.h4} />,
-    h5: ({ node, ...props }: any) => <h5 {...props} className={state.tailwindClasses.h5} />,
-    h6: ({ node, ...props }: any) => <h6 {...props} className={state.tailwindClasses.h6} />,
+    h1: ({ node, ...props }: any) => (
+      <h1 {...props} className={state.tailwindClasses.h1} style={headingStyle} />
+    ),
+    h2: ({ node, ...props }: any) => (
+      <h2 {...props} className={state.tailwindClasses.h2} style={headingStyle} />
+    ),
+    h3: ({ node, ...props }: any) => (
+      <h3 {...props} className={state.tailwindClasses.h3} style={headingStyle} />
+    ),
+    h4: ({ node, ...props }: any) => (
+      <h4 {...props} className={state.tailwindClasses.h4} style={headingStyle} />
+    ),
+    h5: ({ node, ...props }: any) => (
+      <h5 {...props} className={state.tailwindClasses.h5} style={headingStyle} />
+    ),
+    h6: ({ node, ...props }: any) => (
+      <h6 {...props} className={state.tailwindClasses.h6} style={headingStyle} />
+    ),
     p: ({ node, ...props }: any) => <p className={state.tailwindClasses.p} {...props} />,
     a: ({ node, ...props }: any) => (
       <a
@@ -284,20 +333,18 @@ export function PublishedPage() {
 
           {/* Content Area with body styles */}
           <div
-            className={`flex-1 overflow-y-auto ${state.tailwindClasses.body}`}
+            className={`flex-1 overflow-y-auto p-6 ${state.tailwindClasses.body}`}
             style={{ fontFamily: state.fontConfig.fontFamily }}
           >
-            <main className="max-w-6xl mx-auto py-8 px-4">
-              <h1 className="print-title">{state.documentTitle}</h1>
-              <article ref={articleRef} className={state.tailwindClasses.article}>
-                <Markdown components={components} remarkPlugins={[gfm]}>
-                  {processedMarkdown}
-                </Markdown>
-              </article>
-            </main>
+            <h1 className="print-title">{state.documentTitle}</h1>
+            <article ref={articleRef} className={state.tailwindClasses.article}>
+              <Markdown components={components} remarkPlugins={[gfm]}>
+                {processedMarkdown}
+              </Markdown>
+            </article>
 
             {/* Footer */}
-            <footer className="text-center py-6 text-gray-400 dark:text-gray-500 text-sm no-print">
+            <footer className="text-center pt-10 pb-6 text-gray-400 dark:text-gray-500 text-sm no-print">
               Published with{' '}
               <a
                 href="/"
