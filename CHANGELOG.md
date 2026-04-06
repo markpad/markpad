@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/markpad/markpad/compare/v1.5.0...v1.5.1) (2026-04-06)
+
+
+### Bug Fixes
+
+* **editor:** correct visual line numbers on wrap and delete ([767b298](https://github.com/markpad/markpad/commit/767b29859c4592a3bbb4302f85c457965b880514))
+
 # [1.5.0](https://github.com/markpad/markpad/compare/v1.4.0...v1.5.0) (2026-04-06)
 
 
