@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/markpad/markpad/compare/v1.5.1...v1.6.0) (2026-04-06)
+
+
+### Features
+
+* migrate ephemeral editor flow to /new route ([326cabb](https://github.com/markpad/markpad/commit/326cabbb820cc039380063daa449ff545c5dcad7)), closes [#32](https://github.com/markpad/markpad/issues/32)
+
 ## [1.5.1](https://github.com/markpad/markpad/compare/v1.5.0...v1.5.1) (2026-04-06)
 
 
