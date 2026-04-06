@@ -1,3 +1,16 @@
+# [1.5.0](https://github.com/markpad/markpad/compare/v1.4.0...v1.5.0) (2026-04-06)
+
+
+### Bug Fixes
+
+* **mobile:** respect safe-area for editor footer controls ([03ef4aa](https://github.com/markpad/markpad/commit/03ef4aa42e0a0e184c6a8c6f6101ca9c87b60def))
+* **share:** match published typography and baseline with editor ([e3100e3](https://github.com/markpad/markpad/commit/e3100e323d653d77bde15c0772044311f19c08dd))
+
+
+### Features
+
+* **theme:** add notebook paper preset ([9847d2c](https://github.com/markpad/markpad/commit/9847d2c7957d3537fc86b8828a48fd77c4428431))
+
 # [1.4.0](https://github.com/markpad/markpad/compare/v1.3.0...v1.4.0) (2026-04-05)
 
 
