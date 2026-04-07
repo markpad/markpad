@@ -75,9 +75,22 @@ export function MarkdownPreview({
       ),
       img: ({ node, ...props }: any) => <img alt="" className={tailwindClasses.img} {...props} />,
       table: ({ node, ...props }: any) => <table className={tailwindClasses.table} {...props} />,
-      ul: ({ node, ...props }: any) => <ul className={tailwindClasses.ul} {...props} />,
-      ol: ({ node, ...props }: any) => <ol className={tailwindClasses.ol} {...props} />,
-      li: ({ node, ...props }: any) => <li className={tailwindClasses.li} {...props} />,
+      ul: ({ node, className, ...props }: any) => {
+        const isTaskList =
+          typeof className === 'string' && className.split(' ').includes('contains-task-list')
+        const mergedClassName = [tailwindClasses.ul, isTaskList ? 'list-none' : '', className]
+          .filter(Boolean)
+          .join(' ')
+        return <ul className={mergedClassName} {...props} />
+      },
+      ol: ({ node, className, ...props }: any) => {
+        const mergedClassName = [tailwindClasses.ol, className].filter(Boolean).join(' ')
+        return <ol className={mergedClassName} {...props} />
+      },
+      li: ({ node, className, ...props }: any) => {
+        const mergedClassName = [tailwindClasses.li, className].filter(Boolean).join(' ')
+        return <li className={mergedClassName} {...props} />
+      },
       strong: ({ node, ...props }: any) => <strong className={tailwindClasses.strong} {...props} />,
       em: ({ node, ...props }: any) => <em className={tailwindClasses.em} {...props} />,
       tr: ({ node, ...props }: any) => <tr className={tailwindClasses.tr} {...props} />,

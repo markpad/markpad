@@ -274,9 +274,22 @@ export function Editor({
       table: ({ node, ...props }: any) => (
         <table className={state.tailwindClasses.table} {...props} />
       ),
-      ul: ({ node, ...props }: any) => <ul className={state.tailwindClasses.ul} {...props} />,
-      ol: ({ node, ...props }: any) => <ol className={state.tailwindClasses.ol} {...props} />,
-      li: ({ node, ...props }: any) => <li className={state.tailwindClasses.li} {...props} />,
+      ul: ({ node, className, ...props }: any) => {
+        const isTaskList =
+          typeof className === 'string' && className.split(' ').includes('contains-task-list')
+        const mergedClassName = [state.tailwindClasses.ul, isTaskList ? 'list-none' : '', className]
+          .filter(Boolean)
+          .join(' ')
+        return <ul className={mergedClassName} {...props} />
+      },
+      ol: ({ node, className, ...props }: any) => {
+        const mergedClassName = [state.tailwindClasses.ol, className].filter(Boolean).join(' ')
+        return <ol className={mergedClassName} {...props} />
+      },
+      li: ({ node, className, ...props }: any) => {
+        const mergedClassName = [state.tailwindClasses.li, className].filter(Boolean).join(' ')
+        return <li className={mergedClassName} {...props} />
+      },
       strong: ({ node, ...props }: any) => (
         <strong className={state.tailwindClasses.strong} {...props} />
       ),
