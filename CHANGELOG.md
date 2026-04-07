@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/markpad/markpad/compare/v1.6.0...v1.6.1) (2026-04-07)
+
+
+### Bug Fixes
+
+* **try-mode:** preserve selected theme when saving from /new ([736e7a4](https://github.com/markpad/markpad/commit/736e7a49cfe6c56d0cd797e752d51072c902e536))
+
 # [1.6.0](https://github.com/markpad/markpad/compare/v1.5.1...v1.6.0) (2026-04-06)
 
 
