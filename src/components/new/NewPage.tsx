@@ -1,16 +1,16 @@
 import { useCallback } from 'react'
-import { useTryMode } from '@/hooks/useTryMode'
+import { useNewMode } from '@/hooks/useNewMode'
 import { Editor } from '@/components/Editor'
 import type { AppState } from '@/types'
 
 /**
- * Try page — ephemeral pako-based editor.
+ * New page — ephemeral pako-based editor.
  * State is encoded in the URL hash (no account / IndexedDB required).
  * The "Save" button persists the current state as a permanent document
  * and navigates to /editor/:id.
  */
-export function TryPage() {
-  const { saveDocument, isSaving } = useTryMode()
+export function NewPage() {
+  const { saveDocument, isSaving } = useNewMode()
 
   const handleSaveToDocument = useCallback(
     (state: AppState) => {
@@ -30,4 +30,4 @@ export function TryPage() {
   )
 }
 
-export default TryPage
+export default NewPage

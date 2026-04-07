@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { useTryMode } from '@/hooks/useTryMode'
+import { useNewMode } from '@/hooks/useNewMode'
 import type { AppState, TailwindClasses, FontConfig } from '@/types'
 import { themePresets } from '@/data/themes.generated'
 
@@ -52,18 +52,18 @@ const mockState: AppState = {
   fontConfig: mockFontConfig,
 }
 
-describe('useTryMode', () => {
+describe('useNewMode', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
   it('starts with isSaving = false', () => {
-    const { result } = renderHook(() => useTryMode())
+    const { result } = renderHook(() => useNewMode())
     expect(result.current.isSaving).toBe(false)
   })
 
   it('exposes a saveDocument function', () => {
-    const { result } = renderHook(() => useTryMode())
+    const { result } = renderHook(() => useNewMode())
     expect(typeof result.current.saveDocument).toBe('function')
   })
 
@@ -71,7 +71,7 @@ describe('useTryMode', () => {
     const createdDoc = { id: 'new-id', ...mockState }
     mockCreate.mockResolvedValue(createdDoc)
 
-    const { result } = renderHook(() => useTryMode())
+    const { result } = renderHook(() => useNewMode())
 
     await act(async () => {
       await result.current.saveDocument(mockState)
@@ -92,7 +92,7 @@ describe('useTryMode', () => {
       themeId: 'dracula',
     } as AppState & { themeId: string }
 
-    const { result } = renderHook(() => useTryMode())
+    const { result } = renderHook(() => useNewMode())
 
     await act(async () => {
       await result.current.saveDocument(stateWithThemeId)
@@ -116,7 +116,7 @@ describe('useTryMode', () => {
 
     mockCreate.mockResolvedValue({ id: 'doc-theme-match' })
 
-    const { result } = renderHook(() => useTryMode())
+    const { result } = renderHook(() => useNewMode())
 
     await act(async () => {
       await result.current.saveDocument(presetState)
@@ -132,7 +132,7 @@ describe('useTryMode', () => {
   it('navigates to /editor/:id after document is created', async () => {
     mockCreate.mockResolvedValue({ id: 'doc-123' })
 
-    const { result } = renderHook(() => useTryMode())
+    const { result } = renderHook(() => useNewMode())
 
     await act(async () => {
       await result.current.saveDocument(mockState)
@@ -149,7 +149,7 @@ describe('useTryMode', () => {
       })
     )
 
-    const { result } = renderHook(() => useTryMode())
+    const { result } = renderHook(() => useNewMode())
 
     // Start save but don't await
     act(() => {
@@ -168,7 +168,7 @@ describe('useTryMode', () => {
   it('resets isSaving to false even when repository throws', async () => {
     mockCreate.mockRejectedValue(new Error('IndexedDB error'))
 
-    const { result } = renderHook(() => useTryMode())
+    const { result } = renderHook(() => useNewMode())
 
     await act(async () => {
       await result.current.saveDocument(mockState).catch(() => {})
@@ -185,7 +185,7 @@ describe('useTryMode', () => {
       })
     )
 
-    const { result } = renderHook(() => useTryMode())
+    const { result } = renderHook(() => useNewMode())
 
     // Fire two concurrent saves
     act(() => {

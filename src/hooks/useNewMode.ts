@@ -4,7 +4,7 @@ import { documentRepository } from '@/lib/repositories'
 import type { AppState } from '@/types'
 import { themePresets } from '@/data/themes.generated'
 
-interface UseTryModeReturn {
+interface UseNewModeReturn {
   /** Persists the current pako state as a new document and navigates to /editor/:id */
   saveDocument: (state: AppState) => Promise<void>
   isSaving: boolean
@@ -32,7 +32,7 @@ function getThemeIdFromState(state: AppState): string | undefined {
 }
 
 /**
- * Hook for "try" mode: manages the conversion of an ephemeral pako session into
+ * Hook for "/new" mode: manages the conversion of an ephemeral pako session into
  * a persisted document.
  *
  * Responsibilities (SRP):
@@ -40,7 +40,7 @@ function getThemeIdFromState(state: AppState): string | undefined {
  *  - Navigate to the resulting /editor/:id route
  *  - Track in-progress state to prevent duplicate saves
  */
-export function useTryMode(): UseTryModeReturn {
+export function useNewMode(): UseNewModeReturn {
   const navigate = useNavigate()
   const [isSaving, setIsSaving] = useState(false)
   const isSavingRef = useRef(false)

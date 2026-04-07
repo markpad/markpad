@@ -453,7 +453,7 @@ export function Editor({
 
   const navigate = useNavigate()
 
-  // In try mode: save pako state as a persisted document
+  // In /new mode: save pako state as a persisted document
   const handleSaveToDocument = useCallback(() => {
     onSaveToDocument?.(state)
   }, [state, onSaveToDocument])

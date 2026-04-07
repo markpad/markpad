@@ -79,7 +79,7 @@ interface HeaderProps {
   onImport?: () => void
   saveStatus?: 'idle' | 'unsaved' | 'saving' | 'saved'
   onShowThemes?: () => void
-  /** Try mode: called when user wants to persist the pako session as a document */
+  /** /new mode: called when user wants to persist the pako session as a document */
   onSaveToDocument?: () => void
   isSavingToDocument?: boolean
 }
