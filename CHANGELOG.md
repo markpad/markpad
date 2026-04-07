@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/markpad/markpad/compare/v1.6.2...v1.7.0) (2026-04-07)
+
+
+### Features
+
+* **themes:** add 10 new preset themes ([67a92f1](https://github.com/markpad/markpad/commit/67a92f12fada9da09124b0eb835a439adc97070d)), closes [#33](https://github.com/markpad/markpad/issues/33)
+
 ## [1.6.2](https://github.com/markpad/markpad/compare/v1.6.1...v1.6.2) (2026-04-07)
 
 
