@@ -1,3 +1,14 @@
+## [1.6.2](https://github.com/markpad/markpad/compare/v1.6.1...v1.6.2) (2026-04-07)
+
+
+### Bug Fixes
+
+* **header:** allow editing document title on mobile ([e227c27](https://github.com/markpad/markpad/commit/e227c278ddb4277348ee9e7223cbbc3a64afdb44))
+* **header:** duplicate in /new opens ephemeral tab ([87c7ef5](https://github.com/markpad/markpad/commit/87c7ef519836d83b4a8597df44ddf05f9c55b75b))
+* **markdown:** preserve theme line-height on GFM task lists ([8b70e3b](https://github.com/markpad/markpad/commit/8b70e3b16094a21efaf9ff2c05a13d36d69f936c))
+* **router:** restore list scroll position on back/forward ([2cd4b87](https://github.com/markpad/markpad/commit/2cd4b87f31c4917aff52d91fe546ac75acadf71b))
+* **themes:** correct notebook paper preview and english sample text ([6aa7e68](https://github.com/markpad/markpad/commit/6aa7e686fa5174927122cb2bbe670804c3606904))
+
 ## [1.6.1](https://github.com/markpad/markpad/compare/v1.6.0...v1.6.1) (2026-04-07)
 
 
