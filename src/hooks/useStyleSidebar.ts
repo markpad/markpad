@@ -6,8 +6,8 @@ interface LocalTheme extends ThemePreset {
   createdAt: number
 }
 
-const LOCAL_THEMES_KEY = 'marklab-local-themes'
-const FAVORITE_THEMES_KEY = 'marklab-favorite-themes'
+const LOCAL_THEMES_KEY = 'markpad-local-themes'
+const FAVORITE_THEMES_KEY = 'markpad-favorite-themes'
 
 export function useStyleSidebar() {
   const [searchQuery, setSearchQuery] = useState('')

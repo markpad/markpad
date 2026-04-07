@@ -98,14 +98,14 @@ describe('useStyleSidebar', () => {
       })
 
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        'marklab-favorite-themes',
+        'markpad-favorite-themes',
         expect.stringContaining('dracula')
       )
     })
 
     it('should load favorites from localStorage on mount', () => {
       localStorageMock.getItem.mockImplementation((key: string) => {
-        if (key === 'marklab-favorite-themes') {
+        if (key === 'markpad-favorite-themes') {
           return JSON.stringify(['nord', 'dracula'])
         }
         return null

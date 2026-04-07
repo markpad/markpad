@@ -142,7 +142,7 @@ export function HomePage() {
                   <div className="w-3 h-3 rounded-full bg-green-500/80" />
                 </div>
                 <div className="flex-1 text-center">
-                  <span className="text-gray-500 text-sm">markpad.cc/editor</span>
+                  <span className="text-gray-500 text-sm">markpad.cc/new</span>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-0 h-80">
