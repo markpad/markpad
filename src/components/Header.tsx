@@ -364,6 +364,7 @@ export function Header({
   isSavingToDocument = false,
 }: HeaderProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false)
+  const [isEditingMobileTitle, setIsEditingMobileTitle] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [shareModalOpen, setShareModalOpen] = useState(false)
   const [shareUrl, setShareUrl] = useState('')
@@ -663,9 +664,31 @@ export function Header({
         >
           <FaFileAlt className="text-white text-sm" />
         </a>
-        <span className="text-gray-900 dark:text-gray-100 font-medium text-sm truncate flex-1 min-w-0">
-          {state.documentTitle}
-        </span>
+        <div className="flex-1 min-w-0">
+          {isEditingMobileTitle ? (
+            <input
+              type="text"
+              value={state.documentTitle}
+              onChange={(e) => onDocumentTitleChange(e.target.value)}
+              onBlur={() => setIsEditingMobileTitle(false)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === 'Escape') {
+                  setIsEditingMobileTitle(false)
+                }
+              }}
+              className="w-full bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-gray-900 dark:text-gray-100 text-sm font-medium focus:outline-none focus:border-blue-500 dark:focus:border-blue-400"
+              autoFocus
+            />
+          ) : (
+            <button
+              onClick={() => setIsEditingMobileTitle(true)}
+              className="w-full text-left text-gray-900 dark:text-gray-100 font-medium text-sm truncate hover:bg-gray-100 dark:hover:bg-gray-700 px-1.5 py-1 rounded transition-colors"
+              aria-label="Edit document title"
+            >
+              {state.documentTitle}
+            </button>
+          )}
+        </div>
       </div>
 
       {/* === DESKTOP HEADER (hidden on mobile) === */}

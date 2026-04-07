@@ -192,6 +192,19 @@ describe('Header Component', () => {
       // The handler receives the original value + typed character
       expect(defaultProps.onDocumentTitleChange).toHaveBeenCalledWith('Test DocumentX')
     })
+
+    it('should allow editing title from the mobile topbar', async () => {
+      render(<Header {...defaultProps} />)
+
+      const mobileTitleButton = screen.getByRole('button', { name: 'Edit document title' })
+      await userEvent.click(mobileTitleButton)
+
+      const input = screen.getByDisplayValue('Test Document')
+      expect(input).toBeInTheDocument()
+      await userEvent.type(input, 'Y')
+
+      expect(defaultProps.onDocumentTitleChange).toHaveBeenCalledWith('Test DocumentY')
+    })
   })
 
   describe('View Mode Toggle', () => {
