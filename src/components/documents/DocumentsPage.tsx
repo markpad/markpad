@@ -202,7 +202,7 @@ export function DocumentsPage() {
           </aside>
 
           {/* Main content */}
-          <main className="flex-1 overflow-auto">
+          <main data-scroll-restoration-id="documents-main" className="flex-1 overflow-auto">
             <div className="max-w-6xl mx-auto px-6 py-6">
               {/* Header row */}
               <div className="flex items-center justify-between mb-6">

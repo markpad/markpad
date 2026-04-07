@@ -8,10 +8,12 @@ import { HomePage } from '@/components/HomePage'
 import { ThemeEditorPage } from '@/components/theme-editor'
 import { DocumentsPage } from '@/components/documents'
 import { TemplatesPage } from '@/components/templates'
+import { ScrollRestorationManager } from '@/components/ScrollRestorationManager'
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollRestorationManager />
       <Routes>
         {/* Home page */}
         <Route path="/" element={<HomePage />} />
