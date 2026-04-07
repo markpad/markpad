@@ -12,13 +12,27 @@ global.ResizeObserver = class ResizeObserver {
 }
 
 // Mock the dependencies
+const mockGenerateShareUrl = vi.fn((_: unknown) => 'https://example.com/share/abc123')
+const mockEncodeState = vi.fn((_: unknown) => 'encoded-state')
 vi.mock('../services/urlStateService', () => ({
-  generateShareUrl: vi.fn(() => 'https://example.com/share/abc123'),
+  generateShareUrl: (state: unknown) => mockGenerateShareUrl(state),
+  encodeState: (state: unknown) => mockEncodeState(state),
 }))
 
 vi.mock('./ShareModal', () => ({
   ShareModal: ({ isOpen, shareUrl }: { isOpen: boolean; shareUrl: string }) =>
     isOpen ? <div data-testid="share-modal">{shareUrl}</div> : null,
+}))
+
+const mockDocumentCreate = vi.fn()
+const mockTemplateCreate = vi.fn()
+vi.mock('@/lib/repositories', () => ({
+  documentRepository: {
+    create: (...args: unknown[]) => mockDocumentCreate(...args),
+  },
+  templateRepository: {
+    create: (...args: unknown[]) => mockTemplateCreate(...args),
+  },
 }))
 
 // Mock clipboard API
@@ -36,6 +50,8 @@ const mockCreateObjectURL = vi.fn(() => 'blob:test')
 const mockRevokeObjectURL = vi.fn()
 URL.createObjectURL = mockCreateObjectURL
 URL.revokeObjectURL = mockRevokeObjectURL
+const mockWindowOpen = vi.fn()
+window.open = mockWindowOpen
 
 describe('Header Component', () => {
   const mockTailwindClasses: TailwindClasses = {
@@ -246,6 +262,37 @@ describe('Header Component', () => {
       await userEvent.click(screen.getByText('Generate Share Link...'))
 
       expect(screen.getByTestId('share-modal')).toBeInTheDocument()
+    })
+  })
+
+  describe('Duplicate', () => {
+    it('opens /new with encoded state when duplicating in /new mode', async () => {
+      render(<Header {...defaultProps} onSaveToDocument={vi.fn()} />)
+
+      await userEvent.click(screen.getAllByText('File')[0])
+      await userEvent.click(screen.getByText('Duplicate'))
+
+      expect(mockEncodeState).toHaveBeenCalledWith(mockState)
+      expect(mockWindowOpen).toHaveBeenCalledWith('/new#encoded-state', '_blank')
+      expect(mockDocumentCreate).not.toHaveBeenCalled()
+    })
+
+    it('creates and opens a new persisted document when duplicating outside /new mode', async () => {
+      mockDocumentCreate.mockResolvedValue({ id: 'doc-copy-1' })
+      render(<Header {...defaultProps} />)
+
+      await userEvent.click(screen.getAllByText('File')[0])
+      await userEvent.click(screen.getByText('Duplicate'))
+
+      await waitFor(() => {
+        expect(mockDocumentCreate).toHaveBeenCalledWith({
+          title: 'Test Document (copy)',
+          content: '# Hello World\n\nThis is a test document.',
+          tailwindClasses: mockTailwindClasses,
+          fontConfig: mockFontConfig,
+        })
+        expect(mockWindowOpen).toHaveBeenCalledWith('/editor/doc-copy-1', '_blank')
+      })
     })
   })
 

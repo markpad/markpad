@@ -33,7 +33,7 @@ import {
 } from 'react-icons/fa'
 import { Tooltip } from 'react-tooltip'
 import type { EditionMode, AppState, TailwindClasses } from '@/types'
-import { generateShareUrl } from '@/services/urlStateService'
+import { encodeState, generateShareUrl } from '@/services/urlStateService'
 import { documentRepository, templateRepository } from '@/lib/repositories'
 import { ShareModal } from '@/components/ShareModal'
 import { processMarkdownWithFrontmatter } from '@/utils/frontmatter'
@@ -373,6 +373,7 @@ export function Header({
   const [openMenuLabel, setOpenMenuLabel] = useState<string | null>(null)
   const pdfExport = useExportPdf()
   const isTemplate = entityType === 'template'
+  const isEphemeralNewMode = !isTemplate && typeof onSaveToDocument === 'function'
 
   const showToastMessage = (message: string) => {
     setToastMessage(message)
@@ -467,6 +468,9 @@ export function Header({
         content: state.markdown,
       })
       window.open(`/template/${tmpl.id}`, '_blank')
+    } else if (isEphemeralNewMode) {
+      const encodedState = encodeState(state)
+      window.open(encodedState !== '' ? `/new#${encodedState}` : '/new', '_blank')
     } else {
       const doc = await documentRepository.create({
         title: `${state.documentTitle} (copy)`,
