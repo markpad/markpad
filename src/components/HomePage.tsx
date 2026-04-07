@@ -74,7 +74,7 @@ export function HomePage() {
               <FaGithub className="text-lg" />
             </a>
             <Link
-              to="/editor"
+              to="/new"
               className="px-4 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md transition-colors"
             >
               Open App
