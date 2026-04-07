@@ -16,13 +16,21 @@ interface ThemeCardCompactProps {
 export function CompactPreview({ theme }: { theme: ThemePreset }) {
   const { preview, tailwindClasses, fontFamily, fontConfig } = theme
   const headingFontFamily = fontConfig.headingFontFamily
+  const isNotebookPaper = theme.id === 'notebook-paper'
+
+  const containerClasses = isNotebookPaper
+    ? 'h-24 rounded overflow-hidden !p-0 !shadow-none !border-none bg-[#f8f7f3] bg-[linear-gradient(to_right,transparent_23px,#e5a4a4_23px,#e5a4a4_24px,transparent_24px),repeating-linear-gradient(to_bottom,transparent_0px,transparent_23px,#9db7d7_23px,#9db7d7_24px)]'
+    : `h-24 rounded overflow-hidden !p-3 ${tailwindClasses.body} !shadow-none !border-none`
 
   return (
-    <div
-      className={`h-24 rounded overflow-hidden !p-3 ${tailwindClasses.body} !shadow-none !border-none`}
-      style={{ fontFamily }}
-    >
-      {preview.style === 'brutalist' ? (
+    <div className={containerClasses} style={{ fontFamily }}>
+      {isNotebookPaper ? (
+        <CompactNotebookPreview
+          preview={preview}
+          classes={tailwindClasses}
+          headingFontFamily={headingFontFamily}
+        />
+      ) : preview.style === 'brutalist' ? (
         <CompactBrutalistPreview
           preview={preview}
           classes={tailwindClasses}
@@ -49,6 +57,31 @@ export function CompactPreview({ theme }: { theme: ThemePreset }) {
           headingFontFamily={headingFontFamily}
         />
       )}
+    </div>
+  )
+}
+
+function CompactNotebookPreview({
+  preview,
+  classes,
+  headingFontFamily,
+}: {
+  preview: ThemePreset['preview']
+  classes: TailwindClasses
+  headingFontFamily?: string
+}) {
+  const headingColor = getTextColorClass(classes.h1)
+  const textColor = getTextColorClass(classes.p)
+
+  return (
+    <div className="h-full px-7 pt-[2px]">
+      <h4
+        className={`text-[15px] leading-6 font-semibold italic line-clamp-1 ${headingColor}`}
+        style={headingFontFamily ? { fontFamily: headingFontFamily } : undefined}
+      >
+        {preview.sampleHeading}
+      </h4>
+      <p className={`text-[10px] leading-6 line-clamp-2 ${textColor}`}>{preview.sampleText}</p>
     </div>
   )
 }
