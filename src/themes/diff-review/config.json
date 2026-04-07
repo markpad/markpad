@@ -1,0 +1,38 @@
+{
+  "id": "diff-review",
+  "name": "Diff Review",
+  "description": "Code-review visual language with clear additions, removals, and annotation callouts.",
+  "category": "monospace",
+  "fontFamily": "Fira Sans",
+  "headingFontFamily": "Fira Sans",
+  "preview": {
+    "sampleHeading": "PR #128 Review",
+    "sampleText": "Focused readability for changelogs, review notes, and technical deltas.",
+    "style": "mono"
+  },
+  "classes": {
+    "h1": "text-3xl font-bold mb-4 text-slate-100",
+    "h2": "text-2xl font-semibold mt-8 mb-3 text-slate-100",
+    "h3": "text-xl font-semibold mt-6 mb-2 text-slate-200",
+    "h4": "text-lg font-semibold mt-5 mb-2 text-slate-200",
+    "h5": "text-base font-semibold mt-4 mb-2 text-slate-300 uppercase tracking-wide",
+    "h6": "text-sm font-semibold mt-3 mb-2 text-slate-400 uppercase tracking-wide",
+    "p": "mb-3 text-sm leading-7 text-slate-200",
+    "a": "text-sky-300 underline hover:text-sky-200",
+    "img": "max-w-full my-4 rounded border border-slate-600",
+    "table": "table-auto my-4 w-full border-collapse",
+    "strong": "font-bold text-slate-50",
+    "ul": "list-disc list-outside ml-6 mb-3",
+    "ol": "list-decimal list-outside ml-6 mb-3",
+    "li": "mb-1 text-sm leading-7 text-slate-200",
+    "em": "italic text-slate-300",
+    "tr": "border-b border-slate-700 even:bg-slate-800 odd:bg-slate-900",
+    "td": "border border-slate-700 p-2 align-top",
+    "th": "border border-slate-700 p-2 bg-slate-800 text-left font-semibold text-slate-100",
+    "blockquote": "my-4 rounded-r border-l-4 border-yellow-400 bg-yellow-950/30 py-2 pl-4 italic text-yellow-100",
+    "code": "rounded bg-slate-800 px-1.5 py-0.5 font-mono text-sm text-emerald-300",
+    "pre": "my-4 rounded border border-slate-700 bg-[#0b1220] p-4 text-slate-100 overflow-x-auto",
+    "body": "bg-[#111827] p-6 text-slate-100",
+    "article": "prose prose-invert max-w-none"
+  }
+}

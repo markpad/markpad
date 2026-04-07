@@ -1,0 +1,38 @@
+{
+  "id": "recipe-card",
+  "name": "Recipe Card",
+  "description": "Warm kitchen-card look for recipes, ingredient lists, and cooking notes.",
+  "category": "serif",
+  "fontFamily": "Merriweather",
+  "headingFontFamily": "Playfair Display",
+  "preview": {
+    "sampleHeading": "Sunday Pasta",
+    "sampleText": "Cozy card-style layout for ingredients, steps, and timing.",
+    "style": "serif"
+  },
+  "classes": {
+    "h1": "text-4xl font-bold mb-5 text-[#6b2f1a]",
+    "h2": "text-2xl font-semibold mt-8 mb-4 text-[#7a3b22]",
+    "h3": "text-xl font-semibold mt-6 mb-3 text-[#7a3b22]",
+    "h4": "text-lg font-semibold mt-5 mb-2 text-[#8a4a2c]",
+    "h5": "text-base font-semibold mt-4 mb-2 text-[#8a4a2c] uppercase tracking-wide",
+    "h6": "text-sm font-semibold mt-3 mb-2 text-[#9a5b39] uppercase tracking-wide",
+    "p": "mb-4 text-base leading-8 text-[#4b2f24]",
+    "a": "text-[#a04325] underline hover:text-[#b5512f]",
+    "img": "max-w-full my-5 rounded-lg border border-[#d9b68c] shadow-sm",
+    "table": "table-auto my-5 w-full border-collapse",
+    "strong": "font-bold text-[#3b231b]",
+    "ul": "list-disc list-outside ml-7 mb-4",
+    "ol": "list-decimal list-outside ml-7 mb-4",
+    "li": "mb-2 text-[#4b2f24] leading-8",
+    "em": "italic text-[#6b4a39]",
+    "tr": "border-b border-[#e1c6a1] even:bg-[#fff6e8] odd:bg-[#fffaf0]",
+    "td": "border border-[#e1c6a1] p-2 align-top",
+    "th": "border border-[#e1c6a1] p-2 bg-[#f8e7cc] text-left font-semibold text-[#5d351f]",
+    "blockquote": "my-5 border-l-4 border-[#d38a3d] bg-[#fff1db] py-2 pl-4 italic text-[#6b4a39]",
+    "code": "rounded bg-[#f3e4cb] px-1.5 py-0.5 font-mono text-sm text-[#5d351f]",
+    "pre": "my-5 rounded-lg border border-[#e1c6a1] bg-[#fdf3e1] p-4 text-[#4b2f24] overflow-x-auto",
+    "body": "bg-[#fff8ee] p-8 text-[#4b2f24] bg-[radial-gradient(circle_at_top_left,rgba(244,180,80,0.18),transparent_35%)]",
+    "article": "prose max-w-3xl"
+  }
+}

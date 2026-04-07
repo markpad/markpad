@@ -1,0 +1,38 @@
+{
+  "id": "story-manuscript",
+  "name": "Story Manuscript",
+  "description": "Long-form manuscript styling for fiction drafts and narrative editing.",
+  "category": "serif",
+  "fontFamily": "Lora",
+  "headingFontFamily": "Merriweather",
+  "preview": {
+    "sampleHeading": "Chapter One",
+    "sampleText": "Comfortable long-read rhythm for scenes, dialogue, and revision notes.",
+    "style": "serif"
+  },
+  "classes": {
+    "h1": "text-5xl font-bold mb-8 text-zinc-900 text-center",
+    "h2": "text-3xl font-semibold mt-12 mb-6 text-zinc-900",
+    "h3": "text-2xl font-semibold mt-8 mb-4 text-zinc-800",
+    "h4": "text-xl font-semibold mt-6 mb-3 text-zinc-800",
+    "h5": "text-lg font-semibold mt-5 mb-3 text-zinc-700",
+    "h6": "text-base font-semibold mt-4 mb-2 text-zinc-600 uppercase tracking-wide",
+    "p": "mb-5 text-[1.14rem] leading-9 text-zinc-800",
+    "a": "text-indigo-700 underline hover:text-indigo-600",
+    "img": "max-w-full my-6 rounded border border-zinc-300",
+    "table": "table-auto my-6 w-full border-collapse",
+    "strong": "font-semibold text-zinc-900",
+    "ul": "list-disc list-outside ml-8 mb-5",
+    "ol": "list-decimal list-outside ml-8 mb-5",
+    "li": "mb-2 leading-9 text-zinc-800",
+    "em": "italic text-zinc-700",
+    "tr": "border-b border-zinc-300 even:bg-zinc-50 odd:bg-white",
+    "td": "border border-zinc-300 p-2 align-top",
+    "th": "border border-zinc-300 p-2 bg-zinc-100 text-left font-semibold text-zinc-900",
+    "blockquote": "my-6 border-l-4 border-indigo-300 bg-indigo-50 py-3 pl-5 italic text-zinc-700",
+    "code": "rounded bg-zinc-200 px-1.5 py-0.5 font-mono text-sm text-zinc-900",
+    "pre": "my-6 rounded-lg border border-zinc-300 bg-zinc-100 p-4 overflow-x-auto",
+    "body": "bg-[#fbfaf6] p-10 text-zinc-800",
+    "article": "prose max-w-3xl mx-auto"
+  }
+}

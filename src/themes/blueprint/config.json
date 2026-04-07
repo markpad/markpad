@@ -1,0 +1,38 @@
+{
+  "id": "blueprint",
+  "name": "Blueprint",
+  "description": "Technical blueprint aesthetics with grid lines and cyan drafting accents.",
+  "category": "monospace",
+  "fontFamily": "IBM Plex Mono",
+  "headingFontFamily": "Space Mono",
+  "preview": {
+    "sampleHeading": "System Diagram",
+    "sampleText": "Drafted structure with measured spacing and engineering notes.",
+    "style": "mono"
+  },
+  "classes": {
+    "h1": "text-3xl font-bold mb-4 text-cyan-100 uppercase tracking-wide",
+    "h2": "text-2xl font-semibold mb-4 text-cyan-200 uppercase tracking-wide",
+    "h3": "text-xl font-semibold mb-3 text-cyan-200",
+    "h4": "text-lg font-semibold mb-3 text-cyan-200",
+    "h5": "text-base font-semibold mb-2 text-cyan-300 uppercase",
+    "h6": "text-sm font-semibold mb-2 text-cyan-300 uppercase tracking-wide",
+    "p": "mb-4 text-base leading-7 text-cyan-100/90",
+    "a": "text-sky-300 underline decoration-dotted hover:text-sky-200",
+    "img": "max-w-full my-4 border border-cyan-500/40 rounded",
+    "table": "table-auto my-4 w-full border-collapse bg-[#0f2434]/80",
+    "strong": "font-bold text-cyan-50",
+    "ul": "list-disc list-outside ml-6 space-y-1",
+    "ol": "list-decimal list-outside ml-6 space-y-1",
+    "li": "mb-1 leading-7 text-cyan-100/90",
+    "em": "italic text-cyan-200",
+    "tr": "border-b border-cyan-500/30 even:bg-[#123349]/70 odd:bg-[#0f2434]/60",
+    "td": "border border-cyan-500/20 p-2",
+    "th": "border border-cyan-500/30 p-2 bg-[#19425f] text-cyan-100 text-left font-semibold",
+    "blockquote": "border-l-4 border-sky-300 pl-4 my-4 italic text-cyan-100/85 bg-[#102a3d]/80 py-2 rounded-r",
+    "code": "bg-[#14354c] px-1.5 py-0.5 rounded font-mono text-sm text-cyan-100",
+    "pre": "bg-[#10283a] p-4 rounded overflow-x-auto border border-cyan-500/30",
+    "body": "bg-[#0b1d2a] p-6 text-cyan-100 bg-[linear-gradient(to_right,rgba(103,232,249,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(103,232,249,0.08)_1px,transparent_1px)] bg-[size:24px_24px]",
+    "article": "prose prose-invert max-w-none"
+  }
+}

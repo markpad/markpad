@@ -1,0 +1,38 @@
+{
+  "id": "kanban-spec",
+  "name": "Kanban Spec",
+  "description": "Product-spec layout inspired by kanban boards and sprint planning cards.",
+  "category": "sans-serif",
+  "fontFamily": "Inter",
+  "headingFontFamily": "Montserrat",
+  "preview": {
+    "sampleHeading": "Sprint Plan",
+    "sampleText": "Board-inspired structure for scope, owners, and delivery milestones.",
+    "style": "minimal"
+  },
+  "classes": {
+    "h1": "text-4xl font-extrabold mb-5 text-slate-900 tracking-tight",
+    "h2": "text-2xl font-bold mt-8 mb-4 text-slate-900",
+    "h3": "text-xl font-semibold mt-6 mb-3 text-slate-800",
+    "h4": "text-lg font-semibold mt-5 mb-3 text-slate-800",
+    "h5": "text-base font-semibold mt-4 mb-2 text-slate-700 uppercase tracking-wide",
+    "h6": "text-sm font-semibold mt-3 mb-2 text-slate-600 uppercase tracking-wider",
+    "p": "mb-4 text-base leading-7 text-slate-800",
+    "a": "text-sky-700 hover:text-sky-600 underline decoration-sky-500",
+    "img": "max-w-full my-5 rounded-lg border border-slate-300 shadow-sm",
+    "table": "table-auto my-5 w-full border-separate border-spacing-0 overflow-hidden rounded-lg",
+    "strong": "font-semibold text-slate-900",
+    "ul": "list-disc list-outside ml-6 mb-4",
+    "ol": "list-decimal list-outside ml-6 mb-4",
+    "li": "mb-1 text-slate-800 leading-7",
+    "em": "italic text-slate-700",
+    "tr": "even:bg-white odd:bg-slate-50",
+    "td": "border border-slate-300 p-2 align-top",
+    "th": "border border-slate-300 p-2 bg-slate-200 text-left font-semibold text-slate-900 uppercase text-xs tracking-wide",
+    "blockquote": "my-5 rounded-r-lg border-l-4 border-amber-500 bg-amber-50 py-3 pl-4 text-slate-800",
+    "code": "rounded bg-slate-200 px-1.5 py-0.5 font-mono text-sm text-slate-900",
+    "pre": "my-5 rounded-lg border border-slate-300 bg-slate-900 p-4 text-slate-100 overflow-x-auto",
+    "body": "bg-[#eef3f8] p-8 text-slate-900 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.18),transparent_40%),linear-gradient(to_bottom,#f4f7fb,#ecf2f8)]",
+    "article": "prose max-w-4xl"
+  }
+}

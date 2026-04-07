@@ -1,0 +1,38 @@
+{
+  "id": "cli-manual",
+  "name": "CLI Manual",
+  "description": "Terminal-inspired manual-page aesthetics for commands, flags, and examples.",
+  "category": "monospace",
+  "fontFamily": "Ubuntu",
+  "headingFontFamily": "Ubuntu",
+  "preview": {
+    "sampleHeading": "markpad(1)",
+    "sampleText": "Command-focused layout for usage guides and operational runbooks.",
+    "style": "mono"
+  },
+  "classes": {
+    "h1": "text-3xl font-bold mb-4 text-lime-300 tracking-tight",
+    "h2": "text-xl font-semibold mt-8 mb-3 text-lime-300 uppercase tracking-wide",
+    "h3": "text-lg font-semibold mt-6 mb-2 text-lime-200",
+    "h4": "text-base font-semibold mt-5 mb-2 text-lime-200",
+    "h5": "text-sm font-semibold mt-4 mb-2 text-lime-200 uppercase tracking-wide",
+    "h6": "text-xs font-semibold mt-3 mb-2 text-lime-300 uppercase tracking-[0.14em]",
+    "p": "mb-3 text-sm leading-7 text-zinc-100",
+    "a": "text-cyan-300 underline hover:text-cyan-200",
+    "img": "max-w-full my-4 rounded border border-lime-700/60",
+    "table": "table-auto my-4 w-full border-collapse",
+    "strong": "font-bold text-lime-200",
+    "ul": "list-disc list-outside ml-6 mb-3",
+    "ol": "list-decimal list-outside ml-6 mb-3",
+    "li": "mb-1 text-sm leading-7 text-zinc-100",
+    "em": "italic text-zinc-300",
+    "tr": "border-b border-lime-800/60 even:bg-zinc-900 odd:bg-zinc-950",
+    "td": "border border-lime-800/50 p-2 align-top",
+    "th": "border border-lime-800/60 p-2 bg-zinc-900 text-left font-semibold text-lime-300",
+    "blockquote": "my-4 border-l-4 border-yellow-400 bg-zinc-900 py-2 pl-4 italic text-yellow-200",
+    "code": "rounded bg-zinc-900 px-1.5 py-0.5 font-mono text-sm text-lime-200",
+    "pre": "my-4 rounded border border-lime-800/70 bg-black p-4 text-zinc-100 overflow-x-auto",
+    "body": "bg-[#0c0f0d] p-6 text-zinc-100",
+    "article": "prose prose-invert max-w-none"
+  }
+}

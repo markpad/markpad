@@ -123,6 +123,90 @@ export const themePresets: ThemePreset[] = [
     "exampleContent": "---\n\ntitle: The Art of Writing Clean Code\nauthor: Sarah Chen\ndate: March 10, 2026\nreadTime: 5 min read\n\n---\n\n# {{title}}\n\n_A reflection on craftsmanship in software engineering_\n\n**By {{author}}** · {{date}} · {{readTime}}\n\n## Why Clean Code Matters\n\nEvery developer has inherited a codebase that made them question their career choices. **Clean code** isn't just about aesthetics — it's about respect for your future self and your teammates.\n\n### The Hidden Cost of Messy Code\n\n1. Onboarding new developers takes weeks instead of days\n2. Simple features require complex workarounds\n3. Bug fixes introduce new bugs\n4. Technical debt compounds like interest\n\n> \"Any fool can write code that a computer can understand. Good programmers write code that humans can understand.\"\n> — Martin Fowler\n\n## Principles That Stand the Test of Time\n\nThe best codebases share common traits. They are consistent, well-named, and broken into small, focused pieces.\n\n| Principle             | Impact    | Effort |\n| --------------------- | --------- | ------ |\n| Meaningful names      | High      | Low    |\n| Small functions       | High      | Medium |\n| Single responsibility | High      | Medium |\n| DRY                   | Medium    | Low    |\n| Tests                 | Very High | High   |\n\n## A Simple Example\n\n```javascript\n// Before: What does this do?\nconst d = (a, b) => a.filter((x) => b.includes(x.id))\n\n// After: Crystal clear\nconst findMatchingUsers = (users, allowedIds) => {\n  return users.filter((user) => allowedIds.includes(user.id))\n}\n```\n\n### Further Reading\n\n- [Clean Code by Robert C. Martin](https://example.com)\n- [The Pragmatic Programmer](https://example.com)\n- _Refactoring_ by Martin Fowler\n\n![Writing](https://picsum.photos/600/300?random=29)\n\n---\n\n_{{author}} is a software engineer passionate about code quality and developer experience._"
   },
   {
+    "id": "blueprint",
+    "name": "Blueprint",
+    "description": "Technical blueprint aesthetics with grid lines and cyan drafting accents.",
+    "category": "monospace",
+    "fontFamily": "IBM Plex Mono",
+    "tailwindClasses": {
+      "h1": "text-3xl font-bold mb-4 text-cyan-100 uppercase tracking-wide",
+      "h2": "text-2xl font-semibold mb-4 text-cyan-200 uppercase tracking-wide",
+      "h3": "text-xl font-semibold mb-3 text-cyan-200",
+      "h4": "text-lg font-semibold mb-3 text-cyan-200",
+      "h5": "text-base font-semibold mb-2 text-cyan-300 uppercase",
+      "h6": "text-sm font-semibold mb-2 text-cyan-300 uppercase tracking-wide",
+      "p": "mb-4 text-base leading-7 text-cyan-100/90",
+      "a": "text-sky-300 underline decoration-dotted hover:text-sky-200",
+      "img": "max-w-full my-4 border border-cyan-500/40 rounded",
+      "table": "table-auto my-4 w-full border-collapse bg-[#0f2434]/80",
+      "strong": "font-bold text-cyan-50",
+      "ul": "list-disc list-outside ml-6 space-y-1",
+      "ol": "list-decimal list-outside ml-6 space-y-1",
+      "li": "mb-1 leading-7 text-cyan-100/90",
+      "em": "italic text-cyan-200",
+      "tr": "border-b border-cyan-500/30 even:bg-[#123349]/70 odd:bg-[#0f2434]/60",
+      "td": "border border-cyan-500/20 p-2",
+      "th": "border border-cyan-500/30 p-2 bg-[#19425f] text-cyan-100 text-left font-semibold",
+      "blockquote": "border-l-4 border-sky-300 pl-4 my-4 italic text-cyan-100/85 bg-[#102a3d]/80 py-2 rounded-r",
+      "code": "bg-[#14354c] px-1.5 py-0.5 rounded font-mono text-sm text-cyan-100",
+      "pre": "bg-[#10283a] p-4 rounded overflow-x-auto border border-cyan-500/30",
+      "body": "bg-[#0b1d2a] p-6 text-cyan-100 bg-[linear-gradient(to_right,rgba(103,232,249,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(103,232,249,0.08)_1px,transparent_1px)] bg-[size:24px_24px]",
+      "article": "prose prose-invert max-w-none"
+    },
+    "fontConfig": {
+      "fontFamily": "IBM Plex Mono",
+      "headingFontFamily": "Space Mono"
+    },
+    "preview": {
+      "sampleHeading": "System Diagram",
+      "sampleText": "Drafted structure with measured spacing and engineering notes.",
+      "style": "mono"
+    },
+    "exampleContent": "# System Diagram\n\nA compact architecture note for a telemetry ingestion service.\n\n## Components\n\n- `edge-gateway`\n- `queue-router`\n- `metrics-aggregator`\n- `alert-dispatch`\n\n## Throughput Targets\n\n| Channel | Current | Target |\n| --- | --- | --- |\n| Events/sec | 14,200 | 20,000 |\n| P95 latency | 86ms | 60ms |\n| Error rate | 0.42% | < 0.20% |\n\n> Keep links short and module boundaries explicit in every revision.\n\n### Notes\n\n1. Normalize payload schema before persistence.\n2. Keep queue fan-out deterministic.\n3. Record retry reason per worker."
+  },
+  {
+    "id": "cli-manual",
+    "name": "CLI Manual",
+    "description": "Terminal-inspired manual-page aesthetics for commands, flags, and examples.",
+    "category": "monospace",
+    "fontFamily": "Ubuntu",
+    "tailwindClasses": {
+      "h1": "text-3xl font-bold mb-4 text-lime-300 tracking-tight",
+      "h2": "text-xl font-semibold mt-8 mb-3 text-lime-300 uppercase tracking-wide",
+      "h3": "text-lg font-semibold mt-6 mb-2 text-lime-200",
+      "h4": "text-base font-semibold mt-5 mb-2 text-lime-200",
+      "h5": "text-sm font-semibold mt-4 mb-2 text-lime-200 uppercase tracking-wide",
+      "h6": "text-xs font-semibold mt-3 mb-2 text-lime-300 uppercase tracking-[0.14em]",
+      "p": "mb-3 text-sm leading-7 text-zinc-100",
+      "a": "text-cyan-300 underline hover:text-cyan-200",
+      "img": "max-w-full my-4 rounded border border-lime-700/60",
+      "table": "table-auto my-4 w-full border-collapse",
+      "strong": "font-bold text-lime-200",
+      "ul": "list-disc list-outside ml-6 mb-3",
+      "ol": "list-decimal list-outside ml-6 mb-3",
+      "li": "mb-1 text-sm leading-7 text-zinc-100",
+      "em": "italic text-zinc-300",
+      "tr": "border-b border-lime-800/60 even:bg-zinc-900 odd:bg-zinc-950",
+      "td": "border border-lime-800/50 p-2 align-top",
+      "th": "border border-lime-800/60 p-2 bg-zinc-900 text-left font-semibold text-lime-300",
+      "blockquote": "my-4 border-l-4 border-yellow-400 bg-zinc-900 py-2 pl-4 italic text-yellow-200",
+      "code": "rounded bg-zinc-900 px-1.5 py-0.5 font-mono text-sm text-lime-200",
+      "pre": "my-4 rounded border border-lime-800/70 bg-black p-4 text-zinc-100 overflow-x-auto",
+      "body": "bg-[#0c0f0d] p-6 text-zinc-100",
+      "article": "prose prose-invert max-w-none"
+    },
+    "fontConfig": {
+      "fontFamily": "Ubuntu",
+      "headingFontFamily": "Ubuntu"
+    },
+    "preview": {
+      "sampleHeading": "markpad(1)",
+      "sampleText": "Command-focused layout for usage guides and operational runbooks.",
+      "style": "mono"
+    },
+    "exampleContent": "# markpad(1)\n\n## NAME\n\n`markpad` - markdown editor with theme presets and publishing tools.\n\n## SYNOPSIS\n\n`markpad [command] [options]`\n\n## COMMANDS\n\n- `markpad open <path>` open an existing markdown file.\n- `markpad export --format=pdf` generate a print-ready PDF.\n- `markpad publish --draft` create a reviewable public draft.\n\n## OPTIONS\n\n| Flag | Description |\n| --- | --- |\n| `--theme <id>` | Apply theme before rendering output. |\n| `--title <text>` | Override document title for export. |\n| `--watch` | Re-render automatically on content changes. |\n\n> Use `markpad help <command>` for command-specific usage."
+  },
+  {
     "id": "comic-book",
     "name": "Comic Book",
     "description": "Bold, colorful comic book style with pop art energy and dynamic typography.",
@@ -285,6 +369,48 @@ export const themePresets: ThemePreset[] = [
       "style": "mono"
     },
     "exampleContent": "# SYSTEM.LOG\n\n> Initializing developer console theme...\n\n## $ whoami\n\nA terminal-inspired theme for developers who live in the command line.\n\n### PROCESS.ENV\n\n```bash\nexport THEME=\"developer-console\"\nexport FONT=\"monospace\"\nexport COLOR_PRIMARY=\"#86efac\"\nexport COLOR_ACCENT=\"#22d3ee\"\n```\n\n## FEATURES.md\n\n- `font-mono` applied globally\n- Terminal green color scheme\n- High contrast for readability\n- Code-first design philosophy\n\n> \"There is no place like 127.0.0.1\"\n\n## STATUS TABLE\n\n| SERVICE  | PORT | STATUS  |\n| -------- | ---- | ------- |\n| nginx    | 80   | RUNNING |\n| postgres | 5432 | RUNNING |\n| redis    | 6379 | RUNNING |\n| app      | 3000 | RUNNING |\n\n### SAMPLE.js\n\n```javascript\nconst developer = {\n  name: 'Console Developer',\n  theme: 'dark',\n  editor: 'vim',\n  coffee: true,\n\n  code: function () {\n    while (this.coffee) {\n      this.write()\n    }\n  },\n}\n```\n\n## LINKS.txt\n\n1. [GitHub](https://github.com)\n2. [Stack Overflow](https://stackoverflow.com)\n3. [Dev.to](https://dev.to)\n\n![Terminal](https://picsum.photos/600/300?random=4)\n\n```\n[SUCCESS] Theme loaded successfully\n[INFO] Ready for input...\n█\n```"
+  },
+  {
+    "id": "diff-review",
+    "name": "Diff Review",
+    "description": "Code-review visual language with clear additions, removals, and annotation callouts.",
+    "category": "monospace",
+    "fontFamily": "Fira Sans",
+    "tailwindClasses": {
+      "h1": "text-3xl font-bold mb-4 text-slate-100",
+      "h2": "text-2xl font-semibold mt-8 mb-3 text-slate-100",
+      "h3": "text-xl font-semibold mt-6 mb-2 text-slate-200",
+      "h4": "text-lg font-semibold mt-5 mb-2 text-slate-200",
+      "h5": "text-base font-semibold mt-4 mb-2 text-slate-300 uppercase tracking-wide",
+      "h6": "text-sm font-semibold mt-3 mb-2 text-slate-400 uppercase tracking-wide",
+      "p": "mb-3 text-sm leading-7 text-slate-200",
+      "a": "text-sky-300 underline hover:text-sky-200",
+      "img": "max-w-full my-4 rounded border border-slate-600",
+      "table": "table-auto my-4 w-full border-collapse",
+      "strong": "font-bold text-slate-50",
+      "ul": "list-disc list-outside ml-6 mb-3",
+      "ol": "list-decimal list-outside ml-6 mb-3",
+      "li": "mb-1 text-sm leading-7 text-slate-200",
+      "em": "italic text-slate-300",
+      "tr": "border-b border-slate-700 even:bg-slate-800 odd:bg-slate-900",
+      "td": "border border-slate-700 p-2 align-top",
+      "th": "border border-slate-700 p-2 bg-slate-800 text-left font-semibold text-slate-100",
+      "blockquote": "my-4 rounded-r border-l-4 border-yellow-400 bg-yellow-950/30 py-2 pl-4 italic text-yellow-100",
+      "code": "rounded bg-slate-800 px-1.5 py-0.5 font-mono text-sm text-emerald-300",
+      "pre": "my-4 rounded border border-slate-700 bg-[#0b1220] p-4 text-slate-100 overflow-x-auto",
+      "body": "bg-[#111827] p-6 text-slate-100",
+      "article": "prose prose-invert max-w-none"
+    },
+    "fontConfig": {
+      "fontFamily": "Fira Sans",
+      "headingFontFamily": "Fira Sans"
+    },
+    "preview": {
+      "sampleHeading": "PR #128 Review",
+      "sampleText": "Focused readability for changelogs, review notes, and technical deltas.",
+      "style": "mono"
+    },
+    "exampleContent": "# PR #128 Review\n\n## Summary\n\nRefactors theme loading to reduce startup cost and simplify fallback behavior.\n\n## Highlights\n\n- Added memoized parser for generated theme metadata.\n- Removed duplicate category normalization paths.\n- Updated snapshot tests for compact card rendering.\n\n## Risk Matrix\n\n| Area | Impact | Mitigation |\n| --- | --- | --- |\n| Theme search | Medium | Added regression tests for query + category |\n| Preview render | Low | Existing visual tests preserved |\n| URL state | Medium | Validate backwards-compatible decode |\n\n> Watch for stale cache keys when switching rapidly between custom and preset themes."
   },
   {
     "id": "dracula",
@@ -574,6 +700,48 @@ export const themePresets: ThemePreset[] = [
     "exampleContent": "# Accessibility First\n\n**Designing for everyone, without compromise.**\n\n## Why Accessibility Matters\n\nOne billion people worldwide live with some form of disability. Good design should work for **everyone**, regardless of ability.\n\n### WCAG Guidelines\n\nThis theme follows Web Content Accessibility Guidelines (WCAG) 2.1 AA standards:\n\n- **Contrast ratio**: 7:1 minimum\n- **Font size**: 18px base\n- **Clear hierarchy**: Bold headings\n- **Readable fonts**: Sans-serif\n\n> \"The power of the Web is in its universality. Access by everyone regardless of disability is an essential aspect.\"  \n> — Tim Berners-Lee\n\n## Key Features\n\n| Feature      | Standard | This Theme |\n| ------------ | -------- | ---------- |\n| Contrast     | 4.5:1    | 7:1+       |\n| Min Font     | 16px     | 18px       |\n| Line Height  | 1.5      | 1.75       |\n| Focus States | Required | Enhanced   |\n\n### Benefits\n\n1. **Better for low vision users**\n2. **Improved readability in bright light**\n3. **Reduces eye strain for everyone**\n4. **Works without color perception**\n\n## Code Example\n\n```css\n.high-contrast {\n  color: #000000;\n  background: #ffffff;\n  font-size: 1.125rem;\n  line-height: 1.75;\n}\n```\n\n## Resources\n\n- [WCAG Guidelines](https://www.w3.org/WAI/standards-guidelines/wcag/)\n- [A11y Project](https://www.a11yproject.com/)\n- [Color Contrast Checker](https://webaim.org/resources/contrastchecker/)\n\n![Inclusive design](https://picsum.photos/600/300?random=6)\n\n**Remember: Accessibility is not a feature, it's a requirement.**"
   },
   {
+    "id": "kanban-spec",
+    "name": "Kanban Spec",
+    "description": "Product-spec layout inspired by kanban boards and sprint planning cards.",
+    "category": "sans-serif",
+    "fontFamily": "Inter",
+    "tailwindClasses": {
+      "h1": "text-4xl font-extrabold mb-5 text-slate-900 tracking-tight",
+      "h2": "text-2xl font-bold mt-8 mb-4 text-slate-900",
+      "h3": "text-xl font-semibold mt-6 mb-3 text-slate-800",
+      "h4": "text-lg font-semibold mt-5 mb-3 text-slate-800",
+      "h5": "text-base font-semibold mt-4 mb-2 text-slate-700 uppercase tracking-wide",
+      "h6": "text-sm font-semibold mt-3 mb-2 text-slate-600 uppercase tracking-wider",
+      "p": "mb-4 text-base leading-7 text-slate-800",
+      "a": "text-sky-700 hover:text-sky-600 underline decoration-sky-500",
+      "img": "max-w-full my-5 rounded-lg border border-slate-300 shadow-sm",
+      "table": "table-auto my-5 w-full border-separate border-spacing-0 overflow-hidden rounded-lg",
+      "strong": "font-semibold text-slate-900",
+      "ul": "list-disc list-outside ml-6 mb-4",
+      "ol": "list-decimal list-outside ml-6 mb-4",
+      "li": "mb-1 text-slate-800 leading-7",
+      "em": "italic text-slate-700",
+      "tr": "even:bg-white odd:bg-slate-50",
+      "td": "border border-slate-300 p-2 align-top",
+      "th": "border border-slate-300 p-2 bg-slate-200 text-left font-semibold text-slate-900 uppercase text-xs tracking-wide",
+      "blockquote": "my-5 rounded-r-lg border-l-4 border-amber-500 bg-amber-50 py-3 pl-4 text-slate-800",
+      "code": "rounded bg-slate-200 px-1.5 py-0.5 font-mono text-sm text-slate-900",
+      "pre": "my-5 rounded-lg border border-slate-300 bg-slate-900 p-4 text-slate-100 overflow-x-auto",
+      "body": "bg-[#eef3f8] p-8 text-slate-900 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.18),transparent_40%),linear-gradient(to_bottom,#f4f7fb,#ecf2f8)]",
+      "article": "prose max-w-4xl"
+    },
+    "fontConfig": {
+      "fontFamily": "Inter",
+      "headingFontFamily": "Montserrat"
+    },
+    "preview": {
+      "sampleHeading": "Sprint Plan",
+      "sampleText": "Board-inspired structure for scope, owners, and delivery milestones.",
+      "style": "minimal"
+    },
+    "exampleContent": "# Sprint Plan\n\n## Goal\n\nShip comments moderation for public docs without impacting editor performance.\n\n## Board Columns\n\n1. Backlog\n2. Ready\n3. In Progress\n4. Review\n5. Done\n\n## Work Items\n\n- [ ] Add moderation flag to document metadata.\n- [x] Add reviewer filter in admin panel.\n- [ ] Publish support article for workflow changes.\n\n| Card | Owner | ETA | Status |\n| --- | --- | --- | --- |\n| API contracts | Ana | 2d | In Progress |\n| Queue workers | Bruno | 3d | Ready |\n| UI validation | Carol | 1d | Review |\n\n> Keep cards small, independent, and measurable."
+  },
+  {
     "id": "landing-page",
     "name": "Landing Page",
     "description": "Marketing-focused layout for hero sections, feature blocks, and clear CTAs.",
@@ -614,6 +782,90 @@ export const themePresets: ThemePreset[] = [
       "style": "default"
     },
     "exampleContent": "---\nproductName: PulseBoard\ntagline: Launch better product updates without meetings\nheroCta: Start free\nsecondaryCta: Book a demo\ntrialDays: 14\nusers: 4200\nteams:\n  - Acme Labs\n  - Orbit Commerce\n  - Nova Health\n---\n\n# {{productName}}\n\n## {{tagline}}\n\nShip release notes, roadmaps, and changelogs in one place.  \nBuilt for product teams that need **clarity, speed, and alignment**.\n\n[{{heroCta}}](https://example.com/signup) [{{secondaryCta}}](https://example.com/demo)\n\n![Product dashboard](https://picsum.photos/1200/620?random=77)\n\n> \"PulseBoard gave us a launch rhythm our whole company can follow.\"\n> — Head of Product, {{teams[0]}}\n\n## Trusted by fast-moving teams\n\n- {{teams[0]}}\n- {{teams[1]}}\n- {{teams[2]}}\n- and **{{users}}+** active product users\n\n## Why teams switch to {{productName}}\n\n### 1. Publish updates in minutes\n\nTurn internal notes into customer-ready announcements without rebuilding content every sprint.\n\n### 2. Keep roadmap and releases connected\n\nLink initiatives, milestones, and shipped updates so everyone sees the full story.\n\n### 3. Reduce status meetings\n\nOne shared update page keeps product, engineering, support, and sales aligned.\n\n## Plans\n\n| Plan       | Best for                  | Price |\n| ---------- | ------------------------- | ----- |\n| Starter    | Small teams and pilots    | $29   |\n| Growth     | Scaling product teams     | $99   |\n| Enterprise | Multi-product organizations | Contact us |\n\n## Launch in one afternoon\n\nTry {{productName}} free for {{trialDays}} days. No credit card required.\n\n[{{heroCta}}](https://example.com/signup)"
+  },
+  {
+    "id": "legal-brief",
+    "name": "Legal Brief",
+    "description": "Formal legal-document styling with clear hierarchy and disciplined spacing.",
+    "category": "serif",
+    "fontFamily": "Merriweather",
+    "tailwindClasses": {
+      "h1": "text-3xl font-bold mb-8 text-center text-gray-900 tracking-wide",
+      "h2": "text-xl font-bold mt-8 mb-4 text-gray-900 border-b border-gray-300 pb-2 uppercase",
+      "h3": "text-lg font-semibold mt-6 mb-3 text-gray-800",
+      "h4": "text-base font-semibold mt-4 mb-2 text-gray-800",
+      "h5": "text-sm font-semibold mt-4 mb-2 text-gray-700 uppercase tracking-wide",
+      "h6": "text-xs font-semibold mt-3 mb-2 text-gray-600 uppercase tracking-wider",
+      "p": "mb-4 text-base text-gray-800 leading-8 text-justify",
+      "a": "text-blue-800 hover:text-blue-600 underline",
+      "img": "max-w-full my-6 rounded border border-gray-300",
+      "table": "table-auto my-6 w-full border-collapse",
+      "strong": "font-bold text-gray-900",
+      "ul": "list-disc list-outside ml-8",
+      "ol": "list-decimal list-outside ml-8",
+      "li": "mb-2 text-gray-800 leading-8",
+      "em": "italic text-gray-700",
+      "tr": "border-b border-gray-300 even:bg-gray-50 odd:bg-white",
+      "td": "border border-gray-300 p-2 align-top",
+      "th": "border border-gray-300 p-2 bg-gray-100 text-left font-semibold text-gray-900",
+      "blockquote": "border-l-4 border-gray-400 pl-5 my-6 italic text-gray-700 bg-gray-50 py-3",
+      "code": "bg-gray-100 px-1.5 py-0.5 rounded font-mono text-sm text-gray-800",
+      "pre": "bg-gray-50 p-4 rounded overflow-x-auto border border-gray-300",
+      "body": "bg-white p-10 text-gray-800",
+      "article": "prose max-w-none"
+    },
+    "fontConfig": {
+      "fontFamily": "Merriweather",
+      "headingFontFamily": "Lora"
+    },
+    "preview": {
+      "sampleHeading": "Motion to Dismiss",
+      "sampleText": "Structured legal layout with formal rhythm and high readability.",
+      "style": "serif"
+    },
+    "exampleContent": "# Memorandum of Law\n\n## Statement of Facts\n\nPlaintiff alleges breach of agreement dated January 14, 2026, arising from delayed fulfillment under Schedule B.\n\n## Argument\n\n### I. The Notice Provision Was Satisfied\n\nDefendant received formal notice by certified mail and acknowledged receipt in writing.\n\n### II. Cure Period Expired Without Performance\n\n- Notice delivered on March 2.\n- Cure deadline: March 17.\n- No corrective action documented.\n\n| Exhibit | Description | Relevance |\n| --- | --- | --- |\n| A | Contract | Duty to perform |\n| B | Notice Letter | Timely notice |\n| C | Delivery Log | Non-performance |\n\n> Where a cure period expires without cure, equitable relief is appropriate."
+  },
+  {
+    "id": "magazine-editorial",
+    "name": "Magazine Editorial",
+    "description": "High-contrast editorial magazine style with expressive typography and elegant spacing.",
+    "category": "serif",
+    "fontFamily": "Source Sans Pro",
+    "tailwindClasses": {
+      "h1": "text-5xl font-black mb-6 text-stone-900 leading-tight tracking-tight",
+      "h2": "text-3xl font-semibold mb-4 mt-10 text-stone-900",
+      "h3": "text-2xl font-semibold mb-3 mt-8 text-stone-800",
+      "h4": "text-xl font-semibold mb-3 mt-6 text-stone-800",
+      "h5": "text-lg font-semibold mb-2 mt-4 text-stone-700",
+      "h6": "text-base font-semibold mb-2 text-stone-600 uppercase tracking-wide",
+      "p": "mb-5 text-lg leading-8 text-stone-800",
+      "a": "text-rose-700 hover:text-rose-600 underline decoration-rose-500/60",
+      "img": "max-w-full my-6 rounded-lg shadow-md",
+      "table": "table-auto my-6 w-full border-collapse",
+      "strong": "font-bold text-stone-900",
+      "ul": "list-disc list-outside ml-8",
+      "ol": "list-decimal list-outside ml-8",
+      "li": "mb-2 text-lg leading-8 text-stone-800",
+      "em": "italic text-stone-700",
+      "tr": "border-b border-stone-300 even:bg-stone-100 odd:bg-stone-50",
+      "td": "border border-stone-300 p-3 align-top",
+      "th": "border border-stone-300 p-3 bg-stone-200 text-left font-semibold text-stone-900",
+      "blockquote": "my-8 border-l-4 border-rose-500 pl-6 text-xl leading-8 italic text-stone-700",
+      "code": "bg-stone-200 px-1.5 py-0.5 rounded font-mono text-sm text-stone-900",
+      "pre": "bg-stone-100 p-4 rounded overflow-x-auto border border-stone-300",
+      "body": "bg-[#f8f5ef] p-10 text-stone-800",
+      "article": "prose max-w-3xl mx-auto"
+    },
+    "fontConfig": {
+      "fontFamily": "Source Sans Pro",
+      "headingFontFamily": "Playfair Display"
+    },
+    "preview": {
+      "sampleHeading": "Feature Story",
+      "sampleText": "Bold editorial rhythm for long-form narrative and interviews.",
+      "style": "serif"
+    },
+    "exampleContent": "# Feature Story\n\nA conversation on how small design decisions compound into product trust.\n\n## Opening Scene\n\nThe office was quiet, except for keyboards and one espresso machine that refused to rest.\n\n## Editor's Notes\n\n- Keep headlines short and forceful.\n- Use pull quotes to pace long sections.\n- Prioritize readability over novelty.\n\n> \"The best layout disappears and leaves only the story.\"\n\n### Snapshot\n\n| Section | Focus | Word Count |\n| --- | --- | --- |\n| Lead | Context | 220 |\n| Interview | Insight | 640 |\n| Analysis | Takeaways | 510 |"
   },
   {
     "id": "material-design",
@@ -1070,6 +1322,90 @@ export const themePresets: ThemePreset[] = [
     "exampleContent": "# Purple Haze\n\nA bold, creative theme that embraces the energy of purple and magenta. Perfect for designers, artists, and anyone who wants their content to stand out.\n\n## Why Purple?\n\nPurple represents creativity, wisdom, and imagination. It's the color of innovation and unconventional thinking—perfect for content that breaks the mold.\n\n### Design Features\n\n- **Gradient Backgrounds**: Subtle gradients add depth without distraction\n- **High Impact**: Bold colors ensure your headings grab attention\n- **Adaptive**: Seamlessly transitions between light and dark modes\n- **Modern Typography**: Poppins font family for a clean, contemporary look\n\n### Perfect Use Cases\n\n1. **Creative Portfolios**: Showcase your work with style\n2. **Design Documentation**: Match the aesthetic of modern design systems\n3. **Tech Startups**: Bold branding for bold ideas\n4. **Marketing Content**: Stand out from the traditional blue schemes\n\n### Code Example\n\n```typescript\ninterface Theme {\n  name: 'Purple Haze'\n  colors: {\n    primary: 'purple'\n    accent: 'fuchsia'\n  }\n  modes: ['light', 'dark']\n}\n\nconst applyTheme = (theme: Theme) => {\n  console.log('Applying ' + theme.name)\n  // Magic happens here ✨\n}\n```\n\n> Creativity is intelligence having fun. — Albert Einstein\n\n**Note**: This theme uses dynamic color classes that automatically adjust based on your system preferences. The vibrant purples remain eye-catching in both modes while maintaining excellent readability.\n\n---\n\n### Tips for Best Results\n\n- Pair with high-quality imagery for maximum impact\n- Use the gradient backgrounds to create visual hierarchy\n- Let the bold headings guide your reader's attention\n- Combine with white space for a clean, modern layout"
   },
   {
+    "id": "recipe-card",
+    "name": "Recipe Card",
+    "description": "Warm kitchen-card look for recipes, ingredient lists, and cooking notes.",
+    "category": "serif",
+    "fontFamily": "Merriweather",
+    "tailwindClasses": {
+      "h1": "text-4xl font-bold mb-5 text-[#6b2f1a]",
+      "h2": "text-2xl font-semibold mt-8 mb-4 text-[#7a3b22]",
+      "h3": "text-xl font-semibold mt-6 mb-3 text-[#7a3b22]",
+      "h4": "text-lg font-semibold mt-5 mb-2 text-[#8a4a2c]",
+      "h5": "text-base font-semibold mt-4 mb-2 text-[#8a4a2c] uppercase tracking-wide",
+      "h6": "text-sm font-semibold mt-3 mb-2 text-[#9a5b39] uppercase tracking-wide",
+      "p": "mb-4 text-base leading-8 text-[#4b2f24]",
+      "a": "text-[#a04325] underline hover:text-[#b5512f]",
+      "img": "max-w-full my-5 rounded-lg border border-[#d9b68c] shadow-sm",
+      "table": "table-auto my-5 w-full border-collapse",
+      "strong": "font-bold text-[#3b231b]",
+      "ul": "list-disc list-outside ml-7 mb-4",
+      "ol": "list-decimal list-outside ml-7 mb-4",
+      "li": "mb-2 text-[#4b2f24] leading-8",
+      "em": "italic text-[#6b4a39]",
+      "tr": "border-b border-[#e1c6a1] even:bg-[#fff6e8] odd:bg-[#fffaf0]",
+      "td": "border border-[#e1c6a1] p-2 align-top",
+      "th": "border border-[#e1c6a1] p-2 bg-[#f8e7cc] text-left font-semibold text-[#5d351f]",
+      "blockquote": "my-5 border-l-4 border-[#d38a3d] bg-[#fff1db] py-2 pl-4 italic text-[#6b4a39]",
+      "code": "rounded bg-[#f3e4cb] px-1.5 py-0.5 font-mono text-sm text-[#5d351f]",
+      "pre": "my-5 rounded-lg border border-[#e1c6a1] bg-[#fdf3e1] p-4 text-[#4b2f24] overflow-x-auto",
+      "body": "bg-[#fff8ee] p-8 text-[#4b2f24] bg-[radial-gradient(circle_at_top_left,rgba(244,180,80,0.18),transparent_35%)]",
+      "article": "prose max-w-3xl"
+    },
+    "fontConfig": {
+      "fontFamily": "Merriweather",
+      "headingFontFamily": "Playfair Display"
+    },
+    "preview": {
+      "sampleHeading": "Sunday Pasta",
+      "sampleText": "Cozy card-style layout for ingredients, steps, and timing.",
+      "style": "serif"
+    },
+    "exampleContent": "# Sunday Pasta\n\n## Ingredients\n\n- 400g spaghetti\n- 2 tbsp olive oil\n- 3 cloves garlic, minced\n- 1 can crushed tomatoes\n- Fresh basil and parmesan\n\n## Timing\n\n| Step | Duration |\n| --- | --- |\n| Prep | 10 min |\n| Simmer sauce | 20 min |\n| Cook pasta | 9 min |\n\n## Instructions\n\n1. Heat olive oil and cook garlic for 1 minute.\n2. Add tomatoes, simmer until thickened.\n3. Toss pasta with sauce and finish with basil.\n\n> Reserve half a cup of pasta water to adjust consistency before serving."
+  },
+  {
+    "id": "research-lab-notebook",
+    "name": "Research Lab Notebook",
+    "description": "Lab-style grid paper with clean metadata emphasis for experiments and observations.",
+    "category": "experimental",
+    "fontFamily": "Inter",
+    "tailwindClasses": {
+      "h1": "text-3xl font-bold mb-6 text-slate-900",
+      "h2": "text-2xl font-semibold mb-4 mt-8 text-slate-800",
+      "h3": "text-xl font-semibold mb-3 mt-6 text-slate-800",
+      "h4": "text-lg font-semibold mb-3 mt-4 text-slate-700",
+      "h5": "text-base font-semibold mb-2 text-slate-700",
+      "h6": "text-sm font-semibold mb-2 text-slate-600 uppercase tracking-wide",
+      "p": "mb-4 text-base leading-7 text-slate-800",
+      "a": "text-teal-700 hover:text-teal-600 underline",
+      "img": "max-w-full my-4 rounded border border-slate-300",
+      "table": "table-auto my-5 w-full border-collapse bg-white",
+      "strong": "font-bold text-slate-900",
+      "ul": "list-disc list-outside ml-6",
+      "ol": "list-decimal list-outside ml-6",
+      "li": "mb-2 text-slate-800 leading-7",
+      "em": "italic text-slate-700",
+      "tr": "border-b border-slate-300 even:bg-slate-50 odd:bg-white",
+      "td": "border border-slate-300 p-2 align-top",
+      "th": "border border-slate-300 p-2 bg-slate-100 text-left font-semibold text-slate-900",
+      "blockquote": "border-l-4 border-teal-500 pl-4 my-4 italic text-slate-700 bg-teal-50 py-2 rounded-r",
+      "code": "bg-slate-100 px-1.5 py-0.5 rounded font-mono text-sm text-slate-800",
+      "pre": "bg-slate-100 p-4 rounded overflow-x-auto border border-slate-300",
+      "body": "bg-[#f6f8fb] p-8 bg-[linear-gradient(to_right,rgba(100,116,139,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(100,116,139,0.12)_1px,transparent_1px)] bg-[size:20px_20px]",
+      "article": "prose max-w-none"
+    },
+    "fontConfig": {
+      "fontFamily": "Inter",
+      "headingFontFamily": "IBM Plex Serif"
+    },
+    "preview": {
+      "sampleHeading": "Experiment 042",
+      "sampleText": "Structured entries for hypothesis, observations, and conclusions.",
+      "style": "default"
+    },
+    "exampleContent": "# Experiment 042\n\n## Metadata\n\n- Date: 2026-04-12\n- Operator: M. Reeves\n- Batch: `S-19-B`\n\n## Hypothesis\n\nIncreasing buffer pH from 6.8 to 7.2 will reduce variance in response time.\n\n## Procedure\n\n1. Prepare two sample groups of equal size.\n2. Run calibration sequence for 15 minutes.\n3. Capture values every 5 seconds.\n\n| Group | pH | Mean Response | Std Dev |\n| --- | --- | --- | --- |\n| Control | 6.8 | 118ms | 21ms |\n| Variant | 7.2 | 103ms | 12ms |\n\n> Observation: Variant stabilized faster after warm-up.\n\n### Conclusion\n\nData supports the hypothesis and recommends pH 7.2 for the next run."
+  },
+  {
     "id": "resume-cv",
     "name": "Resume/CV",
     "description": "Clean, professional layout for resumes and CVs.",
@@ -1276,6 +1612,48 @@ export const themePresets: ThemePreset[] = [
     "exampleContent": "# Welcome to Tailwind Default\n\nA clean, professional theme based on the Tailwind CSS design system.\n\n## Getting Started\n\nThis theme provides a **solid foundation** for technical documentation, blog posts, and general-purpose content.\n\n### Features\n\n- Clean typography\n- Readable color palette\n- Consistent spacing\n- Mobile-friendly\n\n> Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces.\n\n## Installation\n\n```bash\nnpm install tailwindcss\nnpx tailwindcss init\n```\n\n## Configuration\n\n| Property  | Default | Description    |\n| --------- | ------- | -------------- |\n| `content` | `[]`    | Files to scan  |\n| `theme`   | `{}`    | Customizations |\n| `plugins` | `[]`    | Extensions     |\n\n### Example Usage\n\n1. Install dependencies\n2. Configure your template paths\n3. Add Tailwind directives\n4. Start the build process\n\n```javascript\nmodule.exports = {\n  content: ['./src/**/*.{html,js}'],\n  theme: {\n    extend: {},\n  },\n  plugins: [],\n}\n```\n\n## Resources\n\n- [Official Documentation](https://tailwindcss.com)\n- [GitHub Repository](https://github.com/tailwindlabs/tailwindcss)\n- [Community Discord](https://discord.gg/tailwind)\n\n![Tailwind CSS](https://picsum.photos/600/300?random=3)"
   },
   {
+    "id": "story-manuscript",
+    "name": "Story Manuscript",
+    "description": "Long-form manuscript styling for fiction drafts and narrative editing.",
+    "category": "serif",
+    "fontFamily": "Lora",
+    "tailwindClasses": {
+      "h1": "text-5xl font-bold mb-8 text-zinc-900 text-center",
+      "h2": "text-3xl font-semibold mt-12 mb-6 text-zinc-900",
+      "h3": "text-2xl font-semibold mt-8 mb-4 text-zinc-800",
+      "h4": "text-xl font-semibold mt-6 mb-3 text-zinc-800",
+      "h5": "text-lg font-semibold mt-5 mb-3 text-zinc-700",
+      "h6": "text-base font-semibold mt-4 mb-2 text-zinc-600 uppercase tracking-wide",
+      "p": "mb-5 text-[1.14rem] leading-9 text-zinc-800",
+      "a": "text-indigo-700 underline hover:text-indigo-600",
+      "img": "max-w-full my-6 rounded border border-zinc-300",
+      "table": "table-auto my-6 w-full border-collapse",
+      "strong": "font-semibold text-zinc-900",
+      "ul": "list-disc list-outside ml-8 mb-5",
+      "ol": "list-decimal list-outside ml-8 mb-5",
+      "li": "mb-2 leading-9 text-zinc-800",
+      "em": "italic text-zinc-700",
+      "tr": "border-b border-zinc-300 even:bg-zinc-50 odd:bg-white",
+      "td": "border border-zinc-300 p-2 align-top",
+      "th": "border border-zinc-300 p-2 bg-zinc-100 text-left font-semibold text-zinc-900",
+      "blockquote": "my-6 border-l-4 border-indigo-300 bg-indigo-50 py-3 pl-5 italic text-zinc-700",
+      "code": "rounded bg-zinc-200 px-1.5 py-0.5 font-mono text-sm text-zinc-900",
+      "pre": "my-6 rounded-lg border border-zinc-300 bg-zinc-100 p-4 overflow-x-auto",
+      "body": "bg-[#fbfaf6] p-10 text-zinc-800",
+      "article": "prose max-w-3xl mx-auto"
+    },
+    "fontConfig": {
+      "fontFamily": "Lora",
+      "headingFontFamily": "Merriweather"
+    },
+    "preview": {
+      "sampleHeading": "Chapter One",
+      "sampleText": "Comfortable long-read rhythm for scenes, dialogue, and revision notes.",
+      "style": "serif"
+    },
+    "exampleContent": "# Chapter One\n\nRain pressed softly against the station windows as Elena folded the letter for the third time.\n\n## Scene Notes\n\nShe had ten minutes before the last train and two names written in fading ink.\n\n- A key hidden inside the red dictionary.\n- A promise made before the fire.\n- A map with one corner torn away.\n\n> She had learned that silence is not the absence of sound, but the shape of waiting.\n\n## Revision Checklist\n\n1. Tighten opening paragraph cadence.\n2. Expand the dialogue beat in scene two.\n3. Clarify timeline reference to winter market."
+  },
+  {
     "id": "technical-docs",
     "name": "Technical Docs",
     "description": "Optimized for API documentation and technical reference material.",
@@ -1315,6 +1693,48 @@ export const themePresets: ThemePreset[] = [
       "style": "default"
     },
     "exampleContent": "# API Reference\n\nComplete reference for the Markpad REST API v2.0.\n\n## Authentication\n\nAll API requests require a valid **Bearer token** in the `Authorization` header. Tokens can be generated via the dashboard.\n\n### Obtaining a Token\n\n1. Navigate to Settings > API Keys\n2. Click \"Generate New Key\"\n3. Copy the token (shown only once)\n4. Store securely in environment variables\n\n> **Note:** API tokens expire after 90 days. Rotate them regularly to maintain security.\n\n## Endpoints\n\n| Method | Path              | Description        | Auth |\n| ------ | ----------------- | ------------------ | ---- |\n| GET    | `/api/themes`     | List all themes    | Yes  |\n| GET    | `/api/themes/:id` | Get theme by ID    | Yes  |\n| POST   | `/api/themes`     | Create a new theme | Yes  |\n| PUT    | `/api/themes/:id` | Update a theme     | Yes  |\n| DELETE | `/api/themes/:id` | Delete a theme     | Yes  |\n\n## Request Example\n\n```bash\ncurl -X GET https://api.example.com/api/themes \\\n  -H \"Authorization: Bearer YOUR_TOKEN\" \\\n  -H \"Content-Type: application/json\"\n```\n\n### Response\n\n```json\n{\n  \"data\": [\n    {\n      \"id\": \"standard-blue\",\n      \"name\": \"Standard Blue\",\n      \"category\": \"sans-serif\",\n      \"created_at\": \"2024-01-15T10:30:00Z\"\n    }\n  ],\n  \"meta\": {\n    \"total\": 25,\n    \"page\": 1,\n    \"per_page\": 10\n  }\n}\n```\n\n### Error Codes\n\n- `401` — Unauthorized: invalid or expired token\n- `404` — Not Found: resource does not exist\n- `422` — Validation Error: check request body\n- `429` — Rate Limited: max 100 req/min\n\n![API docs](https://picsum.photos/600/300?random=28)"
+  },
+  {
+    "id": "typewriter-letter",
+    "name": "Typewriter Letter",
+    "description": "Vintage typewriter paper with warm tones and letter-style spacing.",
+    "category": "monospace",
+    "fontFamily": "Courier Prime",
+    "tailwindClasses": {
+      "h1": "text-3xl font-bold mb-6 text-[#2f241d] uppercase tracking-[0.08em]",
+      "h2": "text-2xl font-semibold mb-4 mt-8 text-[#2f241d]",
+      "h3": "text-xl font-semibold mb-3 mt-6 text-[#3a2c22]",
+      "h4": "text-lg font-semibold mb-3 mt-4 text-[#3a2c22]",
+      "h5": "text-base font-semibold mb-2 text-[#4a392c]",
+      "h6": "text-sm font-semibold mb-2 uppercase tracking-wide text-[#5a4638]",
+      "p": "mb-4 text-base leading-8 text-[#2f241d]",
+      "a": "text-[#7a3e1d] underline hover:text-[#9a4f24]",
+      "img": "max-w-full my-5 rounded border border-[#c7b39b]",
+      "table": "table-auto my-5 w-full border-collapse bg-[#f9f3e7]",
+      "strong": "font-bold text-[#201812]",
+      "ul": "list-disc list-outside ml-7",
+      "ol": "list-decimal list-outside ml-7",
+      "li": "mb-2 text-base leading-8 text-[#2f241d]",
+      "em": "italic text-[#4a392c]",
+      "tr": "border-b border-[#c7b39b] even:bg-[#f7efdf] odd:bg-[#fbf6ea]",
+      "td": "border border-[#c7b39b] p-2 align-top",
+      "th": "border border-[#c7b39b] p-2 bg-[#efe3cd] text-left font-semibold text-[#2f241d]",
+      "blockquote": "border-l-4 border-[#b38867] pl-4 my-5 italic text-[#4a392c] bg-[#f7efdf] py-2 rounded-r",
+      "code": "bg-[#e7dcc9] px-1.5 py-0.5 rounded font-mono text-sm text-[#2f241d]",
+      "pre": "bg-[#efe3cd] p-4 rounded overflow-x-auto border border-[#c7b39b]",
+      "body": "bg-[#f5efe2] p-8 text-[#2f241d]",
+      "article": "prose max-w-none"
+    },
+    "fontConfig": {
+      "fontFamily": "Courier Prime",
+      "headingFontFamily": "Courier Prime"
+    },
+    "preview": {
+      "sampleHeading": "Dear Team,",
+      "sampleText": "A retro letter layout for personal notes and memos.",
+      "style": "mono"
+    },
+    "exampleContent": "# Dear Team,\n\nI am writing to summarize the decisions from today's planning session.\n\n## Summary\n\n1. We will reduce scope for milestone one.\n2. We will ship observability before optimization.\n3. We will document tradeoffs in the changelog.\n\n## Follow-ups\n\n- Confirm owner for rollout checklist.\n- Finalize outage communication template.\n- Review the migration note before Friday.\n\n> Thank you for moving with clarity and patience.\n\nSincerely,\n\nProduct Operations"
   },
   {
     "id": "wikipedia",

@@ -1,0 +1,38 @@
+{
+  "id": "typewriter-letter",
+  "name": "Typewriter Letter",
+  "description": "Vintage typewriter paper with warm tones and letter-style spacing.",
+  "category": "monospace",
+  "fontFamily": "Courier Prime",
+  "headingFontFamily": "Courier Prime",
+  "preview": {
+    "sampleHeading": "Dear Team,",
+    "sampleText": "A retro letter layout for personal notes and memos.",
+    "style": "mono"
+  },
+  "classes": {
+    "h1": "text-3xl font-bold mb-6 text-[#2f241d] uppercase tracking-[0.08em]",
+    "h2": "text-2xl font-semibold mb-4 mt-8 text-[#2f241d]",
+    "h3": "text-xl font-semibold mb-3 mt-6 text-[#3a2c22]",
+    "h4": "text-lg font-semibold mb-3 mt-4 text-[#3a2c22]",
+    "h5": "text-base font-semibold mb-2 text-[#4a392c]",
+    "h6": "text-sm font-semibold mb-2 uppercase tracking-wide text-[#5a4638]",
+    "p": "mb-4 text-base leading-8 text-[#2f241d]",
+    "a": "text-[#7a3e1d] underline hover:text-[#9a4f24]",
+    "img": "max-w-full my-5 rounded border border-[#c7b39b]",
+    "table": "table-auto my-5 w-full border-collapse bg-[#f9f3e7]",
+    "strong": "font-bold text-[#201812]",
+    "ul": "list-disc list-outside ml-7",
+    "ol": "list-decimal list-outside ml-7",
+    "li": "mb-2 text-base leading-8 text-[#2f241d]",
+    "em": "italic text-[#4a392c]",
+    "tr": "border-b border-[#c7b39b] even:bg-[#f7efdf] odd:bg-[#fbf6ea]",
+    "td": "border border-[#c7b39b] p-2 align-top",
+    "th": "border border-[#c7b39b] p-2 bg-[#efe3cd] text-left font-semibold text-[#2f241d]",
+    "blockquote": "border-l-4 border-[#b38867] pl-4 my-5 italic text-[#4a392c] bg-[#f7efdf] py-2 rounded-r",
+    "code": "bg-[#e7dcc9] px-1.5 py-0.5 rounded font-mono text-sm text-[#2f241d]",
+    "pre": "bg-[#efe3cd] p-4 rounded overflow-x-auto border border-[#c7b39b]",
+    "body": "bg-[#f5efe2] p-8 text-[#2f241d]",
+    "article": "prose max-w-none"
+  }
+}

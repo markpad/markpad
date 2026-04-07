@@ -1,0 +1,38 @@
+{
+  "id": "magazine-editorial",
+  "name": "Magazine Editorial",
+  "description": "High-contrast editorial magazine style with expressive typography and elegant spacing.",
+  "category": "serif",
+  "fontFamily": "Source Sans Pro",
+  "headingFontFamily": "Playfair Display",
+  "preview": {
+    "sampleHeading": "Feature Story",
+    "sampleText": "Bold editorial rhythm for long-form narrative and interviews.",
+    "style": "serif"
+  },
+  "classes": {
+    "h1": "text-5xl font-black mb-6 text-stone-900 leading-tight tracking-tight",
+    "h2": "text-3xl font-semibold mb-4 mt-10 text-stone-900",
+    "h3": "text-2xl font-semibold mb-3 mt-8 text-stone-800",
+    "h4": "text-xl font-semibold mb-3 mt-6 text-stone-800",
+    "h5": "text-lg font-semibold mb-2 mt-4 text-stone-700",
+    "h6": "text-base font-semibold mb-2 text-stone-600 uppercase tracking-wide",
+    "p": "mb-5 text-lg leading-8 text-stone-800",
+    "a": "text-rose-700 hover:text-rose-600 underline decoration-rose-500/60",
+    "img": "max-w-full my-6 rounded-lg shadow-md",
+    "table": "table-auto my-6 w-full border-collapse",
+    "strong": "font-bold text-stone-900",
+    "ul": "list-disc list-outside ml-8",
+    "ol": "list-decimal list-outside ml-8",
+    "li": "mb-2 text-lg leading-8 text-stone-800",
+    "em": "italic text-stone-700",
+    "tr": "border-b border-stone-300 even:bg-stone-100 odd:bg-stone-50",
+    "td": "border border-stone-300 p-3 align-top",
+    "th": "border border-stone-300 p-3 bg-stone-200 text-left font-semibold text-stone-900",
+    "blockquote": "my-8 border-l-4 border-rose-500 pl-6 text-xl leading-8 italic text-stone-700",
+    "code": "bg-stone-200 px-1.5 py-0.5 rounded font-mono text-sm text-stone-900",
+    "pre": "bg-stone-100 p-4 rounded overflow-x-auto border border-stone-300",
+    "body": "bg-[#f8f5ef] p-10 text-stone-800",
+    "article": "prose max-w-3xl mx-auto"
+  }
+}

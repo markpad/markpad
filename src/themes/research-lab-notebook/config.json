@@ -1,0 +1,38 @@
+{
+  "id": "research-lab-notebook",
+  "name": "Research Lab Notebook",
+  "description": "Lab-style grid paper with clean metadata emphasis for experiments and observations.",
+  "category": "experimental",
+  "fontFamily": "Inter",
+  "headingFontFamily": "IBM Plex Serif",
+  "preview": {
+    "sampleHeading": "Experiment 042",
+    "sampleText": "Structured entries for hypothesis, observations, and conclusions.",
+    "style": "default"
+  },
+  "classes": {
+    "h1": "text-3xl font-bold mb-6 text-slate-900",
+    "h2": "text-2xl font-semibold mb-4 mt-8 text-slate-800",
+    "h3": "text-xl font-semibold mb-3 mt-6 text-slate-800",
+    "h4": "text-lg font-semibold mb-3 mt-4 text-slate-700",
+    "h5": "text-base font-semibold mb-2 text-slate-700",
+    "h6": "text-sm font-semibold mb-2 text-slate-600 uppercase tracking-wide",
+    "p": "mb-4 text-base leading-7 text-slate-800",
+    "a": "text-teal-700 hover:text-teal-600 underline",
+    "img": "max-w-full my-4 rounded border border-slate-300",
+    "table": "table-auto my-5 w-full border-collapse bg-white",
+    "strong": "font-bold text-slate-900",
+    "ul": "list-disc list-outside ml-6",
+    "ol": "list-decimal list-outside ml-6",
+    "li": "mb-2 text-slate-800 leading-7",
+    "em": "italic text-slate-700",
+    "tr": "border-b border-slate-300 even:bg-slate-50 odd:bg-white",
+    "td": "border border-slate-300 p-2 align-top",
+    "th": "border border-slate-300 p-2 bg-slate-100 text-left font-semibold text-slate-900",
+    "blockquote": "border-l-4 border-teal-500 pl-4 my-4 italic text-slate-700 bg-teal-50 py-2 rounded-r",
+    "code": "bg-slate-100 px-1.5 py-0.5 rounded font-mono text-sm text-slate-800",
+    "pre": "bg-slate-100 p-4 rounded overflow-x-auto border border-slate-300",
+    "body": "bg-[#f6f8fb] p-8 bg-[linear-gradient(to_right,rgba(100,116,139,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(100,116,139,0.12)_1px,transparent_1px)] bg-[size:20px_20px]",
+    "article": "prose max-w-none"
+  }
+}
