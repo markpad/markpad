@@ -25,13 +25,23 @@ export function createIndexedDBDocumentRepository(): DocumentRepository {
     async create(input: CreateDocumentInput): Promise<MarkpadDocument> {
       const db = await getDB()
       const now = new Date()
+
+      const hasExplicitThemeId = typeof input.themeId === 'string' && input.themeId.length > 0
+      const hasLegacyStyles = !!input.tailwindClasses || !!input.fontConfig
+      const stylePayload = hasExplicitThemeId
+        ? { themeId: input.themeId }
+        : hasLegacyStyles
+          ? {
+              tailwindClasses: input.tailwindClasses,
+              fontConfig: input.fontConfig,
+            }
+          : { themeId: DEFAULT_THEME_ID }
+
       const doc: MarkpadDocument = {
         id: crypto.randomUUID(),
         title: input.title,
         content: input.content,
-        // New documents use themeId as the single source of truth for styling.
-        // Legacy tailwindClasses/fontConfig are NOT stored for new documents.
-        themeId: input.themeId ?? DEFAULT_THEME_ID,
+        ...stylePayload,
         variables: input.variables ?? {},
         templateId: input.templateId,
         templateVersion: input.templateVersion,

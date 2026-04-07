@@ -1,6 +1,7 @@
 import { renderHook, act } from '@testing-library/react'
 import { useTryMode } from '@/hooks/useTryMode'
 import type { AppState, TailwindClasses, FontConfig } from '@/types'
+import { themePresets } from '@/data/themes.generated'
 
 // Mock react-router-dom
 const mockNavigate = vi.fn()
@@ -81,6 +82,50 @@ describe('useTryMode', () => {
       content: mockState.markdown,
       tailwindClasses: mockState.tailwindClasses,
       fontConfig: mockState.fontConfig,
+    })
+  })
+
+  it('uses themeId when provided in state', async () => {
+    mockCreate.mockResolvedValue({ id: 'doc-theme-id' })
+    const stateWithThemeId = {
+      ...mockState,
+      themeId: 'dracula',
+    } as AppState & { themeId: string }
+
+    const { result } = renderHook(() => useTryMode())
+
+    await act(async () => {
+      await result.current.saveDocument(stateWithThemeId)
+    })
+
+    expect(mockCreate).toHaveBeenCalledWith({
+      title: stateWithThemeId.documentTitle,
+      content: stateWithThemeId.markdown,
+      themeId: 'dracula',
+    })
+  })
+
+  it('infers themeId from preset classes when possible', async () => {
+    const preset = themePresets[0]
+    const presetState: AppState = {
+      markdown: '# From Preset',
+      documentTitle: 'Preset Draft',
+      tailwindClasses: preset.tailwindClasses,
+      fontConfig: preset.fontConfig,
+    }
+
+    mockCreate.mockResolvedValue({ id: 'doc-theme-match' })
+
+    const { result } = renderHook(() => useTryMode())
+
+    await act(async () => {
+      await result.current.saveDocument(presetState)
+    })
+
+    expect(mockCreate).toHaveBeenCalledWith({
+      title: 'Preset Draft',
+      content: '# From Preset',
+      themeId: preset.id,
     })
   })
 

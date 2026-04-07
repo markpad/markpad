@@ -126,6 +126,7 @@ export function useThemesPage(): UseThemesPageReturn {
       const state = {
         markdown: theme.exampleContent,
         documentTitle: defaultDocumentTitle,
+        themeId: theme.id,
         tailwindClasses: theme.tailwindClasses,
         fontConfig: theme.fontConfig,
       }
