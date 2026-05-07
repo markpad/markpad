@@ -9,6 +9,7 @@ export interface UserSettings {
     syncScroll: boolean
     defaultView: EditionMode
     darkMode: boolean
+    splitPaneRatio: number
   }
 }
 
@@ -19,6 +20,7 @@ const DEFAULT_SETTINGS: UserSettings = {
     syncScroll: true,
     defaultView: 'split',
     darkMode: false,
+    splitPaneRatio: 50,
   },
 }
 

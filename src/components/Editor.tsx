@@ -1,4 +1,12 @@
-import { useState, useMemo, useRef, useCallback, useEffect } from 'react'
+import {
+  useState,
+  useMemo,
+  useRef,
+  useCallback,
+  useEffect,
+  type KeyboardEvent,
+  type PointerEvent as ReactPointerEvent,
+} from 'react'
 import { Helmet } from 'react-helmet'
 import { renderToStaticMarkup } from 'react-dom/server'
 import Markdown from 'react-markdown'
@@ -53,6 +61,26 @@ import { getThemeById } from '@/data/themes.generated'
 
 type SidebarPanel = 'themes' | 'export' | 'variables'
 type EntityType = 'document' | 'template'
+
+const MIN_SPLIT_PANE_RATIO = 25
+const MAX_SPLIT_PANE_RATIO = 75
+const CENTER_SPLIT_PANE_RATIO = 50
+const SPLIT_PANE_SNAP_DISTANCE = 1.5
+const SPLIT_PANE_KEYBOARD_STEP = 5
+
+function normalizeSplitPaneRatio(value: number): number {
+  if (!Number.isFinite(value)) {
+    return CENTER_SPLIT_PANE_RATIO
+  }
+
+  const clamped = Math.min(MAX_SPLIT_PANE_RATIO, Math.max(MIN_SPLIT_PANE_RATIO, value))
+
+  if (Math.abs(clamped - CENTER_SPLIT_PANE_RATIO) <= SPLIT_PANE_SNAP_DISTANCE) {
+    return CENTER_SPLIT_PANE_RATIO
+  }
+
+  return Number(clamped.toFixed(1))
+}
 
 interface EditorProps {
   initialMode?: EditionMode
@@ -207,10 +235,118 @@ export function Editor({
   // Ref for editor formatting methods
   const editorRef = useRef<MarkdownEditorHandle>(null)
 
+  // Refs and state for desktop split pane resizing
+  const splitContainerRef = useRef<HTMLDivElement>(null)
+  const splitPaneRatioRef = useRef(normalizeSplitPaneRatio(settings.editor.splitPaneRatio))
+  const [splitPaneRatio, setSplitPaneRatio] = useState(splitPaneRatioRef.current)
+  const [isResizingSplitPane, setIsResizingSplitPane] = useState(false)
+
   // Refs for scroll synchronization
   const editorScrollRef = useRef<HTMLDivElement>(null)
   const previewScrollRef = useRef<HTMLDivElement>(null)
   const isScrolling = useRef<'editor' | 'preview' | null>(null)
+
+  useEffect(() => {
+    splitPaneRatioRef.current = splitPaneRatio
+  }, [splitPaneRatio])
+
+  useEffect(() => {
+    const nextRatio = normalizeSplitPaneRatio(settings.editor.splitPaneRatio)
+    splitPaneRatioRef.current = nextRatio
+    setSplitPaneRatio(nextRatio)
+  }, [settings.editor.splitPaneRatio])
+
+  const resizeSplitPaneAt = useCallback((clientX: number) => {
+    const container = splitContainerRef.current
+    if (!container) return
+
+    const rect = container.getBoundingClientRect()
+    if (rect.width <= 0) return
+
+    const nextRatio = normalizeSplitPaneRatio(((clientX - rect.left) / rect.width) * 100)
+    splitPaneRatioRef.current = nextRatio
+    setSplitPaneRatio(nextRatio)
+  }, [])
+
+  const persistSplitPaneRatio = useCallback(() => {
+    updateEditorSetting('splitPaneRatio', splitPaneRatioRef.current)
+  }, [updateEditorSetting])
+
+  const handleSplitResizePointerDown = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      if (event.button !== 0) return
+
+      event.preventDefault()
+      setIsResizingSplitPane(true)
+      resizeSplitPaneAt(event.clientX)
+    },
+    [resizeSplitPaneAt]
+  )
+
+  const handleSplitResizeReset = useCallback(() => {
+    splitPaneRatioRef.current = CENTER_SPLIT_PANE_RATIO
+    setSplitPaneRatio(CENTER_SPLIT_PANE_RATIO)
+    updateEditorSetting('splitPaneRatio', CENTER_SPLIT_PANE_RATIO)
+  }, [updateEditorSetting])
+
+  const handleSplitResizeKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      let nextRatio: number | undefined
+
+      if (event.key === 'ArrowLeft') {
+        nextRatio = splitPaneRatioRef.current - SPLIT_PANE_KEYBOARD_STEP
+      } else if (event.key === 'ArrowRight') {
+        nextRatio = splitPaneRatioRef.current + SPLIT_PANE_KEYBOARD_STEP
+      } else if (event.key === 'Home') {
+        nextRatio = MIN_SPLIT_PANE_RATIO
+      } else if (event.key === 'End') {
+        nextRatio = MAX_SPLIT_PANE_RATIO
+      } else if (event.key === 'Enter' || event.key === ' ') {
+        nextRatio = CENTER_SPLIT_PANE_RATIO
+      }
+
+      if (nextRatio === undefined) return
+
+      event.preventDefault()
+      const normalizedRatio = normalizeSplitPaneRatio(nextRatio)
+      splitPaneRatioRef.current = normalizedRatio
+      setSplitPaneRatio(normalizedRatio)
+      updateEditorSetting('splitPaneRatio', normalizedRatio)
+    },
+    [updateEditorSetting]
+  )
+
+  useEffect(() => {
+    if (!isResizingSplitPane) return
+
+    const originalCursor = document.body.style.cursor
+    const originalUserSelect = document.body.style.userSelect
+
+    document.body.style.cursor = 'col-resize'
+    document.body.style.userSelect = 'none'
+
+    const handlePointerMove = (event: PointerEvent) => {
+      event.preventDefault()
+      resizeSplitPaneAt(event.clientX)
+    }
+
+    const stopResizing = () => {
+      setIsResizingSplitPane(false)
+      persistSplitPaneRatio()
+    }
+
+    window.addEventListener('pointermove', handlePointerMove)
+    window.addEventListener('pointerup', stopResizing)
+    window.addEventListener('pointercancel', stopResizing)
+
+    return () => {
+      document.body.style.cursor = originalCursor
+      document.body.style.userSelect = originalUserSelect
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerup', stopResizing)
+      window.removeEventListener('pointercancel', stopResizing)
+    }
+  }, [isResizingSplitPane, persistSplitPaneRatio, resizeSplitPaneAt])
 
   // Handle scroll sync between editor and preview
   const handleEditorScroll = useCallback(
@@ -572,11 +708,18 @@ export function Editor({
         {/* ===== DESKTOP CONTENT (hidden on mobile) ===== */}
         <div className="hidden md:flex flex-1 overflow-hidden">
           {/* Main content area */}
-          <div className="flex flex-1 overflow-hidden">
+          <div ref={splitContainerRef} className="flex flex-1 overflow-hidden">
             {/* Editor Panel */}
             {(editionMode === 'edit' || editionMode === 'split') && (
               <div
-                className={`${editionMode === 'split' ? 'w-1/2' : 'flex-1'} border-r border-gray-300 dark:border-gray-700`}
+                className={editionMode === 'split' ? 'min-w-0' : 'flex-1'}
+                style={
+                  editionMode === 'split'
+                    ? {
+                        flex: `0 0 ${splitPaneRatio}%`,
+                      }
+                    : undefined
+                }
               >
                 <MarkdownEditor
                   ref={editorRef}
@@ -592,9 +735,48 @@ export function Editor({
               </div>
             )}
 
+            {editionMode === 'split' && (
+              <div
+                role="separator"
+                aria-label="Resize editor and preview panes"
+                aria-orientation="vertical"
+                aria-valuemin={MIN_SPLIT_PANE_RATIO}
+                aria-valuemax={MAX_SPLIT_PANE_RATIO}
+                aria-valuenow={Math.round(splitPaneRatio)}
+                aria-valuetext={`${Math.round(splitPaneRatio)}% editor`}
+                tabIndex={0}
+                title="Drag to resize. Double-click to center."
+                onPointerDown={handleSplitResizePointerDown}
+                onDoubleClick={handleSplitResizeReset}
+                onKeyDown={handleSplitResizeKeyDown}
+                className={`group relative flex w-2 flex-shrink-0 cursor-col-resize touch-none items-stretch justify-center bg-gray-100 outline-none transition-colors hover:bg-blue-50 focus-visible:bg-blue-50 dark:bg-gray-900 dark:hover:bg-blue-950/40 dark:focus-visible:bg-blue-950/40 ${
+                  isResizingSplitPane
+                    ? 'bg-blue-50 dark:bg-blue-950/40'
+                    : 'bg-gray-100 dark:bg-gray-900'
+                }`}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`absolute inset-y-0 left-1/2 w-px -translate-x-1/2 transition-colors ${
+                    isResizingSplitPane
+                      ? 'bg-blue-500 dark:bg-blue-400'
+                      : 'bg-gray-300 group-hover:bg-blue-400 group-focus-visible:bg-blue-400 dark:bg-gray-700 dark:group-hover:bg-blue-500 dark:group-focus-visible:bg-blue-500'
+                  }`}
+                />
+                <span
+                  aria-hidden="true"
+                  className={`absolute left-1/2 top-1/2 h-10 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full transition-opacity ${
+                    isResizingSplitPane
+                      ? 'bg-blue-500 opacity-100 dark:bg-blue-400'
+                      : 'bg-gray-300 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 dark:bg-gray-600'
+                  }`}
+                />
+              </div>
+            )}
+
             {/* Preview Panel */}
             {(editionMode === 'preview' || editionMode === 'split') && (
-              <div className={`${editionMode === 'split' ? 'w-1/2' : 'flex-1'}`}>
+              <div className="min-w-0 flex-1">
                 <MarkdownPreview
                   markdown={state.markdown}
                   tailwindClasses={state.tailwindClasses}
