@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/markpad/markpad/compare/v1.7.0...v1.8.0) (2026-05-07)
+
+
+### Features
+
+* **editor:** add resizable split preview panes ([d0fd1a4](https://github.com/markpad/markpad/commit/d0fd1a48feb7fa5d8bb83c8ca112b3da0370d771))
+
 # [1.7.0](https://github.com/markpad/markpad/compare/v1.6.2...v1.7.0) (2026-04-07)
 
 
