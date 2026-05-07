@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import {
-  FaFileAlt,
   FaPlus,
   FaStar,
   FaClock,
@@ -24,6 +23,7 @@ import {
   SearchIllustration,
   TrashIllustration,
   StarIllustration,
+  MarkpadBrandIcon,
 } from '@/components/shared'
 
 const FILTER_LABELS: Record<DocumentViewFilter, string> = {
@@ -147,9 +147,7 @@ export function DocumentsPage() {
           <div className="flex items-center justify-between h-14 px-4">
             <div className="flex items-center gap-6">
               <Link to="/" className="flex items-center gap-2.5">
-                <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg">
-                  <FaFileAlt className="text-white text-sm" />
-                </div>
+                <MarkpadBrandIcon variant="flat" className="w-10 h-10 rounded-lg object-cover" />
                 <span className="text-white font-semibold text-lg">Markpad</span>
               </Link>
             </div>
