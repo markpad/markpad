@@ -1,18 +1,15 @@
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import {
-  FaFileAlt,
-  FaPlus,
-  FaTh,
-  FaList,
-  FaSearch,
-  FaLock,
-  FaUser,
-  FaLayerGroup,
-} from 'react-icons/fa'
+import { FaPlus, FaTh, FaList, FaSearch, FaLock, FaUser, FaLayerGroup } from 'react-icons/fa'
 import { useTemplatesPage, TemplateViewFilter } from '@/hooks/useTemplatesPage'
 import { TemplateCard } from '@/components/templates/TemplateCard'
-import { PageNavLinks, EmptyState, TemplatesIllustration, SearchIllustration } from '@/components/shared'
+import {
+  PageNavLinks,
+  EmptyState,
+  TemplatesIllustration,
+  SearchIllustration,
+  MarkpadBrandIcon,
+} from '@/components/shared'
 
 const FILTER_LABELS: Record<TemplateViewFilter, string> = {
   all: 'All Templates',
@@ -58,9 +55,7 @@ export function TemplatesPage() {
         <div className="flex items-center justify-between h-14 px-4">
           <div className="flex items-center gap-6">
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg">
-                <FaFileAlt className="text-white text-sm" />
-              </div>
+              <MarkpadBrandIcon variant="flat" className="w-10 h-10 rounded-lg object-cover" />
               <span className="text-white font-semibold text-lg">Markpad</span>
             </Link>
           </div>

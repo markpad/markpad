@@ -35,6 +35,7 @@ import { Tooltip } from 'react-tooltip'
 import type { EditionMode, AppState, TailwindClasses } from '@/types'
 import { encodeState, generateShareUrl } from '@/services/urlStateService'
 import { documentRepository, templateRepository } from '@/lib/repositories'
+import { MarkpadBrandIcon } from '@/components/shared/MarkpadBrandIcon'
 import { ShareModal } from '@/components/ShareModal'
 import { processMarkdownWithFrontmatter } from '@/utils/frontmatter'
 import {
@@ -658,11 +659,9 @@ export function Header({
         </button>
         <a
           href={isTemplate ? '/templates' : '/documents'}
-          className={`flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br ${
-            isTemplate ? 'from-purple-500 to-purple-600' : 'from-blue-500 to-blue-600'
-          }`}
+          className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-lg overflow-hidden"
         >
-          <FaFileAlt className="text-white text-sm" />
+          <MarkpadBrandIcon variant="flat" className="w-full h-full rounded-lg object-cover" />
         </a>
         <div className="flex-1 min-w-0">
           {isEditingMobileTitle ? (
@@ -699,14 +698,10 @@ export function Header({
             {/* App Icon - links to list page */}
             <a
               href={isTemplate ? '/templates' : '/documents'}
-              className={`flex items-center justify-center w-10 h-10 bg-gradient-to-br rounded-lg hover:shadow-lg transition-all ${
-                isTemplate
-                  ? 'from-purple-500 to-purple-600 hover:shadow-purple-500/20'
-                  : 'from-blue-500 to-blue-600 hover:shadow-blue-500/20'
-              }`}
+              className="flex items-center justify-center w-10 h-10 rounded-lg overflow-hidden hover:shadow-lg transition-all"
               title={isTemplate ? 'My Templates' : 'My Documents'}
             >
-              <FaFileAlt className="text-white text-lg" />
+              <MarkpadBrandIcon variant="flat" className="w-full h-full rounded-lg object-cover" />
             </a>
 
             {/* Entity Title */}
@@ -1022,12 +1017,13 @@ export function Header({
             <div className="flex items-center gap-3">
               <a
                 href={isTemplate ? '/templates' : '/documents'}
-                className={`flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br ${
-                  isTemplate ? 'from-purple-500 to-purple-600' : 'from-blue-500 to-blue-600'
-                }`}
+                className="flex items-center justify-center w-8 h-8 rounded-lg overflow-hidden"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <FaFileAlt className="text-white text-xs" />
+                <MarkpadBrandIcon
+                  variant="flat"
+                  className="w-full h-full rounded-lg object-cover"
+                />
               </a>
               <span className="text-white font-bold tracking-widest uppercase text-sm">
                 MARKPAD

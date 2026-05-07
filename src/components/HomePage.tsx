@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import {
-  FaFileAlt,
   FaPalette,
   FaCode,
   FaShare,
@@ -13,6 +12,7 @@ import {
   FaCopy,
   FaWifi,
 } from 'react-icons/fa'
+import { MarkpadBrandIcon } from '@/components/shared'
 
 /**
  * Home page - Landing page for Markpad
@@ -34,9 +34,7 @@ export function HomePage() {
           <div className="flex items-center gap-6">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg">
-                <FaFileAlt className="text-white text-sm" />
-              </div>
+              <MarkpadBrandIcon className="w-8 h-8 rounded-lg object-cover" />
               <span className="text-white font-semibold text-lg">Markpad</span>
             </Link>
 
@@ -313,9 +311,7 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <div className="flex items-center justify-center w-6 h-6 bg-gradient-to-br from-blue-500 to-blue-600 rounded">
-                <FaFileAlt className="text-white text-xs" />
-              </div>
+              <MarkpadBrandIcon className="w-6 h-6 rounded object-cover" />
               <span className="text-gray-400 text-sm">Markpad | Reusable Markdown documents</span>
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-500">
